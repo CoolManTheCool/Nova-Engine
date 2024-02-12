@@ -1,4 +1,4 @@
-set(PROJECT_NAME "Dynamic Voxel Craft")
+set(PROJECT_NAME "Dynamic-Voxel-Craft")
 
 cmake_minimum_required(VERSION 3.12)
 
@@ -11,11 +11,15 @@ find_package(OpenAL REQUIRED)
 
 set(SOURCE_FILES
     src/main.cpp
+    src/game.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
-target_include_directories(${PROJECT_NAME} PRIVATE include ${SFML_INCLUDE_DIR})
+target_include_directories(${PROJECT_NAME} PRIVATE 
+    include 
+    ${SFML_INCLUDE_DIR} 
+)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE sfml-graphics sfml-window sfml-system sfml-audio OpenAL)
 

@@ -1,15 +1,27 @@
-#include <SFML/Graphics.hpp>
+#include "game.h"
 #include <iostream>
+#include <functional>
 
 int main() {
-    sf::RenderWindow window(sf::VideoMode(960, 540), "SFML FPS Counter");
+    // clear console
+    //for (int i = 0; i < 20; ++i) {
+    //    std::cout << "\n";
+    //}
 
+    Game_T Game;
+    Game.loop();
+
+    return 0;
+}
+
+/*
+sf::RenderWindow window(sf::VideoMode(960, 540), "Dynamic Voxel Craft");
     sf::Font font;
     if (!font.loadFromFile("/home/noah/github/Dev-Box/resources/Arial.ttf")) {
         std::cerr << "Error loading font file!" << std::endl;
         return 1;
     }
-
+    
     sf::Text fpsText;
     fpsText.setFont(font);
     fpsText.setCharacterSize(20);
@@ -37,5 +49,4 @@ int main() {
         window.display();
     }
 
-    return 0;
-}
+    return 0;*/
