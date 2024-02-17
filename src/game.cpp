@@ -36,7 +36,8 @@ void Game_T::loop() {
         window.clear(sf::Color::Black);
 
         shader.setUniform("time", static_cast<float>(start_clock.getElapsedTime().asSeconds()));
-        
+        shader.setUniform("resolution", sf::Vector2f(window.getSize().x, window.getSize().y));
+
         window.draw(screen, &shader);
 
         window.display();
