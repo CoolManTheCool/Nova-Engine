@@ -5,6 +5,7 @@
 #include <iostream>
 #include <vector>
 #include <cmath>
+#include "settings.h"
 
 class Game_T {
 public:
@@ -19,10 +20,12 @@ private:
     sf::RenderWindow window;
     sf::Clock start_clock; // clock that runs throught the entire program and doesn't stop or reset.
     sf::Clock frame_clock; // reset at the start of every frame
-    sf::Time frame_time;   // time between start of last frame and this frame
+    float DeltaTime;       // Time since the last frame began
     sf::Font font;
     sf::Shader shader;     // Frag and vert, no geometry
-    //std::vector<void*> tree;
+
+    //Game Data
+    settings_T settings = settings_T();
 };
 
 #endif

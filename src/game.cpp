@@ -1,23 +1,13 @@
 #include "game.h"
 
 Game_T::Game_T() {
-    sf::ContextSettings cSettings;
-    cSettings.antialiasingLevel = 4.0;
-    window.create(sf::VideoMode(1920, 1080), "Dynamic Voxel Craft", sf::Style::Fullscreen, cSettings);
-    if(!window.isOpen()) {
-        std::cerr << "Error creating window!" << std::endl;
-        abort(); // get an abortion
-    }
-    if (!font.loadFromFile("/home/noah/github/Dynamic-Voxel-Craft/resources/Arial.ttf")) {
-        std::cerr << "Error loading font file!" << std::endl;
-        abort();
-    }
-    if (!shader.loadFromFile(
-        "resources/shaders/vertex.glsl",
-        "resources/shaders/fragment.glsl"
-    )) {
-        std::cerr << "Error loading shader file!" << std::endl;
-        abort();
+    window.create(settings.resolution, settings.title, settings.style, settings.context);
+    if(!window.isOpen() ||
+       !font.loadFromFile("/home/noah/github/Dynamic-Voxel-Craft/resources/Arial.ttf") ||
+       !shader.loadFromFile("resources/shaders/vertex.glsl", "resources/shaders/fragment.glsl")
+        ) {
+       std::cerr << "Error duing game init.";
+       abort(); 
     }
 }
 
@@ -25,23 +15,19 @@ void Game_T::loop() {
     float Delta;
 
     while (window.isOpen()) {
-        logic();
-        Delta = frame_time.asSeconds();
-        window.clear(sf::Color::Black);
-        shader.setUniform("u_resolution", sf::Vector2f(window.getSize().x, window.getSize().y));
-        shader.setUniform("runTime", start_clock.getElapsedTime().asSeconds());
-        window.display();
-        std::cout << 1/Delta << "\n";
+        logic(); // Compute physics, user input.
+        draw();  // Display results.
     }
 }
 
 void Game_T::logic() {
+    DeltaTime = frame_clock.restart().asSeconds();
     handle_events();
-    frame_time = frame_clock.restart();
 }
 
 void Game_T::draw() {
-
+    window.clear(sf::Color::Black);
+    window.display();
 }
 
 void Game_T::handle_events() {
