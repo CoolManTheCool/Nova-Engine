@@ -1,45 +1,43 @@
 #include "game.h"
-#include <iostream>
 
 Game_T::Game_T() {
     sf::ContextSettings cSettings;
-    cSettings.antialiasingLevel = 16.0;
+    cSettings.antialiasingLevel = 4.0;
     window.create(sf::VideoMode(960, 540), "Dynamic Voxel Craft", sf::Style::Default, cSettings);
     if(!window.isOpen()) {
         std::cerr << "Error creating window!" << std::endl;
         abort(); // get an abortion
     }
-    if (!font.loadFromFile("/home/noah/github/Dev-Box/resources/Arial.ttf")) {
+    if (!font.loadFromFile("/home/noah/github/Dynamic-Voxel-Craft/resources/Arial.ttf")) {
+        std::cerr << "Error loading font file!" << std::endl;
+        abort();
+    }
+    if (!shader.loadFromFile(
+        "resources/shaders/vertex.glsl",
+        "resources/shaders/fragment.glsl"
+    )) {
         std::cerr << "Error loading font file!" << std::endl;
         abort();
     }
 }
 
 void Game_T::loop() {
+    double Delta;
+    sf::VertexArray screen(sf::TriangleStrip, 4);
 
-    sf::Text FpsText;
-    FpsText.setFont(font);
-    FpsText.setCharacterSize(20);
-    FpsText.setFillColor(sf::Color::Green);
-    FpsText.setPosition(15, 15);
-    sf::ConvexShape triangle;
-    triangle.setPointCount(3); // Set the number of points (vertices) in the triangle
-    triangle.setPoint(0, sf::Vector2f(200, 50)); // Set the first point
-    triangle.setPoint(1, sf::Vector2f(100, 300)); // Set the second point
-    triangle.setPoint(2, sf::Vector2f(300, 300)); // Set the third point
-    triangle.setFillColor(sf::Color::Green); // Set the fill color of the triangle
-
-
+    // Append vertices for a rectangle
+    screen[0].position = sf::Vector2f(-1, -1);
+    screen[1].position = sf::Vector2f(-1, 1);
+    screen[2].position = sf::Vector2f(1, -1);
+    screen[3].position = sf::Vector2f(1, 1);
     while (window.isOpen()) {
         logic();
-        float fps = 1.0f / frame_time.asSeconds();
-
-        FpsText.setString("FPS: " + std::to_string(static_cast<int>(fps)));
-
+        Delta = frame_time.asSeconds();
         window.clear(sf::Color::Black);
 
-        window.draw(FpsText);
-        window.draw(triangle);
+        shader.setUniform("time", static_cast<float>(start_clock.getElapsedTime().asSeconds()));
+        
+        window.draw(screen, &shader);
 
         window.display();
     }
@@ -64,5 +62,5 @@ void Game_T::handle_events() {
 }
 
 Game_T::~Game_T() {
-    std::cout << "Game object deconstructed! :O BYE BYE!";
+    std::cout << "Game object deconstructed! :O BYE BYE!\n";
 }

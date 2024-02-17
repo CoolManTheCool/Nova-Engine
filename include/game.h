@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <vector>
 
 class Game_T {
 public:
@@ -19,6 +20,8 @@ private:
     sf::Clock frame_clock; // reset at the start of every frame
     sf::Time  frame_time;  // time between start of last frame and this frame
     sf::Font font;
+    sf::Shader shader;
+    //std::vector<void*> tree;
 };
 
 #endif
