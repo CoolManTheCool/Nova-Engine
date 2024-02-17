@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <vector>
+#include <cmath>
 
 class Game_T {
 public:
@@ -18,9 +19,9 @@ private:
     sf::RenderWindow window;
     sf::Clock start_clock; // clock that runs throught the entire program and doesn't stop or reset.
     sf::Clock frame_clock; // reset at the start of every frame
-    sf::Time  frame_time;  // time between start of last frame and this frame
+    sf::Time frame_time;   // time between start of last frame and this frame
     sf::Font font;
-    sf::Shader shader;
+    sf::Shader shader;     // Frag and vert, no geometry
     //std::vector<void*> tree;
 };
 
