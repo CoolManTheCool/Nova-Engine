@@ -1,13 +1,37 @@
 #include "game.h"
 
 Game_T::Game_T() {
-    window.create(settings.resolution, settings.title, settings.style, settings.context);
+    sf::VideoMode vm(settings.resolution.x, settings.resolution.y);
+    window.create(vm, settings.title, settings.style, settings.context);
     if(!window.isOpen() ||
        !font.loadFromFile("/home/noah/github/Dynamic-Voxel-Craft/resources/Arial.ttf") ||
        !shader.loadFromFile("resources/shaders/vertex.glsl", "resources/shaders/fragment.glsl")
         ) {
        std::cerr << "Error duing game init.";
        abort(); 
+    }
+    //imgui
+
+    
+
+    //game data init
+    //objects.resize(settings.max_objects);
+    // Variables to use
+    // settings.resolution
+    // settings.inital_objects
+    sf::Vector2i res(settings.resolution);
+    int nobs(settings.inital_objects); //number of objects
+    int spacing = std::sqrt((res.x * res.y) / nobs);
+    int i = 1;
+    for (int y = 1; y < res.y/spacing; y++) {
+        for (int x = 1; x < res.x/spacing; x++)
+        {
+            int a = x*spacing;
+            int b = y*spacing;
+            std::cout << "Spawned object " << i << " at position: (" << a << ", " << b << ")" << std::endl;
+            i++;
+        }
+        
     }
 }
 
@@ -27,6 +51,9 @@ void Game_T::logic() {
 
 void Game_T::draw() {
     window.clear(sf::Color::Black);
+
+    window.draw(objects.);
+
     window.display();
 }
 

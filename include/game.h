@@ -6,6 +6,8 @@
 #include <vector>
 #include <cmath>
 #include "settings.h"
+#include "object.h"
+#include "imgui.h"
 
 class Game_T {
 public:
@@ -23,9 +25,10 @@ private:
     float DeltaTime;       // Time since the last frame began
     sf::Font font;
     sf::Shader shader;     // Frag and vert, no geometry
+    settings_T settings = settings_T();
 
     //Game Data
-    settings_T settings = settings_T();
+    std::vector<object_T> objects;
 };
 
 #endif
