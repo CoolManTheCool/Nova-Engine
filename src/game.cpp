@@ -45,14 +45,16 @@ void Game_T::loop() {
 }
 
 void Game_T::logic() {
-    DeltaTime = frame_clock.restart().asSeconds();
+    Delta = frame_clock.restart().asSeconds();
     handle_events();
 }
 
 void Game_T::draw() {
     window.clear(sf::Color::Black);
 
-    window.draw(objects.);
+    for(auto &obj : objects) {
+        window.draw(obj, &shader);
+    }
 
     window.display();
 }

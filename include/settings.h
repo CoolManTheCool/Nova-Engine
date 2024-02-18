@@ -8,7 +8,7 @@ struct settings_T {
     bool vsync = true;
     sf::Uint32 style = sf::Style::Fullscreen;
     sf::ContextSettings context = sf::ContextSettings();
-    char* title = "Dynamic Voxel Craft";
+    sf::String title = "Dynamic Voxel Craft";
     //sf::VideoMode resolution = sf::VideoMode(1920, 1080);
     sf::Vector2i resolution = { 1920, 1080 };
     //keybinds

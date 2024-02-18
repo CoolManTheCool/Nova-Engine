@@ -7,7 +7,6 @@
 #include <cmath>
 #include "settings.h"
 #include "object.h"
-#include "imgui.h"
 
 class Game_T {
 public:
@@ -22,7 +21,7 @@ private:
     sf::RenderWindow window;
     sf::Clock start_clock; // clock that runs throught the entire program and doesn't stop or reset.
     sf::Clock frame_clock; // reset at the start of every frame
-    float DeltaTime;       // Time since the last frame began
+    float Delta;       // Time since the last frame began
     sf::Font font;
     sf::Shader shader;     // Frag and vert, no geometry
     settings_T settings = settings_T();
