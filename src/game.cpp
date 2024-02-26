@@ -12,8 +12,6 @@ Game_T::Game_T() {
     }
     //imgui
 
-    
-
     //game data init
     //objects.resize(settings.max_objects);
     // Variables to use
@@ -21,39 +19,39 @@ Game_T::Game_T() {
     // settings.inital_objects
     sf::Vector2i res(settings.resolution);
     int nobs(settings.inital_objects); //number of objects
-    int spacing = std::sqrt((res.x * res.y) / nobs);
-    int i = 1;
-    for (int y = 1; y < res.y/spacing; y++) {
-        for (int x = 1; x < res.x/spacing; x++)
+    int count = 1;
+    int spacing = std::sqrt((res.x * res.y) / (nobs));
+    for (int y = 1; y < res.y/spacing+1; y++) {
+        for (int x = 1; x < res.x/spacing+5; x++)
         {
             int a = x*spacing;
             int b = y*spacing;
-            std::cout << "Spawned object " << i << " at position: (" << a << ", " << b << ")" << std::endl;
-            i++;
+            objects.push_back(object_T(sf::Vector2f((float)a, (float)b), 5, sf::Color::Green));
+            count++;
         }
         
     }
+    //for(object_T &obj : objects) {
+    //    std::cout << obj << "\n";
+    //}
 }
 
 void Game_T::loop() {
-    float Delta;
 
-    while (window.isOpen()) {
         logic(); // Compute physics, user input.
         draw();  // Display results.
-    }
 }
 
 void Game_T::logic() {
-    Delta = frame_clock.restart().asSeconds();
+    // Delta = frame_clock.restart().asSeconds();
     handle_events();
 }
 
 void Game_T::draw() {
     window.clear(sf::Color::Black);
 
-    for(auto &obj : objects) {
-        window.draw(obj, &shader);
+    for(object_T &obj : objects) {
+        window.draw(obj);
     }
 
     window.display();

@@ -3,13 +3,16 @@
 #include <functional>
 
 int main() {
-    // clear console
-    //for (int i = 0; i < 20; ++i) {
-    //    std::cout << "\n";
-    //}
 
+    system("clear");
+    
     Game_T Game;
-    Game.loop();
+    Game_T Game2;
+    
+    while (true) {
+        Game.loop();
+        Game2.loop();
+    }
 
     return 0;
 }
