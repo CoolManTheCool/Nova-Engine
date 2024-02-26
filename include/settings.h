@@ -18,8 +18,8 @@ struct settings_T {
     };
 
     //game settings
-    int max_objects    = 1000;
-    int inital_objects = 500;
+    int max_objects    = 1;
+    int inital_objects = max_objects/2;
 };
 
 #endif

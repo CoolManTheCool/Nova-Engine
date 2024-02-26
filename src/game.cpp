@@ -4,19 +4,26 @@ Game_T::Game_T() {
     sf::VideoMode vm(settings.resolution.x, settings.resolution.y);
     window.create(vm, settings.title, settings.style, settings.context);
     if(!window.isOpen() ||
-       !font.loadFromFile("/home/noah/github/Dynamic-Voxel-Craft/resources/Arial.ttf") ||
-       !shader.loadFromFile("resources/shaders/vertex.glsl", "resources/shaders/fragment.glsl")
+       !font.loadFromFile("/home/noah/github/Dynamic-Voxel-Craft/resources/Arial.ttf")
+       //|| !shader.loadFromFile("resources/shaders/vertex.glsl", "resources/shaders/fragment.glsl")
         ) {
        std::cerr << "Error duing game init.";
        abort(); 
     }
-    //imgui
+    //TODO: ImGUI
 
-    //game data init
-    //objects.resize(settings.max_objects);
-    // Variables to use
-    // settings.resolution
-    // settings.inital_objects
+    //fps label
+    fps_label.setFillColor(sf::Color::Red);
+    fps_label.setFont(font);
+    fps_label.setPosition(sf::Vector2f(15, 15));
+
+    init_objects();
+    //for(object_T &obj : objects) {
+    //    std::cout << obj << "\n";
+    //}
+}
+
+void Game_T::init_objects() {
     sf::Vector2i res(settings.resolution);
     int nobs(settings.inital_objects); //number of objects
     int count = 1;
@@ -31,19 +38,18 @@ Game_T::Game_T() {
         }
         
     }
-    //for(object_T &obj : objects) {
-    //    std::cout << obj << "\n";
-    //}
 }
 
 void Game_T::loop() {
-
+    while (window.isOpen()) {
         logic(); // Compute physics, user input.
         draw();  // Display results.
+    }
 }
 
 void Game_T::logic() {
-    // Delta = frame_clock.restart().asSeconds();
+    Delta = frame_clock.restart().asSeconds();
+    fps_label.setString("FPS: " + std::to_string(static_cast<int>(1.f / Delta)));
     handle_events();
 }
 
@@ -53,6 +59,7 @@ void Game_T::draw() {
     for(object_T &obj : objects) {
         window.draw(obj);
     }
+    window.draw(fps_label);
 
     window.display();
 }
@@ -67,8 +74,8 @@ void Game_T::handle_events() {
                 case sf::Event::KeyPressed:
                     if (event.key.code == sf::Keyboard::Escape)
                         window.close(); // Close window when Escape key is pressed
-                    else if (event.key.code == sf::Keyboard::Space)
-                        shader.loadFromFile("resources/shaders/vertex.glsl", "resources/shaders/fragment.glsl");
+                    //else if (event.key.code == sf::Keyboard::Space)
+                        //shader.loadFromFile("resources/shaders/vertex.glsl", "resources/shaders/fragment.glsl");
                     break;
                 default:
                     break;
@@ -77,5 +84,5 @@ void Game_T::handle_events() {
 }
 
 Game_T::~Game_T() {
-    std::cout << "Game object deconstructed! :O BYE BYE!\n";
+    //TODO: Make this not pointless
 }

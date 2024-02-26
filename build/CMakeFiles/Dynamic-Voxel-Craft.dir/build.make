@@ -56,7 +56,7 @@ EQUALS = =
 CMAKE_SOURCE_DIR = /home/noah/github/Dynamic-Voxel-Craft
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/noah/github/Dynamic-Voxel-Craft
+CMAKE_BINARY_DIR = /home/noah/github/Dynamic-Voxel-Craft/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/Dynamic-Voxel-Craft.dir/depend.make
@@ -70,46 +70,46 @@ include CMakeFiles/Dynamic-Voxel-Craft.dir/progress.make
 include CMakeFiles/Dynamic-Voxel-Craft.dir/flags.make
 
 CMakeFiles/Dynamic-Voxel-Craft.dir/src/main.cpp.o: CMakeFiles/Dynamic-Voxel-Craft.dir/flags.make
-CMakeFiles/Dynamic-Voxel-Craft.dir/src/main.cpp.o: src/main.cpp
+CMakeFiles/Dynamic-Voxel-Craft.dir/src/main.cpp.o: /home/noah/github/Dynamic-Voxel-Craft/src/main.cpp
 CMakeFiles/Dynamic-Voxel-Craft.dir/src/main.cpp.o: CMakeFiles/Dynamic-Voxel-Craft.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/noah/github/Dynamic-Voxel-Craft/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Dynamic-Voxel-Craft.dir/src/main.cpp.o"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Dynamic-Voxel-Craft.dir/src/main.cpp.o -MF CMakeFiles/Dynamic-Voxel-Craft.dir/src/main.cpp.o.d -o CMakeFiles/Dynamic-Voxel-Craft.dir/src/main.cpp.o -c /home/noah/github/Dynamic-Voxel-Craft/src/main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/noah/github/Dynamic-Voxel-Craft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Dynamic-Voxel-Craft.dir/src/main.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Dynamic-Voxel-Craft.dir/src/main.cpp.o -MF CMakeFiles/Dynamic-Voxel-Craft.dir/src/main.cpp.o.d -o CMakeFiles/Dynamic-Voxel-Craft.dir/src/main.cpp.o -c /home/noah/github/Dynamic-Voxel-Craft/src/main.cpp
 
 CMakeFiles/Dynamic-Voxel-Craft.dir/src/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Dynamic-Voxel-Craft.dir/src/main.cpp.i"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/noah/github/Dynamic-Voxel-Craft/src/main.cpp > CMakeFiles/Dynamic-Voxel-Craft.dir/src/main.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/noah/github/Dynamic-Voxel-Craft/src/main.cpp > CMakeFiles/Dynamic-Voxel-Craft.dir/src/main.cpp.i
 
 CMakeFiles/Dynamic-Voxel-Craft.dir/src/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Dynamic-Voxel-Craft.dir/src/main.cpp.s"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/noah/github/Dynamic-Voxel-Craft/src/main.cpp -o CMakeFiles/Dynamic-Voxel-Craft.dir/src/main.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/noah/github/Dynamic-Voxel-Craft/src/main.cpp -o CMakeFiles/Dynamic-Voxel-Craft.dir/src/main.cpp.s
 
 CMakeFiles/Dynamic-Voxel-Craft.dir/src/game.cpp.o: CMakeFiles/Dynamic-Voxel-Craft.dir/flags.make
-CMakeFiles/Dynamic-Voxel-Craft.dir/src/game.cpp.o: src/game.cpp
+CMakeFiles/Dynamic-Voxel-Craft.dir/src/game.cpp.o: /home/noah/github/Dynamic-Voxel-Craft/src/game.cpp
 CMakeFiles/Dynamic-Voxel-Craft.dir/src/game.cpp.o: CMakeFiles/Dynamic-Voxel-Craft.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/noah/github/Dynamic-Voxel-Craft/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/Dynamic-Voxel-Craft.dir/src/game.cpp.o"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Dynamic-Voxel-Craft.dir/src/game.cpp.o -MF CMakeFiles/Dynamic-Voxel-Craft.dir/src/game.cpp.o.d -o CMakeFiles/Dynamic-Voxel-Craft.dir/src/game.cpp.o -c /home/noah/github/Dynamic-Voxel-Craft/src/game.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/noah/github/Dynamic-Voxel-Craft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/Dynamic-Voxel-Craft.dir/src/game.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Dynamic-Voxel-Craft.dir/src/game.cpp.o -MF CMakeFiles/Dynamic-Voxel-Craft.dir/src/game.cpp.o.d -o CMakeFiles/Dynamic-Voxel-Craft.dir/src/game.cpp.o -c /home/noah/github/Dynamic-Voxel-Craft/src/game.cpp
 
 CMakeFiles/Dynamic-Voxel-Craft.dir/src/game.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Dynamic-Voxel-Craft.dir/src/game.cpp.i"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/noah/github/Dynamic-Voxel-Craft/src/game.cpp > CMakeFiles/Dynamic-Voxel-Craft.dir/src/game.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/noah/github/Dynamic-Voxel-Craft/src/game.cpp > CMakeFiles/Dynamic-Voxel-Craft.dir/src/game.cpp.i
 
 CMakeFiles/Dynamic-Voxel-Craft.dir/src/game.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Dynamic-Voxel-Craft.dir/src/game.cpp.s"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/noah/github/Dynamic-Voxel-Craft/src/game.cpp -o CMakeFiles/Dynamic-Voxel-Craft.dir/src/game.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/noah/github/Dynamic-Voxel-Craft/src/game.cpp -o CMakeFiles/Dynamic-Voxel-Craft.dir/src/game.cpp.s
 
 CMakeFiles/Dynamic-Voxel-Craft.dir/src/object.cpp.o: CMakeFiles/Dynamic-Voxel-Craft.dir/flags.make
-CMakeFiles/Dynamic-Voxel-Craft.dir/src/object.cpp.o: src/object.cpp
+CMakeFiles/Dynamic-Voxel-Craft.dir/src/object.cpp.o: /home/noah/github/Dynamic-Voxel-Craft/src/object.cpp
 CMakeFiles/Dynamic-Voxel-Craft.dir/src/object.cpp.o: CMakeFiles/Dynamic-Voxel-Craft.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/noah/github/Dynamic-Voxel-Craft/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/Dynamic-Voxel-Craft.dir/src/object.cpp.o"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Dynamic-Voxel-Craft.dir/src/object.cpp.o -MF CMakeFiles/Dynamic-Voxel-Craft.dir/src/object.cpp.o.d -o CMakeFiles/Dynamic-Voxel-Craft.dir/src/object.cpp.o -c /home/noah/github/Dynamic-Voxel-Craft/src/object.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/noah/github/Dynamic-Voxel-Craft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/Dynamic-Voxel-Craft.dir/src/object.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Dynamic-Voxel-Craft.dir/src/object.cpp.o -MF CMakeFiles/Dynamic-Voxel-Craft.dir/src/object.cpp.o.d -o CMakeFiles/Dynamic-Voxel-Craft.dir/src/object.cpp.o -c /home/noah/github/Dynamic-Voxel-Craft/src/object.cpp
 
 CMakeFiles/Dynamic-Voxel-Craft.dir/src/object.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Dynamic-Voxel-Craft.dir/src/object.cpp.i"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/noah/github/Dynamic-Voxel-Craft/src/object.cpp > CMakeFiles/Dynamic-Voxel-Craft.dir/src/object.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/noah/github/Dynamic-Voxel-Craft/src/object.cpp > CMakeFiles/Dynamic-Voxel-Craft.dir/src/object.cpp.i
 
 CMakeFiles/Dynamic-Voxel-Craft.dir/src/object.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Dynamic-Voxel-Craft.dir/src/object.cpp.s"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/noah/github/Dynamic-Voxel-Craft/src/object.cpp -o CMakeFiles/Dynamic-Voxel-Craft.dir/src/object.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/noah/github/Dynamic-Voxel-Craft/src/object.cpp -o CMakeFiles/Dynamic-Voxel-Craft.dir/src/object.cpp.s
 
 # Object files for target Dynamic-Voxel-Craft
 Dynamic__Voxel__Craft_OBJECTS = \
@@ -129,7 +129,7 @@ Dynamic-Voxel-Craft: /usr/lib/x86_64-linux-gnu/libsfml-window.so.2.5.1
 Dynamic-Voxel-Craft: /usr/lib/x86_64-linux-gnu/libsfml-audio.so.2.5.1
 Dynamic-Voxel-Craft: /usr/lib/x86_64-linux-gnu/libsfml-system.so.2.5.1
 Dynamic-Voxel-Craft: CMakeFiles/Dynamic-Voxel-Craft.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/noah/github/Dynamic-Voxel-Craft/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable Dynamic-Voxel-Craft"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/noah/github/Dynamic-Voxel-Craft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable Dynamic-Voxel-Craft"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Dynamic-Voxel-Craft.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -141,6 +141,6 @@ CMakeFiles/Dynamic-Voxel-Craft.dir/clean:
 .PHONY : CMakeFiles/Dynamic-Voxel-Craft.dir/clean
 
 CMakeFiles/Dynamic-Voxel-Craft.dir/depend:
-	cd /home/noah/github/Dynamic-Voxel-Craft && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/noah/github/Dynamic-Voxel-Craft /home/noah/github/Dynamic-Voxel-Craft /home/noah/github/Dynamic-Voxel-Craft /home/noah/github/Dynamic-Voxel-Craft /home/noah/github/Dynamic-Voxel-Craft/CMakeFiles/Dynamic-Voxel-Craft.dir/DependInfo.cmake "--color=$(COLOR)"
+	cd /home/noah/github/Dynamic-Voxel-Craft/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/noah/github/Dynamic-Voxel-Craft /home/noah/github/Dynamic-Voxel-Craft /home/noah/github/Dynamic-Voxel-Craft/build /home/noah/github/Dynamic-Voxel-Craft/build /home/noah/github/Dynamic-Voxel-Craft/build/CMakeFiles/Dynamic-Voxel-Craft.dir/DependInfo.cmake "--color=$(COLOR)"
 .PHONY : CMakeFiles/Dynamic-Voxel-Craft.dir/depend
 
