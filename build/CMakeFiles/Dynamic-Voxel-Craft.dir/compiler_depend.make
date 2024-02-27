@@ -87,6 +87,7 @@ CMakeFiles/Dynamic-Voxel-Craft.dir/src/game.cpp.o: /home/noah/github/Dynamic-Vox
   /usr/include/c++/13/bit \
   /usr/include/c++/13/bits/algorithmfwd.h \
   /usr/include/c++/13/bits/alloc_traits.h \
+  /usr/include/c++/13/bits/allocated_ptr.h \
   /usr/include/c++/13/bits/allocator.h \
   /usr/include/c++/13/bits/basic_ios.h \
   /usr/include/c++/13/bits/basic_ios.tcc \
@@ -109,6 +110,7 @@ CMakeFiles/Dynamic-Voxel-Craft.dir/src/game.cpp.o: /home/noah/github/Dynamic-Vox
   /usr/include/c++/13/bits/invoke.h \
   /usr/include/c++/13/bits/ios_base.h \
   /usr/include/c++/13/bits/istream.tcc \
+  /usr/include/c++/13/bits/list.tcc \
   /usr/include/c++/13/bits/locale_classes.h \
   /usr/include/c++/13/bits/locale_classes.tcc \
   /usr/include/c++/13/bits/locale_conv.h \
@@ -142,6 +144,7 @@ CMakeFiles/Dynamic-Voxel-Craft.dir/src/game.cpp.o: /home/noah/github/Dynamic-Vox
   /usr/include/c++/13/bits/stl_iterator.h \
   /usr/include/c++/13/bits/stl_iterator_base_funcs.h \
   /usr/include/c++/13/bits/stl_iterator_base_types.h \
+  /usr/include/c++/13/bits/stl_list.h \
   /usr/include/c++/13/bits/stl_map.h \
   /usr/include/c++/13/bits/stl_multimap.h \
   /usr/include/c++/13/bits/stl_pair.h \
@@ -185,6 +188,7 @@ CMakeFiles/Dynamic-Voxel-Craft.dir/src/game.cpp.o: /home/noah/github/Dynamic-Vox
   /usr/include/c++/13/istream \
   /usr/include/c++/13/iterator \
   /usr/include/c++/13/limits \
+  /usr/include/c++/13/list \
   /usr/include/c++/13/locale \
   /usr/include/c++/13/map \
   /usr/include/c++/13/new \
@@ -417,6 +421,7 @@ CMakeFiles/Dynamic-Voxel-Craft.dir/src/main.cpp.o: /home/noah/github/Dynamic-Vox
   /usr/include/c++/13/bit \
   /usr/include/c++/13/bits/algorithmfwd.h \
   /usr/include/c++/13/bits/alloc_traits.h \
+  /usr/include/c++/13/bits/allocated_ptr.h \
   /usr/include/c++/13/bits/allocator.h \
   /usr/include/c++/13/bits/basic_ios.h \
   /usr/include/c++/13/bits/basic_ios.tcc \
@@ -442,6 +447,7 @@ CMakeFiles/Dynamic-Voxel-Craft.dir/src/main.cpp.o: /home/noah/github/Dynamic-Vox
   /usr/include/c++/13/bits/invoke.h \
   /usr/include/c++/13/bits/ios_base.h \
   /usr/include/c++/13/bits/istream.tcc \
+  /usr/include/c++/13/bits/list.tcc \
   /usr/include/c++/13/bits/locale_classes.h \
   /usr/include/c++/13/bits/locale_classes.tcc \
   /usr/include/c++/13/bits/locale_conv.h \
@@ -464,7 +470,6 @@ CMakeFiles/Dynamic-Voxel-Craft.dir/src/main.cpp.o: /home/noah/github/Dynamic-Vox
   /usr/include/c++/13/bits/range_access.h \
   /usr/include/c++/13/bits/refwrap.h \
   /usr/include/c++/13/bits/requires_hosted.h \
-  /usr/include/c++/13/bits/specfun.h \
   /usr/include/c++/13/bits/std_abs.h \
   /usr/include/c++/13/bits/std_function.h \
   /usr/include/c++/13/bits/stl_algo.h \
@@ -476,6 +481,7 @@ CMakeFiles/Dynamic-Voxel-Craft.dir/src/main.cpp.o: /home/noah/github/Dynamic-Vox
   /usr/include/c++/13/bits/stl_iterator.h \
   /usr/include/c++/13/bits/stl_iterator_base_funcs.h \
   /usr/include/c++/13/bits/stl_iterator_base_types.h \
+  /usr/include/c++/13/bits/stl_list.h \
   /usr/include/c++/13/bits/stl_map.h \
   /usr/include/c++/13/bits/stl_multimap.h \
   /usr/include/c++/13/bits/stl_pair.h \
@@ -497,7 +503,6 @@ CMakeFiles/Dynamic-Voxel-Craft.dir/src/main.cpp.o: /home/noah/github/Dynamic-Vox
   /usr/include/c++/13/cctype \
   /usr/include/c++/13/cerrno \
   /usr/include/c++/13/clocale \
-  /usr/include/c++/13/cmath \
   /usr/include/c++/13/compare \
   /usr/include/c++/13/cstddef \
   /usr/include/c++/13/cstdio \
@@ -521,7 +526,7 @@ CMakeFiles/Dynamic-Voxel-Craft.dir/src/main.cpp.o: /home/noah/github/Dynamic-Vox
   /usr/include/c++/13/iostream \
   /usr/include/c++/13/istream \
   /usr/include/c++/13/iterator \
-  /usr/include/c++/13/limits \
+  /usr/include/c++/13/list \
   /usr/include/c++/13/locale \
   /usr/include/c++/13/map \
   /usr/include/c++/13/new \
@@ -534,18 +539,6 @@ CMakeFiles/Dynamic-Voxel-Craft.dir/src/main.cpp.o: /home/noah/github/Dynamic-Vox
   /usr/include/c++/13/string \
   /usr/include/c++/13/string_view \
   /usr/include/c++/13/system_error \
-  /usr/include/c++/13/tr1/bessel_function.tcc \
-  /usr/include/c++/13/tr1/beta_function.tcc \
-  /usr/include/c++/13/tr1/ell_integral.tcc \
-  /usr/include/c++/13/tr1/exp_integral.tcc \
-  /usr/include/c++/13/tr1/gamma.tcc \
-  /usr/include/c++/13/tr1/hypergeometric.tcc \
-  /usr/include/c++/13/tr1/legendre_function.tcc \
-  /usr/include/c++/13/tr1/modified_bessel_func.tcc \
-  /usr/include/c++/13/tr1/poly_hermite.tcc \
-  /usr/include/c++/13/tr1/poly_laguerre.tcc \
-  /usr/include/c++/13/tr1/riemann_zeta.tcc \
-  /usr/include/c++/13/tr1/special_function_util.h \
   /usr/include/c++/13/tuple \
   /usr/include/c++/13/type_traits \
   /usr/include/c++/13/typeinfo \
@@ -559,7 +552,6 @@ CMakeFiles/Dynamic-Voxel-Craft.dir/src/main.cpp.o: /home/noah/github/Dynamic-Vox
   /usr/include/libintl.h \
   /usr/include/linux/errno.h \
   /usr/include/locale.h \
-  /usr/include/math.h \
   /usr/include/pthread.h \
   /usr/include/sched.h \
   /usr/include/stdc-predef.h \
@@ -577,18 +569,9 @@ CMakeFiles/Dynamic-Voxel-Craft.dir/src/main.cpp.o: /home/noah/github/Dynamic-Vox
   /usr/include/x86_64-linux-gnu/bits/errno.h \
   /usr/include/x86_64-linux-gnu/bits/floatn-common.h \
   /usr/include/x86_64-linux-gnu/bits/floatn.h \
-  /usr/include/x86_64-linux-gnu/bits/flt-eval-method.h \
-  /usr/include/x86_64-linux-gnu/bits/fp-fast.h \
-  /usr/include/x86_64-linux-gnu/bits/fp-logb.h \
-  /usr/include/x86_64-linux-gnu/bits/iscanonical.h \
   /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
-  /usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h \
   /usr/include/x86_64-linux-gnu/bits/locale.h \
   /usr/include/x86_64-linux-gnu/bits/long-double.h \
-  /usr/include/x86_64-linux-gnu/bits/math-vector.h \
-  /usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h \
-  /usr/include/x86_64-linux-gnu/bits/mathcalls-narrow.h \
-  /usr/include/x86_64-linux-gnu/bits/mathcalls.h \
   /usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h \
   /usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h \
   /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
@@ -670,6 +653,7 @@ CMakeFiles/Dynamic-Voxel-Craft.dir/src/main.cpp.o: /home/noah/github/Dynamic-Vox
 
 CMakeFiles/Dynamic-Voxel-Craft.dir/src/object.cpp.o: /home/noah/github/Dynamic-Voxel-Craft/src/object.cpp \
   /home/noah/github/Dynamic-Voxel-Craft/include/object.h \
+  /home/noah/github/Dynamic-Voxel-Craft/include/settings.h \
   /usr/include/SFML/Config.hpp \
   /usr/include/SFML/Graphics.hpp \
   /usr/include/SFML/Graphics/BlendMode.hpp \
@@ -1066,9 +1050,13 @@ CMakeFiles/Dynamic-Voxel-Craft.dir/src/object.cpp.o: /home/noah/github/Dynamic-V
 
 /usr/include/x86_64-linux-gnu/bits/stdio.h:
 
-/usr/include/c++/13/bits/predefined_ops.h:
+/usr/include/x86_64-linux-gnu/bits/time.h:
 
-/usr/include/c++/13/iosfwd:
+/usr/include/x86_64-linux-gnu/bits/select.h:
+
+/usr/include/x86_64-linux-gnu/bits/select-decl.h:
+
+/usr/include/x86_64-linux-gnu/bits/sched.h:
 
 /usr/include/c++/13/bits/ostream.tcc:
 
@@ -1164,6 +1152,10 @@ CMakeFiles/Dynamic-Voxel-Craft.dir/src/object.cpp.o: /home/noah/github/Dynamic-V
 
 /usr/include/c++/13/bits/stl_bvector.h:
 
+/usr/include/SFML/System/Clock.hpp:
+
+/usr/include/c++/13/clocale:
+
 /usr/include/c++/13/backward/binders.h:
 
 /usr/include/c++/13/bits/hash_bytes.h:
@@ -1222,21 +1214,11 @@ CMakeFiles/Dynamic-Voxel-Craft.dir/src/object.cpp.o: /home/noah/github/Dynamic-V
 
 /usr/include/SFML/Window/Context.hpp:
 
-/usr/include/x86_64-linux-gnu/bits/wchar2-decl.h:
-
-/usr/include/c++/13/bits/erase_if.h:
-
 /usr/include/SFML/Graphics/VertexBuffer.hpp:
 
 /usr/include/c++/13/vector:
 
 /usr/include/c++/13/algorithm:
-
-/usr/include/x86_64-linux-gnu/bits/stdio2-decl.h:
-
-/usr/include/c++/13/bits/ptr_traits.h:
-
-/usr/include/SFML/Graphics/Text.hpp:
 
 /usr/include/x86_64-linux-gnu/c++/13/bits/c++locale.h:
 
@@ -1274,6 +1256,10 @@ CMakeFiles/Dynamic-Voxel-Craft.dir/src/object.cpp.o: /home/noah/github/Dynamic-V
 
 /usr/include/SFML/Graphics/Rect.inl:
 
+/usr/include/x86_64-linux-gnu/bits/select2.h:
+
+/usr/include/c++/13/cmath:
+
 /usr/include/x86_64-linux-gnu/bits/floatn.h:
 
 /usr/include/c++/13/compare:
@@ -1308,9 +1294,13 @@ CMakeFiles/Dynamic-Voxel-Craft.dir/src/object.cpp.o: /home/noah/github/Dynamic-V
 
 /home/noah/github/Dynamic-Voxel-Craft/include/settings.h:
 
-/usr/include/c++/13/debug/assertions.h:
+/usr/include/x86_64-linux-gnu/bits/wchar2-decl.h:
 
-/usr/include/x86_64-linux-gnu/bits/select-decl.h:
+/usr/include/c++/13/bits/erase_if.h:
+
+/usr/include/c++/13/bits/stl_list.h:
+
+/usr/include/c++/13/debug/assertions.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/cookie_io_functions_t.h:
 
@@ -1333,6 +1323,8 @@ CMakeFiles/Dynamic-Voxel-Craft.dir/src/object.cpp.o: /home/noah/github/Dynamic-V
 /usr/include/c++/13/bits/char_traits.h:
 
 /usr/include/SFML/Window/Sensor.hpp:
+
+/usr/include/c++/13/bits/allocated_ptr.h:
 
 /usr/include/c++/13/bit:
 
@@ -1375,10 +1367,6 @@ CMakeFiles/Dynamic-Voxel-Craft.dir/src/object.cpp.o: /home/noah/github/Dynamic-V
 /usr/include/x86_64-linux-gnu/bits/types/wint_t.h:
 
 /usr/include/c++/13/limits:
-
-/usr/include/SFML/System/Clock.hpp:
-
-/usr/include/c++/13/clocale:
 
 /usr/include/SFML/Window/Cursor.hpp:
 
@@ -1466,6 +1454,16 @@ CMakeFiles/Dynamic-Voxel-Craft.dir/src/object.cpp.o: /home/noah/github/Dynamic-V
 
 /usr/include/c++/13/iostream:
 
+/usr/include/c++/13/bits/predefined_ops.h:
+
+/usr/include/c++/13/iosfwd:
+
+/usr/include/x86_64-linux-gnu/bits/stdio2-decl.h:
+
+/usr/include/SFML/Graphics/Text.hpp:
+
+/usr/include/c++/13/bits/ptr_traits.h:
+
 /usr/include/c++/13/bits/refwrap.h:
 
 /usr/include/c++/13/bits/streambuf.tcc:
@@ -1534,12 +1532,6 @@ CMakeFiles/Dynamic-Voxel-Craft.dir/src/object.cpp.o: /home/noah/github/Dynamic-V
 
 /usr/include/x86_64-linux-gnu/bits/errno.h:
 
-/usr/include/SFML/Window.hpp:
-
-/usr/include/SFML/System/FileInputStream.hpp:
-
-/usr/include/c++/13/ext/alloc_traits.h:
-
 /usr/include/c++/13/new:
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h:
@@ -1553,6 +1545,14 @@ CMakeFiles/Dynamic-Voxel-Craft.dir/src/object.cpp.o: /home/noah/github/Dynamic-V
 /usr/include/c++/13/ext/type_traits.h:
 
 /usr/include/c++/13/ios:
+
+/usr/include/SFML/Window.hpp:
+
+/usr/include/SFML/System/FileInputStream.hpp:
+
+/usr/include/c++/13/ext/alloc_traits.h:
+
+/usr/include/c++/13/list:
 
 /usr/include/SFML/System/Err.hpp:
 
@@ -1596,6 +1596,8 @@ CMakeFiles/Dynamic-Voxel-Craft.dir/src/object.cpp.o: /home/noah/github/Dynamic-V
 
 /usr/include/c++/13/bits/nested_exception.h:
 
+/usr/include/c++/13/bits/list.tcc:
+
 /usr/include/SFML/System/Thread.inl:
 
 /usr/include/SFML/System/Vector2.inl:
@@ -1635,13 +1637,3 @@ CMakeFiles/Dynamic-Voxel-Craft.dir/src/object.cpp.o: /home/noah/github/Dynamic-V
 /usr/include/x86_64-linux-gnu/bits/iscanonical.h:
 
 /usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h:
-
-/usr/include/x86_64-linux-gnu/bits/sched.h:
-
-/usr/include/x86_64-linux-gnu/bits/time.h:
-
-/usr/include/x86_64-linux-gnu/bits/select.h:
-
-/usr/include/c++/13/cmath:
-
-/usr/include/x86_64-linux-gnu/bits/select2.h:

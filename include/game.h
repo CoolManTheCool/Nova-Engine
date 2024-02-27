@@ -2,12 +2,10 @@
 #define GAME_H
 
 #include <SFML/Graphics.hpp>
-#include <iostream>
 #include <vector>
-#include <string>
-#include <cmath>
-#include "settings.h"
+#include <list>
 #include "object.h"
+#include "settings.h"
 
 class Game_T {
 public:
@@ -19,6 +17,8 @@ public:
     void handle_events();
     void draw();
 
+    void q_loop(); //loop called at a maximum of 4 time per second
+
     ~Game_T();
 
 
@@ -29,10 +29,12 @@ private:
     float Delta;       // Time since the last frame began
     sf::Font font;
     sf::Shader shader;     // Frag and vert, no geometry
-    settings_T settings = settings_T();
+    Settings& settings = Settings::getInstance();
 
     //fps text
     sf::Text fps_label;
+    std::list<float> fps_iterations;
+    float q_time = 0; // time passed, reset every 1/4 seconds
 
     //Game Data
     std::vector<object_T> objects;
