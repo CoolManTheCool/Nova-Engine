@@ -11,6 +11,7 @@ class Game_T {
 public:
     Game_T();
     void init_objects();
+    bool load_shaders(); // false if shaders didn't load. true if shaders off or if it loaded
 
     void loop();
     void logic();

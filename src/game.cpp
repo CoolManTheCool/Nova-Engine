@@ -6,9 +6,9 @@
 Game_T::Game_T() {
     sf::VideoMode vm(settings.resolution.x, settings.resolution.y);
     window.create(vm, settings.title, settings.style, settings.context);
-    if(!window.isOpen() ||
-       !font.loadFromFile("/home/noah/github/Dynamic-Voxel-Craft/resources/Arial.ttf")
-       //|| !shader.loadFromFile("../resources/shaders/vertex.glsl", "../resources/shaders/fragment.glsl")
+    if(!window.isOpen()
+    || !font.loadFromFile("/home/noah/github/Dynamic-Voxel-Craft/resources/Arial.ttf")
+       || !load_shaders()
         ) {
        std::cerr << "Error duing game init.";
        abort(); 
@@ -28,6 +28,14 @@ Game_T::Game_T() {
     //for(object_T &obj : objects) {
     //    std::cout << obj << "\n";
     //}
+}
+
+bool Game_T::load_shaders() {
+    bool is_success
+    if(settings.shaders) {
+        shader.loadFromFile("../resources/shaders/vertex.glsl", "../resources/shaders/fragment.glsl");
+    }
+    return true;
 }
 
 void Game_T::init_objects() {
@@ -102,7 +110,7 @@ void Game_T::handle_events() {
                     if (event.key.code == sf::Keyboard::Escape)
                         window.close(); // Close window when Escape key is pressed
                     else if (event.key.code == sf::Keyboard::Space)
-                        shader.loadFromFile("../resources/shaders/vertex.glsl", "resources/shaders/fragment.glsl");
+                        load_shaders();
                     break;
                 default:
                     break;

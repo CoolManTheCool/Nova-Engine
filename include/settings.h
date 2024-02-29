@@ -9,9 +9,12 @@ struct Settings {
     sf::Uint32 style = sf::Style::Fullscreen;
     sf::ContextSettings context = sf::ContextSettings();
     sf::String title = "Dynamic Voxel Craft";
-    //sf::VideoMode resolution = sf::VideoMode(1920, 1080);
     sf::Vector2i resolution = { 1920, 1080 };
     int fps_smoothing = 100; // frames of fps to average
+
+    //rendering
+    bool shaders = true;
+
     //keybinds
     enum key_binds {
         CLOSE        = sf::Keyboard::Escape,
@@ -28,7 +31,6 @@ struct Settings {
         static Settings instance;
         return instance;
     }
-
     // Disable copy constructor and assignment operator
     Settings(const Settings&) = delete;
     void operator=(const Settings&) = delete;
