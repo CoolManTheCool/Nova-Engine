@@ -1,11 +1,20 @@
-#include "game.h"
+#include "app.hpp"
+//std
 #include <iostream>
-#include <functional>
+#include <cstdlib>
+#include <stdexcept>
 
 int main() {
-    Game_T Game;
-    
-    Game.loop();
+    dvc::App app{};
 
-    return 0;
+    try {
+        app.run();
+    }
+    catch(const std::exception& e) {
+        std::cerr << e.what() << '\n';
+        return EXIT_FAILURE;
+    }
+
+    return EXIT_SUCCESS;
+    
 }
