@@ -2,22 +2,30 @@
 #include <cmath>
 #include <string>
 #include <iostream>
+#include <iomanip>
 
 Game_T::Game_T() {
     sf::VideoMode vm(settings.resolution.x, settings.resolution.y);
     window.create(vm, settings.title, settings.style, settings.context);
+    window.setVerticalSyncEnabled(settings.vsync);
     if(!window.isOpen()
-    || !font.loadFromFile("/home/noah/github/Dynamic-Voxel-Craft/resources/Arial.ttf")
-       || !load_shaders()
+        || !font.loadFromFile("/home/noah/github/Dynamic-Voxel-Craft/resources/Arial.ttf")
+        || !load_shaders()
         ) {
        std::cerr << "Error duing game init.";
        abort(); 
-    }
+    }/*   ------  view thing
+    sf::View view(sf::FloatRect(0, 0, window.getSize().x, window.getSize().y));
+    view.setCenter(view.getCenter().x, -view.getCenter().y);
+    view.setSize(view.getSize().x, -view.getSize().y);
+    window.setView(view);
+    */
+
     //TODO: ImGUI
 
     //fps label
     for (int i = 0; i < settings.fps_smoothing; ++i) {
-        fps_iterations.push_back(99999);
+        fps_iterations.push_back(60);
     }
     
     fps_label.setFillColor(sf::Color::Red);
@@ -31,28 +39,14 @@ Game_T::Game_T() {
 }
 
 bool Game_T::load_shaders() {
-    bool is_success
     if(settings.shaders) {
-        shader.loadFromFile("../resources/shaders/vertex.glsl", "../resources/shaders/fragment.glsl");
+        if(!shader.loadFromFile("../resources/shaders/vertex.glsl", "../resources/shaders/fragment.glsl")) return false; 
     }
     return true;
 }
 
 void Game_T::init_objects() {
-    sf::Vector2i res(settings.resolution);
-    int nobs(settings.initial_objects); //number of objects
-    int count = 1;
-    int spacing = std::sqrt((res.x * res.y) / (nobs));
-    for (int y = 1; y < res.y/spacing+1; y++) {
-        for (int x = 1; x < res.x/spacing+5; x++)
-        {
-            int a = x*spacing;
-            int b = y*spacing;
-            objects.push_back(object_T(sf::Vector2f((float)a, (float)b), 5, sf::Color::Green));
-            count++;
-        }
-        
-    }
+    
 }
 
 void Game_T::loop() {
@@ -68,7 +62,9 @@ void Game_T::q_loop() {
         average_fps += fps;
     }
     average_fps /= settings.fps_smoothing;
-    fps_label.setString("Average FPS: " + std::to_string(static_cast<int>(average_fps)));
+    std::stringstream ss;
+    ss << "Average FPS: " << std::fixed << std::setprecision(2) << average_fps << "\nDelta Time (ms): " << Delta;
+    fps_label.setString(ss.str());
 }
 
 void Game_T::logic() {
@@ -80,7 +76,6 @@ void Game_T::logic() {
         q_time = 0;
         q_loop();
     }
-
     for(object_T &obj : objects) {
         obj.update(Delta);
     }

@@ -10,10 +10,10 @@ struct Settings {
     sf::ContextSettings context = sf::ContextSettings();
     sf::String title = "Dynamic Voxel Craft";
     sf::Vector2i resolution = { 1920, 1080 };
-    int fps_smoothing = 100; // frames of fps to average
+    int fps_smoothing = 60; // frames of fps to average
 
     //rendering
-    bool shaders = true;
+    bool shaders = false;
 
     //keybinds
     enum key_binds {
