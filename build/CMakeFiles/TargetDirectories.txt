@@ -1,0 +1,3 @@
+/home/noah/github/Dynamic-Voxel-Craft/build/CMakeFiles/Dynamic-Voxel-Craft.dir
+/home/noah/github/Dynamic-Voxel-Craft/build/CMakeFiles/edit_cache.dir
+/home/noah/github/Dynamic-Voxel-Craft/build/CMakeFiles/rebuild_cache.dir

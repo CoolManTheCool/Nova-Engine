@@ -224,20 +224,29 @@ Dynamic-Voxel-Craft_IS_TOP_LEVEL:STATIC=ON
 //Value Computed by CMake
 Dynamic-Voxel-Craft_SOURCE_DIR:STATIC=/home/noah/github/Dynamic-Voxel-Craft
 
-//Path to GLFW directory
-GLFW_DIR:PATH=path_to_glfw_dir
+//GLM Build unit tests
+GLM_TEST_ENABLE:BOOL=OFF
+
+//Path to a file.
+OPENAL_INCLUDE_DIR:PATH=/usr/include/AL
+
+//Path to a library.
+OPENAL_LIBRARY:FILEPATH=/usr/lib/x86_64-linux-gnu/libopenal.so
 
 //Path to a program.
-Vulkan_GLSLANG_VALIDATOR_EXECUTABLE:FILEPATH=Vulkan_GLSLANG_VALIDATOR_EXECUTABLE-NOTFOUND
+Vulkan_GLSLANG_VALIDATOR_EXECUTABLE:FILEPATH=/bin/glslangValidator
 
 //Path to a program.
 Vulkan_GLSLC_EXECUTABLE:FILEPATH=/bin/glslc
 
 //Path to a file.
-Vulkan_INCLUDE_DIR:PATH=Vulkan_INCLUDE_DIR-NOTFOUND
+Vulkan_INCLUDE_DIR:PATH=/usr/include
 
 //Path to a library.
 Vulkan_LIBRARY:FILEPATH=/usr/lib/x86_64-linux-gnu/libvulkan.so
+
+//The directory containing a CMake configuration file for glfw3.
+glfw3_DIR:PATH=/usr/lib/x86_64-linux-gnu/cmake/glfw3
 
 
 ########################
@@ -389,6 +398,14 @@ CMAKE_TAPI-ADVANCED:INTERNAL=1
 CMAKE_UNAME:INTERNAL=/usr/bin/uname
 //ADVANCED property for variable: CMAKE_VERBOSE_MAKEFILE
 CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
+//Details about finding OpenAL
+FIND_PACKAGE_MESSAGE_DETAILS_OpenAL:INTERNAL=[/usr/lib/x86_64-linux-gnu/libopenal.so][/usr/include/AL][v()]
+//Details about finding Vulkan
+FIND_PACKAGE_MESSAGE_DETAILS_Vulkan:INTERNAL=[/usr/lib/x86_64-linux-gnu/libvulkan.so][/usr/include][cfound components: glslc glslangValidator ][v1.3.275()]
+//ADVANCED property for variable: OPENAL_INCLUDE_DIR
+OPENAL_INCLUDE_DIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: OPENAL_LIBRARY
+OPENAL_LIBRARY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: Vulkan_GLSLANG_VALIDATOR_EXECUTABLE
 Vulkan_GLSLANG_VALIDATOR_EXECUTABLE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: Vulkan_GLSLC_EXECUTABLE
