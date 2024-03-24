@@ -11,7 +11,7 @@ public:
     dvc_window(int w, int h, std::string name);
     
     bool shouldClose() {return glfwWindowShouldClose(window); }
-
+    
     void createWindowSurface(VkInstance instance, VkSurfaceKHR *surface);
 
     dvc_window(const dvc_window & ) = delete;
