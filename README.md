@@ -1,2 +1,2 @@
-# Voxel Craft
- Minecraft clone, but with voxels like Space Engineers
+# Nova Engine
+ Vulkan Game Engine, designed for my games.
