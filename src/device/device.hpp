@@ -7,7 +7,7 @@
 #include <string>
 #include <vector>
 
-namespace dvc {
+namespace nova {
 
 struct SwapChainSupportDetails {
   VkSurfaceCapabilitiesKHR capabilities;
@@ -23,7 +23,7 @@ struct QueueFamilyIndices {
   bool isComplete() { return graphicsFamilyHasValue && presentFamilyHasValue; }
 };
 
-class dvc_Device {
+class nova_Device {
  public:
 #ifdef NDEBUG
   const bool enableValidationLayers = false;
@@ -31,14 +31,14 @@ class dvc_Device {
   const bool enableValidationLayers = true;
 #endif
 
-  dvc_Device(dvc_window &window);
-  ~dvc_Device();
+  nova_Device(nova_window &window);
+  ~nova_Device();
 
   // Not copyable or movable
-  dvc_Device(const dvc_Device &) = delete;
-  void operator=(const dvc_Device &) = delete;
-  dvc_Device(dvc_Device &&) = delete;
-  dvc_Device &operator=(dvc_Device &&) = delete;
+  nova_Device(const nova_Device &) = delete;
+  void operator=(const nova_Device &) = delete;
+  nova_Device(nova_Device &&) = delete;
+  nova_Device &operator=(nova_Device &&) = delete;
 
   VkCommandPool getCommandPool() { return commandPool; }
   VkDevice device() { return device_; }
@@ -94,7 +94,7 @@ class dvc_Device {
   VkInstance instance;
   VkDebugUtilsMessengerEXT debugMessenger;
   VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
-  dvc_window &window;
+  nova_window &window;
   VkCommandPool commandPool;
 
   VkDevice device_;

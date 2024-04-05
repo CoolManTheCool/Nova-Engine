@@ -5,23 +5,23 @@
 #include "GLFW/glfw3.h"
 #include <string>
 
-namespace dvc {
-class dvc_window {
+namespace nova {
+class nova_window {
 public:
-    dvc_window(int w, int h, std::string name);
+    nova_window();
     
     bool shouldClose() {return glfwWindowShouldClose(window); }
     
     void createWindowSurface(VkInstance instance, VkSurfaceKHR *surface);
 
-    dvc_window(const dvc_window & ) = delete;
-    dvc_window &operator=(const dvc_window & ) = delete;
+    nova_window(const nova_window & ) = delete;
+    nova_window &operator=(const nova_window & ) = delete;
 
-    ~dvc_window();
+    ~nova_window();
  private:
 
     void initWindow();
-
+    Settings settings;
     const int width;
     const int height;
 
@@ -29,7 +29,7 @@ public:
     GLFWwindow *window;
 };
      
-} // namespace dvc (dynamic voxel craft)
+} // namespace nova (dynamic voxel craft)
 
 
 #endif

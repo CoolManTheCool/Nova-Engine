@@ -6,7 +6,7 @@
 #include <set>
 #include <unordered_set>
 
-namespace dvc {
+namespace nova {
 
 // local callback functions
 static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(
@@ -47,7 +47,7 @@ void DestroyDebugUtilsMessengerEXT(
 }
 
 // class member functions
-dvc_Device::dvc_Device(dvc_window &window) : window{window} {
+nova_Device::nova_Device(nova_window &window) : window{window} {
   createInstance();
   setupDebugMessenger();
   createSurface();
@@ -56,7 +56,7 @@ dvc_Device::dvc_Device(dvc_window &window) : window{window} {
   createCommandPool();
 }
 
-dvc_Device::~dvc_Device() {
+nova_Device::~nova_Device() {
   vkDestroyCommandPool(device_, commandPool, nullptr);
   vkDestroyDevice(device_, nullptr);
 
@@ -68,7 +68,7 @@ dvc_Device::~dvc_Device() {
   vkDestroyInstance(instance, nullptr);
 }
 
-void dvc_Device::createInstance() {
+void nova_Device::createInstance() {
   if (enableValidationLayers && !checkValidationLayerSupport()) {
     throw std::runtime_error("validation layers requested, but not available!");
   }
@@ -108,13 +108,13 @@ void dvc_Device::createInstance() {
   hasGflwRequiredInstanceExtensions();
 }
 
-void dvc_Device::pickPhysicalDevice() {
+void nova_Device::pickPhysicalDevice() {
   uint32_t deviceCount = 0;
   vkEnumeratePhysicalDevices(instance, &deviceCount, nullptr);
   if (deviceCount == 0) {
     throw std::runtime_error("failed to find GPUs with Vulkan support!");
   }
-  std::cout << "dvc_Device count: " << deviceCount << std::endl;
+  std::cout << "nova_Device count: " << deviceCount << std::endl;
   std::vector<VkPhysicalDevice> devices(deviceCount);
   vkEnumeratePhysicalDevices(instance, &deviceCount, devices.data());
 
@@ -133,7 +133,7 @@ void dvc_Device::pickPhysicalDevice() {
   std::cout << "physical device: " << properties.deviceName << std::endl;
 }
 
-void dvc_Device::createLogicalDevice() {
+void nova_Device::createLogicalDevice() {
   QueueFamilyIndices indices = findQueueFamilies(physicalDevice);
 
   std::vector<VkDeviceQueueCreateInfo> queueCreateInfos;
@@ -179,7 +179,7 @@ void dvc_Device::createLogicalDevice() {
   vkGetDeviceQueue(device_, indices.presentFamily, 0, &presentQueue_);
 }
 
-void dvc_Device::createCommandPool() {
+void nova_Device::createCommandPool() {
   QueueFamilyIndices queueFamilyIndices = findPhysicalQueueFamilies();
 
   VkCommandPoolCreateInfo poolInfo = {};
@@ -193,9 +193,9 @@ void dvc_Device::createCommandPool() {
   }
 }
 
-void dvc_Device::createSurface() { window.createWindowSurface(instance, &surface_); }
+void nova_Device::createSurface() { window.createWindowSurface(instance, &surface_); }
 
-bool dvc_Device::isDeviceSuitable(VkPhysicalDevice device) {
+bool nova_Device::isDeviceSuitable(VkPhysicalDevice device) {
   QueueFamilyIndices indices = findQueueFamilies(device);
 
   bool extensionsSupported = checkDeviceExtensionSupport(device);
@@ -213,7 +213,7 @@ bool dvc_Device::isDeviceSuitable(VkPhysicalDevice device) {
          supportedFeatures.samplerAnisotropy;
 }
 
-void dvc_Device::populateDebugMessengerCreateInfo(
+void nova_Device::populateDebugMessengerCreateInfo(
     VkDebugUtilsMessengerCreateInfoEXT &createInfo) {
   createInfo = {};
   createInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
@@ -226,7 +226,7 @@ void dvc_Device::populateDebugMessengerCreateInfo(
   createInfo.pUserData = nullptr;  // Optional
 }
 
-void dvc_Device::setupDebugMessenger() {
+void nova_Device::setupDebugMessenger() {
   if (!enableValidationLayers) return;
   VkDebugUtilsMessengerCreateInfoEXT createInfo;
   populateDebugMessengerCreateInfo(createInfo);
@@ -235,7 +235,7 @@ void dvc_Device::setupDebugMessenger() {
   }
 }
 
-bool dvc_Device::checkValidationLayerSupport() {
+bool nova_Device::checkValidationLayerSupport() {
   uint32_t layerCount;
   vkEnumerateInstanceLayerProperties(&layerCount, nullptr);
 
@@ -260,7 +260,7 @@ bool dvc_Device::checkValidationLayerSupport() {
   return true;
 }
 
-std::vector<const char *> dvc_Device::getRequiredExtensions() {
+std::vector<const char *> nova_Device::getRequiredExtensions() {
   uint32_t glfwExtensionCount = 0;
   const char **glfwExtensions;
   glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
@@ -274,7 +274,7 @@ std::vector<const char *> dvc_Device::getRequiredExtensions() {
   return extensions;
 }
 
-void dvc_Device::hasGflwRequiredInstanceExtensions() {
+void nova_Device::hasGflwRequiredInstanceExtensions() {
   uint32_t extensionCount = 0;
   vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr);
   std::vector<VkExtensionProperties> extensions(extensionCount);
@@ -297,7 +297,7 @@ void dvc_Device::hasGflwRequiredInstanceExtensions() {
   }
 }
 
-bool dvc_Device::checkDeviceExtensionSupport(VkPhysicalDevice device) {
+bool nova_Device::checkDeviceExtensionSupport(VkPhysicalDevice device) {
   uint32_t extensionCount;
   vkEnumerateDeviceExtensionProperties(device, nullptr, &extensionCount, nullptr);
 
@@ -317,7 +317,7 @@ bool dvc_Device::checkDeviceExtensionSupport(VkPhysicalDevice device) {
   return requiredExtensions.empty();
 }
 
-QueueFamilyIndices dvc_Device::findQueueFamilies(VkPhysicalDevice device) {
+QueueFamilyIndices nova_Device::findQueueFamilies(VkPhysicalDevice device) {
   QueueFamilyIndices indices;
 
   uint32_t queueFamilyCount = 0;
@@ -348,7 +348,7 @@ QueueFamilyIndices dvc_Device::findQueueFamilies(VkPhysicalDevice device) {
   return indices;
 }
 
-SwapChainSupportDetails dvc_Device::querySwapChainSupport(VkPhysicalDevice device) {
+SwapChainSupportDetails nova_Device::querySwapChainSupport(VkPhysicalDevice device) {
   SwapChainSupportDetails details;
   vkGetPhysicalDeviceSurfaceCapabilitiesKHR(device, surface_, &details.capabilities);
 
@@ -374,7 +374,7 @@ SwapChainSupportDetails dvc_Device::querySwapChainSupport(VkPhysicalDevice devic
   return details;
 }
 
-VkFormat dvc_Device::findSupportedFormat(
+VkFormat nova_Device::findSupportedFormat(
     const std::vector<VkFormat> &candidates, VkImageTiling tiling, VkFormatFeatureFlags features) {
   for (VkFormat format : candidates) {
     VkFormatProperties props;
@@ -390,7 +390,7 @@ VkFormat dvc_Device::findSupportedFormat(
   throw std::runtime_error("failed to find supported format!");
 }
 
-uint32_t dvc_Device::findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties) {
+uint32_t nova_Device::findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties) {
   VkPhysicalDeviceMemoryProperties memProperties;
   vkGetPhysicalDeviceMemoryProperties(physicalDevice, &memProperties);
   for (uint32_t i = 0; i < memProperties.memoryTypeCount; i++) {
@@ -403,7 +403,7 @@ uint32_t dvc_Device::findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags p
   throw std::runtime_error("failed to find suitable memory type!");
 }
 
-void dvc_Device::createBuffer(
+void nova_Device::createBuffer(
     VkDeviceSize size,
     VkBufferUsageFlags usage,
     VkMemoryPropertyFlags properties,
@@ -434,7 +434,7 @@ void dvc_Device::createBuffer(
   vkBindBufferMemory(device_, buffer, bufferMemory, 0);
 }
 
-VkCommandBuffer dvc_Device::beginSingleTimeCommands() {
+VkCommandBuffer nova_Device::beginSingleTimeCommands() {
   VkCommandBufferAllocateInfo allocInfo{};
   allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
   allocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
@@ -452,7 +452,7 @@ VkCommandBuffer dvc_Device::beginSingleTimeCommands() {
   return commandBuffer;
 }
 
-void dvc_Device::endSingleTimeCommands(VkCommandBuffer commandBuffer) {
+void nova_Device::endSingleTimeCommands(VkCommandBuffer commandBuffer) {
   vkEndCommandBuffer(commandBuffer);
 
   VkSubmitInfo submitInfo{};
@@ -466,7 +466,7 @@ void dvc_Device::endSingleTimeCommands(VkCommandBuffer commandBuffer) {
   vkFreeCommandBuffers(device_, commandPool, 1, &commandBuffer);
 }
 
-void dvc_Device::copyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size) {
+void nova_Device::copyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size) {
   VkCommandBuffer commandBuffer = beginSingleTimeCommands();
 
   VkBufferCopy copyRegion{};
@@ -478,7 +478,7 @@ void dvc_Device::copyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize
   endSingleTimeCommands(commandBuffer);
 }
 
-void dvc_Device::copyBufferToImage(
+void nova_Device::copyBufferToImage(
     VkBuffer buffer, VkImage image, uint32_t width, uint32_t height, uint32_t layerCount) {
   VkCommandBuffer commandBuffer = beginSingleTimeCommands();
 
@@ -505,7 +505,7 @@ void dvc_Device::copyBufferToImage(
   endSingleTimeCommands(commandBuffer);
 }
 
-void dvc_Device::createImageWithInfo(
+void nova_Device::createImageWithInfo(
     const VkImageCreateInfo &imageInfo,
     VkMemoryPropertyFlags properties,
     VkImage &image,

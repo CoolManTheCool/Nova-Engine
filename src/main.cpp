@@ -1,11 +1,14 @@
 #include "game.hpp"
+#include "settings.hpp"
+
 //std
 #include <iostream>
 #include <cstdlib>
 #include <stdexcept>
 
 int main() {
-    dvc::Game game{};
+    Settings* settingsInstance;
+    nova::Game game{};
     // this does a lot of stuff, its somewhere idk
 
     try {

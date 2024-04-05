@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/noah/github/Dynamic-Voxel-Craft/src/game -I/home/noah/github/Dynamic-Voxel-Craft/src/window -I/home/noah/github/Dynamic-Voxel-Craft/src/pipeline -I/home/noah/github/Dynamic-Voxel-Craft/src/device
+CXX_INCLUDES = -I/home/noah/github/Nova-Engine/src/game -I/home/noah/github/Nova-Engine/src/window -I/home/noah/github/Nova-Engine/src/pipeline -I/home/noah/github/Nova-Engine/src/device
 
 CXX_FLAGS = -std=gnu++17 -Wall -Wextra -O2
 

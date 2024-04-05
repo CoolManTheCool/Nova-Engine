@@ -7,22 +7,22 @@
 #include <string>
 #include <vector>
 
-namespace dvc {
+namespace nova {
 
     struct PipeLineConfigInfo {
         
     };
     
-class dvc_PipeLine {
+class nova_PipeLine {
 public:
-    dvc_PipeLine(
-    dvc_Device &device,
+    nova_PipeLine(
+    nova_Device &device,
     const std::string& vertFilepath,
     const std::string& fragFilepath,
     const PipeLineConfigInfo configInfo);
 
-    dvc_PipeLine(const dvc_PipeLine&) = delete;
-    void operator=(const dvc_PipeLine&) = delete;
+    nova_PipeLine(const nova_PipeLine&) = delete;
+    void operator=(const nova_PipeLine&) = delete;
 
     static PipeLineConfigInfo defaultPipeLineConfigInfo(uint32_t width, uint32_t height);
 
@@ -36,12 +36,12 @@ private:
 
     void createShaderModule(const std::vector<char>& code, VkShaderModule* shaderModule);
 
-    dvc_Device& device;
+    nova_Device& device;
     VkPipeline graphicsPipeLine;
     VkShaderModule vertShaderModule;
     VkShaderModule fragShaderModule;
 };
-} // namespace dvc
+} // namespace nova
 
 
 #endif

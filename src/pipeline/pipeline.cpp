@@ -4,8 +4,8 @@
 #include <stdexcept>
 #include <iostream>
 
-namespace dvc {
-    std::vector<char> dvc_PipeLine::readFile(const std::string& filepath) {
+namespace nova {
+    std::vector<char> nova_PipeLine::readFile(const std::string& filepath) {
         std::ifstream file{filepath, std::ios::ate | std::ios::binary};
         if(!file.is_open()) {
             throw std::runtime_error("Failed to open file: " + filepath);
@@ -19,15 +19,15 @@ namespace dvc {
         return buffer;
     }
 
-    dvc_PipeLine::dvc_PipeLine(
-    dvc_Device &device,
+    nova_PipeLine::nova_PipeLine(
+    nova_Device &device,
     const std::string& vertFilepath,
     const std::string& fragFilepath,
     const PipeLineConfigInfo configInfo) : device{device} {
         createGraphicsPipeLine(vertFilepath, fragFilepath, configInfo);
     }
 
-    void dvc_PipeLine::createGraphicsPipeLine(const std::string& vertFilepath,
+    void nova_PipeLine::createGraphicsPipeLine(const std::string& vertFilepath,
     const std::string& fragFilepath,
     const PipeLineConfigInfo configInfo) {
         auto vertCode = readFile(vertFilepath);
@@ -37,7 +37,7 @@ namespace dvc {
         std::cout << "Fragment Shader Code Size: " << fragCode.size() << "\n";
     }
 
-    void dvc_PipeLine::createShaderModule(const std::vector<char>& code, VkShaderModule * shaderModule) {
+    void nova_PipeLine::createShaderModule(const std::vector<char>& code, VkShaderModule * shaderModule) {
         VkShaderModuleCreateInfo createInfo{};
         createInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
         createInfo.codeSize = code.size();
@@ -48,7 +48,7 @@ namespace dvc {
         }
     }
 
-    PipeLineConfigInfo dvc_PipeLine::defaultPipeLineConfigInfo(uint32_t width, uint32_t height) {
+    PipeLineConfigInfo nova_PipeLine::defaultPipeLineConfigInfo(uint32_t width, uint32_t height) {
         PipeLineConfigInfo configInfo{};
 
         return configInfo;
