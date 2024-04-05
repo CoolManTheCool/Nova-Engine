@@ -6,6 +6,7 @@
 
 int main() {
     dvc::App app{};
+    // this does a lot of stuff, its somewhere idk
 
     try {
         app.run();

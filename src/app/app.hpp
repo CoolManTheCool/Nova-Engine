@@ -12,7 +12,7 @@ public:
     void run();
 
 private:
-    dvc_window window{WIDTH, HEIGHT, "Hello Vulkan"};
+    dvc_window window{WIDTH, HEIGHT, "Hello from Vulkan "};
     dvc_Device device{window};
     dvc_PipeLine PipeLine{
     device,

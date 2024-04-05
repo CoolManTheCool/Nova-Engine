@@ -92,6 +92,8 @@ CMakeFiles/Dynamic-Voxel-Craft.dir/src/app/app.cpp.o: /home/noah/github/Dynamic-
   /usr/include/stdint.h \
   /usr/include/stdio.h \
   /usr/include/stdlib.h \
+  /usr/include/vk_video/vulkan_video_codec_av1std.h \
+  /usr/include/vk_video/vulkan_video_codec_av1std_decode.h \
   /usr/include/vk_video/vulkan_video_codec_h264std.h \
   /usr/include/vk_video/vulkan_video_codec_h264std_decode.h \
   /usr/include/vk_video/vulkan_video_codec_h264std_encode.h \
@@ -308,6 +310,8 @@ CMakeFiles/Dynamic-Voxel-Craft.dir/src/device/device.cpp.o: /home/noah/github/Dy
   /usr/include/string.h \
   /usr/include/strings.h \
   /usr/include/time.h \
+  /usr/include/vk_video/vulkan_video_codec_av1std.h \
+  /usr/include/vk_video/vulkan_video_codec_av1std_decode.h \
   /usr/include/vk_video/vulkan_video_codec_h264std.h \
   /usr/include/vk_video/vulkan_video_codec_h264std_decode.h \
   /usr/include/vk_video/vulkan_video_codec_h264std_encode.h \
@@ -532,6 +536,8 @@ CMakeFiles/Dynamic-Voxel-Craft.dir/src/main.cpp.o: /home/noah/github/Dynamic-Vox
   /usr/include/stdio.h \
   /usr/include/stdlib.h \
   /usr/include/time.h \
+  /usr/include/vk_video/vulkan_video_codec_av1std.h \
+  /usr/include/vk_video/vulkan_video_codec_av1std_decode.h \
   /usr/include/vk_video/vulkan_video_codec_h264std.h \
   /usr/include/vk_video/vulkan_video_codec_h264std_decode.h \
   /usr/include/vk_video/vulkan_video_codec_h264std_encode.h \
@@ -756,6 +762,8 @@ CMakeFiles/Dynamic-Voxel-Craft.dir/src/pipeline/pipeline.cpp.o: /home/noah/githu
   /usr/include/stdio.h \
   /usr/include/stdlib.h \
   /usr/include/time.h \
+  /usr/include/vk_video/vulkan_video_codec_av1std.h \
+  /usr/include/vk_video/vulkan_video_codec_av1std_decode.h \
   /usr/include/vk_video/vulkan_video_codec_h264std.h \
   /usr/include/vk_video/vulkan_video_codec_h264std_decode.h \
   /usr/include/vk_video/vulkan_video_codec_h264std_encode.h \
@@ -950,6 +958,8 @@ CMakeFiles/Dynamic-Voxel-Craft.dir/src/window/window.cpp.o: /home/noah/github/Dy
   /usr/include/stdint.h \
   /usr/include/stdio.h \
   /usr/include/stdlib.h \
+  /usr/include/vk_video/vulkan_video_codec_av1std.h \
+  /usr/include/vk_video/vulkan_video_codec_av1std_decode.h \
   /usr/include/vk_video/vulkan_video_codec_h264std.h \
   /usr/include/vk_video/vulkan_video_codec_h264std_decode.h \
   /usr/include/vk_video/vulkan_video_codec_h264std_encode.h \
@@ -1052,8 +1062,6 @@ CMakeFiles/Dynamic-Voxel-Craft.dir/src/window/window.cpp.o: /home/noah/github/Dy
 /usr/include/x86_64-linux-gnu/c++/13/bits/ctype_base.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_tm.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/struct___jmp_buf_tag.h:
 
 /usr/include/x86_64-linux-gnu/bits/time.h:
 
@@ -1233,6 +1241,14 @@ CMakeFiles/Dynamic-Voxel-Craft.dir/src/window/window.cpp.o: /home/noah/github/Dy
 
 /usr/include/c++/13/cwchar:
 
+/usr/include/c++/13/streambuf:
+
+/usr/include/x86_64-linux-gnu/bits/uintn-identity.h:
+
+/usr/include/x86_64-linux-gnu/bits/stdlib-float.h:
+
+/usr/include/c++/13/bits/exception.h:
+
 /usr/include/asm-generic/errno-base.h:
 
 /usr/include/c++/13/bits/hash_bytes.h:
@@ -1365,14 +1381,6 @@ CMakeFiles/Dynamic-Voxel-Craft.dir/src/window/window.cpp.o: /home/noah/github/Dy
 
 /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h:
 
-/usr/include/c++/13/streambuf:
-
-/usr/include/x86_64-linux-gnu/bits/uintn-identity.h:
-
-/usr/include/c++/13/bits/exception.h:
-
-/usr/include/x86_64-linux-gnu/bits/stdlib-float.h:
-
 /usr/include/x86_64-linux-gnu/bits/strings_fortified.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/mbstate_t.h:
@@ -1447,6 +1455,10 @@ CMakeFiles/Dynamic-Voxel-Craft.dir/src/window/window.cpp.o: /home/noah/github/Dy
 
 /usr/include/linux/errno.h:
 
+/usr/include/x86_64-linux-gnu/bits/types/struct___jmp_buf_tag.h:
+
+/usr/include/vk_video/vulkan_video_codec_av1std.h:
+
 /usr/include/c++/13/ext/aligned_buffer.h:
 
 /usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h:
@@ -1478,6 +1490,8 @@ CMakeFiles/Dynamic-Voxel-Craft.dir/src/window/window.cpp.o: /home/noah/github/Dy
 /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h:
 
 /usr/include/x86_64-linux-gnu/bits/stdlib.h:
+
+/usr/include/vk_video/vulkan_video_codec_av1std_decode.h:
 
 /usr/include/x86_64-linux-gnu/asm/errno.h:
 

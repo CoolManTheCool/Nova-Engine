@@ -1,5 +1,10 @@
 #!/bin/bash
 clear
+
+#compile shaders
+echo "Compiling shaders"
+./compile_shaders.sh
+
 # Create build directory if it doesn't exist
 mkdir -p build
 
