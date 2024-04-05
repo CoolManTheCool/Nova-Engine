@@ -1,11 +1,11 @@
 #ifndef WINDOW_HPP
-#define WINDOW_PP
+#define WINDOW_HPP
 
 #define GLFW_INCLUDE_VULKAN
 #include "GLFW/glfw3.h"
 #include <string>
 
-namespace dvc { //dynamic voxel craft
+namespace dvc {
 class dvc_window {
 public:
     dvc_window(int w, int h, std::string name);

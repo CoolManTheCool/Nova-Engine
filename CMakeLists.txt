@@ -1,4 +1,4 @@
-set(PROJECT_NAME "Dynamic-Voxel-Craft")
+set(PROJECT_NAME "Nova-Engine")
 
 cmake_minimum_required(VERSION 3.12)
 
@@ -17,7 +17,7 @@ find_package(OpenAL REQUIRED)
 set(SOURCE_FILES
     src/main.cpp
     src/window/window.cpp
-    src/app/app.cpp
+    src/game/game.cpp
     src/pipeline/pipeline.cpp
     src/device/device.cpp
 )
@@ -26,7 +26,7 @@ add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
 target_include_directories(${PROJECT_NAME} PRIVATE 
     #headers
-    src/app
+    src/game
     src/window
     src/pipeline
     src/device

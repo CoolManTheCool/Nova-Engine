@@ -117,48 +117,24 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named Dynamic-Voxel-Craft
+# Target rules for targets named Nova-Engine
 
 # Build rule for target.
-Dynamic-Voxel-Craft: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Dynamic-Voxel-Craft
-.PHONY : Dynamic-Voxel-Craft
+Nova-Engine: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Nova-Engine
+.PHONY : Nova-Engine
 
 # fast build rule for target.
-Dynamic-Voxel-Craft/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Dynamic-Voxel-Craft.dir/build.make CMakeFiles/Dynamic-Voxel-Craft.dir/build
-.PHONY : Dynamic-Voxel-Craft/fast
-
-src/app/app.o: src/app/app.cpp.o
-.PHONY : src/app/app.o
-
-# target to build an object file
-src/app/app.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Dynamic-Voxel-Craft.dir/build.make CMakeFiles/Dynamic-Voxel-Craft.dir/src/app/app.cpp.o
-.PHONY : src/app/app.cpp.o
-
-src/app/app.i: src/app/app.cpp.i
-.PHONY : src/app/app.i
-
-# target to preprocess a source file
-src/app/app.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Dynamic-Voxel-Craft.dir/build.make CMakeFiles/Dynamic-Voxel-Craft.dir/src/app/app.cpp.i
-.PHONY : src/app/app.cpp.i
-
-src/app/app.s: src/app/app.cpp.s
-.PHONY : src/app/app.s
-
-# target to generate assembly for a file
-src/app/app.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Dynamic-Voxel-Craft.dir/build.make CMakeFiles/Dynamic-Voxel-Craft.dir/src/app/app.cpp.s
-.PHONY : src/app/app.cpp.s
+Nova-Engine/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Nova-Engine.dir/build.make CMakeFiles/Nova-Engine.dir/build
+.PHONY : Nova-Engine/fast
 
 src/device/device.o: src/device/device.cpp.o
 .PHONY : src/device/device.o
 
 # target to build an object file
 src/device/device.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Dynamic-Voxel-Craft.dir/build.make CMakeFiles/Dynamic-Voxel-Craft.dir/src/device/device.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Nova-Engine.dir/build.make CMakeFiles/Nova-Engine.dir/src/device/device.cpp.o
 .PHONY : src/device/device.cpp.o
 
 src/device/device.i: src/device/device.cpp.i
@@ -166,7 +142,7 @@ src/device/device.i: src/device/device.cpp.i
 
 # target to preprocess a source file
 src/device/device.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Dynamic-Voxel-Craft.dir/build.make CMakeFiles/Dynamic-Voxel-Craft.dir/src/device/device.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Nova-Engine.dir/build.make CMakeFiles/Nova-Engine.dir/src/device/device.cpp.i
 .PHONY : src/device/device.cpp.i
 
 src/device/device.s: src/device/device.cpp.s
@@ -174,15 +150,39 @@ src/device/device.s: src/device/device.cpp.s
 
 # target to generate assembly for a file
 src/device/device.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Dynamic-Voxel-Craft.dir/build.make CMakeFiles/Dynamic-Voxel-Craft.dir/src/device/device.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Nova-Engine.dir/build.make CMakeFiles/Nova-Engine.dir/src/device/device.cpp.s
 .PHONY : src/device/device.cpp.s
+
+src/game/game.o: src/game/game.cpp.o
+.PHONY : src/game/game.o
+
+# target to build an object file
+src/game/game.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Nova-Engine.dir/build.make CMakeFiles/Nova-Engine.dir/src/game/game.cpp.o
+.PHONY : src/game/game.cpp.o
+
+src/game/game.i: src/game/game.cpp.i
+.PHONY : src/game/game.i
+
+# target to preprocess a source file
+src/game/game.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Nova-Engine.dir/build.make CMakeFiles/Nova-Engine.dir/src/game/game.cpp.i
+.PHONY : src/game/game.cpp.i
+
+src/game/game.s: src/game/game.cpp.s
+.PHONY : src/game/game.s
+
+# target to generate assembly for a file
+src/game/game.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Nova-Engine.dir/build.make CMakeFiles/Nova-Engine.dir/src/game/game.cpp.s
+.PHONY : src/game/game.cpp.s
 
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
 # target to build an object file
 src/main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Dynamic-Voxel-Craft.dir/build.make CMakeFiles/Dynamic-Voxel-Craft.dir/src/main.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Nova-Engine.dir/build.make CMakeFiles/Nova-Engine.dir/src/main.cpp.o
 .PHONY : src/main.cpp.o
 
 src/main.i: src/main.cpp.i
@@ -190,7 +190,7 @@ src/main.i: src/main.cpp.i
 
 # target to preprocess a source file
 src/main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Dynamic-Voxel-Craft.dir/build.make CMakeFiles/Dynamic-Voxel-Craft.dir/src/main.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Nova-Engine.dir/build.make CMakeFiles/Nova-Engine.dir/src/main.cpp.i
 .PHONY : src/main.cpp.i
 
 src/main.s: src/main.cpp.s
@@ -198,7 +198,7 @@ src/main.s: src/main.cpp.s
 
 # target to generate assembly for a file
 src/main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Dynamic-Voxel-Craft.dir/build.make CMakeFiles/Dynamic-Voxel-Craft.dir/src/main.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Nova-Engine.dir/build.make CMakeFiles/Nova-Engine.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
 src/pipeline/pipeline.o: src/pipeline/pipeline.cpp.o
@@ -206,7 +206,7 @@ src/pipeline/pipeline.o: src/pipeline/pipeline.cpp.o
 
 # target to build an object file
 src/pipeline/pipeline.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Dynamic-Voxel-Craft.dir/build.make CMakeFiles/Dynamic-Voxel-Craft.dir/src/pipeline/pipeline.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Nova-Engine.dir/build.make CMakeFiles/Nova-Engine.dir/src/pipeline/pipeline.cpp.o
 .PHONY : src/pipeline/pipeline.cpp.o
 
 src/pipeline/pipeline.i: src/pipeline/pipeline.cpp.i
@@ -214,7 +214,7 @@ src/pipeline/pipeline.i: src/pipeline/pipeline.cpp.i
 
 # target to preprocess a source file
 src/pipeline/pipeline.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Dynamic-Voxel-Craft.dir/build.make CMakeFiles/Dynamic-Voxel-Craft.dir/src/pipeline/pipeline.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Nova-Engine.dir/build.make CMakeFiles/Nova-Engine.dir/src/pipeline/pipeline.cpp.i
 .PHONY : src/pipeline/pipeline.cpp.i
 
 src/pipeline/pipeline.s: src/pipeline/pipeline.cpp.s
@@ -222,7 +222,7 @@ src/pipeline/pipeline.s: src/pipeline/pipeline.cpp.s
 
 # target to generate assembly for a file
 src/pipeline/pipeline.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Dynamic-Voxel-Craft.dir/build.make CMakeFiles/Dynamic-Voxel-Craft.dir/src/pipeline/pipeline.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Nova-Engine.dir/build.make CMakeFiles/Nova-Engine.dir/src/pipeline/pipeline.cpp.s
 .PHONY : src/pipeline/pipeline.cpp.s
 
 src/window/window.o: src/window/window.cpp.o
@@ -230,7 +230,7 @@ src/window/window.o: src/window/window.cpp.o
 
 # target to build an object file
 src/window/window.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Dynamic-Voxel-Craft.dir/build.make CMakeFiles/Dynamic-Voxel-Craft.dir/src/window/window.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Nova-Engine.dir/build.make CMakeFiles/Nova-Engine.dir/src/window/window.cpp.o
 .PHONY : src/window/window.cpp.o
 
 src/window/window.i: src/window/window.cpp.i
@@ -238,7 +238,7 @@ src/window/window.i: src/window/window.cpp.i
 
 # target to preprocess a source file
 src/window/window.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Dynamic-Voxel-Craft.dir/build.make CMakeFiles/Dynamic-Voxel-Craft.dir/src/window/window.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Nova-Engine.dir/build.make CMakeFiles/Nova-Engine.dir/src/window/window.cpp.i
 .PHONY : src/window/window.cpp.i
 
 src/window/window.s: src/window/window.cpp.s
@@ -246,7 +246,7 @@ src/window/window.s: src/window/window.cpp.s
 
 # target to generate assembly for a file
 src/window/window.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Dynamic-Voxel-Craft.dir/build.make CMakeFiles/Dynamic-Voxel-Craft.dir/src/window/window.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Nova-Engine.dir/build.make CMakeFiles/Nova-Engine.dir/src/window/window.cpp.s
 .PHONY : src/window/window.cpp.s
 
 # Help Target
@@ -257,13 +257,13 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... Dynamic-Voxel-Craft"
-	@echo "... src/app/app.o"
-	@echo "... src/app/app.i"
-	@echo "... src/app/app.s"
+	@echo "... Nova-Engine"
 	@echo "... src/device/device.o"
 	@echo "... src/device/device.i"
 	@echo "... src/device/device.s"
+	@echo "... src/game/game.o"
+	@echo "... src/game/game.i"
+	@echo "... src/game/game.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

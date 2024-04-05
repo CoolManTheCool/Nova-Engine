@@ -1,6 +1,9 @@
 #!/bin/bash
 clear
 
+#clean up
+./clean.sh
+
 #compile shaders
 echo "Compiling shaders"
 ./compile_shaders.sh
