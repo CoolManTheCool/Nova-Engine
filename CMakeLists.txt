@@ -35,4 +35,4 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 
 target_link_libraries(${PROJECT_NAME} PRIVATE ${Vulkan_LIBRARIES} ${OPENAL_LIBRARY} glfw Vulkan::Vulkan)
 
-target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -O2)
+target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -O0)

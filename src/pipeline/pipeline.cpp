@@ -1,11 +1,17 @@
-#include <pipeline.hpp>
+#include "pipeline.hpp"
 
 #include <fstream>
 #include <stdexcept>
 #include <iostream>
+#include "settings.hpp"
 
 namespace nova {
     std::vector<char> nova_PipeLine::readFile(const std::string& filepath) {
+
+        if (filepath.empty()) {
+            throw std::runtime_error("File path is empty");
+        }
+
         std::ifstream file{filepath, std::ios::ate | std::ios::binary};
         if(!file.is_open()) {
             throw std::runtime_error("Failed to open file: " + filepath);
@@ -19,17 +25,12 @@ namespace nova {
         return buffer;
     }
 
-    nova_PipeLine::nova_PipeLine(
-    nova_Device &device,
-    const std::string& vertFilepath,
-    const std::string& fragFilepath,
-    const PipeLineConfigInfo configInfo) : device{device} {
-        createGraphicsPipeLine(vertFilepath, fragFilepath, configInfo);
+    nova_PipeLine::nova_PipeLine(nova_Device &device) : device{device} {
+        createGraphicsPipeLine(Settings.vertFilepath, Settings.fragFilepath);
     }
 
     void nova_PipeLine::createGraphicsPipeLine(const std::string& vertFilepath,
-    const std::string& fragFilepath,
-    const PipeLineConfigInfo configInfo) {
+    const std::string& fragFilepath) {
         auto vertCode = readFile(vertFilepath);
         auto fragCode = readFile(fragFilepath);
 
@@ -46,11 +47,5 @@ namespace nova {
         if(vkCreateShaderModule(device.device(), &createInfo, nullptr, shaderModule) != VK_SUCCESS) {
             throw std::runtime_error("Failed to create shader module!");
         }
-    }
-
-    PipeLineConfigInfo nova_PipeLine::defaultPipeLineConfigInfo(uint32_t width, uint32_t height) {
-        PipeLineConfigInfo configInfo{};
-
-        return configInfo;
     }
 }

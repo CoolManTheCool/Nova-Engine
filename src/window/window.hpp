@@ -3,6 +3,7 @@
 
 #define GLFW_INCLUDE_VULKAN
 #include "GLFW/glfw3.h"
+#include "settings.hpp"
 #include <string>
 
 namespace nova {
@@ -21,11 +22,6 @@ public:
  private:
 
     void initWindow();
-    Settings settings;
-    const int width;
-    const int height;
-
-    std::string windowName;
     GLFWwindow *window;
 };
      

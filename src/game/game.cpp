@@ -1,16 +1,10 @@
 #include "game.hpp"
+#include "settings.hpp"
+
+Settings_t Settings;
 
 namespace nova {
-Game::Game(int width, int height) {
-    settingsInstance = Settings::getInstance();
-
-    window();
-    device(window),
-    PipeLine(device,
-               "/home/noah/github/Dynamic-Voxel-Craft/src/resources/shaders/vertex.vert.spv",
-               "/home/noah/github/Dynamic-Voxel-Craft/src/resources/shaders/fragment.frag.spv",
-               nova_PipeLine::defaultPipeLineConfigInfo(width, height))
-    {
+Game::Game() : device(window), PipeLine(device) {
     
 }
 

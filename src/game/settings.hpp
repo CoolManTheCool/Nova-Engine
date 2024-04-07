@@ -2,21 +2,21 @@
 #define SETTINGS_HPP
 
 #include <string>
+#include <filesystem> // for std::filesystem::current_path
 
-struct Settings {
-    // Singleton instance
-    static Settings* getInstance();
-    Settings() = delete; //delete constructor
-    Settings(const Settings&) = delete; //delete copy constructor
-    Settings(Settings&&) = delete; //delete move constructor
-    Settings& operator=(const Settings&) = delete; //delete copy assignment operator
-    Settings& operator=(Settings&&) = delete; //delete move assignment operator
-    ~Settings() = delete; //delete destructor
-    // Example settings
-    int width = 1280;
-    int height = 720;
-    std::string title = "Vulkan Thingy";
+struct Settings_t {
+    // Window settings
+    int width = 960;
+    int height = 540;
+    std::string title = "Nova Engine";
 
+    // Shader Config:
+    // add current path to the shader paths
+    std::string vertFilepath =  std::filesystem::current_path().c_str() + "/src/resources/shaders/fragment.vert.spv".c_str();
+    std::string fragFilepath = "./src/resources/shaders/fragment.frag.spv";
 };
 
-#endif
+// Declare Settings as extern
+extern Settings_t Settings;
+
+#endif // SETTINGS_HPP

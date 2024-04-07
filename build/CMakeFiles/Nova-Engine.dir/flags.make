@@ -6,5 +6,5 @@ CXX_DEFINES =
 
 CXX_INCLUDES = -I/home/noah/github/Nova-Engine/src/game -I/home/noah/github/Nova-Engine/src/window -I/home/noah/github/Nova-Engine/src/pipeline -I/home/noah/github/Nova-Engine/src/device
 
-CXX_FLAGS = -std=gnu++17 -Wall -Wextra -O2
+CXX_FLAGS = -std=gnu++17 -Wall -Wextra -O0
 

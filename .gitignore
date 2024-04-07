@@ -1,6 +1,7 @@
 # Prerequisites
 *.d
-
+build/
+Nova-Engine
 # Compiled Object files
 *.slo
 *.lo
