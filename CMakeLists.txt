@@ -18,6 +18,7 @@ set(SOURCE_FILES
     src/main.cpp
     src/window/window.cpp
     src/game/game.cpp
+    src/game/util.cpp
     src/pipeline/pipeline.cpp
     src/device/device.cpp
 )

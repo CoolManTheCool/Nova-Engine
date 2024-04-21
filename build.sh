@@ -45,6 +45,7 @@ if make; then
         echo "Compilation succeeded."
         cp Nova-Engine ..
         echo "Nova-Engine copied to project root directory."
+        cd ..
         ./Nova-Engine
     else
         # If the executable doesn't exist, print an error message

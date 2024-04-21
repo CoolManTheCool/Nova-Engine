@@ -3,6 +3,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/Nova-Engine.dir/src/device/device.cpp.o.d"
   "CMakeFiles/Nova-Engine.dir/src/game/game.cpp.o"
   "CMakeFiles/Nova-Engine.dir/src/game/game.cpp.o.d"
+  "CMakeFiles/Nova-Engine.dir/src/game/util.cpp.o"
+  "CMakeFiles/Nova-Engine.dir/src/game/util.cpp.o.d"
   "CMakeFiles/Nova-Engine.dir/src/main.cpp.o"
   "CMakeFiles/Nova-Engine.dir/src/main.cpp.o.d"
   "CMakeFiles/Nova-Engine.dir/src/pipeline/pipeline.cpp.o"

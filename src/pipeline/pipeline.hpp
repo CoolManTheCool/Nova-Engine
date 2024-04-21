@@ -2,7 +2,7 @@
 #define PIPELINE_HPP
 
 #include "device.hpp"
-#include "settings.hpp"
+#include "util.hpp"
 
 //I have std
 #include <string>

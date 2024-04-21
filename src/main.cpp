@@ -8,11 +8,9 @@
 int main() {
 
     try {
-
         Settings.width = 960;
         Settings.height = 540;
         Settings.title = "Nova Engine!";
-        std::cout << Settings.width;
         nova::Game game;
         game.run();
     }

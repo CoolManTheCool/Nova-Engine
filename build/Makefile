@@ -177,6 +177,30 @@ src/game/game.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Nova-Engine.dir/build.make CMakeFiles/Nova-Engine.dir/src/game/game.cpp.s
 .PHONY : src/game/game.cpp.s
 
+src/game/util.o: src/game/util.cpp.o
+.PHONY : src/game/util.o
+
+# target to build an object file
+src/game/util.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Nova-Engine.dir/build.make CMakeFiles/Nova-Engine.dir/src/game/util.cpp.o
+.PHONY : src/game/util.cpp.o
+
+src/game/util.i: src/game/util.cpp.i
+.PHONY : src/game/util.i
+
+# target to preprocess a source file
+src/game/util.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Nova-Engine.dir/build.make CMakeFiles/Nova-Engine.dir/src/game/util.cpp.i
+.PHONY : src/game/util.cpp.i
+
+src/game/util.s: src/game/util.cpp.s
+.PHONY : src/game/util.s
+
+# target to generate assembly for a file
+src/game/util.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Nova-Engine.dir/build.make CMakeFiles/Nova-Engine.dir/src/game/util.cpp.s
+.PHONY : src/game/util.cpp.s
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -264,6 +288,9 @@ help:
 	@echo "... src/game/game.o"
 	@echo "... src/game/game.i"
 	@echo "... src/game/game.s"
+	@echo "... src/game/util.o"
+	@echo "... src/game/util.i"
+	@echo "... src/game/util.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

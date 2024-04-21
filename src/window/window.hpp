@@ -3,7 +3,7 @@
 
 #define GLFW_INCLUDE_VULKAN
 #include "GLFW/glfw3.h"
-#include "settings.hpp"
+#include "util.hpp"
 #include <string>
 
 namespace nova {

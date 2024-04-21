@@ -1,6 +1,6 @@
 #include "window.hpp"
 #include <stdexcept>
-#include "settings.hpp"
+#include "util.hpp"
 
 namespace nova {
 nova_window::nova_window() {

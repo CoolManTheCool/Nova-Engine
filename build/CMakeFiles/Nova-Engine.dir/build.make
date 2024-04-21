@@ -111,10 +111,24 @@ CMakeFiles/Nova-Engine.dir/src/game/game.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Nova-Engine.dir/src/game/game.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/noah/github/Nova-Engine/src/game/game.cpp -o CMakeFiles/Nova-Engine.dir/src/game/game.cpp.s
 
+CMakeFiles/Nova-Engine.dir/src/game/util.cpp.o: CMakeFiles/Nova-Engine.dir/flags.make
+CMakeFiles/Nova-Engine.dir/src/game/util.cpp.o: /home/noah/github/Nova-Engine/src/game/util.cpp
+CMakeFiles/Nova-Engine.dir/src/game/util.cpp.o: CMakeFiles/Nova-Engine.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/noah/github/Nova-Engine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/Nova-Engine.dir/src/game/util.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Nova-Engine.dir/src/game/util.cpp.o -MF CMakeFiles/Nova-Engine.dir/src/game/util.cpp.o.d -o CMakeFiles/Nova-Engine.dir/src/game/util.cpp.o -c /home/noah/github/Nova-Engine/src/game/util.cpp
+
+CMakeFiles/Nova-Engine.dir/src/game/util.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Nova-Engine.dir/src/game/util.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/noah/github/Nova-Engine/src/game/util.cpp > CMakeFiles/Nova-Engine.dir/src/game/util.cpp.i
+
+CMakeFiles/Nova-Engine.dir/src/game/util.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Nova-Engine.dir/src/game/util.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/noah/github/Nova-Engine/src/game/util.cpp -o CMakeFiles/Nova-Engine.dir/src/game/util.cpp.s
+
 CMakeFiles/Nova-Engine.dir/src/pipeline/pipeline.cpp.o: CMakeFiles/Nova-Engine.dir/flags.make
 CMakeFiles/Nova-Engine.dir/src/pipeline/pipeline.cpp.o: /home/noah/github/Nova-Engine/src/pipeline/pipeline.cpp
 CMakeFiles/Nova-Engine.dir/src/pipeline/pipeline.cpp.o: CMakeFiles/Nova-Engine.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/noah/github/Nova-Engine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/Nova-Engine.dir/src/pipeline/pipeline.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/noah/github/Nova-Engine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/Nova-Engine.dir/src/pipeline/pipeline.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Nova-Engine.dir/src/pipeline/pipeline.cpp.o -MF CMakeFiles/Nova-Engine.dir/src/pipeline/pipeline.cpp.o.d -o CMakeFiles/Nova-Engine.dir/src/pipeline/pipeline.cpp.o -c /home/noah/github/Nova-Engine/src/pipeline/pipeline.cpp
 
 CMakeFiles/Nova-Engine.dir/src/pipeline/pipeline.cpp.i: cmake_force
@@ -128,7 +142,7 @@ CMakeFiles/Nova-Engine.dir/src/pipeline/pipeline.cpp.s: cmake_force
 CMakeFiles/Nova-Engine.dir/src/device/device.cpp.o: CMakeFiles/Nova-Engine.dir/flags.make
 CMakeFiles/Nova-Engine.dir/src/device/device.cpp.o: /home/noah/github/Nova-Engine/src/device/device.cpp
 CMakeFiles/Nova-Engine.dir/src/device/device.cpp.o: CMakeFiles/Nova-Engine.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/noah/github/Nova-Engine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/Nova-Engine.dir/src/device/device.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/noah/github/Nova-Engine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/Nova-Engine.dir/src/device/device.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Nova-Engine.dir/src/device/device.cpp.o -MF CMakeFiles/Nova-Engine.dir/src/device/device.cpp.o.d -o CMakeFiles/Nova-Engine.dir/src/device/device.cpp.o -c /home/noah/github/Nova-Engine/src/device/device.cpp
 
 CMakeFiles/Nova-Engine.dir/src/device/device.cpp.i: cmake_force
@@ -144,6 +158,7 @@ Nova__Engine_OBJECTS = \
 "CMakeFiles/Nova-Engine.dir/src/main.cpp.o" \
 "CMakeFiles/Nova-Engine.dir/src/window/window.cpp.o" \
 "CMakeFiles/Nova-Engine.dir/src/game/game.cpp.o" \
+"CMakeFiles/Nova-Engine.dir/src/game/util.cpp.o" \
 "CMakeFiles/Nova-Engine.dir/src/pipeline/pipeline.cpp.o" \
 "CMakeFiles/Nova-Engine.dir/src/device/device.cpp.o"
 
@@ -153,6 +168,7 @@ Nova__Engine_EXTERNAL_OBJECTS =
 Nova-Engine: CMakeFiles/Nova-Engine.dir/src/main.cpp.o
 Nova-Engine: CMakeFiles/Nova-Engine.dir/src/window/window.cpp.o
 Nova-Engine: CMakeFiles/Nova-Engine.dir/src/game/game.cpp.o
+Nova-Engine: CMakeFiles/Nova-Engine.dir/src/game/util.cpp.o
 Nova-Engine: CMakeFiles/Nova-Engine.dir/src/pipeline/pipeline.cpp.o
 Nova-Engine: CMakeFiles/Nova-Engine.dir/src/device/device.cpp.o
 Nova-Engine: CMakeFiles/Nova-Engine.dir/build.make
@@ -161,7 +177,7 @@ Nova-Engine: /usr/lib/x86_64-linux-gnu/libopenal.so
 Nova-Engine: /usr/lib/x86_64-linux-gnu/libglfw.so.3.3
 Nova-Engine: /usr/lib/x86_64-linux-gnu/libvulkan.so
 Nova-Engine: CMakeFiles/Nova-Engine.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/noah/github/Nova-Engine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable Nova-Engine"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/noah/github/Nova-Engine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX executable Nova-Engine"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Nova-Engine.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

@@ -1,5 +1,5 @@
 #include "game.hpp"
-#include "settings.hpp"
+#include "util.hpp"
 
 Settings_t Settings;
 
