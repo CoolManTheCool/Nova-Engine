@@ -1,6 +1,5 @@
 #include "game.hpp"
 
-//std
 #include <iostream>
 #include <cstdlib>
 #include <stdexcept>
