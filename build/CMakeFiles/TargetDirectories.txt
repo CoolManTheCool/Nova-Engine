@@ -1,3 +1,0 @@
-/home/noah/github/Nova-Engine/build/CMakeFiles/Nova-Engine.dir
-/home/noah/github/Nova-Engine/build/CMakeFiles/edit_cache.dir
-/home/noah/github/Nova-Engine/build/CMakeFiles/rebuild_cache.dir
