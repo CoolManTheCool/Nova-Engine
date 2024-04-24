@@ -12,6 +12,7 @@ public:
     nova_window();
     
     bool shouldClose() {return glfwWindowShouldClose(window); }
+    VkExtent2D getExtent() { return {static_cast<uint32_t>(Settings.width), static_cast<uint32_t>(Settings.height)};};
     
     void createWindowSurface(VkInstance instance, VkSurfaceKHR *surface);
 

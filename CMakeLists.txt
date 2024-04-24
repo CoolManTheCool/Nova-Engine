@@ -2,7 +2,7 @@ set(PROJECT_NAME "Nova-Engine")
 
 cmake_minimum_required(VERSION 3.12)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 23)
 
 project(${PROJECT_NAME})
 
@@ -16,11 +16,12 @@ find_package(OpenAL REQUIRED)
 
 set(SOURCE_FILES
     src/main.cpp
-    src/window/window.cpp
+    src/graphics/window.cpp
+    src/graphics/pipeline.cpp
+    src/graphics/device.cpp
+    src/graphics/swap_chain.cpp
     src/game/game.cpp
     src/game/util.cpp
-    src/pipeline/pipeline.cpp
-    src/device/device.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
@@ -28,9 +29,7 @@ add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 target_include_directories(${PROJECT_NAME} PRIVATE 
     #headers
     src/game
-    src/window
-    src/pipeline
-    src/device
+    src/graphics
     ${Vulkan_INCLUDE_DIRS}
 )
 
