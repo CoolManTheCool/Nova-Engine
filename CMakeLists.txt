@@ -20,6 +20,7 @@ set(SOURCE_FILES
     src/graphics/pipeline.cpp
     src/graphics/device.cpp
     src/graphics/swap_chain.cpp
+    src/graphics/model.cpp
     src/game/game.cpp
     src/game/util.cpp
 )
@@ -35,4 +36,8 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 
 target_link_libraries(${PROJECT_NAME} PRIVATE ${Vulkan_LIBRARIES} ${OPENAL_LIBRARY} glfw Vulkan::Vulkan)
 
-target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -O0)
+target_compile_options(${PROJECT_NAME} PRIVATE -g -O0 -Wall -Wextra)
+
+#experimental
+#target_compile_options(${PROJECT_NAME} PRIVATE -flto -ffast-math -march=native -Ofast)
+#No differnce 4/26/24 Only have a triangle in code and starting tutorial 07

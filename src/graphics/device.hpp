@@ -36,7 +36,7 @@ class nova_Device {
 
   // Not copyable or movable
   nova_Device(const nova_Device &) = delete;
-  void operator=(const nova_Device &) = delete;
+  nova_Device operator=(const nova_Device &) = delete;
   nova_Device(nova_Device &&) = delete;
   nova_Device &operator=(nova_Device &&) = delete;
 

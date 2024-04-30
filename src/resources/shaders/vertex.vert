@@ -1,11 +1,14 @@
 #version 450
+layout(location = 0) in vec2 position;
 
-vec2 positions[3];
+layout(push_constant) uniform Push {
+	mat2 transform;
+	vec2 offset;
+	float time;
+} push;
 
 void main() {
-    positions[0] = vec2(0.0, -0.5);
-    positions[1] = vec2(0.5, 0.5);
-    positions[2] = vec2(-0.5, 0.5);
+    vec2 VertexPosition = push.transform * position + push.offset;
 
-    gl_Position = vec4(positions[gl_VertexIndex], 0.0, 1.0);
+    gl_Position = vec4(VertexPosition, 0.0, 1.0);
 }

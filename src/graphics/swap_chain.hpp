@@ -19,7 +19,7 @@ class nova_SwapChain {
   ~nova_SwapChain();
 
   nova_SwapChain(const nova_SwapChain &) = delete;
-  void operator=(const nova_SwapChain &) = delete;
+  nova_SwapChain operator=(const nova_SwapChain &) = delete;
 
   VkFramebuffer getFrameBuffer(int index) { return swapChainFramebuffers[index]; }
   VkRenderPass getRenderPass() { return renderPass; }

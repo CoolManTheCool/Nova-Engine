@@ -8,25 +8,32 @@
 
 namespace nova {
 class nova_window {
-public:
-    nova_window();
-    
-    bool shouldClose() {return glfwWindowShouldClose(window); }
-    VkExtent2D getExtent() { return {static_cast<uint32_t>(Settings.width), static_cast<uint32_t>(Settings.height)};};
-    
-    void createWindowSurface(VkInstance instance, VkSurfaceKHR *surface);
+  public:
+	nova_window();
 
-    nova_window(const nova_window & ) = delete;
-    nova_window &operator=(const nova_window & ) = delete;
+	bool shouldClose() { return glfwWindowShouldClose(window); }
+	VkExtent2D getExtent() {
+		return {static_cast<uint32_t>(Settings.width),
+				static_cast<uint32_t>(Settings.height)};
+	};
+	void createWindowSurface(VkInstance instance, VkSurfaceKHR *surface);
+	bool wasWindowResized() { return frameBufferResized; };
+	void resetWindowResizedFlag() { frameBufferResized = false; }
 
-    ~nova_window();
- private:
+	nova_window(const nova_window &) = delete;
+	nova_window &operator=(const nova_window &) = delete;
 
-    void initWindow();
-    GLFWwindow *window;
+	~nova_window();
+
+  private:
+	void initWindow();
+	static void frameBufferResizeCallback(GLFWwindow *window, int width, int height);
+
+	bool frameBufferResized = false;
+
+	GLFWwindow *window;
 };
-     
-} // namespace nova (dynamic voxel craft)
 
+} // namespace nova
 
 #endif

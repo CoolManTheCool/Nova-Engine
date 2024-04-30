@@ -1,5 +1,5 @@
 #include "game.hpp"
-
+#include "pthread.h"
 #include <iostream>
 #include <cstdlib>
 #include <stdexcept>
@@ -18,6 +18,5 @@ int main() {
         return EXIT_FAILURE;
     }
 
-    return EXIT_SUCCESS;
-    
+    return EXIT_SUCCESS;    
 }

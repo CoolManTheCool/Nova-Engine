@@ -13,9 +13,11 @@ if [ "$1" = "-clean" ]; then
     clean_up
 fi
 
-# If the "-clean" flag is not provided, continue with building
+if true; then
+    rm -f ./src/resources/shaders/fragment.frag.spv
+    rm -f ./src/resources/shaders/vertex.vert.spv
+fi
 
-# Remove existing shader files
 if [ ! -f "./src/resources/shaders/fragment.frag.spv" ] || [ ! -f "./src/resources/shaders/vertex.vert.spv" ]; then
     # Compile shaders only if they don't exist
     echo "Compiling shaders"
@@ -46,7 +48,13 @@ if make; then
         cp Nova-Engine ..
         echo "Nova-Engine copied to project root directory."
         cd ..
-        ./Nova-Engine
+        ./Nova-Engine #&
+        #sleep 0.5
+        #./Nova-Engine &
+        #sleep 0.5
+        #./Nova-Engine &
+        #sleep 0.5
+        #./Nova-Engine
     else
         # If the executable doesn't exist, print an error message
         echo "Error: Executable not found."

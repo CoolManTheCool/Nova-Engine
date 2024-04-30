@@ -1,37 +1,44 @@
 #ifndef GAME_HPP
 #define GAME_HPP
 
-#include "window.hpp"
 #include "device.hpp"
-#include "swap_chain.hpp"
+#include "model.hpp"
+#include "object.hpp"
 #include "pipeline.hpp"
+#include "swap_chain.hpp"
+#include "window.hpp"
 
 #include <memory>
 #include <vector>
 
 namespace nova {
 class Game {
-public:
-    Game();  // Constructor declaration
-    ~Game();
-    void run();  // Member function declaration
+  public:
+	Game(); // Constructor declaration
+	~Game();
+	void run(); // Member function declaration
 
-    Game(const Game &) = delete;
-    Game &operator=(const Game &) = delete;
+	Game(const Game &) = delete;
+	Game &operator=(const Game &) = delete;
 
-private:
-    void createPipelineLayout();
-    void createPipeline();
-    void createCommandBuffers();
-    void drawFrame();
+  private:
+	void loadGameObjects();
+	void createPipelineLayout();
+	void createPipeline();
+	void createCommandBuffers();
+	void drawFrame();
+	void recreateSwapChain();
+	void recordCommandBuffer(int imageIndex);
+	void renderGameObjects(VkCommandBuffer commandBuffer);
 
-    nova_window window;
-    nova_Device device;
-    nova_SwapChain SwapChain{device, window.getExtent()};
-    std::unique_ptr<nova_PipeLine> pipeline;
-    VkPipelineLayout pipelineLayout;
-    std::vector<VkCommandBuffer> commandBuffers;
+	nova_window window;
+	nova_Device device;
+	std::unique_ptr<nova_SwapChain> SwapChain;
+	std::unique_ptr<nova_PipeLine> pipeline;
+	VkPipelineLayout pipelineLayout;
+	std::vector<VkCommandBuffer> commandBuffers;
+	std::vector<nova_Object> objects;
 };
-} // namespace nova oh yeah baby... - Tabnine Ai coder????????????
+} // namespace nova
 
 #endif
