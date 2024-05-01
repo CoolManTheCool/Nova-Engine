@@ -1,5 +1,4 @@
 #include "window.hpp"
-#include "util.hpp"
 #include <stdexcept>
 
 namespace nova {

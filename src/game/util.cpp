@@ -7,3 +7,5 @@ std::string getExecutableDirectory() {
     // Return the directory containing the executable
     return executablePath.parent_path().string();
 }
+
+Settings_t Settings = Settings_t();

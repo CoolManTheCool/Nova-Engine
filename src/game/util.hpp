@@ -16,6 +16,9 @@ struct Settings_t {
 };
 
 // Declare Settings as extern
+#ifndef SETTINGS_EXTERN
+#define SETTINGS_EXTERN
 extern Settings_t Settings;
+#endif
 
 #endif // UTIL_HPP

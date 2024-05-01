@@ -223,15 +223,13 @@ void nova_SwapChain::createRenderPass() {
 	subpass.pDepthStencilAttachment = &depthAttachmentRef;
 
 	VkSubpassDependency dependency = {};
-	dependency.srcSubpass = VK_SUBPASS_EXTERNAL;
-	dependency.srcAccessMask = 0;
-	dependency.srcStageMask =
-		VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT | VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT;
-	dependency.dstSubpass = 0;
-	dependency.dstStageMask =
-		VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT | VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT;
-	dependency.dstAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT | VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT;
-
+  	dependency.dstSubpass = 0;
+  	dependency.dstAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT | VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT;
+  	dependency.dstStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT | VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT;
+  	dependency.srcSubpass = VK_SUBPASS_EXTERNAL;
+  	dependency.srcAccessMask = 0;
+  	dependency.srcStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT | VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT;
+	
 	std::array<VkAttachmentDescription, 2> attachments = {colorAttachment, depthAttachment};
 	VkRenderPassCreateInfo renderPassInfo = {};
 	renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
@@ -270,6 +268,7 @@ void nova_SwapChain::createFramebuffers() {
 
 void nova_SwapChain::createDepthResources() {
 	VkFormat depthFormat = findDepthFormat();
+  	swapChainDepthFormat = depthFormat;
 	VkExtent2D swapChainExtent = getSwapChainExtent();
 
 	depthImages.resize(imageCount());

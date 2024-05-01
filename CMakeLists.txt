@@ -21,6 +21,7 @@ set(SOURCE_FILES
     src/graphics/device.cpp
     src/graphics/swap_chain.cpp
     src/graphics/model.cpp
+    src/graphics/renderer.cpp
     src/game/game.cpp
     src/game/util.cpp
 )
