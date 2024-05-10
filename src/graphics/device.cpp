@@ -1,4 +1,5 @@
 #include "device.hpp"
+#include "util.hpp"
 
 // std headers
 #include <cstring>
@@ -15,9 +16,9 @@ static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(
     const VkDebugUtilsMessengerCallbackDataEXT *pCallbackData,
     void *pUserData) {
   std::cerr << "validation layer: " << pCallbackData->pMessage << std::endl;
-  std::cout << "message type: " << messageType << "\n";
-  std::cout << "message severity: " << messageSeverity << "\n";
-  std::cout << "pUserData: " << pUserData << "\n";
+  //std::cout << "message type: " << messageType << "\n";
+  //std::cout << "message severity: " << messageSeverity << "\n";
+  //std::cout << "pUserData: " << pUserData << "\n";
 
   return VK_FALSE;
 }
@@ -117,9 +118,76 @@ void nova_Device::pickPhysicalDevice() {
   if (deviceCount == 0) {
     throw std::runtime_error("failed to find GPUs with Vulkan support!");
   }
-  std::cout << "nova_Device count: " << deviceCount << std::endl;
+  std::cout << "Device count: " << deviceCount << "\n";
   std::vector<VkPhysicalDevice> devices(deviceCount);
   vkEnumeratePhysicalDevices(instance, &deviceCount, devices.data());
+
+  //List Available Devices
+  std::cout << "Devices: " << "\n";
+  for(const auto &device : devices) {
+    vkGetPhysicalDeviceProperties(device, &properties);
+    std::string type;
+    switch(properties.deviceType) {
+      case VK_PHYSICAL_DEVICE_TYPE_OTHER:
+        type = "Other";
+        break;
+      case VK_PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU:
+        type = "Integrated GPU";
+        break;
+      case VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU:
+        type = "Discrete GPU";
+        break;
+      case VK_PHYSICAL_DEVICE_TYPE_VIRTUAL_GPU:
+        type = "Virtual GPU";
+        break;
+      case VK_PHYSICAL_DEVICE_TYPE_CPU:
+        type = "CPU";
+        break;
+      case VK_PHYSICAL_DEVICE_TYPE_MAX_ENUM:
+        type = "Max Enum??? This is not possible.";
+        throw std::runtime_error("Invalid deviceType.");
+        break;
+    }
+    std::cout << " - " << properties.deviceName << " (" << type << ", " << properties.deviceID << ")." << "\n";
+
+  }
+
+  uint32_t ForceGPUID = Settings.RenderSettings.ForceGPUID;
+  //force GPU #Settings.ForceGPU or dont
+  if (Settings.RenderSettings.ForceGPU) { //runs ifn't NULL
+    std::cout << "ForceGPU: " << ForceGPUID << "\n";
+    for (const auto &device : devices) {
+      vkGetPhysicalDeviceProperties(device, &properties);
+      if (properties.deviceID == ForceGPUID) {
+        physicalDevice = device;
+        break;
+      }
+    }
+  } else { //runs if NULL
+    for (const auto &device : devices) {
+      if (isDeviceSuitable(device)) {
+        physicalDevice = device;
+        break;
+      }
+    }
+  }
+
+  if (physicalDevice == VK_NULL_HANDLE) {
+    throw std::runtime_error("Failed to find a suitable GPU!");
+  }
+
+  vkGetPhysicalDeviceProperties(physicalDevice, &properties);
+  std::cout << "Selected Device: " << properties.deviceName << "\n" << std::endl;
+}
+
+  /*
+  std::cout << "Devices: " << "\n";
+  for(const auto &device : devices) {
+    vkGetPhysicalDeviceProperties(device, &properties);
+    
+    //if (properties.deviceID == 7298) {physicalDevice = device;}//physicalDevice = device;
+    std::cout << " - " << properties.deviceID << "\n";
+  }
 
   for (const auto &device : devices) {
     if (isDeviceSuitable(device)) {
@@ -127,14 +195,7 @@ void nova_Device::pickPhysicalDevice() {
       break;
     }
   }
-
-  if (physicalDevice == VK_NULL_HANDLE) {
-    throw std::runtime_error("failed to find a suitable GPU!");
-  }
-
-  vkGetPhysicalDeviceProperties(physicalDevice, &properties);
-  std::cout << "physical device: " << properties.deviceName << std::endl;
-}
+  */
 
 void nova_Device::createLogicalDevice() {
   QueueFamilyIndices indices = findQueueFamilies(physicalDevice);
@@ -286,14 +347,14 @@ void nova_Device::hasGflwRequiredInstanceExtensions() {
   //std::cout << "available extensions:" << std::endl;
   std::unordered_set<std::string> available;
   for (const auto &extension : extensions) {
-    std::cout << "\t" << extension.extensionName << std::endl;
+    //std::cout << "\t" << extension.extensionName << std::endl;
     available.insert(extension.extensionName);
   }
 
   //std::cout << "required extensions:" << std::endl;
   auto requiredExtensions = getRequiredExtensions();
   for (const auto &required : requiredExtensions) {
-    std::cout << "\t" << required << std::endl;
+    //std::cout << "\t" << required << std::endl;
     if (available.find(required) == available.end()) {
       throw std::runtime_error("Missing required glfw extension");
     }

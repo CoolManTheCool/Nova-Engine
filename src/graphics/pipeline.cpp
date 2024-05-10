@@ -44,8 +44,8 @@ void nova_PipeLine::createGraphicsPipeline(const PipelineConfigInfo &configInfo)
 	assert(configInfo.renderPass != VK_NULL_HANDLE &&
 		   "Cannot create graphics pipeline: no renderPass provided in configInfo");
 
-	auto vertCode = readFile(Settings.vertFilepath);
-	auto fragCode = readFile(Settings.fragFilepath);
+	auto vertCode = readFile(Settings.Resources.vertFilepath);
+	auto fragCode = readFile(Settings.Resources.fragFilepath);
 
 	createShaderModule(vertCode, &vertShaderModule);
 	createShaderModule(fragCode, &fragShaderModule);
@@ -132,7 +132,7 @@ void nova_PipeLine::defaultPipelineConfigInfo(PipelineConfigInfo &configInfo) {
 	configInfo.rasterizationInfo.rasterizerDiscardEnable = VK_FALSE;
 	configInfo.rasterizationInfo.polygonMode = VK_POLYGON_MODE_FILL;
 	configInfo.rasterizationInfo.lineWidth = 1.0f;
-	configInfo.rasterizationInfo.cullMode = VK_CULL_MODE_NONE;
+	configInfo.rasterizationInfo.cullMode = VK_CULL_MODE_FRONT_BIT;
 	configInfo.rasterizationInfo.frontFace = VK_FRONT_FACE_CLOCKWISE;
 	configInfo.rasterizationInfo.depthBiasEnable = VK_FALSE;
 	configInfo.rasterizationInfo.depthBiasConstantFactor = 0.0f; // Optional

@@ -4,6 +4,8 @@
 #include "device.hpp"
 #include "object.hpp"
 #include "pipeline.hpp"
+#include "camera.hpp"
+#include "frame_info.hpp"
 
 // std
 #include <memory>
@@ -18,7 +20,7 @@ class RenderSystem {
   RenderSystem(const RenderSystem &) = delete;
   RenderSystem &operator=(const RenderSystem &) = delete;
 
-  void renderGameObjects(VkCommandBuffer commandBuffer, std::vector<nova_Object> &gameObjects);
+  void renderGameObjects(FrameInfo &frameInfo, std::vector<nova_Object> &gameObjects);
 
  private:
   void createPipelineLayout();

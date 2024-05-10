@@ -9,7 +9,7 @@ int main() {
     try {
         Settings.width = 512;
         Settings.height = 512;
-        Settings.title = "Nova Engine | V0.12";
+        Settings.title = "Nova Engine | V0.14";
         nova::Game game;
         game.run();
     }

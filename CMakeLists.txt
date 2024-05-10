@@ -22,8 +22,14 @@ set(SOURCE_FILES
     src/graphics/swap_chain.cpp
     src/graphics/model.cpp
     src/graphics/renderer.cpp
+    src/graphics/camera.cpp
+    src/graphics/object.cpp
+    src/graphics/buffer.cpp
+    src/graphics/render_system.cpp
+    src/graphics/descriptors.cpp
     src/game/game.cpp
     src/game/util.cpp
+    src/game/movement.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
@@ -32,6 +38,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     #headers
     src/game
     src/graphics
+    libs
     ${Vulkan_INCLUDE_DIRS}
 )
 

@@ -20,6 +20,7 @@ public:
 	nova_Renderer &operator=(const nova_Renderer &) = delete;
 
 	VkRenderPass getSwapChainRenderPass() const { return SwapChain->getRenderPass(); }
+	float getAspectRation() const { return SwapChain->extentAspectRatio();}
   	bool isFrameInProgress() const { return isFrameStarted; }
 
   	VkCommandBuffer getCurrentCommandBuffer() const {
