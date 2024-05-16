@@ -14,7 +14,7 @@
 namespace nova {
 class RenderSystem {
  public:
-  RenderSystem(nova_Device &device, VkRenderPass renderPass);
+  RenderSystem(nova_Device &device, VkRenderPass renderPass, VkDescriptorSetLayout globalSetLayout);
   ~RenderSystem();
 
   RenderSystem(const RenderSystem &) = delete;
@@ -23,7 +23,7 @@ class RenderSystem {
   void renderGameObjects(FrameInfo &frameInfo, std::vector<nova_Object> &gameObjects);
 
  private:
-  void createPipelineLayout();
+  void createPipelineLayout(VkDescriptorSetLayout globalSetLayout);
   void createPipeline(VkRenderPass renderPass);
 
   nova_Device &device;

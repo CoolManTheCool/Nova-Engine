@@ -20,7 +20,7 @@ struct Settings_t {
 
     // Resources Config:
     struct S_Resources_t {
-        std::string resourcePath = "/home/noah/github/Nova-Engine/src/resources/";
+        std::string resourcePath = "/home/noah/Github/Nova-Engine/src/resources/";
 
         std::string vertFilepath = resourcePath + "shaders/vertex.vert.spv";
         std::string fragFilepath = resourcePath + "shaders/fragment.frag.spv";
