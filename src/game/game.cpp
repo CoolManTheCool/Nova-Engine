@@ -5,12 +5,9 @@
 #include "movement.hpp"
 #include "buffer.hpp"
 
-#define MAX_FRAME_TIME 1.f
+#include "logger.hpp"
 
-#define GLM_FORCE_RADIANS
-#define GLM_FORCE_DEPTH_ZERO_TO_ONE
-#include <glm/glm.hpp>
-#include <glm/gtc/constants.hpp>
+#define MAX_FRAME_TIME 1.f
 
 #include <array>
 #include <chrono>
@@ -21,11 +18,16 @@
 using namespace glm;
 
 struct GlobalUBO {
-	alignas(16) glm::mat4 projectionView{1.f};
-	alignas(16) glm::vec3 lightDirection = glm::normalize(glm::vec3(1.f, -3.f, -1.f));
+	glm::mat4 projectionView{1.f};
+	glm::vec4 ambientLightColor{1.f, 1.f, 1.f, 0.02f};
+	glm::vec3 lightPosition{-1};
+	alignas(16) glm::vec4 lightColor{1};
+	//alignas(16) glm::vec3 lightDirection = glm::normalize(glm::vec3(1.f, -3.f, -1.f));
 };
 
 namespace nova {
+
+//using namespace nova_Logger;
 
 Game::Game() {
 	globalPool = nova_DescriptorPool::Builder(device)
@@ -76,30 +78,37 @@ void Game::run() {
   	camera.setViewTarget(vec3(-1.f, -2.f, 2.f), vec3(0.f, 0.f, 2.5f));
 
 	auto viewerObject = nova_Object::createGameObject();
+	viewerObject.transform.translation.z = -2.5;
 	MovementController cameraController{};
 
 	auto currentTime = std::chrono::high_resolution_clock::now();
-	vec3 lightDirection;
+	auto lightPosition = nova_Object::createGameObject();
+	lightPosition.setModel(0);
   	while (!window.shouldClose()) {
     	glfwPollEvents();
+		//nova_Logger::LogStream::log << "Camera Transform: " << viewerObject.transform.mat4();
+		//nova_Logger::LogStream::log << "Screen Size: " << glm::vec2(static_cast<float>(Settings.width), static_cast<float>(Settings.height));
+		//nova_Logger::Logger::log("hi");
+		//nova_Logger::logstream << "hi";
 
+		//Logger::Logger::log("Game Crashed!", Logger::CRITICAL, Logger::WHITE, Logger::RED);
 		auto newTime = std::chrono::high_resolution_clock::now();
 		float frameTime = std::chrono::duration<float, std::chrono::seconds::period>(newTime - currentTime).count();
 		currentTime = newTime;
 		frameTime = min(frameTime, MAX_FRAME_TIME);
 
-		lightDirection = normalize((vec3) {
-			sin(glfwGetTime()) * 0.1,
+		lightPosition.transform.translation = {
+			sin(glfwGetTime()) * 5,
 		 	-0.1,
-			cos(glfwGetTime()) * 0.1
-		});
+			cos(glfwGetTime()) * 5
+		};
 
 		cameraController.moveInPlaneXZ(window.getWindow(), frameTime, viewerObject);
 		camera.setViewYXZ(viewerObject.transform.translation, viewerObject.transform.rotation);
 
     	if (window.wasWindowResized()) {
     		float aspect = Renderer.getAspectRation();
-    		camera.setPerspectiveProjection(glm::radians(50.f), aspect, 0.1f, 10.f);
+    		camera.setPerspectiveProjection(glm::radians(50.f), aspect, 0.1f, 1000.f);
     	}
     
     	if (auto commandBuffer = Renderer.beginFrame()) {
@@ -113,7 +122,7 @@ void Game::run() {
 			};
 
 			GlobalUBO UBO{};
-			UBO.lightDirection = lightDirection;
+			UBO.lightPosition = lightPosition.transform.translation;
 			UBO.projectionView = camera.getProjection() * camera.getView();
 			UBOBuffers[frameIndex]->writeToBuffer(&UBO);
 			UBOBuffers[frameIndex]->flush();
@@ -129,12 +138,28 @@ void Game::run() {
 }
 
 void Game::loadGameObjects() {
-  	std::shared_ptr<nova_Model> model = nova_Model::createModelFromFile(device, Settings.Resources.models[3]);
+  	/*
+	std::shared_ptr<nova_Model> model = nova_Model::createModelFromFile(device, Resources.models[3]);
   	auto obj = nova_Object::createGameObject();
   	obj.setModel(&model);
-  	obj.transform.translation = {0.f, 0.5f, 2.5f};
-  	obj.transform.scale = vec3{5.0f};
+  	obj.transform.translation = {-.5f, .5f, -1.5f};
+  	obj.transform.scale = vec3{5.f};
   	Objects.push_back(std::move(obj));
+
+	model = nova_Model::createModelFromFile(device, Resources.models[2]);
+	obj = nova_Object::createGameObject();
+  	obj.setModel(&model);
+  	obj.transform.translation = {.5f, .5f, -3.f};
+  	obj.transform.scale = vec3{5.f};
+  	Objects.push_back(std::move(obj));
+
+	model = nova_Model::createModelFromFile(device, Resources.models[4]);
+  	obj = nova_Object::createGameObject();
+  	obj.setModel(&model);
+  	obj.transform.translation = {0.f, 0.f, 0.f};
+  	obj.transform.scale = vec3{1.f};
+  	Objects.push_back(std::move(obj));
+	*/
 }
 
 }  // namespace nova

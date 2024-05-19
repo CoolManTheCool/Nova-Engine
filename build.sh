@@ -1,33 +1,27 @@
 #!/bin/bash
 
-# Function to clean up
-clean_up() {
-    echo "Cleaning up"
-    # Add any cleanup commands here
-    ./clean.sh
-}
+sudo echo "[ OK ] User authenticated!"
+
+ENV_FILE=".env"
+WD=$PWD
+if [ -f $ENV_FILE ]; then
+  source $ENV_FILE
+else
+echo " [ BAD ].env file not found! Creating default environment variables."
+  
+cat > $ENV_FILE <<EOF
+IDIR=/media/noah/writable/Nova-Engine/
+EOF
+echo " [ OK ] Done creating default environment variables, please rerun this script! Terminating"
+exit 1
+fi
 
 # Check if the "-clean" flag is provided
 if [ "$1" = "-clean" ]; then
     # If the "-clean" flag is provided, clean up and exit
-    clean_up
-fi
-
-if true; then
-    rm -f ./src/resources/shaders/fragment.frag.spv
-    rm -f ./src/resources/shaders/vertex.vert.spv
-fi
-
-if [ ! -f "./src/resources/shaders/fragment.frag.spv" ] || [ ! -f "./src/resources/shaders/vertex.vert.spv" ]; then
-    # Compile shaders only if they don't exist
-    echo "Compiling shaders"
-    if glslc ./src/resources/shaders/fragment.frag -o ./src/resources/shaders/fragment.frag.spv && \
-       glslc ./src/resources/shaders/vertex.vert -o ./src/resources/shaders/vertex.vert.spv; then
-        echo "Shader compilation succeeded."
-    else
-        echo "Shader compilation failed."
-        exit 1
-    fi
+    echo "[ OK ] Cleaning up"
+    # Add any cleanup commands here
+    ./clean.sh
 fi
 
 # Create build directory if it doesn't exist
@@ -39,30 +33,49 @@ cd build || exit
 # Run cmake to generate build files
 cmake ..
 
+# /media/noah/writable/Nova-Engine/
+
+install() {
+    echo "[ OK ] Install Directory: $IDIR (Change this in your .env)"
+    if [ -d "$IDIR" ]; then
+        # If it exists, delete it
+        sudo rm -r "$IDIR"
+        echo "[ OK ] Directory $IDIR deleted."
+    fi
+    mkdir $IDIR
+    cd ..
+    ./resources.sh
+
+    sudo cp build/Nova-Engine $IDIR/Nova-Engine
+    cd $IDIR
+
+    echo "[ OK ] Nova-Engine and resources copied to project install directory."
+}
+
+
 # Build the project using make
 if make; then
     # If compilation succeeds, check if the executable exists
     if [ -f "Nova-Engine" ]; then
         # If the executable exists, copy it to the project root directory
-        echo "Compilation succeeded."
-        cp Nova-Engine ..
-        echo "Nova-Engine copied to project root directory."
-        cd ..
-        ./Nova-Engine #&
+        echo "[ OK ] Compilation succeeded."
+        install
+        cd $WD
         #sleep 0.5
-        #./Nova-Engine &
-        #sleep 0.5
-        #./Nova-Engine &
-        #sleep 0.5
-        #./Nova-Engine
     else
         # If the executable doesn't exist, print an error message
-        echo "Error: Executable not found."
-        echo "Compilation Failed."
+        echo "[ FAILURE ] Error: Executable not found."
+        echo "[ FAILURE ]Compilation Failed."
         exit 1
     fi
 else
     # If compilation fails, print an error message
-    echo "Compilation Failed."
+    echo " [ FAILURE ]Compilation Failed."
     exit 1
 fi
+
+echo ""
+echo ""
+echo ""
+cd $WD
+./run.sh

@@ -9,7 +9,7 @@
 
 namespace nova {
 
-nova_Renderer::nova_Renderer(nova_window& window, nova_Device& device)
+nova_Renderer::nova_Renderer(nova_Window& window, nova_Device& device)
     : window{window}, device{device} {
   recreateSwapChain();
   createCommandBuffers();

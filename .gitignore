@@ -9,3 +9,5 @@ build/
 
 # Ignore the Nova-Engine directory
 Nova-Engine/
+
+.env

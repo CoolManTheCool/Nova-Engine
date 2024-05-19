@@ -49,8 +49,8 @@ class nova_Buffer {
   VkDeviceMemory memory = VK_NULL_HANDLE;
 
   VkDeviceSize bufferSize;
-  uint32_t instanceCount;
   VkDeviceSize instanceSize;
+  uint32_t instanceCount;
   VkDeviceSize alignmentSize;
   VkBufferUsageFlags usageFlags;
   VkMemoryPropertyFlags memoryPropertyFlags;

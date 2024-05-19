@@ -13,7 +13,7 @@
 namespace nova {
 class nova_Renderer {
 public:
-	nova_Renderer(nova_window &window, nova_Device &device);
+	nova_Renderer(nova_Window &window, nova_Device &device);
 	~nova_Renderer();
 
 	nova_Renderer(const nova_Renderer &) = delete;
@@ -43,7 +43,7 @@ private:
   	void freeCommandBuffers();
 	void recreateSwapChain();
 
-	nova_window &window;
+	nova_Window &window;
 	nova_Device &device;
 	std::unique_ptr<nova_SwapChain> SwapChain;
 	std::vector<VkCommandBuffer> commandBuffers;

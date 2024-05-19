@@ -8,8 +8,6 @@
 
 #define TINYOBJLOADER_IMPLEMENTATION
 #include <tiny_obj_loader.h>
-#define GLM_ENABLE_EXPERIMENTAL
-#include <glm/gtx/hash.hpp>
 
 namespace std {
 template <>
@@ -150,7 +148,7 @@ void nova_Model::Builder::loadModel(const std::string &filepath) {
 					attrib.vertices[3 * index.vertex_index + 2],
 				};
 
-				auto colorIndex = 3 * index.vertex_index + 2;
+				auto colorIndex = static_cast<std::vector<float>::size_type>(3 * index.vertex_index + 2);
 				if (colorIndex < attrib.colors.size()) {
 					vertex.color = {
 					attrib.colors[colorIndex - 2],

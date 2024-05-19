@@ -26,7 +26,7 @@ class Game {
  private:
   void loadGameObjects();
 
-  nova_window window{};
+  nova_Window window{};
   nova_Device device{window};
   nova_Renderer Renderer{window, device};
 

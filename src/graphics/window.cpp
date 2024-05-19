@@ -2,9 +2,9 @@
 #include <stdexcept>
 
 namespace nova {
-nova_window::nova_window() { initWindow(); }
+nova_Window::nova_Window() { initWindow(); }
 
-void nova_window::initWindow() {
+void nova_Window::initWindow() {
 	glfwInit();
 	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 	glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
@@ -14,19 +14,19 @@ void nova_window::initWindow() {
 	glfwSetFramebufferSizeCallback(window, frameBufferResizeCallback);
 }
 
-void nova_window::createWindowSurface(VkInstance instance, VkSurfaceKHR *surface) {
+void nova_Window::createWindowSurface(VkInstance instance, VkSurfaceKHR *surface) {
 	if (glfwCreateWindowSurface(instance, window, nullptr, surface) != VK_SUCCESS) {
 		throw std::runtime_error("Failed to create window surface!");
 	}
 }
 
-nova_window::~nova_window() {
+nova_Window::~nova_Window() {
 	glfwDestroyWindow(window);
 	glfwTerminate();
 }
 
-void nova_window::frameBufferResizeCallback(GLFWwindow *window, int width, int height) {
-	auto novaWindow = reinterpret_cast<nova_window *>(glfwGetWindowUserPointer(window));
+void nova_Window::frameBufferResizeCallback(GLFWwindow *window, int width, int height) {
+	auto novaWindow = reinterpret_cast<nova_Window *>(glfwGetWindowUserPointer(window));
 	novaWindow->frameBufferResized = true;
 	Settings.width = width;
 	Settings.height = height;

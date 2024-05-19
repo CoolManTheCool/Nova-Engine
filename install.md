@@ -1,3 +1,6 @@
+## This is all automatically done when running build.sh
+### To disable this, change 'FIRST_RUN' in template.env to false
+
 ## Quick Installation
 For a one-liner to install all dependencies, copy and paste the following command:
 ```bash

@@ -2,10 +2,11 @@
 #include "model.hpp"
 
 #include "util.hpp"
+#include "resources.hpp"
+
 #include <fstream>
 #include <iostream>
 #include <stdexcept>
-
 #include <cassert>
 
 namespace nova {
@@ -44,8 +45,8 @@ void nova_PipeLine::createGraphicsPipeline(const PipelineConfigInfo &configInfo)
 	assert(configInfo.renderPass != VK_NULL_HANDLE &&
 		   "Cannot create graphics pipeline: no renderPass provided in configInfo");
 
-	auto vertCode = readFile(Settings.Resources.vertFilepath);
-	auto fragCode = readFile(Settings.Resources.fragFilepath);
+	auto vertCode = readFile(Resources.getShader("vertex"));
+	auto fragCode = readFile(Resources.getShader("fragment"));
 
 	createShaderModule(vertCode, &vertShaderModule);
 	createShaderModule(fragCode, &fragShaderModule);

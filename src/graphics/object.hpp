@@ -4,8 +4,6 @@
 #include "model.hpp"
 #include <memory>
 
-#include "glm/gtc/matrix_transform.hpp"
-
 namespace nova {
 
 struct TransformComponent {

@@ -28,8 +28,10 @@ set(SOURCE_FILES
     src/graphics/render_system.cpp
     src/graphics/descriptors.cpp
     src/game/game.cpp
-    src/game/util.cpp
+    src/utility/util.cpp
     src/game/movement.cpp
+    src/utility/logger.cpp
+    src/utility/resources.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
@@ -38,6 +40,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     #headers
     src/game
     src/graphics
+    src/utility
     libs
     ${Vulkan_INCLUDE_DIRS}
 )

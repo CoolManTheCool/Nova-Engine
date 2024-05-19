@@ -4,12 +4,6 @@
 #include "object.hpp"
 #include "window.hpp"
 
-#define GLM_FORCE_RADIANS
-#define GLM_FORCE_DEPTH_ZERO_TO_ONE
-#include <glm/glm.hpp>
-
-using namespace glm;
-
 namespace nova {
 class MovementController {
 public:

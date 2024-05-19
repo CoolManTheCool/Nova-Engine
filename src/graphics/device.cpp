@@ -16,9 +16,10 @@ static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(
     const VkDebugUtilsMessengerCallbackDataEXT *pCallbackData,
     void *pUserData) {
   std::cerr << "validation layer: " << pCallbackData->pMessage << std::endl;
-  //std::cout << "message type: " << messageType << "\n";
-  //std::cout << "message severity: " << messageSeverity << "\n";
-  //std::cout << "pUserData: " << pUserData << "\n";
+  
+  std::cout << "message type: " << messageType << "\n";
+  std::cout << "message severity: " << messageSeverity << "\n";
+  std::cout << "pUserData: " << pUserData << "\n";
 
   return VK_FALSE;
 }
@@ -51,7 +52,7 @@ void DestroyDebugUtilsMessengerEXT(
 }
 
 // class member functions
-nova_Device::nova_Device(nova_window &window) : window{window} {
+nova_Device::nova_Device(nova_Window &window) : window{window} {
   createInstance();
   setupDebugMessenger();
   createSurface();
@@ -177,7 +178,7 @@ void nova_Device::pickPhysicalDevice() {
   }
 
   vkGetPhysicalDeviceProperties(physicalDevice, &properties);
-  std::cout << "Selected Device: " << properties.deviceName << "\n" << std::endl;
+  std::cout << "Selected Device: " << properties.deviceName << std::endl;
 }
 
   /*

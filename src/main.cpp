@@ -1,5 +1,5 @@
 #include "game.hpp"
-#include "pthread.h"
+//#include "pthread.h"
 #include <iostream>
 #include <cstdlib>
 #include <stdexcept>
