@@ -1,8 +1,8 @@
 # Nova Engine
 
-## NOTE: This does NOT work
-The game structure is broken
-You cannot compile the project
+## NOTE: This does NOT work.
+The game structure is broken.
+You cannot compile the project.
 There isn't even an engine header for you to link against.
 
 ## Overview
