@@ -16,6 +16,7 @@ Welcome to Nova Engine, a powerful and modern game development framework built w
 - **Automatic Resource Loading**: Simply drop your assets into `src/resources/` and they are instantly available in your game.
 - **Drag-and-Drop Simplicity**: Streamline your development process with easy-to-use drag-and-drop functionality for resources.
 - **Futuristic Capabilities**: Cutting-edge features designed to support advanced game mechanics and graphics.
+- **Project Structure Rethinked**: The Object-Oriented Design of this project allows for simple yet powerful parallelized systems.
 
 ## Getting Started
 
@@ -59,8 +60,9 @@ To use Nova Engine in your project, follow these steps:
 
 ### Directory Structure
 
-- **src/**: Source code for the engine.
+- **src/engine/**: Source code for the engine.
 - **src/resources/**: Place your game assets (textures, models, sounds, etc.) here for automatic loading.
+- **src/game/**: Where your game's code is defined.
 - **build/**: Directory where the build output will be generated.
 
 ### Example
