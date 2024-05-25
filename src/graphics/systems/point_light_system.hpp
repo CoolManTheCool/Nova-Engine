@@ -1,0 +1,36 @@
+#ifndef POINT_LIGHT_SYSTEM_HPP
+#define POINT_LIGHT_SYSTEM_HPP
+
+#include "device.hpp"
+#include "object.hpp"
+#include "pipeline.hpp"
+#include "camera.hpp"
+#include "frame_info.hpp"
+#include "resources.hpp"
+// std
+#include <memory>
+#include <vector>
+
+namespace nova {
+class PointLightSystem {
+ public:
+  PointLightSystem(nova_Device &device, VkRenderPass renderPass, VkDescriptorSetLayout globalSetLayout);
+  ~PointLightSystem();
+
+  PointLightSystem(const PointLightSystem &) = delete;
+  PointLightSystem &operator=(const PointLightSystem &) = delete;
+
+  void render(FrameInfo &frameInfo);
+
+ private:
+  void createPipelineLayout(VkDescriptorSetLayout globalSetLayout);
+  void createPipeline(VkRenderPass renderPass);
+
+  nova_Device &device;
+
+  std::unique_ptr<nova_PipeLine> pipeline;
+  VkPipelineLayout pipelineLayout;
+};
+}  // namespace ~~lve~~nova
+
+#endif  // RENDER_SYSTEM_HPP

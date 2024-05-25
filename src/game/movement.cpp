@@ -8,8 +8,8 @@ void MovementController::moveInPlaneXZ(GLFWwindow* window, float dt, nova_Object
     vec3 rotate{0};
     rotate.y += static_cast<float>(glfwGetKey(window, keys.lookRight) == GLFW_PRESS);
     rotate.y -= static_cast<float>(glfwGetKey(window, keys.lookLeft) == GLFW_PRESS);
-    rotate.x += static_cast<float>(glfwGetKey(window, keys.lookUp) == GLFW_PRESS);
-    rotate.x -= static_cast<float>(glfwGetKey(window, keys.lookDown) == GLFW_PRESS);
+    rotate.x -= static_cast<float>(glfwGetKey(window, keys.lookUp) == GLFW_PRESS);
+    rotate.x += static_cast<float>(glfwGetKey(window, keys.lookDown) == GLFW_PRESS);
 
     if(dot(rotate, rotate) > std::numeric_limits<float>::epsilon()) gameObject.transform.rotation += lookSpeed * dt * glm::normalize(rotate);
 
@@ -19,7 +19,7 @@ void MovementController::moveInPlaneXZ(GLFWwindow* window, float dt, nova_Object
     float yaw = gameObject.transform.rotation.y;
     const vec3 forwardDir{sin(yaw), 0.f, cos(yaw)};
     const vec3 rightDir{forwardDir.z, 0.f, -forwardDir.x};
-    const vec3 upDir{0.f, -1.f, 0.f};
+    const vec3 upDir{0.f, 1.f, 0.f};
 
     vec3 moveDir{0.f};
 

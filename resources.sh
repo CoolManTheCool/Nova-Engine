@@ -1,7 +1,9 @@
 #!/bin/bash
 
+# Authenticate the user
 sudo echo "[ OK ] User authenticated!"
 
+# Source the .env file if it exists
 if [ -f .env ]; then
   source .env
 else
@@ -9,12 +11,21 @@ else
   exit 1
 fi
 
-rm ./src/resources/shaders/*.spv
+# Remove existing compiled shaders
 
 echo "[ OK ] Compiling shaders"
 
-# Find and compile each shader file
-find ./src/resources/shaders -type f \( -name "*.vert" -o -name "*.frag" \) | while read -r shader; do
+sudo rf -r $IDIR
+
+mkdir ${IDIR}
+mkdir ${IDIR}resources
+mkdir ${IDIR}resources/shaders
+
+# Find all .vert and .frag shader files
+shaders=$(find ./src/resources/shaders -type f \( -name "*.vert" -o -name "*.frag" \))
+
+# Process each shader file
+for shader in $shaders; do
     if [[ $shader == *.vert ]]; then
         output="${shader%.vert}.spv"
     elif [[ $shader == *.frag ]]; then
@@ -36,4 +47,6 @@ echo "[ OK ] All shaders compiled successfully."
 
 echo "[ OK ] Copying resources into $IDIR"
 
-sudo cp -r $PWD/src/resources $IDIR/resources
+# Copy resources to the specified directory
+sudo cp -r $PWD/src/resources ${IDIR}
+rm ./src/resources/shaders/*.spv

@@ -35,7 +35,7 @@ public:
 	~nova_Model() = default;
 
 	static std::unique_ptr<nova_Model> createModelFromFile(nova_Device &_device, const std::string &filepath);
-
+	static Builder createBuilderFromFile(const std::string &filepath) {Builder builder{}; builder.loadModel(filepath); return builder; }
 	nova_Model(const nova_Model &) = delete;
 	nova_Model &operator=(const nova_Model &) = delete;
 

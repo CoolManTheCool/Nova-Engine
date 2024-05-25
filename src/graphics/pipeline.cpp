@@ -29,8 +29,8 @@ std::vector<char> nova_PipeLine::readFile(const std::string &filepath) {
 	return buffer;
 }
 
-nova_PipeLine::nova_PipeLine(nova_Device &device, const PipelineConfigInfo &configInfo) : device{device} {
-	createGraphicsPipeline(configInfo);
+nova_PipeLine::nova_PipeLine(nova_Device &device, const std::string &vert, const std::string &frag, const PipelineConfigInfo &configInfo) : device{device} {
+	createGraphicsPipeline(vert, frag, configInfo);
 }
 
 nova_PipeLine::~nova_PipeLine() {
@@ -39,15 +39,14 @@ nova_PipeLine::~nova_PipeLine() {
 	vkDestroyPipeline(device.device(), graphicsPipeLine, nullptr);
 }
 
-void nova_PipeLine::createGraphicsPipeline(const PipelineConfigInfo &configInfo) {
+void nova_PipeLine::createGraphicsPipeline(const std::string &vert, const std::string &frag, const PipelineConfigInfo &configInfo) {
 	assert(configInfo.pipelineLayout != VK_NULL_HANDLE &&
 		   "Cannot create graphics pipeline: no pipelineLayout provided in configInfo");
 	assert(configInfo.renderPass != VK_NULL_HANDLE &&
 		   "Cannot create graphics pipeline: no renderPass provided in configInfo");
 
-	auto vertCode = readFile(Resources.getShader("vertex"));
-	auto fragCode = readFile(Resources.getShader("fragment"));
-
+	auto fragCode = readFile(frag);
+	auto vertCode = readFile(vert);
 	createShaderModule(vertCode, &vertShaderModule);
 	createShaderModule(fragCode, &fragShaderModule);
 
@@ -67,8 +66,8 @@ void nova_PipeLine::createGraphicsPipeline(const PipelineConfigInfo &configInfo)
 	shaderStages[1].pNext = nullptr;
 	shaderStages[1].pSpecializationInfo = nullptr;
 
-	auto bindingDescriptions = nova_Model::Vertex::getBindingDescriptions();
-	auto attributeDescriptions = nova_Model::Vertex::getAttributeDescriptions();
+	auto& bindingDescriptions = configInfo.bindingDescriptions;
+	auto& attributeDescriptions = configInfo.attributeDescriptions;
 	VkPipelineVertexInputStateCreateInfo vertexInputInfo{};
 	vertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
 	vertexInputInfo.vertexAttributeDescriptionCount = static_cast<uint32_t>(attributeDescriptions.size());
@@ -184,6 +183,9 @@ void nova_PipeLine::defaultPipelineConfigInfo(PipelineConfigInfo &configInfo) {
 	configInfo.dynamicStateInfo.pDynamicStates = configInfo.dynamicStateEnables.data();
 	configInfo.dynamicStateInfo.dynamicStateCount = static_cast<uint32_t>(configInfo.dynamicStateEnables.size());
 	configInfo.dynamicStateInfo.flags = 0;
+
+	configInfo.bindingDescriptions = nova_Model::Vertex::getBindingDescriptions();
+	configInfo.attributeDescriptions = nova_Model::Vertex::getAttributeDescriptions();
 }
 
 } // namespace nova

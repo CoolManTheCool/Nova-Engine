@@ -1,10 +1,12 @@
 #include "game.hpp"
 
 #include "render_system.hpp"
+#include "point_light_system.hpp"
 #include "camera.hpp"
 #include "movement.hpp"
 #include "buffer.hpp"
 
+#include "resources.hpp"
 #include "logger.hpp"
 
 #define MAX_FRAME_TIME 1.f
@@ -18,7 +20,8 @@
 using namespace glm;
 
 struct GlobalUBO {
-	glm::mat4 projectionView{1.f};
+	glm::mat4 projection{1.f};
+	glm::mat4 view{1.f};
 	glm::vec4 ambientLightColor{1.f, 1.f, 1.f, 0.02f};
 	glm::vec3 lightPosition{-1};
 	alignas(16) glm::vec4 lightColor{1};
@@ -36,12 +39,13 @@ Game::Game() {
 	.build();
 
 	loadGameObjects();
+
+	//Resources.init(device);
 }
 
 Game::~Game() {}
 
 void Game::run() {
-
 	std::vector<std::unique_ptr<nova_Buffer>> UBOBuffers(nova_SwapChain::MAX_FRAMES_IN_FLIGHT);
 	for(size_t i = 0; i < UBOBuffers.size(); i++) {
 		UBOBuffers[i] = std::make_unique<nova_Buffer>(device, sizeof(GlobalUBO), 1,
@@ -60,7 +64,7 @@ void Game::run() {
 	globalUBOBuffer.map();
 
 	auto globalSetLayout = nova_DescriptorSetLayout::Builder(device)
-	.addBinding(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_VERTEX_BIT)
+	.addBinding(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_ALL_GRAPHICS)
 	.build();
 
 	std::vector<VkDescriptorSet> globalDescriptorSets(nova_SwapChain::MAX_FRAMES_IN_FLIGHT);
@@ -72,9 +76,10 @@ void Game::run() {
 	}
 
 	RenderSystem renderSystem{device, Renderer.getSwapChainRenderPass(), globalSetLayout->getDescriptorSetLayout()};
+	PointLightSystem pointLightSystem{device, Renderer.getSwapChainRenderPass(), globalSetLayout->getDescriptorSetLayout()};
   	Camera camera{};
     float aspect = Renderer.getAspectRation();
-    camera.setPerspectiveProjection(glm::radians(50.f), aspect, 0.1f, 10.f);
+    camera.setPerspectiveProjection(glm::radians(50.f), aspect, 0.1f, 1000.f);
   	camera.setViewTarget(vec3(-1.f, -2.f, 2.f), vec3(0.f, 0.f, 2.5f));
 
 	auto viewerObject = nova_Object::createGameObject();
@@ -83,7 +88,6 @@ void Game::run() {
 
 	auto currentTime = std::chrono::high_resolution_clock::now();
 	auto lightPosition = nova_Object::createGameObject();
-	lightPosition.setModel(0);
   	while (!window.shouldClose()) {
     	glfwPollEvents();
 		//nova_Logger::LogStream::log << "Camera Transform: " << viewerObject.transform.mat4();
@@ -98,9 +102,9 @@ void Game::run() {
 		frameTime = min(frameTime, MAX_FRAME_TIME);
 
 		lightPosition.transform.translation = {
-			sin(glfwGetTime()) * 5,
-		 	-0.1,
-			cos(glfwGetTime()) * 5
+			sin(glfwGetTime()) * 3,
+			0.2,
+		 	cos(glfwGetTime()) * 3,
 		};
 
 		cameraController.moveInPlaneXZ(window.getWindow(), frameTime, viewerObject);
@@ -111,55 +115,50 @@ void Game::run() {
     		camera.setPerspectiveProjection(glm::radians(50.f), aspect, 0.1f, 1000.f);
     	}
     
-    	if (auto commandBuffer = Renderer.beginFrame()) {
+		if (auto commandBuffer = Renderer.beginFrame()) {
 			int frameIndex = Renderer.getFrameIndex();
 			FrameInfo frameInfo{
 				frameIndex,
 				frameTime,
 				commandBuffer,
 				camera,
-				globalDescriptorSets[frameIndex]
+				globalDescriptorSets[frameIndex],
+				Objects
 			};
-
 			GlobalUBO UBO{};
 			UBO.lightPosition = lightPosition.transform.translation;
-			UBO.projectionView = camera.getProjection() * camera.getView();
+			UBO.projection = camera.getProjection();
+			UBO.view = camera.getView();
 			UBOBuffers[frameIndex]->writeToBuffer(&UBO);
 			UBOBuffers[frameIndex]->flush();
-			
       		Renderer.beginSwapChainRenderPass(commandBuffer);
-      		renderSystem.renderGameObjects(frameInfo, Objects);
+      		renderSystem.render(frameInfo);
+      		pointLightSystem.render(frameInfo);
       		Renderer.endSwapChainRenderPass(commandBuffer);
       		Renderer.endFrame();
-    	}
-  	}
-
+  		}
+	}
   	vkDeviceWaitIdle(device.device());
 }
 
 void Game::loadGameObjects() {
-  	/*
-	std::shared_ptr<nova_Model> model = nova_Model::createModelFromFile(device, Resources.models[3]);
   	auto obj = nova_Object::createGameObject();
-  	obj.setModel(&model);
-  	obj.transform.translation = {-.5f, .5f, -1.5f};
-  	obj.transform.scale = vec3{5.f};
+  	obj.setModel(&device, Resources.getModel("flat_vase"));
+  	obj.transform.translation = {-.5f, 0.f, -1.5f};
+  	obj.transform.scale = {5, -5, 5};
   	Objects.push_back(std::move(obj));
 
-	model = nova_Model::createModelFromFile(device, Resources.models[2]);
 	obj = nova_Object::createGameObject();
-  	obj.setModel(&model);
-  	obj.transform.translation = {.5f, .5f, -3.f};
-  	obj.transform.scale = vec3{5.f};
+  	obj.setModel(&device, Resources.getModel("smooth_vase"));
+  	obj.transform.translation = {.5f, 1.f, -3.f};
+  	obj.transform.scale = {5, -5, 5};
   	Objects.push_back(std::move(obj));
 
-	model = nova_Model::createModelFromFile(device, Resources.models[4]);
   	obj = nova_Object::createGameObject();
-  	obj.setModel(&model);
-  	obj.transform.translation = {0.f, 0.f, 0.f};
-  	obj.transform.scale = vec3{1.f};
+  	obj.setModel(&device, Resources.getModel("quad"));
+  	obj.transform.translation = {0.01f, 0.f, 0.f};
+  	obj.transform.scale = {5, 1, 5};
   	Objects.push_back(std::move(obj));
-	*/
 }
 
 }  // namespace nova

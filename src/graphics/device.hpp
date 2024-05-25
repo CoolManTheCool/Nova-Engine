@@ -26,9 +26,9 @@ struct QueueFamilyIndices {
 class nova_Device {
  public:
 #ifdef DEBUG
-  const bool enableValidationLayers = true;
-#else
   const bool enableValidationLayers = false;
+#else
+  const bool enableValidationLayers = true;
 #endif
 
   nova_Device(nova_Window &window);

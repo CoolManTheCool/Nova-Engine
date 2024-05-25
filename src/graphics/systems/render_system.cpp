@@ -54,17 +54,19 @@ void RenderSystem::createPipeline(VkRenderPass renderPass) {
   pipelineConfig.pipelineLayout = pipelineLayout;
   pipeline = std::make_unique<nova_PipeLine>(
       device,
+      Resources.getShader("vertex"),
+      Resources.getShader("fragment"),
       pipelineConfig);
 }
 
-void RenderSystem::renderGameObjects(FrameInfo &frameInfo, std::vector<nova_Object>& gameObjects) {
+void RenderSystem::render(FrameInfo &frameInfo) {
   pipeline->bind(frameInfo.commandBuffer);
 
   //auto projectionView = frameInfo.camera.getProjection() * frameInfo.camera.getView();
 
   vkCmdBindDescriptorSets(frameInfo.commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 0, 1, &frameInfo.globalDescriptorSet, 0, nullptr);
 
-  for (auto& obj : gameObjects) {
+  for (auto &obj : frameInfo.objects) {
     SimplePushConstantData push{};
     push.modelMatrix = obj.transform.mat4();
     push.normalMatrix = obj.transform.normalMatrix();

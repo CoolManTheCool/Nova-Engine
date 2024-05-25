@@ -30,8 +30,7 @@ class nova_Object {
 
 	id_t getId() { return id; };
 
-	void setModel(std::shared_ptr<nova::nova_Model> *newModel) { model = *newModel; }
-	void setModel(nova_Device *device, const nova_Model::Builder &builder) {
+	void setModel(nova_Device *device, const nova_Model::Builder builder) {
     model = std::make_shared<nova_Model>(*device, builder);
 }
 

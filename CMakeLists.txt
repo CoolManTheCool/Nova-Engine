@@ -15,32 +15,34 @@ include_directories(${GLFW_INCLUDE_DIRS})
 find_package(OpenAL REQUIRED)
 
 set(SOURCE_FILES
-    src/main.cpp
-    src/graphics/window.cpp
-    src/graphics/pipeline.cpp
-    src/graphics/device.cpp
+    src/graphics/systems/point_light_system.cpp
+    src/graphics/systems/render_system.cpp
+    src/graphics/descriptors.cpp
     src/graphics/swap_chain.cpp
-    src/graphics/model.cpp
+    src/utility/resources.cpp
     src/graphics/renderer.cpp
+    src/graphics/pipeline.cpp
+    src/graphics/window.cpp
+    src/graphics/device.cpp
     src/graphics/camera.cpp
     src/graphics/object.cpp
     src/graphics/buffer.cpp
-    src/graphics/render_system.cpp
-    src/graphics/descriptors.cpp
-    src/game/game.cpp
-    src/utility/util.cpp
-    src/game/movement.cpp
+    src/graphics/model.cpp
     src/utility/logger.cpp
-    src/utility/resources.cpp
+    src/game/movement.cpp
+    src/utility/util.cpp
+    src/game/game.cpp
+    src/main.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
 target_include_directories(${PROJECT_NAME} PRIVATE 
     #headers
-    src/game
+    src/graphics/systems
     src/graphics
     src/utility
+    src/game
     libs
     ${Vulkan_INCLUDE_DIRS}
 )

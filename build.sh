@@ -37,13 +37,6 @@ cmake ..
 
 install() {
     echo "[ OK ] Install Directory: $IDIR (Change this in your .env)"
-    if [ -d "$IDIR" ]; then
-        # If it exists, delete it
-        sudo rm -r "$IDIR"
-        echo "[ OK ] Directory $IDIR deleted."
-    fi
-    mkdir $IDIR
-    cd ..
     ./resources.sh
 
     sudo cp build/Nova-Engine $IDIR/Nova-Engine
@@ -52,13 +45,13 @@ install() {
     echo "[ OK ] Nova-Engine and resources copied to project install directory."
 }
 
-
 # Build the project using make
 if make; then
     # If compilation succeeds, check if the executable exists
     if [ -f "Nova-Engine" ]; then
         # If the executable exists, copy it to the project root directory
         echo "[ OK ] Compilation succeeded."
+        cd ..
         install
         cd $WD
         #sleep 0.5
@@ -70,12 +63,9 @@ if make; then
     fi
 else
     # If compilation fails, print an error message
-    echo " [ FAILURE ]Compilation Failed."
+    echo "[ FAILURE ] Compilation Failed."
     exit 1
 fi
 
-echo ""
-echo ""
-echo ""
 cd $WD
 ./run.sh

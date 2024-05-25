@@ -15,6 +15,9 @@ struct PipelineConfigInfo {
 	PipelineConfigInfo(const PipelineConfigInfo &) = delete;
 	PipelineConfigInfo &operator=(const PipelineConfigInfo &) = delete;
 
+	std::vector<VkVertexInputBindingDescription> bindingDescriptions{};
+	std::vector<VkVertexInputAttributeDescription> attributeDescriptions{};
+
 	VkPipelineViewportStateCreateInfo viewportInfo;
 	VkPipelineInputAssemblyStateCreateInfo inputAssemblyInfo;
 	VkPipelineRasterizationStateCreateInfo rasterizationInfo;
@@ -31,10 +34,10 @@ struct PipelineConfigInfo {
 
 class nova_PipeLine {
   public:
-	nova_PipeLine(nova_Device &device, const PipelineConfigInfo &configInfo);
+	nova_PipeLine(nova_Device &device, const std::string &vert, const std::string &frag, const PipelineConfigInfo &configInfo);
 	~nova_PipeLine();
-	nova_PipeLine(const nova_PipeLine &) = delete;
-	nova_PipeLine operator=(const nova_PipeLine &) = delete;
+    nova_PipeLine(const nova_PipeLine &) = delete;
+    nova_PipeLine operator=(const nova_PipeLine &) = delete;
 
 	void bind(VkCommandBuffer commandBuffer);
 	static void defaultPipelineConfigInfo(PipelineConfigInfo &configInfo);
@@ -42,7 +45,7 @@ class nova_PipeLine {
   private:
 	static std::vector<char> readFile(const std::string &filepath);
 
-	void createGraphicsPipeline(const PipelineConfigInfo &configInfo);
+	void createGraphicsPipeline(const std::string &vert, const std::string &frag, const PipelineConfigInfo &configInfo);
 
 	void createShaderModule(const std::vector<char> &code, VkShaderModule *shaderModule);
 

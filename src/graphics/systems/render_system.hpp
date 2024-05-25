@@ -6,6 +6,7 @@
 #include "pipeline.hpp"
 #include "camera.hpp"
 #include "frame_info.hpp"
+#include "resources.hpp"
 
 // std
 #include <memory>
@@ -20,7 +21,7 @@ class RenderSystem {
   RenderSystem(const RenderSystem &) = delete;
   RenderSystem &operator=(const RenderSystem &) = delete;
 
-  void renderGameObjects(FrameInfo &frameInfo, std::vector<nova_Object> &gameObjects);
+  void render(FrameInfo &frameInfo);
 
  private:
   void createPipelineLayout(VkDescriptorSetLayout globalSetLayout);

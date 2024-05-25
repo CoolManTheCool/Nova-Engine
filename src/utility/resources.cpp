@@ -2,6 +2,7 @@
 
 #include <iterator>
 #include <filesystem>
+#include <iostream>
 
 namespace fs = std::filesystem;
 
@@ -29,20 +30,28 @@ Resources_t::Resources_t() {
     for (const auto& entry : searchDirectory(executablePath)) {
         std::string ext;
         std::string name;
+        size_t dotPos = entry.find_last_of(".") + 1;
+        ext = (dotPos != 0) ? entry.substr(dotPos) : "";
         size_t slashPos = entry.find_last_of("/") + 1;
-        name = entry.substr(slashPos);
-        size_t dotPos = name.find_last_of(".") + 1;
-        ext = (dotPos != std::string::npos) ? name.substr(dotPos) : "";
-        std::cout << "Name: " << name << " Ext: " << ext << "\n";
-        switch(hash(ext.c_str())) {
-        case hash("spv"):
-            std::cout << "- Shader: " << entry << "\n";
-            break;
-        case hash("obj"):
-            std::cout << "- Model: " << entry << "\n";
+        name = (dotPos != std::string::npos) ? entry.substr(0, dotPos-1) : "";
+        name = (dotPos != std::string::npos) ? name.substr(slashPos) : "";
+        if (!(name == "" || ext == "")) {
+            (ext == "frag" || ext == "vert") ? std::cout : std::cout << "Name: " << name << " Ext: " << ext << "\n";
+            switch(hash(ext.c_str())) {
+            case hash("spv"):
+                //std::cout << "- Shader: " << entry << "\n";
+                shaderPaths.insert(std::make_pair(name, entry));
+                break;
+            case hash("obj"):
+                models.insert(std::make_pair(name, nova::nova_Model::createBuilderFromFile(entry)));
+                break;
+        }
         }
     }
-    
+    std::cout << "\nShaders:\n";
+    for (const auto& entry : models) {
+        std::cout << " - " << entry.first << "\n";
+    }
 }
 
 std::vector<std::string> searchDirectory(const std::string& directory) {

@@ -13,7 +13,7 @@ namespace nova {
 
 class nova_SwapChain {
  public:
-  static constexpr int MAX_FRAMES_IN_FLIGHT = 2;
+  static constexpr int MAX_FRAMES_IN_FLIGHT = 3;
 
   nova_SwapChain(nova_Device &deviceRef, VkExtent2D windowExtent);
   ~nova_SwapChain();
