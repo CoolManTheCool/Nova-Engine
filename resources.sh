@@ -15,7 +15,7 @@ fi
 
 echo "[ OK ] Compiling shaders"
 
-sudo rf -r $IDIR
+sudo rm -r $IDIR/resources
 
 mkdir ${IDIR}
 mkdir ${IDIR}resources
@@ -27,9 +27,9 @@ shaders=$(find ./src/resources/shaders -type f \( -name "*.vert" -o -name "*.fra
 # Process each shader file
 for shader in $shaders; do
     if [[ $shader == *.vert ]]; then
-        output="${shader%.vert}.spv"
+        output="$shader.spv"
     elif [[ $shader == *.frag ]]; then
-        output="${shader%.frag}.spv"
+        output="$shader.spv"
     else
         echo "[ UNKNOWN ] Unknown shader type: $shader"
         exit 1

@@ -15,8 +15,12 @@ include_directories(${GLFW_INCLUDE_DIRS})
 find_package(OpenAL REQUIRED)
 
 set(SOURCE_FILES
+    src/graphics/objects/point_light_object.cpp
     src/graphics/systems/point_light_system.cpp
-    src/graphics/systems/render_system.cpp
+    src/graphics/objects/mesh_object.cpp
+    src/graphics/systems/mesh_system.cpp
+    src/graphics/objects/camera.cpp
+    src/graphics/objects/object.cpp
     src/graphics/descriptors.cpp
     src/graphics/swap_chain.cpp
     src/utility/resources.cpp
@@ -24,10 +28,8 @@ set(SOURCE_FILES
     src/graphics/pipeline.cpp
     src/graphics/window.cpp
     src/graphics/device.cpp
-    src/graphics/camera.cpp
-    src/graphics/object.cpp
     src/graphics/buffer.cpp
-    src/graphics/model.cpp
+    src/graphics/mesh.cpp
     src/utility/logger.cpp
     src/game/movement.cpp
     src/utility/util.cpp
@@ -39,6 +41,7 @@ add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
 target_include_directories(${PROJECT_NAME} PRIVATE 
     #headers
+    src/graphics/objects
     src/graphics/systems
     src/graphics
     src/utility
@@ -49,8 +52,10 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 
 target_link_libraries(${PROJECT_NAME} PRIVATE ${Vulkan_LIBRARIES} ${OPENAL_LIBRARY} glfw Vulkan::Vulkan)
 
-target_compile_options(${PROJECT_NAME} PRIVATE -g -O0 -Wall -Wextra)
+target_compile_options(${PROJECT_NAME} PRIVATE -O0 -g -Wall -Wextra)
 
-#experimental
+# experimental
 #target_compile_options(${PROJECT_NAME} PRIVATE -flto -ffast-math -march=native -Ofast)
-#No differnce 4/26/24 Only have a triangle in code and starting tutorial 07
+# No differnce 4/26/24 Only have a triangle in code and starting tutorial 07
+# Dang, I have came a LONG WAY from when I originally wrote this file, and that previous line of code.
+# Its now tutorial 25, I'm writing multiple light systems.

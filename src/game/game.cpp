@@ -1,6 +1,6 @@
 #include "game.hpp"
 
-#include "render_system.hpp"
+#include "mesh_system.hpp"
 #include "point_light_system.hpp"
 #include "camera.hpp"
 #include "movement.hpp"
@@ -75,19 +75,19 @@ void Game::run() {
 		.build(globalDescriptorSets[i]);
 	}
 
-	RenderSystem renderSystem{device, Renderer.getSwapChainRenderPass(), globalSetLayout->getDescriptorSetLayout()};
+	MeshSystem renderSystem{device, Renderer.getSwapChainRenderPass(), globalSetLayout->getDescriptorSetLayout()};
 	PointLightSystem pointLightSystem{device, Renderer.getSwapChainRenderPass(), globalSetLayout->getDescriptorSetLayout()};
   	Camera camera{};
     float aspect = Renderer.getAspectRation();
     camera.setPerspectiveProjection(glm::radians(50.f), aspect, 0.1f, 1000.f);
   	camera.setViewTarget(vec3(-1.f, -2.f, 2.f), vec3(0.f, 0.f, 2.5f));
 
-	auto viewerObject = nova_Object::createGameObject();
+	auto viewerObject = nova_Object();
 	viewerObject.transform.translation.z = -2.5;
 	MovementController cameraController{};
 
 	auto currentTime = std::chrono::high_resolution_clock::now();
-	auto lightPosition = nova_Object::createGameObject();
+	auto lightPosition = nova_Object();
   	while (!window.shouldClose()) {
     	glfwPollEvents();
 		//nova_Logger::LogStream::log << "Camera Transform: " << viewerObject.transform.mat4();
@@ -103,7 +103,7 @@ void Game::run() {
 
 		lightPosition.transform.translation = {
 			sin(glfwGetTime()) * 3,
-			0.2,
+			1,
 		 	cos(glfwGetTime()) * 3,
 		};
 
@@ -142,23 +142,21 @@ void Game::run() {
 }
 
 void Game::loadGameObjects() {
-  	auto obj = nova_Object::createGameObject();
+  	auto obj = MeshObject();
   	obj.setModel(&device, Resources.getModel("flat_vase"));
   	obj.transform.translation = {-.5f, 0.f, -1.5f};
   	obj.transform.scale = {5, -5, 5};
-  	Objects.push_back(std::move(obj));
+  	Objects.push_back(std::move(std::make_shared<MeshObject>(obj)));
 
-	obj = nova_Object::createGameObject();
   	obj.setModel(&device, Resources.getModel("smooth_vase"));
   	obj.transform.translation = {.5f, 1.f, -3.f};
   	obj.transform.scale = {5, -5, 5};
-  	Objects.push_back(std::move(obj));
+  	Objects.push_back(std::move(std::make_shared<MeshObject>(obj)));
 
-  	obj = nova_Object::createGameObject();
   	obj.setModel(&device, Resources.getModel("quad"));
   	obj.transform.translation = {0.01f, 0.f, 0.f};
   	obj.transform.scale = {5, 1, 5};
-  	Objects.push_back(std::move(obj));
+  	Objects.push_back(std::move(std::make_shared<MeshObject>(obj)));
 }
 
 }  // namespace nova

@@ -2,7 +2,6 @@
 #define RENDER_SYSTEM_HPP
 
 #include "device.hpp"
-#include "object.hpp"
 #include "pipeline.hpp"
 #include "camera.hpp"
 #include "frame_info.hpp"
@@ -13,13 +12,14 @@
 #include <vector>
 
 namespace nova {
-class RenderSystem {
- public:
-  RenderSystem(nova_Device &device, VkRenderPass renderPass, VkDescriptorSetLayout globalSetLayout);
-  ~RenderSystem();
 
-  RenderSystem(const RenderSystem &) = delete;
-  RenderSystem &operator=(const RenderSystem &) = delete;
+class MeshSystem {
+ public:
+  MeshSystem(nova_Device &device, VkRenderPass renderPass, VkDescriptorSetLayout globalSetLayout);
+  ~MeshSystem();
+
+  MeshSystem(const MeshSystem &) = delete;
+  MeshSystem &operator=(const MeshSystem &) = delete;
 
   void render(FrameInfo &frameInfo);
 

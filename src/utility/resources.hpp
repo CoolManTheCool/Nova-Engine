@@ -6,19 +6,19 @@
 #include <memory>
 #include <map>
 #include <fstream>
+#include <functional>
 
-#include "device.hpp"
-#include "model.hpp"
+#include "mesh.hpp"
 
 class Resources_t {
 public:
     Resources_t();
-    nova::nova_Model::Builder getModel(const std::string name) { return (models.find(name)->second); }
-    const std::string getShader(const std::string name) {return (shaderPaths.find(name)->second);};
+    nova::nova_Model::Builder getModel(const std::string name);
+    const std::string getShader(const std::string name);
     
 private:
-    std::map<std::string, std::string> shaderPaths;  // name, path
-    std::map<std::string, nova::nova_Model::Builder> models; // name, pointer to model
+    std::unordered_map<std::string, std::string> shaderPaths;  // name, path
+    std::unordered_map<std::string, nova::nova_Model::Builder> models; // name, pointer to model
     //std::vector<std::string> texturePaths;
 
     std::string executablePath;// "/home/noah/Github/Nova-Engine/src/resources/";

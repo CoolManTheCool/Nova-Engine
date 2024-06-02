@@ -2,7 +2,7 @@
 #define nova_Renderer_HPP
 
 #include "device.hpp"
-#include "model.hpp"
+#include "mesh.hpp"
 #include "swap_chain.hpp"
 #include "window.hpp"
 

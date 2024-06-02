@@ -1,4 +1,4 @@
-#include "model.hpp"
+#include "mesh.hpp"
 #include "util.hpp"
 
 // std

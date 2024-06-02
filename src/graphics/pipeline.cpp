@@ -1,5 +1,5 @@
 #include "pipeline.hpp"
-#include "model.hpp"
+#include "mesh.hpp"
 
 #include "util.hpp"
 #include "resources.hpp"

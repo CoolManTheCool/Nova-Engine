@@ -2,7 +2,7 @@
 #define FRAME_INFO_HPP
 
 #include "camera.hpp"
-#include "object.hpp"
+#include "mesh_object.hpp"
 
 #include "vulkan/vulkan.h"
 
@@ -13,7 +13,8 @@ namespace nova {
         VkCommandBuffer commandBuffer;
         Camera &camera;
         VkDescriptorSet globalDescriptorSet;
-        std::vector<nova_Object> &objects;
+        std::vector<std::shared_ptr<nova_Object>> &objects;
+
     };
 }
 

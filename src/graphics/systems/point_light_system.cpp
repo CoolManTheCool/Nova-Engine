@@ -53,8 +53,8 @@ void PointLightSystem::createPipeline(VkRenderPass renderPass) {
   pipelineConfig.pipelineLayout = pipelineLayout;
   pipeline = std::make_unique<nova_PipeLine>(
       device,
-      Resources.getShader("point_light_vert"),
-      Resources.getShader("point_light_frag"),
+      Resources.getShader("circle.vert"),
+      Resources.getShader("circle.frag"),
       pipelineConfig);
 }
 
@@ -64,7 +64,7 @@ void PointLightSystem::render(FrameInfo &frameInfo) {
   //auto projectionView = frameInfo.camera.getProjection() * frameInfo.camera.getView();
 
   vkCmdBindDescriptorSets(frameInfo.commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 0, 1, &frameInfo.globalDescriptorSet, 0, nullptr);
-  vkCmdDraw(frameInfo.commandBuffer, 6, 1, 0, 0);
+  vkCmdDraw(frameInfo.commandBuffer, 3, 1, 0, 0);
 }
 
 }  // namespace novaMORE T

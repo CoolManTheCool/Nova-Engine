@@ -49,6 +49,10 @@ Resources_t::Resources_t() {
         }
     }
     std::cout << "\nShaders:\n";
+    for (const auto& entry : shaderPaths) {
+        std::cout << " - " << entry.first << "\n";
+    }
+    std::cout << "\nModels:\n";
     for (const auto& entry : models) {
         std::cout << " - " << entry.first << "\n";
     }
@@ -76,4 +80,22 @@ std::vector<std::string> searchDirectory(const std::string& directory) {
     }
 
     return files;
+}
+
+nova::nova_Model::Builder Resources_t::getModel(const std::string name) { 
+    auto p = models.find(name);
+    if(p != models.end()) {
+        return p->second;
+    } else {
+        throw std::invalid_argument("Invalid Model Name: " + name);
+    }
+}
+
+const std::string Resources_t::getShader(const std::string name) {
+    auto p = shaderPaths.find(name);
+    if(p != shaderPaths.end()) {
+        return p->second;
+    } else {
+        throw std::invalid_argument("Invalid Shader Name: " + name);
+    }
 }

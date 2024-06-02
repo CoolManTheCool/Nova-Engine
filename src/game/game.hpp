@@ -31,7 +31,7 @@ class Game {
   nova_Renderer Renderer{window, device};
 
   std::unique_ptr<nova_DescriptorPool> globalPool{};
-  std::vector<nova_Object> Objects;
+  std::vector<std::shared_ptr<nova_Object>> Objects;
 };
 }  // namespace nova
 
