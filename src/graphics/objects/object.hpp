@@ -2,7 +2,7 @@
 #define OBJECT_HPP
 
 #include "mesh.hpp"
-
+#include "frame_info.hpp"
 #include <memory>
 
 namespace nova {
@@ -25,7 +25,7 @@ class nova_Object {
 	//nova_Object &operator=(nova_Object &&) = default;
 	nova_Object() = default;
 
-	virtual void render(VkPipelineLayout &pipelineLayout, VkCommandBuffer &commandBuffer) {}
+	virtual void render(FrameInfo &frameInfo) {}
 	TransformComponent transform{};
 };
 

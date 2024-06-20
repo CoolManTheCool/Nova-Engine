@@ -18,7 +18,6 @@
 #include <iostream>
 
 using namespace glm;
-
 struct GlobalUBO {
 	glm::mat4 projection{1.f};
 	glm::mat4 view{1.f};
@@ -75,7 +74,7 @@ void Game::run() {
 		.build(globalDescriptorSets[i]);
 	}
 
-	MeshSystem renderSystem{device, Renderer.getSwapChainRenderPass(), globalSetLayout->getDescriptorSetLayout()};
+	MeshSystem meshSystem{device, Renderer.getSwapChainRenderPass(), globalSetLayout->getDescriptorSetLayout()};
 	PointLightSystem pointLightSystem{device, Renderer.getSwapChainRenderPass(), globalSetLayout->getDescriptorSetLayout()};
   	Camera camera{};
     float aspect = Renderer.getAspectRation();
@@ -125,6 +124,9 @@ void Game::run() {
 				globalDescriptorSets[frameIndex],
 				Objects
 			};
+
+			// Get Lights from Objects.
+			
 			GlobalUBO UBO{};
 			UBO.lightPosition = lightPosition.transform.translation;
 			UBO.projection = camera.getProjection();
@@ -132,7 +134,7 @@ void Game::run() {
 			UBOBuffers[frameIndex]->writeToBuffer(&UBO);
 			UBOBuffers[frameIndex]->flush();
       		Renderer.beginSwapChainRenderPass(commandBuffer);
-      		renderSystem.render(frameInfo);
+      		meshSystem.render(frameInfo);
       		pointLightSystem.render(frameInfo);
       		Renderer.endSwapChainRenderPass(commandBuffer);
       		Renderer.endFrame();
@@ -157,6 +159,14 @@ void Game::loadGameObjects() {
   	obj.transform.translation = {0.01f, 0.f, 0.f};
   	obj.transform.scale = {5, 1, 5};
   	Objects.push_back(std::move(std::make_shared<MeshObject>(obj)));
+
+	auto light = PointLightObject();
+	light.lightColor = {1.f, 0.f, 0.f, 1.f};
+	light.lightIntensity = 5;
+	std::shared_ptr<PointLightObject> pointLightObject = std::make_shared<PointLightObject>(light);
+
+    // Push back the shared pointer to the vector
+    Objects.push_back(pointLightObject);
 }
 
 }  // namespace nova

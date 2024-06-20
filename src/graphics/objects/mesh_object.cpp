@@ -1,11 +1,12 @@
 #include "mesh_object.hpp"
+#include "resources.hpp"
 
 namespace nova {
 void MeshObject::setModel(nova_Device *device, const nova_Model::Builder builder) {
     model = std::make_shared<nova_Model>(*device, builder);
 }
 
-void MeshObject::render(VkPipelineLayout &pipelineLayout, VkCommandBuffer &commandBuffer) {
+void MeshObject::render(VkCommandBuffer &commandBuffer) {
     PushMeshData push{};
     push.modelMatrix  = transform.mat4();
     push.normalMatrix = transform.normalMatrix();

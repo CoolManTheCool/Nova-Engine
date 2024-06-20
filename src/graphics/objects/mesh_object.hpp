@@ -10,7 +10,7 @@ struct PushMeshData {
 class MeshObject : public nova_Object {
 public:
     void setModel(nova_Device *device, const nova_Model::Builder builder);
-    void render(VkPipelineLayout &pipelineLayout, VkCommandBuffer &commandBuffer) override;
+    void render(VkCommandBuffer &commandBuffer) override;
 	std::shared_ptr<nova::nova_Model> model{};
 };
 

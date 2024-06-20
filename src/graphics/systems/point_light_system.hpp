@@ -2,7 +2,7 @@
 #define POINT_LIGHT_SYSTEM_HPP
 
 #include "device.hpp"
-#include "object.hpp"
+#include "point_light_object.hpp"
 #include "pipeline.hpp"
 #include "camera.hpp"
 #include "frame_info.hpp"
@@ -31,6 +31,6 @@ class PointLightSystem {
   std::unique_ptr<nova_PipeLine> pipeline;
   VkPipelineLayout pipelineLayout;
 };
-}  // namespace ~~lve~~nova
+}  // namespace nova (not lve)
 
 #endif  // RENDER_SYSTEM_HPP

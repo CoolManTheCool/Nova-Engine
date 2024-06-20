@@ -63,7 +63,7 @@ void MeshSystem::render(FrameInfo &frameInfo) {
 
   	for (auto &obj : frameInfo.objects) {
 
-		obj->render(pipelineLayout, frameInfo.commandBuffer);
+		obj->render(frameInfo);
 
     	/* replaced by nova_Object's render(), overloaded by whatever class needs it.
 		SimplePushConstantData push{};

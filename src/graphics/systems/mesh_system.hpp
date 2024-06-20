@@ -4,7 +4,6 @@
 #include "device.hpp"
 #include "pipeline.hpp"
 #include "camera.hpp"
-#include "frame_info.hpp"
 #include "resources.hpp"
 
 // std
