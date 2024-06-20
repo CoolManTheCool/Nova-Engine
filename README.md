@@ -72,25 +72,14 @@ Here's a simple example of how to create a window and run the engine:
 ```cpp
 #include "nova-engine/engine.hpp"
 
-void render() {
- for(auto &object : Objects) {
-  draw(object);
- }
-}
-
-struct data {
- std::vector<object_t> Objects;
-}
-
 int main() {
     NovaEngine::Engine engine;
-    Settings.width = 1920;
-    Settings.height = 1080;
-    Settings.title = "Nova Engine Demo";
+    engine.Settings.width = 1920;
+    engine.Settings.height = 1080;
+    engine.Settings.title = "Nova Engine Demo";
     engine.initialize();
-    engine.setRenderCallback(render);
     
-    Objects.push_back(object_t::new_object());
+    Objects.push_back(MeshObject(CUBE, {0, 0, 0} ));
     engine.run();
     return 0;
 }
