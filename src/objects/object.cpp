@@ -59,4 +59,18 @@ glm::mat3 TransformComponent::normalMatrix() {
         }};
 }
 
+/// @brief Gets the indentifier for the render system that should render the given object.
+/// @return unisgned int, 0 if not renderable.
+unsigned int nova_Object::getRenderType() {
+    return RENDER_MODE_NULL;
+}
+
+void nova_Object::update(float deltaTime) {
+    
+}
+
+void nova_Object::render(VkPipelineLayout &pipelineLayout, VkCommandBuffer &commandBuffer) {
+    std::cout << "Uhm... a generic object just got rendered!" << std::endl;
+}
+
 } // namespace nova

@@ -2,7 +2,7 @@
 #define POINT_LIGHT_SYSTEM_HPP
 
 #include "device.hpp"
-#include "object.hpp"
+#include "point_light_object.hpp"
 #include "pipeline.hpp"
 #include "camera.hpp"
 #include "frame_info.hpp"
@@ -20,6 +20,7 @@ class PointLightSystem {
   PointLightSystem(const PointLightSystem &) = delete;
   PointLightSystem &operator=(const PointLightSystem &) = delete;
 
+  void update(FrameInfo &frameInfo, GlobalUBO &ubo);
   void render(FrameInfo &frameInfo);
 
  private:

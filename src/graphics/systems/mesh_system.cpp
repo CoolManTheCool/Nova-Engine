@@ -60,25 +60,11 @@ void MeshSystem::render(FrameInfo &frameInfo) {
   	//auto projectionView = frameInfo.camera.getProjection() * frameInfo.camera.getView();
 
   	vkCmdBindDescriptorSets(frameInfo.commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 0, 1, &frameInfo.globalDescriptorSet, 0, nullptr);
-
   	for (auto &obj : frameInfo.objects) {
 
+		if(obj->getRenderType() != RENDER_MODE_MESH) continue;
 		obj->render(pipelineLayout, frameInfo.commandBuffer);
-
-    	/* replaced by nova_Object's render(), overloaded by whatever class needs it.
-		SimplePushConstantData push{};
-    	push.modelMatrix  = mesh->transform.mat4();
-    	push.normalMatrix = mesh->transform.normalMatrix();
-    	vkCmdPushConstants(
-        	frameInfo.commandBuffer,
-        	pipelineLayout,
-        	VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT,
-        	0,
-        	sizeof(SimplePushConstantData),
-        	&push);
-    	mesh->model->bind(frameInfo.commandBuffer);
-    	mesh->model->draw(frameInfo.commandBuffer);
-		*/
+		
 	}
 }
 
