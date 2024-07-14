@@ -10,12 +10,6 @@
 
 namespace nova {
 
-struct PointLightPushConstants {
-  vec4 position{};
-  vec4 color{};
-  float radius;
-};
-
 PointLightSystem::PointLightSystem(nova_Device& device, VkRenderPass renderPass, VkDescriptorSetLayout globalSetLayout)
     : device{device} {
   createPipelineLayout(globalSetLayout);
@@ -27,10 +21,12 @@ PointLightSystem::~PointLightSystem() {
 }
 
 void PointLightSystem::createPipelineLayout(VkDescriptorSetLayout globalSetLayout) {
+  /*
   VkPushConstantRange pushConstantRange{};
   pushConstantRange.stageFlags = VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT;
   pushConstantRange.offset = 0;
-  pushConstantRange.size = sizeof(PointLightPushConstants);
+  pushConstantRange.size = sizeof(SimplePushConstantData);
+  */
 
   std::vector<VkDescriptorSetLayout> descriptorSetLayouts{globalSetLayout};
 
@@ -38,8 +34,8 @@ void PointLightSystem::createPipelineLayout(VkDescriptorSetLayout globalSetLayou
   pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
   pipelineLayoutInfo.setLayoutCount = static_cast<uint32_t>(descriptorSetLayouts.size());
   pipelineLayoutInfo.pSetLayouts = descriptorSetLayouts.data();
-  pipelineLayoutInfo.pushConstantRangeCount = 1;
-  pipelineLayoutInfo.pPushConstantRanges = &pushConstantRange;
+  pipelineLayoutInfo.pushConstantRangeCount = 0;
+  //pipelineLayoutInfo.pPushConstantRanges = &pushConstantRange;
   if (vkCreatePipelineLayout(device.device(), &pipelineLayoutInfo, nullptr, &pipelineLayout) !=
       VK_SUCCESS) {
     throw std::runtime_error("failed to create pipeline layout!");
@@ -62,22 +58,13 @@ void PointLightSystem::createPipeline(VkRenderPass renderPass) {
       pipelineConfig);
 }
 
-void PointLightSystem::update(FrameInfo &frameInfo, GlobalUBO &ubo) {
-
-}
-
 void PointLightSystem::render(FrameInfo &frameInfo) {
   pipeline->bind(frameInfo.commandBuffer);
 
   //auto projectionView = frameInfo.camera.getProjection() * frameInfo.camera.getView();
 
   vkCmdBindDescriptorSets(frameInfo.commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 0, 1, &frameInfo.globalDescriptorSet, 0, nullptr);
-  for (auto &obj : frameInfo.objects) {
-
-		
-		if(obj->getRenderType() != RENDER_MODE_CIRCLE) continue;
-		obj->render(pipelineLayout, frameInfo.commandBuffer);
-	}
+  vkCmdDraw(frameInfo.commandBuffer, 3, 1, 0, 0);
 }
 
 }  // namespace novaMORE T
