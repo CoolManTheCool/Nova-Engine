@@ -15,24 +15,24 @@ include_directories(${GLFW_INCLUDE_DIRS})
 find_package(OpenAL REQUIRED)
 
 set(SOURCE_FILES
-    src/graphics/objects/point_light_object.cpp
     src/graphics/systems/point_light_system.cpp
-    src/graphics/objects/mesh_object.cpp
     src/graphics/systems/mesh_system.cpp
-    src/graphics/objects/camera.cpp
-    src/graphics/objects/object.cpp
     src/graphics/descriptors.cpp
     src/graphics/swap_chain.cpp
-    src/utility/resources.cpp
     src/graphics/renderer.cpp
     src/graphics/pipeline.cpp
     src/graphics/window.cpp
     src/graphics/device.cpp
     src/graphics/buffer.cpp
     src/graphics/mesh.cpp
+    src/objects/point_light_object.cpp
+    src/objects/mesh_object.cpp
+    src/objects/camera.cpp
+    src/objects/object.cpp
+    src/utility/resources.cpp
     src/utility/logger.cpp
-    src/game/movement.cpp
     src/utility/util.cpp
+    src/game/movement.cpp
     src/game/game.cpp
     src/main.cpp
 )
@@ -41,8 +41,8 @@ add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
 target_include_directories(${PROJECT_NAME} PRIVATE 
     #headers
-    src/graphics/objects
     src/graphics/systems
+    src/objects
     src/graphics
     src/utility
     src/game

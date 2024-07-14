@@ -5,7 +5,7 @@
 #include "window.hpp"
 
 namespace nova {
-class MovementController {
+class MovementController /*: public nova_Object*/ {
 public:
     struct KeyMappings {
         int moveLeft = GLFW_KEY_A;
