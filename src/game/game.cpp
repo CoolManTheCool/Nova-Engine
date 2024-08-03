@@ -116,16 +116,14 @@ void Game::run() {
 				Objects
 			};
 			GlobalUBO UBO{};
-			for(std::shared_ptr<nova_Object> &obj : Objects) {
-				if(obj->getRenderType() == RENDER_MODE_CIRCLE) {
-					UBO.lightPosition = obj->transform.translation;
-                    break;
-				}
-			}
+			
 			UBO.projection = camera.getProjection();
 			UBO.view = camera.getView();
+			UBO.inverseView = camera.getInverseView();
+			pointLightSystem.update(frameInfo, UBO);
 			UBOBuffers[frameIndex]->writeToBuffer(&UBO);
 			UBOBuffers[frameIndex]->flush();
+
       		Renderer.beginSwapChainRenderPass(commandBuffer);
       		renderSystem.render(frameInfo);
       		pointLightSystem.render(frameInfo);
@@ -139,26 +137,30 @@ void Game::run() {
 void Game::loadGameObjects() {
 	{
   	auto obj = MeshObject();
-  	obj.setModel(&device, Resources.getModel("flat_vase"));
+  	obj.setModel(&device, Resources.getModel("smooth_vase"));
   	obj.transform.translation = {-.5f, 0.f, -1.5f};
   	obj.transform.scale = {5, -5, 5};
   	Objects.push_back(std::make_shared<MeshObject>(obj));
 
-  	obj.setModel(&device, Resources.getModel("smooth_vase"));
+  	obj.setModel(&device, Resources.getModel("flat_vase"));
   	obj.transform.translation = {.5f, 1.f, -3.f};
   	obj.transform.scale = {5, -5, 5};
   	Objects.push_back(std::make_shared<MeshObject>(obj));
 
   	obj.setModel(&device, Resources.getModel("quad"));
   	obj.transform.translation = {0.01f, 0.f, 0.f};
-  	obj.transform.scale = {5, 1, 5};
+  	obj.transform.scale = {15, 1, 15};
   	Objects.push_back(std::make_shared<MeshObject>(obj));
 	}
-
-	auto obj = PointLightObject();
-	obj.setColor({1.0, 0.0, 0.0, 1.0});
-	obj.setIntensity(5);
-	Objects.push_back(std::make_shared<PointLightObject>(obj));
+	for(int i = 0; i < 5; i++) {
+		auto obj = PointLightObject();
+		//obj.lightColor = {0.0, 0.1, 0.1};
+		obj.transform.translation = {0.0f, 2.f, 0.0f};
+		obj.transform.scale.x = 1.0f;
+		obj.lightIntensity = 2.f;
+		Objects.push_back(std::make_shared<PointLightObject>(obj));
+	}
+	
 }
 
 }  // namespace nova

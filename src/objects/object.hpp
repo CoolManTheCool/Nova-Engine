@@ -25,12 +25,19 @@ struct TransformComponent {
 };
 
 class nova_Object {
+
 public:
 	nova_Object() = default;
+
+	// TransformComponent getTransform() const { return transform; }
+    // vec3 getPosition() const { return transform.translation; };
+    // void setPosition(const vec3 &position) { transform.translation = position; };
+    // void setTransform(const TransformComponent _transform) { transform = _transform; };
 
 	virtual unsigned int getRenderType();
 	virtual void update(float deltaTime);
 	virtual void render(VkPipelineLayout &pipelineLayout, VkCommandBuffer &commandBuffer);
+	// private:
 	TransformComponent transform{};
 };
 
