@@ -2,18 +2,10 @@
 #define OBJECT_HPP
 
 #include "mesh.hpp"
-
+#include "frame_info.hpp"
 #include <memory>
 
 namespace nova {
-
-enum {
-	RENDER_MODE_NULL   = 0,
-	RENDER_MODE_MESH   = 1,
-	RENDER_MODE_CIRCLE = 2,
-
-	RENDER_MODE_COUNT  = 3,
-};
 
 struct TransformComponent {
   glm::vec3 translation{};  // (position offset)
@@ -25,19 +17,15 @@ struct TransformComponent {
 };
 
 class nova_Object {
-
-public:
+  public:
+	
+	//nova_Object(const nova_Object &) = delete;
+	//nova_Object &operator=(const nova_Object &) = delete;
+	//nova_Object(nova_Object &&) = default;
+	//nova_Object &operator=(nova_Object &&) = default;
 	nova_Object() = default;
 
-	// TransformComponent getTransform() const { return transform; }
-    // vec3 getPosition() const { return transform.translation; };
-    // void setPosition(const vec3 &position) { transform.translation = position; };
-    // void setTransform(const TransformComponent _transform) { transform = _transform; };
-
-	virtual unsigned int getRenderType();
-	virtual void update(float deltaTime);
-	virtual void render(VkPipelineLayout &pipelineLayout, VkCommandBuffer &commandBuffer);
-	// private:
+	virtual void render(FrameInfo &frameInfo) {}
 	TransformComponent transform{};
 };
 

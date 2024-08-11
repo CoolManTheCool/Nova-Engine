@@ -15,8 +15,6 @@ public:
     Resources_t();
     nova::nova_Model::Builder getModel(const std::string name);
     const std::string getShader(const std::string name);
-
-    const int getRenderSystem(uint8_t id) { return }
     
 private:
     std::unordered_map<std::string, std::string> shaderPaths;  // name, path

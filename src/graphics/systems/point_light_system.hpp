@@ -20,6 +20,7 @@ class PointLightSystem {
   PointLightSystem(const PointLightSystem &) = delete;
   PointLightSystem &operator=(const PointLightSystem &) = delete;
 
+  void update(FrameInfo &frameInfo, GlobalUBO &ubo);
   void render(FrameInfo &frameInfo);
 
  private:
@@ -31,6 +32,6 @@ class PointLightSystem {
   std::unique_ptr<nova_PipeLine> pipeline;
   VkPipelineLayout pipelineLayout;
 };
-}  // namespace nova (not lve)
+}  // namespace ~~lve~~nova
 
 #endif  // RENDER_SYSTEM_HPP
