@@ -1,10 +1,10 @@
 #include "game.hpp"
 
 #include "mesh_system.hpp"
-#include "point_light_system.hpp"
 #include "camera.hpp"
 #include "movement.hpp"
 #include "buffer.hpp"
+#include "point_light_system.hpp"
 
 #include "resources.hpp"
 #include "logger.hpp"
@@ -18,14 +18,6 @@
 #include <iostream>
 
 using namespace glm;
-struct GlobalUBO {
-	glm::mat4 projection{1.f};
-	glm::mat4 view{1.f};
-	glm::vec4 ambientLightColor{1.f, 1.f, 1.f, 0.02f};
-	glm::vec3 lightPosition{-1};
-	alignas(16) glm::vec4 lightColor{1};
-	//alignas(16) glm::vec3 lightDirection = glm::normalize(glm::vec3(1.f, -3.f, -1.f));
-};
 
 namespace nova {
 
@@ -74,7 +66,7 @@ void Game::run() {
 		.build(globalDescriptorSets[i]);
 	}
 
-	MeshSystem meshSystem{device, Renderer.getSwapChainRenderPass(), globalSetLayout->getDescriptorSetLayout()};
+	MeshSystem renderSystem{device, Renderer.getSwapChainRenderPass(), globalSetLayout->getDescriptorSetLayout()};
 	PointLightSystem pointLightSystem{device, Renderer.getSwapChainRenderPass(), globalSetLayout->getDescriptorSetLayout()};
   	Camera camera{};
     float aspect = Renderer.getAspectRation();
@@ -86,7 +78,8 @@ void Game::run() {
 	MovementController cameraController{};
 
 	auto currentTime = std::chrono::high_resolution_clock::now();
-	auto lightPosition = nova_Object();
+	//auto lightPosition = PointLightObject();
+
   	while (!window.shouldClose()) {
     	glfwPollEvents();
 		//nova_Logger::LogStream::log << "Camera Transform: " << viewerObject.transform.mat4();
@@ -100,11 +93,9 @@ void Game::run() {
 		currentTime = newTime;
 		frameTime = min(frameTime, MAX_FRAME_TIME);
 
-		lightPosition.transform.translation = {
-			sin(glfwGetTime()) * 3,
-			1,
-		 	cos(glfwGetTime()) * 3,
-		};
+		for(std::shared_ptr<nova_Object> &obj : Objects) {
+			obj->update(frameTime);
+		}
 
 		cameraController.moveInPlaneXZ(window.getWindow(), frameTime, viewerObject);
 		camera.setViewYXZ(viewerObject.transform.translation, viewerObject.transform.rotation);
@@ -124,17 +115,17 @@ void Game::run() {
 				globalDescriptorSets[frameIndex],
 				Objects
 			};
-
-			// Get Lights from Objects.
-			
 			GlobalUBO UBO{};
-			UBO.lightPosition = lightPosition.transform.translation;
+			
 			UBO.projection = camera.getProjection();
 			UBO.view = camera.getView();
+			UBO.inverseView = camera.getInverseView();
+			pointLightSystem.update(frameInfo, UBO);
 			UBOBuffers[frameIndex]->writeToBuffer(&UBO);
 			UBOBuffers[frameIndex]->flush();
+
       		Renderer.beginSwapChainRenderPass(commandBuffer);
-      		meshSystem.render(frameInfo);
+      		renderSystem.render(frameInfo);
       		pointLightSystem.render(frameInfo);
       		Renderer.endSwapChainRenderPass(commandBuffer);
       		Renderer.endFrame();
@@ -144,29 +135,32 @@ void Game::run() {
 }
 
 void Game::loadGameObjects() {
+	{
   	auto obj = MeshObject();
-  	obj.setModel(&device, Resources.getModel("flat_vase"));
+  	obj.setModel(&device, Resources.getModel("smooth_vase"));
   	obj.transform.translation = {-.5f, 0.f, -1.5f};
   	obj.transform.scale = {5, -5, 5};
-  	Objects.push_back(std::move(std::make_shared<MeshObject>(obj)));
+  	Objects.push_back(std::make_shared<MeshObject>(obj));
 
-  	obj.setModel(&device, Resources.getModel("smooth_vase"));
+  	obj.setModel(&device, Resources.getModel("flat_vase"));
   	obj.transform.translation = {.5f, 1.f, -3.f};
   	obj.transform.scale = {5, -5, 5};
-  	Objects.push_back(std::move(std::make_shared<MeshObject>(obj)));
+  	Objects.push_back(std::make_shared<MeshObject>(obj));
 
   	obj.setModel(&device, Resources.getModel("quad"));
   	obj.transform.translation = {0.01f, 0.f, 0.f};
-  	obj.transform.scale = {5, 1, 5};
-  	Objects.push_back(std::move(std::make_shared<MeshObject>(obj)));
-
-	auto light = PointLightObject();
-	light.lightColor = {1.f, 0.f, 0.f, 1.f};
-	light.lightIntensity = 5;
-	std::shared_ptr<PointLightObject> pointLightObject = std::make_shared<PointLightObject>(light);
-
-    // Push back the shared pointer to the vector
-    Objects.push_back(pointLightObject);
+  	obj.transform.scale = {15, 1, 15};
+  	Objects.push_back(std::make_shared<MeshObject>(obj));
+	}
+	for(int i = 0; i < 5; i++) {
+		auto obj = PointLightObject();
+		//obj.lightColor = {0.0, 0.1, 0.1};
+		obj.transform.translation = {0.0f, 2.f, 0.0f};
+		obj.transform.scale.x = 1.0f;
+		obj.lightIntensity = 2.2f;
+		Objects.push_back(std::make_shared<PointLightObject>(obj));
+	}
+	
 }
 
 }  // namespace nova
