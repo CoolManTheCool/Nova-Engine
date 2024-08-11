@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <stdexcept>
 
+
 int main() {
 
     Settings.width = 1280;

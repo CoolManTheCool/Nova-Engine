@@ -1,13 +1,6 @@
-# Ignore directories
 build/
-
-# Ignore files ending with .spv
 *.spv
-
-# Ignore .code-workspace files
 *.code-workspace
-
-# Ignore the Nova-Engine directory
 Nova-Engine/
-
+.vscode/
 .env

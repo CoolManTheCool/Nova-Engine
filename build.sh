@@ -1,71 +1,116 @@
 #!/bin/bash
 
+####################################################################################
+# Nova Studios Build Configuration
+#
+# Copyright (c) 2024, Noah Grimes (Nova Studios)
+# All rights reserved.
+# This file is part of a Nova Studios project,
+# Therfore this file is licensed under the Nova Studios General Software License.
+# 
+# 
+# Usage:
+# - Create a CMakeLists.txt file.
+# - Change PROJECT_NAME to match the project name in the CMakeLists.txt
+# - Add this file to your project directory.
+# - Run the script to configure, build, and manage resources.
+# - Run the script with the "-clean" flag to clean up and exit. (Never required.)
+#
+####################################################################################
+
+### CONFIGURATION ###
+# Project Name (Executable name, shared with CMakeLists.txt)
+PROJECT_NAME="Nova-Engine"
+
+### END CONFIGURATION ###
+
 sudo echo "[ OK ] User authenticated!"
 
-ENV_FILE=".env"
-WD=$PWD
-if [ -f $ENV_FILE ]; then
-  source $ENV_FILE
-else
-echo " [ BAD ].env file not found! Creating default environment variables."
-  
-cat > $ENV_FILE <<EOF
-IDIR=/media/noah/writable/Nova-Engine/
-EOF
-echo " [ OK ] Done creating default environment variables, please rerun this script! Terminating"
-exit 1
+if [ "$1" = "-help" ]; then
+  echo "Usage: $0 [options]"
+  echo "Options:"
+  echo " -help        : Print this help message"
+  echo " -clean       : Clean up and exit"
+  echo " -debug       : Enable debug output"
+  echo " -release     : (WIP) Build a release version"
+  exit 0
 fi
 
-# Check if the "-clean" flag is provided
+### Check if the "-clean" flag is provided
 if [ "$1" = "-clean" ]; then
-    # If the "-clean" flag is provided, clean up and exit
-    echo "[ OK ] Cleaning up"
-    # Add any cleanup commands here
-    ./clean.sh
+  # If the "-clean" flag is provided, clean up and exit
+  echo "[ OK ] Cleaning up"
+  # Add any cleanup commands here
+  echo "[ OK ] Deleting build & configuration"
+  rm -rf ./build
+  rm -rf ./bin   
+  exit
 fi
 
-# Create build directory if it doesn't exist
-mkdir -p build
+### Configure the project
+echo "[ OK ] Configuring project..."
+cmake -S . -B build
+if [ $? -ne 0 ]; then
+  echo "[ FAIL ] CMake configuration failed!"
+  exit 1
+fi
 
-# Move into the build directory
-cd build || exit
+### Build the project
+echo "[ OK ] Building project..."
+cmake --build build
+if [ $? -ne 0 ]; then
+  echo "[ FAIL ] Build failed!"
+  exit 1
+fi
 
-# Run cmake to generate build files
-cmake ..
+# Cache Resources
+cp -r ./src/resources ./build/resources
 
-# /media/noah/writable/Nova-Engine/
+### Compile Shaders
+echo "[ OK ] Compiling shaders..."
+# Find all .vert and .frag shader files
+shaders=$(find ./build/resources/shaders -type f \( -name "*.vert" -o -name "*.frag" \))
 
-install() {
-    echo "[ OK ] Install Directory: $IDIR (Change this in your .env)"
-    ./resources.sh
-
-    sudo cp build/Nova-Engine $IDIR/Nova-Engine
-    cd $IDIR
-
-    echo "[ OK ] Nova-Engine and resources copied to project install directory."
-}
-
-# Build the project using make
-if make; then
-    # If compilation succeeds, check if the executable exists
-    if [ -f "Nova-Engine" ]; then
-        # If the executable exists, copy it to the project root directory
-        echo "[ OK ] Compilation succeeded."
-        cd ..
-        install
-        cd $WD
-        #sleep 0.5
+# Process each shader file
+for shader in $shaders; do
+    if [[ $shader == *.vert ]]; then
+        output="$shader.spv"
+    elif [[ $shader == *.frag ]]; then
+        output="$shader.spv"
     else
-        # If the executable doesn't exist, print an error message
-        echo "[ FAILURE ] Error: Executable not found."
-        echo "[ FAILURE ]Compilation Failed."
+        echo "[ UNKNOWN ] Unknown shader type: $shader"
         exit 1
     fi
-else
-    # If compilation fails, print an error message
-    echo "[ FAILURE ] Compilation Failed."
-    exit 1
-fi
+    
+    if glslc "$shader" -o "$output"; then
+        echo "[ OK ] Compiled $shader to $output"
+    else
+        echo "[ FAILURE ] Shader compilation failed for $shader"
+        exit 1
+    fi
+done
 
-cd $WD
-./run.sh
+### Copy files into bin
+rm -rf bin && mkdir bin
+cp build/$PROJECT_NAME bin/$PROJECT_NAME
+mkdir bin/resources
+cp -r build/resources bin/
+echo "[ OK ] $PROJECT_NAME copied to ./bin."
+# Delete build files.
+rm -rf build
+
+echo "[ OK ] Nova Studio Build Configuration Completed."
+echo "[ OK ] Build finished without errors."
+echo
+echo
+echo
+echo
+echo 
+
+### Run the project
+
+if [ "$1" = "-debug" ]; then
+  gdb -batch -ex "file ./bin/$PROJECT_NAME" -ex "run" -ex "bt" -ex "exit"
+else
+  ./bin/$PROJECT_NAME
+fi
