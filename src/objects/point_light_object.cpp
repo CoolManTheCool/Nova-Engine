@@ -102,7 +102,7 @@ void PointLightObject::update(float deltaTime) {
         transform.translation.y,
         cos(glfwGetTime() + index * speed) * 10
     };
-    //index += 2*M_PI/5;
+    index += 2*M_PI/5;
     //std::cout << "test: " << mod(index, (float)M_2_PI) << std::endl;
     if (index > 2*M_PI) index -= 2*M_PI;
 }

@@ -157,7 +157,7 @@ void Game::loadGameObjects() {
 		//obj.lightColor = {0.0, 0.1, 0.1};
 		obj.transform.translation = {0.0f, 2.f, 0.0f};
 		obj.transform.scale.x = 1.0f;
-		obj.lightIntensity = 2.f;
+		obj.lightIntensity = 2.2f;
 		Objects.push_back(std::make_shared<PointLightObject>(obj));
 	}
 	

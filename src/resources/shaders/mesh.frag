@@ -42,13 +42,13 @@ void main() {
 
     if (distanceSquared < maxDistance * maxDistance) {
       float attenuation = 1.0 / distanceSquared;
-      float cosAngIncidence = max(dot(surfaceNormal, directionToLight), 0);
+      float cosAngIncidence = max(dot(surfaceNormal, directionToLight), 1);
       vec3 intensity = light.color.xyz * light.color.w * attenuation;
 
       diffuseLight += intensity * cosAngIncidence;
 
       vec3 halfAngle = normalize(directionToLight + viewDirection);
-      float blinnTerm = pow(clamp(dot(surfaceNormal, halfAngle), 0, 1), 512.0); // Higher values give sharper highlights.
+      float blinnTerm = pow(clamp(dot(surfaceNormal, halfAngle), 0, 1), 128.0); // Higher values give sharper highlights.
 
       specularLight += intensity * blinnTerm; 
     }
