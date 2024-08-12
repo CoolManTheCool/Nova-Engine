@@ -80,6 +80,9 @@ void Game::run() {
 	auto currentTime = std::chrono::high_resolution_clock::now();
 	//auto lightPosition = PointLightObject();
 
+	//Initalize ImGUI
+	
+
   	while (!window.shouldClose()) {
     	glfwPollEvents();
 		//nova_Logger::LogStream::log << "Camera Transform: " << viewerObject.transform.mat4();
@@ -160,6 +163,10 @@ void Game::loadGameObjects() {
 		obj.lightIntensity = 2.2f;
 		Objects.push_back(std::make_shared<PointLightObject>(obj));
 	}
+	
+}
+
+void Game::init_imgui() {
 	
 }
 

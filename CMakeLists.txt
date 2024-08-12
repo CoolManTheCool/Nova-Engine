@@ -14,6 +14,8 @@ include_directories(${GLFW_INCLUDE_DIRS})
 # Find OpenAL | Disabled, as not used.
 #find_package(OpenAL REQUIRED)
 
+
+
 set(SOURCE_FILES
     src/graphics/systems/point_light_system.cpp
     src/graphics/systems/mesh_system.cpp
@@ -38,6 +40,14 @@ set(SOURCE_FILES
 )
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
+
+target_sources(${PROJECT_NAME} PRIVATE
+libs/imgui/imgui.h
+libs/imgui/imgui.cpp
+libs/imgui/imgui_demo.cpp
+libs/imgui/imgui_draw.cpp
+libs/imgui/backends/imgui_impl_vulkan.cpp
+)
 
 target_include_directories(${PROJECT_NAME} PRIVATE 
     src/graphics

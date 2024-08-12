@@ -6,6 +6,9 @@
 #include "renderer.hpp"
 #include "window.hpp"
 #include "descriptors.hpp"
+#include "imgui.h"
+#include "imgui_impl_vulkan.h"
+#include "imgui_impl_glfw.h"
 
 // std
 #include <memory>
@@ -25,6 +28,7 @@ class Game {
 
  private:
   void loadGameObjects();
+  void init_imgui();
 
   nova_Window window{};
   nova_Device device{window};
