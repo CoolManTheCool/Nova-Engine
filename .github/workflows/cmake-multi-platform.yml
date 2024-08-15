@@ -37,6 +37,7 @@ jobs:
           vulkan-tools \
           libglfw3 \
           libglfw3-dev \
+          libglm-dev \
           # Add any other dependencies here
 
     - name: Configure CMake on Linux
