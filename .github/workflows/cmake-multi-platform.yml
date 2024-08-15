@@ -25,7 +25,18 @@ jobs:
       run: |
         echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
 
-    - name: Configure CMake
+    - name: Install Dependencies on Linux
+      if: runner.os == 'Linux'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+          cmake \
+          build-essential \
+          libvulkan-dev \
+          vulkan-tools \
+          # Add any other dependencies here
+
+    - name: Configure CMake on Linux
       if: runner.os == 'Linux'
       run: |
         cmake -B ${{ steps.strings.outputs.build-output-dir }} \
@@ -38,7 +49,14 @@ jobs:
         chmod +x build.sh
         ./build.sh
 
-    - name: Configure CMake
+    - name: Install Dependencies on Windows
+      if: runner.os == 'Windows'
+      run: |
+        choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System' --version 3.23.2
+        choco install vulkan-sdk --version 1.3.204.0
+        # Add any other dependencies here
+
+    - name: Configure CMake on Windows
       if: runner.os == 'Windows'
       run: |
         cmake -B ${{ steps.strings.outputs.build-output-dir }} \
