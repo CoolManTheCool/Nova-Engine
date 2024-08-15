@@ -38,7 +38,7 @@ jobs:
           libglfw3 \
           libglfw3-dev \
           libglm-dev \
-          glslc \
+          libshaderc-dev \
           # Add any other dependencies here
 
     - name: Configure CMake on Linux
