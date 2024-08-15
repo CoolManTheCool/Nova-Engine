@@ -19,8 +19,8 @@ uint64_t constexpr mix(char m, uint64_t s) {
     return ((s<<7) + ~(s>>3)) + ~m;
 }
  
-uint64_t constexpr hash(const char * m) {
-       return (*m) ? mix(*m,hash(m+1)) : 0;
+uint64_t constexpr _hash(const char * m) {
+    return (*m) ? mix(*m, _hash(m+1)) : 0;
 }
 
 std::string getExecutableDirectory() {
@@ -69,12 +69,12 @@ Resources_t::Resources_t() {
         name = (dotPos != std::string::npos) ? name.substr(slashPos) : "";
         if (!(name == "" || ext == "")) {
             //(ext == "frag" || ext == "vert") ? std::cout : std::cout << "Name: " << name << " Ext: " << ext << "\n";
-            switch(hash(ext.c_str())) {
-            case hash("spv"):
+            switch(_hash(ext.c_str())) {
+            case _hash("spv"):
                 //std::cout << "- Shader: " << entry << "\n";
                 shaderPaths.insert(std::make_pair(name, entry));
                 break;
-            case hash("obj"):
+            case _hash("obj"):
                 models.insert(std::make_pair(name, nova::nova_Model::createBuilderFromFile(entry)));
                 break;
         }

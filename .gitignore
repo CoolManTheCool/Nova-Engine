@@ -1,6 +1,8 @@
 build/
+bin/
 *.spv
 *.code-workspace
 Nova-Engine/
 .vscode/
 .env
+imgui.ini

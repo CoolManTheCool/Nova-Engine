@@ -72,8 +72,8 @@ class nova_Device {
       VkDeviceMemory &imageMemory);
 
   VkPhysicalDeviceProperties properties;
-  VkPhysicalDevice* getPhysicalDevice();
-  VkInstance* getInstance();
+  VkPhysicalDevice getPhysicalDevice();
+  VkInstance getInstance();
 
  private:
   void createInstance();

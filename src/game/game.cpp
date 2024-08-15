@@ -81,7 +81,7 @@ void Game::run() {
 	//auto lightPosition = PointLightObject();
 
 	//Initalize ImGUI
-	
+	init_imgui();
 
   	while (!window.shouldClose()) {
     	glfwPollEvents();
@@ -94,11 +94,33 @@ void Game::run() {
 		auto newTime = std::chrono::high_resolution_clock::now();
 		float frameTime = std::chrono::duration<float, std::chrono::seconds::period>(newTime - currentTime).count();
 		currentTime = newTime;
-		frameTime = min(frameTime, MAX_FRAME_TIME);
+		frameTime = glm::min(frameTime, 1.f);
 
 		for(std::shared_ptr<nova_Object> &obj : Objects) {
 			obj->update(frameTime);
 		}
+
+		ImGui_ImplVulkan_NewFrame();
+		ImGui_ImplGlfw_NewFrame();
+		ImGui::NewFrame();
+
+		ImGui::Begin("Nova Engine");;
+		// Imgui sampler
+		bool button;
+		ImGui::Checkbox("Checkbox", &button);
+		ImGui::Text(button ? "Checkbox Enabled" : "Checkbox Disabled");
+		ImGui::Text("Camera Position:");
+		ImGui::Text(glm::to_string(viewerObject.transform.translation).c_str());
+		ImGui::Text("Camera Rotation:");
+		ImGui::Text(glm::to_string(viewerObject.transform.rotation).c_str());
+		ImGui::Text("Hello, world!");
+		float samples[100];
+		for (int n = 0; n < 100; n++) {
+			samples[n] = sinf(n * 0.2f + ImGui::GetTime() * 1.5f);
+		}
+		ImGui::PlotLines("Samples", samples, 100);
+		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+		ImGui::End();
 
 		cameraController.moveInPlaneXZ(window.getWindow(), frameTime, viewerObject);
 		camera.setViewYXZ(viewerObject.transform.translation, viewerObject.transform.rotation);
@@ -130,10 +152,20 @@ void Game::run() {
       		Renderer.beginSwapChainRenderPass(commandBuffer);
       		renderSystem.render(frameInfo);
       		pointLightSystem.render(frameInfo);
+			ImGui::Render();
+			ImGui_ImplVulkan_RenderDrawData(ImGui::GetDrawData(), commandBuffer);
       		Renderer.endSwapChainRenderPass(commandBuffer);
       		Renderer.endFrame();
   		}
 	}
+
+  	vkDeviceWaitIdle(device.device());
+
+	ImGui_ImplVulkan_Shutdown();
+	ImGui_ImplGlfw_Shutdown();
+	ImGui::DestroyContext();
+	vkDestroyDescriptorPool(device.device(), imguiPool, NULL);
+
   	vkDeviceWaitIdle(device.device());
 }
 
@@ -167,7 +199,89 @@ void Game::loadGameObjects() {
 }
 
 void Game::init_imgui() {
-	
+    // 1. Create a descriptor pool for ImGui
+    VkDescriptorPoolSize poolSizes[] = {
+        { VK_DESCRIPTOR_TYPE_SAMPLER, 1000 },
+        { VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1000 },
+        { VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE, 1000 },
+        { VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1000 },
+        { VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER, 1000 },
+        { VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER, 1000 },
+        { VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1000 },
+        { VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, 1000 },
+        { VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC, 1000 },
+        { VK_DESCRIPTOR_TYPE_STORAGE_BUFFER_DYNAMIC, 1000 },
+        { VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT, 1000 }
+    };
+
+    VkDescriptorPoolCreateInfo poolInfo = {};
+    poolInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
+    poolInfo.poolSizeCount = static_cast<uint32_t>(std::size(poolSizes));
+    poolInfo.pPoolSizes = poolSizes;
+    poolInfo.maxSets = 100;
+    poolInfo.flags = VK_DESCRIPTOR_POOL_CREATE_FREE_DESCRIPTOR_SET_BIT;
+
+    
+    if (vkCreateDescriptorPool(device.device(), &poolInfo, nullptr, &imguiPool) != VK_SUCCESS) {
+        throw std::runtime_error("failed to create descriptor pool for ImGui!");
+    }
+
+    // 2. Initialize ImGui context
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO& io = ImGui::GetIO(); (void)io;
+    ImGui::StyleColorsDark(); // or ImGui::StyleColorsClassic(), or ImGui::StyleColorsLight()
+
+    // 3. Setup Platform/Renderer bindings
+    ImGui_ImplGlfw_InitForVulkan(window.getWindow(), true); // Pass your GLFW window
+
+    // 4. Setup Vulkan binding
+    ImGui_ImplVulkan_InitInfo init_info = {};
+    init_info.Instance = device.getInstance();  // Your Vulkan instance
+    init_info.PhysicalDevice = device.getPhysicalDevice();  // Your Vulkan physical device
+    init_info.Device = device.device();  // Your Vulkan logical device
+    init_info.QueueFamily = device.findPhysicalQueueFamilies().graphicsFamily;  // Queue family index
+    init_info.Queue = device.graphicsQueue();  // Your Vulkan queue
+    init_info.DescriptorPool = imguiPool;  // Descriptor pool for ImGui
+    init_info.MinImageCount = nova_SwapChain::MAX_FRAMES_IN_FLIGHT;  // Min number of swapchain images
+    init_info.ImageCount = nova_SwapChain::MAX_FRAMES_IN_FLIGHT;  // Number of swapchain images
+    init_info.RenderPass = Renderer.getSwapChainRenderPass();  // Your Vulkan render pass
+
+    ImGui_ImplVulkan_Init(&init_info);  // Pass the Vulkan render pass
+
+    // 5. Upload Fonts
+    VkCommandBufferAllocateInfo allocInfo = {};
+    allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
+    allocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
+    allocInfo.commandPool = device.getCommandPool();
+    allocInfo.commandBufferCount = 1;
+
+    VkCommandBuffer command_buffer;
+    vkAllocateCommandBuffers(device.device(), &allocInfo, &command_buffer);
+
+    VkCommandBufferBeginInfo beginInfo = {};
+    beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+    beginInfo.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
+
+    vkBeginCommandBuffer(command_buffer, &beginInfo);
+
+    ImGui_ImplVulkan_CreateFontsTexture();
+
+    vkEndCommandBuffer(command_buffer);
+
+    VkSubmitInfo submitInfo = {};
+    submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+    submitInfo.commandBufferCount = 1;
+    submitInfo.pCommandBuffers = &command_buffer;
+
+    vkQueueSubmit(device.graphicsQueue(), 1, &submitInfo, VK_NULL_HANDLE);
+    vkQueueWaitIdle(device.graphicsQueue());
+
+    vkFreeCommandBuffers(device.device(), device.getCommandPool(), 1, &command_buffer);
+
+    // Destroy ImGui font texture
+    ImGui_ImplVulkan_DestroyFontsTexture();
 }
+
 
 }  // namespace nova

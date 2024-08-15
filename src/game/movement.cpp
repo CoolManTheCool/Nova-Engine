@@ -13,7 +13,7 @@ void MovementController::moveInPlaneXZ(GLFWwindow* window, float dt, nova_Object
 
     if(dot(rotate, rotate) > std::numeric_limits<float>::epsilon()) gameObject.transform.rotation += lookSpeed * dt * glm::normalize(rotate);
 
-    gameObject.transform.rotation.x = clamp(gameObject.transform.rotation.x, -1.5f, 1.5f);
+    gameObject.transform.rotation.x = glm::clamp(gameObject.transform.rotation.x, -1.5f, 1.5f);
     gameObject.transform.rotation.y = mod(gameObject.transform.rotation.y, two_pi<float>());
 
     float yaw = gameObject.transform.rotation.y;

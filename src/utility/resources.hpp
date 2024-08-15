@@ -10,6 +10,9 @@
 
 #include "mesh.hpp"
 
+uint64_t constexpr mix(char m, uint64_t s);
+uint64_t constexpr _hash(const char * m);
+
 class Resources_t {
 public:
     Resources_t();

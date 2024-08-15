@@ -76,6 +76,7 @@ class nova_DescriptorPool {
   void freeDescriptors(std::vector<VkDescriptorSet> &descriptors) const;
 
   void resetPool();
+  VkDescriptorPool getPool() { return descriptorPool; }
 
  private:
   nova_Device &device;

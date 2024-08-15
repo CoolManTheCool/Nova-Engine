@@ -12,6 +12,7 @@
 #include <glm/gtx/hash.hpp>
 #include <glm/gtc/constants.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/ext.hpp>
 
 using namespace glm;
 

@@ -14,8 +14,6 @@ include_directories(${GLFW_INCLUDE_DIRS})
 # Find OpenAL | Disabled, as not used.
 #find_package(OpenAL REQUIRED)
 
-
-
 set(SOURCE_FILES
     src/graphics/systems/point_light_system.cpp
     src/graphics/systems/mesh_system.cpp
@@ -39,15 +37,24 @@ set(SOURCE_FILES
     src/main.cpp
 )
 
-add_executable(${PROJECT_NAME} ${SOURCE_FILES})
-
-target_sources(${PROJECT_NAME} PRIVATE
-libs/imgui/imgui.h
-libs/imgui/imgui.cpp
-libs/imgui/imgui_demo.cpp
-libs/imgui/imgui_draw.cpp
-libs/imgui/backends/imgui_impl_vulkan.cpp
+set(IMGUI_SRC
+    ${CMAKE_SOURCE_DIR}/libs/imgui/imgui.cpp
+    ${CMAKE_SOURCE_DIR}/libs/imgui/imgui_draw.cpp
+    ${CMAKE_SOURCE_DIR}/libs/imgui/imgui_demo.cpp
+    ${CMAKE_SOURCE_DIR}/libs/imgui/imgui_tables.cpp
+    ${CMAKE_SOURCE_DIR}/libs/imgui/imgui_widgets.cpp
+    ${CMAKE_SOURCE_DIR}/libs/imgui/backends/imgui_impl_glfw.cpp
+    ${CMAKE_SOURCE_DIR}/libs/imgui/backends/imgui_impl_vulkan.cpp
 )
+
+add_library(imgui STATIC ${IMGUI_SRC})
+
+target_include_directories(imgui PUBLIC
+    ${CMAKE_SOURCE_DIR}/libs/imgui
+    ${CMAKE_SOURCE_DIR}/libs/imgui/backends
+)
+
+add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
 target_include_directories(${PROJECT_NAME} PRIVATE 
     src/graphics
@@ -59,6 +66,6 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     ${Vulkan_INCLUDE_DIRS}
 )
 
-target_link_libraries(${PROJECT_NAME} PRIVATE ${Vulkan_LIBRARIES} ${OPENAL_LIBRARY} glfw Vulkan::Vulkan)
+target_link_libraries(${PROJECT_NAME} PRIVATE ${Vulkan_LIBRARIES} ${OPENAL_LIBRARY} glfw Vulkan::Vulkan imgui)
 
 target_compile_options(${PROJECT_NAME} PRIVATE -O2 -g -Wall -Wextra)

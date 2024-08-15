@@ -198,12 +198,12 @@ void nova_Device::pickPhysicalDevice() {
   }
   */
 
-VkPhysicalDevice* nova_Device::getPhysicalDevice() {
-  return &physicalDevice;
+VkPhysicalDevice nova_Device::getPhysicalDevice() {
+  return physicalDevice;
 }
 
-VkInstance* nova_Device::getInstance() {
-  return &instance;
+VkInstance nova_Device::getInstance() {
+  return instance;
 }
 
 void nova_Device::createLogicalDevice() {

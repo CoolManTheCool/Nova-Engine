@@ -97,7 +97,7 @@ mkdir bin/resources
 cp -r build/resources bin/
 echo "[ OK ] $PROJECT_NAME copied to ./bin."
 # Delete build files.
-rm -rf build
+# rm -rf build
 
 echo "[ OK ] Nova Studio Build Configuration Completed."
 echo "[ OK ] Build finished without errors."

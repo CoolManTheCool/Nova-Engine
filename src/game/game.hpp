@@ -34,6 +34,7 @@ class Game {
   nova_Device device{window};
   nova_Renderer Renderer{window, device};
 
+  VkDescriptorPool imguiPool;
   std::unique_ptr<nova_DescriptorPool> globalPool{};
   std::vector<std::shared_ptr<nova_Object>> Objects;
 };
