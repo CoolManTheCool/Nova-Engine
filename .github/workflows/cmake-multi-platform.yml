@@ -18,7 +18,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-
+      with:
+        submodules: true # Ensure submodules are checked out
     - name: Set reusable strings
       id: strings
       shell: bash
