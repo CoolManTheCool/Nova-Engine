@@ -55,7 +55,11 @@ To use Nova Engine in your project, follow these steps:
    #include "nova-engine/engine.hpp"
    ```
 
-2. **Run Your Game**
+2. **Write your project**
+ 
+   TODO: Finish this, and link it to the wiki.
+
+4. **Run Your Game**
    Compile and run your game as usual. Nova Engine will handle the rest.
 
 ### Directory Structure

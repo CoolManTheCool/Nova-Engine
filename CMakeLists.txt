@@ -32,8 +32,9 @@ set(SOURCE_FILES
     src/utility/resources.cpp
     src/utility/logger.cpp
     src/utility/util.cpp
+    src/utility/gui_system.cpp
     src/game/movement.cpp
-    src/game/game.cpp
+    src/game/engine.cpp
     src/main.cpp
 )
 
