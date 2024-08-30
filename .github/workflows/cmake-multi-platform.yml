@@ -37,16 +37,11 @@ jobs:
           vulkan-tools \
           libglfw3 \
           libglfw3-dev \
-          libglm-dev \
-          shaderc \
+          libglm-dev 
           # Add any other dependencies here
-
-    - name: Configure CMake on Linux
-      if: runner.os == 'Linux'
-      run: |
-        cmake -B ${{ steps.strings.outputs.build-output-dir }} \
-              -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
-              -S ${{ github.workspace }}
+        wget -qO - https://packages.lunarg.com/lunarg-signing-key-pub.asc | sudo apt-key add -
+        sudo wget -qO /etc/apt/sources.list.d/lunarg-vulkan-1.3.290-noble.list https://packages.lunarg.com/vulkan/1.3.290/lunarg-vulkan-1.3.290-noble.list
+        sudo apt install vulkan-sdk
 
     - name: Build on Linux
       if: runner.os == 'Linux'
