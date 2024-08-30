@@ -101,16 +101,21 @@ echo "[ OK ] $PROJECT_NAME copied to ./bin."
 
 echo "[ OK ] Nova Studio Build Configuration Completed."
 echo "[ OK ] Build finished without errors."
-echo
-echo
-echo
-echo
-echo 
+
 
 ### Run the project
 
-if [ "$1" = "-debug" ]; then
-  gdb -batch -ex "file ./bin/$PROJECT_NAME" -ex "run" -ex "bt" -ex "exit"
-else
-  ./bin/$PROJECT_NAME
+
+
+if [ "$1" != "-norun" ]; then
+  echo
+  echo
+  echo
+  echo
+  echo 
+  if [ "$1" = "-debug" ]; then
+    gdb -batch -ex "file ./bin/$PROJECT_NAME" -ex "run" -ex "bt" -ex "exit"
+  else
+    ./bin/$PROJECT_NAME
+fi
 fi

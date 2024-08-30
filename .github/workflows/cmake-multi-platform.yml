@@ -49,7 +49,7 @@ jobs:
       if: runner.os == 'Linux'
       run: |
         chmod +x build.sh
-        ./build.sh
+        ./build.sh -norun
 
     - name: Install Dependencies on Windows
       if: runner.os == 'Windows'

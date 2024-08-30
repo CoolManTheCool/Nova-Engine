@@ -78,11 +78,6 @@ void Game::run() {
 	MovementController cameraController{};
 
 	auto currentTime = std::chrono::high_resolution_clock::now();
-	
-	int return_v = []() -> int {
-		std::cout << "Hello World" << std::endl;
-		return 0;
-	}();
 
 	// Initalize ImGui
 	GUI.Init_ImGui(&device, &window, &Renderer, &imguiPool);
