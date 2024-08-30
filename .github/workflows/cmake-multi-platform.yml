@@ -1,4 +1,4 @@
-name: CMake on multiple platforms
+name: NE Build Systems
 
 on:
   push:
@@ -37,9 +37,12 @@ jobs:
           vulkan-tools \
           libglfw3 \
           libglfw3-dev \
-          libglm-dev \
-          glslc
+          libglm-dev
           # Add any other dependencies here
+        sudo apt update
+        sudo apt upgrade -y
+        sudo apt install glslc -y
+        
 
 
     - name: Build on Linux
