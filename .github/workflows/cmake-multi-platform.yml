@@ -37,9 +37,9 @@ jobs:
           vulkan-tools \
           libglfw3 \
           libglfw3-dev \
-          libglm-dev 
+          libglm-dev \
+          glslc
           # Add any other dependencies here
-        # Install GLSLC
 
 
     - name: Build on Linux
