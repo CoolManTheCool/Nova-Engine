@@ -1,0 +1,12 @@
+services:
+  nova-build-system:
+    build: .
+    volumes:
+      - ./bin:/project/bin
+      - ./app:/project/app
+    working_dir: /project
+    # command: "./run.sh -release"
+    # Automatically remove the container after it exits
+    
+    # Optional: if you need network
+    # network_mode: bridge

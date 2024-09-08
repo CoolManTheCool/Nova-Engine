@@ -49,7 +49,11 @@ fi
 
 ### Configure the project
 echo "[ OK ] Configuring project..."
-cmake -S . -B build
+if [ "$2" = "-release" || "$1" = "-release"]; then
+  cmake app -B build -DCMAKE_BUILD_TYPE=Release
+else
+	cmake app -B build -DCMAKE_BUILD_TYPE=Debug
+fi
 if [ $? -ne 0 ]; then
   echo "[ FAIL ] CMake configuration failed!"
   exit 1
@@ -92,7 +96,6 @@ done
 
 ### Copy files into bin
 rm -rf bin && mkdir bin
-cp build/$PROJECT_NAME bin/$PROJECT_NAME
 mkdir bin/resources
 cp -r build/resources bin/
 echo "[ OK ] $PROJECT_NAME copied to ./bin."
@@ -104,7 +107,7 @@ echo "[ OK ] Build finished without errors."
 
 ### Run the project
 
-if [ "$1" != "-norun" ]; then
+if [ "$1" != "-norun" || "$2" = "-norun"]; then
   echo
   echo
   echo
