@@ -32,6 +32,6 @@ void main() {
   vec4 positionWorld = push.modelMatrix * vec4(position, 1.0);
   gl_Position = ubo.projection * ubo.view * positionWorld;
   fragNormalWorld = normalize(mat3(push.normalMatrix) * normal);
-  fragPosWorld = positionWorld.xyz;
+  fragPosWorld = positionWorld.xyz + fragNormalWorld.xyz;
   fragColor = color;
 }

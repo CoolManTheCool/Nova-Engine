@@ -4,6 +4,8 @@
 #include <filesystem> // for std::filesystem::current_path
 #include <functional>
 #include <iostream>
+#include <type_traits>
+#include <random>
 
 #define GLM_FORCE_RADIANS
 #define GLM_FORCE_DEPTH_ZERO_TO_ONE
@@ -37,8 +39,24 @@ struct Settings_t {
     } RenderSettings;
 };
 
+template <typename T>
+T randRange(T min, T max) {
+    static_assert(std::is_arithmetic<T>::value, "randRange requires numeric types.");
 
+    // Seed with a real random value, if available
+    std::random_device rd;
+    std::mt19937 generator(rd());
 
+    if constexpr (std::is_integral<T>::value) {
+        // Integer version
+        std::uniform_int_distribution<T> distribution(min, max);
+        return distribution(generator);
+    } else {
+        // Floating-point version
+        std::uniform_real_distribution<T> distribution(min, max);
+        return distribution(generator);
+    }
+}
 namespace nova {
 template <typename T, typename... Rest>
 void hashCombine(std::size_t& seed, const T& v, const Rest&... rest) {

@@ -63,15 +63,19 @@ vec3 hsv2rgb(vec3 in) {
 PointLightObject::PointLightObject(float intensity, float radius, vec3 lightColor){
     this->lightIntensity    = intensity;
     this->transform.scale.x = radius;
-    
+
     if(lightColor != vec3(0.0f, 0.0f, 0.0f)) { // If color is defined.
         this->lightColor = lightColor;
 
     } else { // If color is not defined.
-        //random color
-        this->lightColor = hsv2rgb({(float) rand() / RAND_MAX * 360, 1, 1});
+        float randomHue = ((float) rand()) / RAND_MAX * 360.0f;
+        float randomSaturation = ((float) rand()) / RAND_MAX * 0.7f + 0.3f; // Range: [0.3, 1.0]
+        float randomValue = ((float) rand()) / RAND_MAX * 0.5f + 0.5f; // Range: [0.5, 1.0]
+        
+        this->lightColor = hsv2rgb({randomHue, randomSaturation, randomValue});
     }
 };
+
 
 unsigned int PointLightObject::getRenderType() {
     return RENDER_MODE_CIRCLE;
@@ -94,17 +98,8 @@ void PointLightObject::render(VkPipelineLayout &pipelineLayout, VkCommandBuffer 
     vkCmdDraw(commandBuffer, 3, 1, 0, 0);
 }
 
-float index = 0;
-float speed = 2.0f;
 void PointLightObject::update(float deltaTime) {
-    transform.translation = {
-        sin(glfwGetTime() + index * speed) * 10,
-        transform.translation.y,
-        cos(glfwGetTime() + index * speed) * 10
-    };
-    index += 2*M_PI/5;
-    //std::cout << "test: " << mod(index, (float)M_2_PI) << std::endl;
-    if (index > 2*M_PI) index -= 2*M_PI;
+    
 }
 
 }

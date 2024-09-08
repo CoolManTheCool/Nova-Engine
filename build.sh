@@ -102,10 +102,7 @@ echo "[ OK ] $PROJECT_NAME copied to ./bin."
 echo "[ OK ] Nova Studio Build Configuration Completed."
 echo "[ OK ] Build finished without errors."
 
-
 ### Run the project
-
-
 
 if [ "$1" != "-norun" ]; then
   echo

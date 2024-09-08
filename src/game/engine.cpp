@@ -8,6 +8,7 @@
 
 #include "resources.hpp"
 #include "logger.hpp"
+#include "util.hpp"
 
 #define MAX_FRAME_TIME 1.f
 
@@ -24,6 +25,7 @@ namespace nova {
 //using namespace nova_Logger;
 
 Game::Game() {
+    srand(time(NULL));
 	globalPool = nova_DescriptorPool::Builder(device)
 	.setMaxSets(nova_SwapChain::MAX_FRAMES_IN_FLIGHT)
 	.addPoolSize(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, nova_SwapChain::MAX_FRAMES_IN_FLIGHT)
@@ -169,6 +171,14 @@ void Game::run() {
   	vkDeviceWaitIdle(device.device());
 }
 
+glm::vec3 randomVec3(float min, float max) {
+    return glm::vec3(
+        randRange<float>(min, max), // Random x-component
+        randRange<float>(min, max), // Random y-component
+        randRange<float>(min, max)  // Random z-component
+    );
+}
+
 void Game::loadGameObjects() {
 	{
   	auto obj = MeshObject();
@@ -187,12 +197,19 @@ void Game::loadGameObjects() {
   	obj.transform.scale = {15, 1, 15};
   	Objects.push_back(std::make_shared<MeshObject>(obj));
 	}
-	for(int i = 0; i < 5; i++) {
+	const int objectCount = 20;
+	const float radius = 8;
+	for(int i = 0; i < objectCount; i++) {
 		auto obj = PointLightObject();
 		//obj.lightColor = {0.0, 0.1, 0.1};
-		obj.transform.translation = {0.0f, 2.f, 0.0f};
+		obj.transform.translation = {
+			glm::cos(glm::radians(i * 360.0f / objectCount)) * radius,
+            7.5,
+            glm::sin(glm::radians(i * 360.0f / objectCount)) * radius
+		};
+		
 		obj.transform.scale.x = 1.0f;
-		obj.lightIntensity = 2.2f;
+		obj.lightIntensity = 5.2f;
 		Objects.push_back(std::make_shared<PointLightObject>(obj));
 	}
 	
