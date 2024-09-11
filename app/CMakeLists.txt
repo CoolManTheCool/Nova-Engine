@@ -16,26 +16,27 @@ include_directories(${GLFW_INCLUDE_DIRS})
 #find_package(OpenAL REQUIRED)
 
 set(SOURCE_FILES
-    src/graphics/systems/point_light_system.cpp
-    src/graphics/systems/mesh_system.cpp
-    src/graphics/descriptors.cpp
-    src/graphics/swap_chain.cpp
-    src/graphics/renderer.cpp
-    src/graphics/pipeline.cpp
-    src/graphics/window.cpp
-    src/graphics/device.cpp
-    src/graphics/buffer.cpp
-    src/graphics/mesh.cpp
-    src/objects/point_light_object.cpp
-    src/objects/mesh_object.cpp
-    src/objects/camera.cpp
-    src/objects/object.cpp
-    src/utility/resources.cpp
-    src/utility/logger.cpp
-    src/utility/util.cpp
-    src/utility/gui_system.cpp
-    src/game/movement.cpp
-    src/game/engine.cpp
+    engine/systems/point_light_system.cpp
+    engine/systems/mesh_system.cpp
+    engine/graphics/descriptors.cpp
+    engine/graphics/swap_chain.cpp
+    engine/graphics/renderer.cpp
+    engine/graphics/pipeline.cpp
+    engine/graphics/window.cpp
+    engine/graphics/device.cpp
+    engine/graphics/buffer.cpp
+    engine/graphics/mesh.cpp
+    engine/objects/point_light_object.cpp
+    engine/objects/mesh_object.cpp
+    engine/objects/editor.cpp
+    engine/objects/camera.cpp
+    engine/objects/object.cpp
+    engine/utility/resources.cpp
+    engine/utility/logger.cpp
+    engine/utility/util.cpp
+    engine/utility/gui_system.cpp
+    engine/utility/movement.cpp
+    engine/engine.cpp
     src/main.cpp
 )
 
@@ -59,12 +60,14 @@ target_include_directories(imgui PUBLIC
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
 target_include_directories(${PROJECT_NAME} PRIVATE 
-    src/graphics
-    src/graphics/systems
-    src/objects
-    src/utility
-    src/game
-    libs
+    engine/systems/
+    engine/objects/
+    engine/utility/
+    engine/graphics/
+    engine/
+    src/game/
+    libs/
+
     ${Vulkan_INCLUDE_DIRS}
 )
 

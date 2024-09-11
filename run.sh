@@ -36,13 +36,5 @@ case "$1" in
         ./build.sh -release -norun
         ;;
     *)
-       # Handle default case, build on this system.
-        echo "[ OK ] Compiling."
-        rm -rf build
-        if [ -d "bin" ]; then
-            # Remove all contents of the 'bin' directory
-            rm -rf bin/*
-        fi
-		cmake app -B build -DCMAKE_BUILD_TYPE=Debug
-        cmake --build build
+       ./build.sh -debug
 esac

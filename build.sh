@@ -49,7 +49,7 @@ fi
 
 ### Configure the project
 echo "[ OK ] Configuring project..."
-if [ "$2" = "-release" || "$1" = "-release"]; then
+if [ "$2" = "-release" ] || "$1" = "-release"]; then
   cmake app -B build -DCMAKE_BUILD_TYPE=Release
 else
 	cmake app -B build -DCMAKE_BUILD_TYPE=Debug
@@ -68,7 +68,7 @@ if [ $? -ne 0 ]; then
 fi
 
 # Cache Resources
-cp -r ./src/resources ./build/resources
+cp -r ./app/resources ./build/resources
 
 ### Compile Shaders
 echo "[ OK ] Compiling shaders..."
@@ -94,8 +94,6 @@ for shader in $shaders; do
     fi
 done
 
-### Copy files into bin
-rm -rf bin && mkdir bin
 mkdir bin/resources
 cp -r build/resources bin/
 echo "[ OK ] $PROJECT_NAME copied to ./bin."
@@ -107,12 +105,10 @@ echo "[ OK ] Build finished without errors."
 
 ### Run the project
 
-if [ "$1" != "-norun" || "$2" = "-norun"]; then
+if [ "$1" != "-norun" ] || "$2" = "-norun"]; then
   echo
   echo
   echo
-  echo
-  echo 
   if [ "$1" = "-debug" ]; then
     gdb -batch -ex "file ./bin/$PROJECT_NAME" -ex "run" -ex "bt" -ex "exit"
   else
