@@ -62,7 +62,7 @@ glm::mat3 TransformComponent::normalMatrix() {
 /// @brief Gets the indentifier for the render system that should render the given object.
 /// @return unisgned int, 0 if not renderable.
 unsigned int nova_Object::getRenderType() {
-    return RENDER_MODE_NULL;
+    return OBJECT_TYPE_NULL;
 }
 
 void nova_Object::update(float deltaTime) {

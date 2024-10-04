@@ -49,7 +49,7 @@ fi
 
 ### Configure the project
 echo "[ OK ] Configuring project..."
-if [ "$2" = "-release" ] || "$1" = "-release"]; then
+if [ "$2" = "-release" ] || [ "$1" = "-release" ]; then
   cmake app -B build -DCMAKE_BUILD_TYPE=Release
 else
 	cmake app -B build -DCMAKE_BUILD_TYPE=Debug

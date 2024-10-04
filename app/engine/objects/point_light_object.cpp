@@ -78,7 +78,7 @@ PointLightObject::PointLightObject(float intensity, float radius, vec3 lightColo
 
 
 unsigned int PointLightObject::getRenderType() {
-    return RENDER_MODE_CIRCLE;
+    return OBJECT_TYPE_POINT_LIGHT;
 }
 
 void PointLightObject::render(VkPipelineLayout &pipelineLayout, VkCommandBuffer &commandBuffer) {

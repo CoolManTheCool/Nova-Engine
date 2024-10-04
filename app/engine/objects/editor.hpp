@@ -10,7 +10,6 @@ public:
     Editor_T();
     void RegisterBindings();
     std::function<void()> RegisterWindow(nova_Window* window);
-    void update();
     
 private:
 

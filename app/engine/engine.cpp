@@ -1,7 +1,6 @@
 #include "engine.hpp"
 
 #include "camera.hpp"
-#include "movement.hpp"
 #include "buffer.hpp"
 #include "point_light_system.hpp"
 #include "gui_system.hpp"
@@ -69,23 +68,25 @@ void Game::run() {
 
 	MeshSystem renderSystem{device, Renderer.getSwapChainRenderPass(), globalSetLayout->getDescriptorSetLayout()};
 	PointLightSystem pointLightSystem{device, Renderer.getSwapChainRenderPass(), globalSetLayout->getDescriptorSetLayout()};
-  	Camera camera{};
-    float aspect = Renderer.getAspectRation();
+	/*
+	float aspect = Renderer.getAspectRation();
     camera.setPerspectiveProjection(glm::radians(50.f), aspect, 0.1f, 1000.f);
   	camera.setViewTarget(vec3(-1.f, -2.f, 2.f), vec3(0.f, 0.f, 2.5f));
+	*/
 
-	auto viewerObject = nova_Object();
-	viewerObject.transform.translation.z = -2.5;
-	MovementController cameraController{};
+  	Camera camera{window, glm::radians(65.f), Renderer.getAspectRation(), 0.1f, 1000.f };
+  	camera.setViewTarget(vec3(-1.f, -2.f, 2.f), vec3(0.f, 0.f, 2.5f));
 
-	auto currentTime = std::chrono::high_resolution_clock::now();
+	auto oldTime = std::chrono::high_resolution_clock::now();
 
 	// Initalize ImGui
 	GUI.Init_ImGui(&device, &window, &Renderer, &imguiPool);
 	// Register Bindings,
 	GUI.setBinding("Window Debug Open", true);
-    GUI.setBinding("Camera Speed", 1);
+    GUI.setBinding("Camera Speed", 1.0f);
 	GUI.setBinding("F3 Down", false);
+	GUI.setBinding("Objects", &Objects);
+	
 	Editor_T Editor;
 	Editor.RegisterBindings();
 	GUI.registerWindow(Editor.RegisterWindow(&window));
@@ -99,39 +100,39 @@ void Game::run() {
 			*GUI.getBindingPointer<bool>("F3 Down") = false;
 		}
 		if (GUI.getBindingValue<bool>("Window Debug Open") == true) {
-			ImGui::Begin("Debug Window", GUI.getBindingPointer<bool>("Window Debug Open"), ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_AlwaysAutoResize);
+			ImGui::Begin("Debug Window", GUI.getBindingPointer<bool>("Window Debug Open"), ImGuiWindowFlags_NoCollapse);
 			ImGui::Text("Test Text");
-    		ImGui::SliderInt("Test Slider", GUI.getBindingPointer<int>("Camera Speed"), 0, 10);
-    		ImGui::Text("Test Slider: %d", GUI.getBindingValue<int>("Camera Speed"));
+    		ImGui::SliderFloat("Test Slider", GUI.getBindingPointer<float>("Camera Speed"), 2.0f, 6.0f);
+    		ImGui::Text("Camera Speed: %f", GUI.getBindingValue<float>("Camera Speed"));
 			ImGui::Checkbox("Editor Menu", GUI.getBindingPointer<bool>("Window Editor Open"));
     		ImGui::End();
 		}	
 	});
-	
 
   	while (!window.shouldClose()) {
     	glfwPollEvents();
+		
 		//nova_Logger::LogStream::log << "Camera Transform: " << viewerObject.transform.mat4();
 		//nova_Logger::LogStream::log << "Screen Size: " << glm::vec2(static_cast<float>(Settings.width), static_cast<float>(Settings.height));
 		//nova_Logger::Logger::log("hi");
 		//nova_Logger::logstream << "hi";
 
 		//Logger::Logger::log("Game Crashed!", Logger::CRITICAL, Logger::WHITE, Logger::RED);
-		auto newTime = std::chrono::high_resolution_clock::now();
-		float frameTime = std::chrono::duration<float, std::chrono::seconds::period>(newTime - currentTime).count();
-		currentTime = newTime;
-		frameTime = glm::min(frameTime, 1.f);
+		float frameTime = std::chrono::duration<float, std::chrono::seconds::period>(std::chrono::high_resolution_clock::now() - oldTime).count();
+		oldTime = std::chrono::high_resolution_clock::now();
+		frameTime = glm::min(frameTime, MAX_FRAME_TIME);
 
 		for(std::shared_ptr<nova_Object> &obj : Objects) {
 			obj->update(frameTime);
 		}
+		camera.movement_speed = GUI.getBindingValue<float>("Camera Speed");
+		camera.moveInPlaneXZ(&window, frameTime);
 
-		cameraController.moveInPlaneXZ(window.getWindow(), frameTime * GUI.getBindingValue<int>("Camera Speed"), viewerObject);
-		camera.setViewYXZ(viewerObject.transform.translation, viewerObject.transform.rotation);
+		camera.setViewYXZ(camera.transform.translation, camera.transform.rotation);
 
     	if (window.wasWindowResized()) {
     		float aspect = Renderer.getAspectRation();
-    		camera.setPerspectiveProjection(glm::radians(50.f), aspect, 0.1f, 1000.f);
+    		camera.setPerspectiveProjection(glm::radians(65.f), aspect, 0.1f, 1000.f);
     	}
 
 		GUI.update();

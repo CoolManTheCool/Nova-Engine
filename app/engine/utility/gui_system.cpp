@@ -1,4 +1,5 @@
 #include "gui_system.hpp"
+#include "resources.hpp"
 
 namespace nova {
 
@@ -43,6 +44,8 @@ void GUI_System_T::Init_ImGui(nova_Device* device, nova_Window* window, nova_Ren
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO(); (void)io;
     ImGui::StyleColorsDark();
+
+    ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
     // Platform/Renderer bindings
     ImGui_ImplGlfw_InitForVulkan(window->getWindow(), true);
@@ -100,16 +103,16 @@ void GUI_System_T::update() {
     ImGui_ImplVulkan_NewFrame();
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
-    
+    ImGui::DockSpaceOverViewport(ImGui::GetMainViewport()->ID, ImGui::GetMainViewport(), ImGuiDockNodeFlags_PassthruCentralNode);
+
     for (auto &Funky_Window : windows) {
         Funky_Window();
     }
-
-    ImGui::EndFrame();
 }
 
 void GUI_System_T::render(VkCommandBuffer* commandBuffer) {
     ImGui::Render();
+    ImGui::UpdatePlatformWindows();
     ImGui_ImplVulkan_RenderDrawData(ImGui::GetDrawData(), *commandBuffer);
 }
 

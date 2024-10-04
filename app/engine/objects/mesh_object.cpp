@@ -6,7 +6,7 @@ void MeshObject::setModel(nova_Device *device, const nova_Model::Builder builder
 }
 
 unsigned int MeshObject::getRenderType() {
-    return RENDER_MODE_MESH;
+    return OBJECT_TYPE_MESH;
 }
 
 void MeshObject::render(VkPipelineLayout &pipelineLayout, VkCommandBuffer &commandBuffer) {

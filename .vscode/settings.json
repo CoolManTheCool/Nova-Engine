@@ -68,6 +68,16 @@
         "stop_token": "cpp",
         "thread": "cpp",
         "any": "cpp",
-        "list": "cpp"
-    }
+        "list": "cpp",
+        "cassert": "cpp",
+        "complex": "cpp",
+        "coroutine": "cpp",
+        "csignal": "cpp",
+        "source_location": "cpp",
+        "future": "cpp",
+        "shared_mutex": "cpp",
+        "typeindex": "cpp",
+        "*.ipp": "cpp"
+    },
+    "C_Cpp.errorSquiggles": "enabledIfIncludesResolve"
 }

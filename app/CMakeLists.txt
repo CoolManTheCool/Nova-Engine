@@ -35,7 +35,6 @@ set(SOURCE_FILES
     engine/utility/logger.cpp
     engine/utility/util.cpp
     engine/utility/gui_system.cpp
-    engine/utility/movement.cpp
     engine/engine.cpp
     src/main.cpp
 )

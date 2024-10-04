@@ -8,11 +8,12 @@
 namespace nova {
 
 enum {
-	RENDER_MODE_NULL   = 0,
-	RENDER_MODE_MESH   = 1,
-	RENDER_MODE_CIRCLE = 2,
+	OBJECT_TYPE_NULL,
+	OBJECT_TYPE_MESH,
+	OBJECT_TYPE_POINT_LIGHT,
+	OBJECT_TYPE_CAMERA,
 
-	RENDER_MODE_COUNT  = 3,
+	OBJECT_TYPE_COUNT,
 };
 
 struct TransformComponent {
@@ -25,7 +26,6 @@ struct TransformComponent {
 };
 
 class nova_Object {
-
 public:
 	nova_Object() = default;
 
