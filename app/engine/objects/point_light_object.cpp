@@ -77,7 +77,7 @@ PointLightObject::PointLightObject(float intensity, float radius, vec3 lightColo
 };
 
 
-unsigned int PointLightObject::getRenderType() {
+unsigned int PointLightObject::getObjectType() {
     return OBJECT_TYPE_POINT_LIGHT;
 }
 

@@ -34,7 +34,7 @@ public:
     // void setPosition(const vec3 &position) { transform.translation = position; };
     // void setTransform(const TransformComponent _transform) { transform = _transform; };
 
-	virtual unsigned int getRenderType();
+	virtual unsigned int getObjectType();
 	virtual void update(float deltaTime);
 	virtual void render(VkPipelineLayout &pipelineLayout, VkCommandBuffer &commandBuffer);
 	// private:

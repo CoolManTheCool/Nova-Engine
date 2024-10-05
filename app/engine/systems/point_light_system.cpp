@@ -61,7 +61,7 @@ void PointLightSystem::update(FrameInfo &frameInfo, GlobalUBO &ubo) {
 	int lightIndex = 0;
 	for (auto &obj : frameInfo.objects) {
 
-		if (obj->getRenderType() != OBJECT_TYPE_POINT_LIGHT) continue;
+		if (obj->getObjectType() != OBJECT_TYPE_POINT_LIGHT) continue;
 		if (lightIndex+1 > MAX_LIGHTS) {
 			std::cout << "[deprecated] Too many lights in scene.\n" 
 			<< "Lights: " << lightIndex+1 << " Maximum: " << MAX_LIGHTS << std::endl;
@@ -84,7 +84,7 @@ void PointLightSystem::render(FrameInfo &frameInfo) {
 	vkCmdBindDescriptorSets(frameInfo.commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 0, 1, &frameInfo.globalDescriptorSet, 0, nullptr);
 	for (auto &obj : frameInfo.objects) {
 		
-		if(obj->getRenderType() != OBJECT_TYPE_POINT_LIGHT) continue;
+		if(obj->getObjectType() != OBJECT_TYPE_POINT_LIGHT) continue;
 		obj->render(pipelineLayout, frameInfo.commandBuffer);
 	}
 }

@@ -31,6 +31,8 @@ struct Settings_t {
     int width;
     int height;
     std::string title;
+    std::string version_name;
+    unsigned int version_ID;
 
     struct S_RendererSettings {
         S_RendererSettings();

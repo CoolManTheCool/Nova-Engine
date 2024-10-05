@@ -22,15 +22,17 @@ std::function<void()> Editor_T::RegisterWindow(nova_Window* window) {
     assert(objects && "'Objects' is not bound or is null.");
     
     return [window, objects]() {
+        int* objNum = GUI.getBindingPointer<int>("Obj Num");
+        int maxObjects = objects->size();
+    
 	if (GUI.getBindingValue<bool>("Window Editor Open") == true) {
 		ImGui::Begin("Editor", GUI.getBindingPointer<bool>("Window Editor Open"), ImGuiWindowFlags_NoCollapse);
-        ImGui::InputInt("Obj #", GUI.getBindingPointer<int>("Obj Num"));
-        int objNum = GUI.getBindingValue<int>("Obj Num");
-        if (objNum < 0 || objNum >= objects->size()) {
-            std::cerr << "Error: Invalid object index." << std::endl;
-        }
+        ImGui::InputInt("Obj #", objNum);
 
-        std::shared_ptr<nova_Object> obj = objects->at(GUI.getBindingValue<int>("Obj Num"));
+        *objNum = *objNum > maxObjects-1 ? 0 : *objNum;
+        *objNum = *objNum < 0 ? maxObjects-1 : *objNum;
+
+        std::shared_ptr<nova_Object> obj = objects->at(*objNum);
         ImGui::Text("Object Rotation:");
         ImGui::SliderFloat("X Rotation", &obj->transform.rotation.x, 0, 2*M_PI);
         ImGui::SliderFloat("Y Rotation", &obj->transform.rotation.y, 0, 2*M_PI);

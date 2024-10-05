@@ -14,7 +14,7 @@ struct PointLightPushConstants {
 class PointLightObject : public nova_Object {
 public:
     PointLightObject(float intensity = 2.0f, float radius = 1.f, vec3 lightColor = vec3(0.f, 0.f, 0.f));
-    unsigned int getRenderType() override;
+    unsigned int getObjectType() override;
     void render(VkPipelineLayout &pipelineLayout, VkCommandBuffer &commandBuffer) override;
     void update(float deltaTime) override;
 

@@ -8,31 +8,31 @@
 namespace nova {
 class Camera : public nova_Object{
 public:
-    Camera(nova_Window &window, float fovy, float aspect, float near, float far);
-    void setPerspectiveProjection(float fovy, float aspect, float near, float far);
+	Camera(nova_Window *window, float fovy, float aspect, float near, float far);
+	void setPerspectiveProjection(float fovy, float aspect, float near, float far);
 
 	void setViewDirection(glm::vec3 position, glm::vec3 direction, glm::vec3 up = glm::vec3{0.f, 1.f, 0.f});
 	void setViewTarget(glm::vec3 position, glm::vec3 target, glm::vec3 up = glm::vec3{0.f, 1.f, 0.f});
 
-    const mat4& getProjection() const { return projectionMatrix; };
-    const mat4& getView() const { return viewMatrix; };
-    const mat4& getInverseView() const { return inverseViewMatrix; };
-    void setViewYXZ(glm::vec3 position, glm::vec3 rotation);
+	const mat4& getProjection() const { return projectionMatrix; };
+	const mat4& getView() const { return viewMatrix; };
+	const mat4& getInverseView() const { return inverseViewMatrix; };
+	void setViewYXZ();
 
-    void moveInPlaneXZ(nova_Window* window, float dt);
+	void moveInPlaneXZ(float dt);
 
-    unsigned int getRenderType() override;
-  	void update(float deltaTime) override;
-  	void render(VkPipelineLayout &pipelineLayout, VkCommandBuffer &commandBuffer) override;
+	unsigned int getObjectType() override;
+	void update(float deltaTime) override;
+	void render(VkPipelineLayout &pipelineLayout, VkCommandBuffer &commandBuffer) override;
 
-    float movement_speed = 3;
-    float rotation_speed = 1.5f;
+	float movement_speed = 3;
+	float rotation_speed = 1.5f;
 
 private:
-    mat4 projectionMatrix{1.f};
-    mat4 viewMatrix{1.f};
-    mat4 inverseViewMatrix{1.f};
-    nova_Window *window;
+	mat4 projectionMatrix{1.f};
+	mat4 viewMatrix{1.f};
+	mat4 inverseViewMatrix{1.f};
+	nova_Window *window;
 };
 
 } // namespace nova

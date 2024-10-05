@@ -1,7 +1,7 @@
 /build
+/bin
+/.vscode
 *.spv
 *.code-workspace
-/.vscode
-.env
 imgui.ini
-/bin
+.env

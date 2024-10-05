@@ -62,7 +62,7 @@ void MeshSystem::render(FrameInfo &frameInfo) {
   	vkCmdBindDescriptorSets(frameInfo.commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 0, 1, &frameInfo.globalDescriptorSet, 0, nullptr);
   	for (auto &obj : frameInfo.objects) {
 
-		if(obj->getRenderType() != OBJECT_TYPE_MESH) continue;
+		if(obj->getObjectType() != OBJECT_TYPE_MESH) continue;
 		obj->render(pipelineLayout, frameInfo.commandBuffer);
 		
 	}

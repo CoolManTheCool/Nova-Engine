@@ -14,7 +14,7 @@ class MeshObject : public nova_Object {
 public:
     void setModel(nova_Device *device, const nova_Model::Builder builder);
 	std::shared_ptr<nova::nova_Model> model{};
-    unsigned int getRenderType() override;
+    unsigned int getObjectType() override;
   	void update(float deltaTime) override;
   	void render(VkPipelineLayout &pipelineLayout, VkCommandBuffer &commandBuffer) override;
 };

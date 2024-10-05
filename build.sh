@@ -105,7 +105,7 @@ echo "[ OK ] Build finished without errors."
 
 ### Run the project
 
-if [ "$1" != "-norun" ] || "$2" = "-norun"]; then
+if [ "$1" != "-norun" ] || [ "$2" = "-norun"]; then
   echo
   echo
   echo

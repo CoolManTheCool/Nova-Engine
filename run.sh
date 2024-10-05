@@ -20,6 +20,7 @@ case "$1" in
         # Handle installation
         # ./run.sh -install
 		echo "[ OK ] Installing dependencies."
+        sudo apt update
         sudo apt install -y git cmake build-essential docker.io docker-compose
         docker-compose build
         # TODO

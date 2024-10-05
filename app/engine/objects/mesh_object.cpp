@@ -5,7 +5,7 @@ void MeshObject::setModel(nova_Device *device, const nova_Model::Builder builder
     model = std::make_shared<nova_Model>(*device, builder);
 }
 
-unsigned int MeshObject::getRenderType() {
+unsigned int MeshObject::getObjectType() {
     return OBJECT_TYPE_MESH;
 }
 

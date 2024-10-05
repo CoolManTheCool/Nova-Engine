@@ -25,7 +25,7 @@ namespace nova {
 //using namespace nova_Logger;
 
 Game::Game() {
-    srand(time(NULL));
+	srand(time(NULL));
 	globalPool = nova_DescriptorPool::Builder(device)
 	.setMaxSets(nova_SwapChain::MAX_FRAMES_IN_FLIGHT)
 	.addPoolSize(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, nova_SwapChain::MAX_FRAMES_IN_FLIGHT)
@@ -70,12 +70,15 @@ void Game::run() {
 	PointLightSystem pointLightSystem{device, Renderer.getSwapChainRenderPass(), globalSetLayout->getDescriptorSetLayout()};
 	/*
 	float aspect = Renderer.getAspectRation();
-    camera.setPerspectiveProjection(glm::radians(50.f), aspect, 0.1f, 1000.f);
-  	camera.setViewTarget(vec3(-1.f, -2.f, 2.f), vec3(0.f, 0.f, 2.5f));
+	camera.setPerspectiveProjection(glm::radians(50.f), aspect, 0.1f, 1000.f);
+	camera.setViewTarget(vec3(-1.f, -2.f, 2.f), vec3(0.f, 0.f, 2.5f));
 	*/
 
-  	Camera camera{window, glm::radians(65.f), Renderer.getAspectRation(), 0.1f, 1000.f };
-  	camera.setViewTarget(vec3(-1.f, -2.f, 2.f), vec3(0.f, 0.f, 2.5f));
+	Camera _camera{&window, glm::radians(65.f), Renderer.getAspectRation(), 0.1f, 1000.f };
+	shared_ptr<Camera> camera = make_shared<Camera>(_camera);
+	Objects.emplace_back(camera);
+	camera->setViewTarget(vec3(-1.f, 2.f, 2.f), vec3(0.f, 0.f, 2.5f));
+	
 
 	auto oldTime = std::chrono::high_resolution_clock::now();
 
@@ -83,7 +86,7 @@ void Game::run() {
 	GUI.Init_ImGui(&device, &window, &Renderer, &imguiPool);
 	// Register Bindings,
 	GUI.setBinding("Window Debug Open", true);
-    GUI.setBinding("Camera Speed", 1.0f);
+	GUI.setBinding("Camera Speed", 3.0f);
 	GUI.setBinding("F3 Down", false);
 	GUI.setBinding("Objects", &Objects);
 	
@@ -101,16 +104,17 @@ void Game::run() {
 		}
 		if (GUI.getBindingValue<bool>("Window Debug Open") == true) {
 			ImGui::Begin("Debug Window", GUI.getBindingPointer<bool>("Window Debug Open"), ImGuiWindowFlags_NoCollapse);
-			ImGui::Text("Test Text");
-    		ImGui::SliderFloat("Test Slider", GUI.getBindingPointer<float>("Camera Speed"), 2.0f, 6.0f);
-    		ImGui::Text("Camera Speed: %f", GUI.getBindingValue<float>("Camera Speed"));
 			ImGui::Checkbox("Editor Menu", GUI.getBindingPointer<bool>("Window Editor Open"));
-    		ImGui::End();
+			ImGui::SliderFloat("Camera Speed", GUI.getBindingPointer<float>("Camera Speed"), 2.0f, 6.0f);
+			ImGui::Text("Nova Engine | V0.0.0");
+			ImGui::Text("Written by CoolManTheCool");
+			ImGui::Text("Copyright © 2024");
+			ImGui::End();
 		}	
 	});
 
-  	while (!window.shouldClose()) {
-    	glfwPollEvents();
+	while (!window.shouldClose()) {
+		glfwPollEvents();
 		
 		//nova_Logger::LogStream::log << "Camera Transform: " << viewerObject.transform.mat4();
 		//nova_Logger::LogStream::log << "Screen Size: " << glm::vec2(static_cast<float>(Settings.width), static_cast<float>(Settings.height));
@@ -125,81 +129,80 @@ void Game::run() {
 		for(std::shared_ptr<nova_Object> &obj : Objects) {
 			obj->update(frameTime);
 		}
-		camera.movement_speed = GUI.getBindingValue<float>("Camera Speed");
-		camera.moveInPlaneXZ(&window, frameTime);
 
-		camera.setViewYXZ(camera.transform.translation, camera.transform.rotation);
+		camera->movement_speed = GUI.getBindingValue<float>("Camera Speed");
 
-    	if (window.wasWindowResized()) {
-    		float aspect = Renderer.getAspectRation();
-    		camera.setPerspectiveProjection(glm::radians(65.f), aspect, 0.1f, 1000.f);
-    	}
+		if (window.wasWindowResized()) {
+			float aspect = Renderer.getAspectRation();
+			camera->setPerspectiveProjection(glm::radians(65.f), aspect, 0.1f, 1000.f);
+		}
 
 		GUI.update();
-    
+		//std::cout << "Camera Debug: " << camera.getView() <<	std::endl;
+	
 		if (auto commandBuffer = Renderer.beginFrame()) {
 			int frameIndex = Renderer.getFrameIndex();
 			FrameInfo frameInfo{
 				frameIndex,
 				frameTime,
 				commandBuffer,
-				camera,
+				*camera,
 				globalDescriptorSets[frameIndex],
 				Objects
 			};
 			GlobalUBO UBO{};
 			
-			UBO.projection = camera.getProjection();
-			UBO.view = camera.getView();
-			UBO.inverseView = camera.getInverseView();
+			UBO.projection = camera->getProjection();
+			UBO.view = camera->getView();
+			UBO.inverseView = camera->getInverseView();
 			pointLightSystem.update(frameInfo, UBO);
 			UBOBuffers[frameIndex]->writeToBuffer(&UBO);
 			UBOBuffers[frameIndex]->flush();
 
-      		Renderer.beginSwapChainRenderPass(commandBuffer);
-      		renderSystem.render(frameInfo);
-      		pointLightSystem.render(frameInfo);
+			Renderer.beginSwapChainRenderPass(commandBuffer);
+			renderSystem.render(frameInfo);
+			pointLightSystem.render(frameInfo);
 			GUI.render(&commandBuffer);
-      		Renderer.endSwapChainRenderPass(commandBuffer);
-      		Renderer.endFrame();
-  		}
+			Renderer.endSwapChainRenderPass(commandBuffer);
+			Renderer.endFrame();
+		}
 	}
 
-  	vkDeviceWaitIdle(device.device());
+	vkDeviceWaitIdle(device.device());
 
 	ImGui_ImplVulkan_Shutdown();
 	ImGui_ImplGlfw_Shutdown();
 	ImGui::DestroyContext();
 	vkDestroyDescriptorPool(device.device(), imguiPool, NULL);
 
-  	vkDeviceWaitIdle(device.device());
+	vkDeviceWaitIdle(device.device());
 }
 
 glm::vec3 randomVec3(float min, float max) {
-    return glm::vec3(
-        randRange<float>(min, max), // Random x-component
-        randRange<float>(min, max), // Random y-component
-        randRange<float>(min, max)  // Random z-component
-    );
+	return glm::vec3(
+		randRange<float>(min, max), // Random x-component
+		randRange<float>(min, max), // Random y-component
+		randRange<float>(min, max)	// Random z-component
+	);
 }
 
 void Game::loadGameObjects() {
 	{
-  	auto obj = MeshObject();
-  	obj.setModel(&device, Resources.getModel("smooth_vase"));
-  	obj.transform.translation = {-.5f, 0.f, -1.5f};
-  	obj.transform.scale = {5, -5, 5};
-  	Objects.push_back(std::make_shared<MeshObject>(obj));
+	auto obj = MeshObject();
+	obj.setModel(&device, Resources.getModel("smooth_vase"));
+	obj.transform.translation = {-.5f, 0.f, -1.5f};
+	obj.transform.scale = {5, -5, 5};
+	Objects.push_back(std::make_shared<MeshObject>(obj));
 
-  	obj.setModel(&device, Resources.getModel("flat_vase"));
-  	obj.transform.translation = {.5f, 1.f, -3.f};
-  	obj.transform.scale = {5, -5, 5};
-  	Objects.push_back(std::make_shared<MeshObject>(obj));
+	obj.setModel(&device, Resources.getModel("flat_vase"));
+	obj.transform.translation = {.5f, 1.f, -3.f};
+	obj.transform.scale = {5, -5, 5};
+	Objects.push_back(std::make_shared<MeshObject>(obj));
 
-  	obj.setModel(&device, Resources.getModel("quad"));
-  	obj.transform.translation = {0.01f, 0.f, 0.f};
-  	obj.transform.scale = {15, 1, 15};
-  	Objects.push_back(std::make_shared<MeshObject>(obj));
+	obj.setModel(&device, Resources.getModel("quad"));
+	obj.transform.translation = {0.01f, 0.f, 0.f};
+	obj.transform.scale = {15, 1, 15};
+	Objects.push_back(std::make_shared<MeshObject>(obj));
 	}
 	const int objectCount = 20;
 	const float radius = 8;
@@ -208,8 +211,8 @@ void Game::loadGameObjects() {
 		//obj.lightColor = {0.0, 0.1, 0.1};
 		obj.transform.translation = {
 			glm::cos(glm::radians(i * 360.0f / objectCount)) * radius,
-            7.5,
-            glm::sin(glm::radians(i * 360.0f / objectCount)) * radius
+			7.5,
+			glm::sin(glm::radians(i * 360.0f / objectCount)) * radius
 		};
 		
 		obj.transform.scale.x = 1.0f;
@@ -220,4 +223,4 @@ void Game::loadGameObjects() {
 }
 
 
-}  // namespace nova
+}	// namespace nova
