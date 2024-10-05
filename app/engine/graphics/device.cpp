@@ -146,7 +146,7 @@ void nova_Device::pickPhysicalDevice() {
         break;
       case VK_PHYSICAL_DEVICE_TYPE_MAX_ENUM:
         type = "Max Enum??? This is not possible.";
-        throw std::runtime_error("Invalid deviceType.");
+        throw std::invalid_argument("Invalid deviceType.");
         break;
     }
     std::cout << " - " << properties.deviceName << " (" << type << ", " << properties.deviceID << ")." << "\n";
