@@ -78,7 +78,6 @@ void Game::run() {
 	shared_ptr<Camera> camera = make_shared<Camera>(_camera);
 	Objects.emplace_back(camera);
 	camera->setViewDirection(vec3(-4.7, 2.6, -1.4), vec3(0.4, 1.7, 0));
-	
 
 	auto oldTime = std::chrono::high_resolution_clock::now();
 
@@ -89,7 +88,7 @@ void Game::run() {
 	GUI.setBinding("Camera Speed", 3.0f);
 	GUI.setBinding("F3 Down", false);
 	GUI.setBinding("Objects", &Objects);
-	
+	 
 	Editor_T Editor;
 	Editor.RegisterBindings();
 	GUI.registerWindow(Editor.RegisterWindow(&window));
