@@ -23,11 +23,13 @@ Camera::Camera(nova_Window *window, float fovy, float aspect, float near, float 
 }
 
 void Camera::setViewDirection(glm::vec3 position, glm::vec3 direction, glm::vec3 up) {
-	
+	transform.translation = position;
+    transform.rotation = direction;
 }
 
 void Camera::setViewTarget(glm::vec3 position, glm::vec3 target, glm::vec3 up) {
-	
+	viewMatrix = glm::lookAt(position, target, up);
+    inverseViewMatrix = glm::inverse(viewMatrix);
 }
 
 // MOVEMENT

@@ -77,7 +77,7 @@ void Game::run() {
 	Camera _camera{&window, glm::radians(65.f), Renderer.getAspectRation(), 0.1f, 1000.f };
 	shared_ptr<Camera> camera = make_shared<Camera>(_camera);
 	Objects.emplace_back(camera);
-	camera->setViewTarget(vec3(-1.f, 2.f, 2.f), vec3(0.f, 0.f, 2.5f));
+	camera->setViewDirection(vec3(-4.7, 2.6, -1.4), vec3(0.4, 1.7, 0));
 	
 
 	auto oldTime = std::chrono::high_resolution_clock::now();

@@ -84,7 +84,7 @@ Settings_t::Settings_t() {
     height       = 512;
     title        = "Untitled Project | Nova Engine";
     version_ID   = 0;
-    version_name = "Unknown Version"
+    version_name = "Unknown Version";
 }
 
 Settings_t::S_RendererSettings::S_RendererSettings() {

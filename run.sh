@@ -36,6 +36,9 @@ case "$1" in
     -compile)
         ./build.sh -release -norun
         ;;
+    -clean)
+        ./build.sh -clean
+        ;;
     *)
        ./build.sh -debug
 esac
