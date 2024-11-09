@@ -33,6 +33,7 @@ struct Settings_t {
     std::string title;
     std::string version_name;
     unsigned int version_ID;
+    size_t console_lines;
 
     struct S_RendererSettings {
         S_RendererSettings();

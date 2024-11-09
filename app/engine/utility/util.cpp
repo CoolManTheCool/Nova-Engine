@@ -80,11 +80,12 @@ std::ostream& operator<<(std::ostream& os, const glm::mat4& mat) {
 }
 
 Settings_t::Settings_t() {
-    width        = 512;
-    height       = 512;
-    title        = "Untitled Project | Nova Engine";
-    version_ID   = 0;
-    version_name = "Unknown Version";
+    width         = 512;
+    height        = 512;
+    title         = "Untitled Project | Nova Engine";
+    version_ID    = 0;
+    version_name  = "Unknown Version";
+    console_lines = 25;
 }
 
 Settings_t::S_RendererSettings::S_RendererSettings() {

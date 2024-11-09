@@ -28,11 +28,11 @@ set(SOURCE_FILES
     engine/graphics/mesh.cpp
     engine/objects/point_light_object.cpp
     engine/objects/mesh_object.cpp
-    engine/objects/editor.cpp
+    engine/utility/editor.cpp
+    engine/utility/console.cpp
     engine/objects/camera.cpp
     engine/objects/object.cpp
     engine/utility/resources.cpp
-    engine/utility/logger.cpp
     engine/utility/util.cpp
     engine/utility/gui_system.cpp
     engine/engine.cpp

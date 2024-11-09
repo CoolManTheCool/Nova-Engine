@@ -6,9 +6,9 @@
 #include "gui_system.hpp"
 
 #include "resources.hpp"
-#include "logger.hpp"
 #include "util.hpp"
 #include "editor.hpp"
+#include "console.hpp"
 
 #define MAX_FRAME_TIME 1.f
 
@@ -91,7 +91,10 @@ void Game::run() {
 	 
 	Editor_T Editor;
 	Editor.RegisterBindings();
+	Console.RegisterBindings();
+
 	GUI.registerWindow(Editor.RegisterWindow(&window));
+	Console.RegisterWindow();
 
 	GUI.registerWindow([this]() {
 		// GUI.getBindingValue<>("")
@@ -108,6 +111,29 @@ void Game::run() {
 			ImGui::Text("Nova Engine | V0.0.0");
 			ImGui::Text("Written by CoolManTheCool");
 			ImGui::Text("Copyright © 2024");
+			/*
+			if(ImGui::Button("Options")) ImGui::OpenPopup("OptionsDropdown");
+			ImGui::SameLine();
+			if(ImGui::Button("Clear")) {}
+			ImGui::SameLine();
+			if(ImGui::Button("Copy")) {}
+			ImGui::SameLine();
+			ImGui::Text("Filter: ");
+			ImGui::SameLine();
+			//ImGui::InputTextWithHint("Filter", "Filter", text, 25);
+			ImGui::InputTextWithHint("Filter", "Filter", GUI.getBindingValue<char *>("Filter Text"), 25);
+
+			if(ImGui::BeginPopup("OptionsDropdown")) {
+				bool hovered = ImGui::IsWindowHovered();
+
+				ImGui::Checkbox("Test Checkbox 1", GUI.getBindingPointer<bool>("Option 1 Checkbox"));
+				ImGui::Checkbox("Test Checkbox 2", GUI.getBindingPointer<bool>("Option 2 Checkbox"));
+
+				ImGui::EndPopup();
+				if (!hovered) ImGui::CloseCurrentPopup();
+			}
+			*/
+
 			ImGui::End();
 		}	
 	});
