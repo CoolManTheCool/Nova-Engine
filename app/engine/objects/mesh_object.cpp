@@ -24,7 +24,7 @@ void MeshObject::render(VkPipelineLayout &pipelineLayout, VkCommandBuffer &comma
     model->draw(commandBuffer);
 }
 
-void MeshObject::update(float deltaTime) {
+void MeshObject::update([[maybe_unused]] float deltaTime) {
 
 }
 

@@ -16,12 +16,12 @@ void Editor_T::RegisterBindings() {
     GUI.setBinding("Obj Num", 0);
 }
 
-std::function<void()> Editor_T::RegisterWindow(nova_Window* window) {
+void Editor_T::RegisterWindow(nova_Window* window) {
 
     std::vector<std::shared_ptr<nova_Object>> *objects = GUI.getBindingValue<std::vector<std::shared_ptr<nova_Object>>*>("Objects");
     assert(objects && "'Objects' is not bound or is null.");
     
-    return [window, objects]() {
+    GUI.registerWindow([window, objects]() {
         int* objNum = GUI.getBindingPointer<int>("Obj Num");
         int maxObjects = objects->size();
     
@@ -42,7 +42,7 @@ std::function<void()> Editor_T::RegisterWindow(nova_Window* window) {
         ImGui::SliderFloat("Y Translation", &obj->transform.translation.y, min_dist_edit, max_dist_edit);
         ImGui::SliderFloat("Z Translation", &obj->transform.translation.z, min_dist_edit, max_dist_edit);
     	ImGui::End();
-	}};
+	}});
 
     }
 }

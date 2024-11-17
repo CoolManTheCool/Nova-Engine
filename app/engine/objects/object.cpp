@@ -65,11 +65,11 @@ unsigned int nova_Object::getObjectType() {
     return OBJECT_TYPE_NULL;
 }
 
-void nova_Object::update(float deltaTime) {
+void nova_Object::update([[maybe_unused]] float deltaTime) {
     
 }
 
-void nova_Object::render(VkPipelineLayout &pipelineLayout, VkCommandBuffer &commandBuffer) {
+void nova_Object::render([[maybe_unused]] VkPipelineLayout &pipelineLayout, [[maybe_unused]] VkCommandBuffer &commandBuffer) {
     std::cout << "Uhm... a generic object just got rendered!" << std::endl;
 }
 

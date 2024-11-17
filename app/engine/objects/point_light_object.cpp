@@ -82,7 +82,6 @@ unsigned int PointLightObject::getObjectType() {
 }
 
 void PointLightObject::render(VkPipelineLayout &pipelineLayout, VkCommandBuffer &commandBuffer) {
-    //std::cout << "Rendering light object" << std::endl;
     PointLightPushConstants push{};
     push.position = glm::vec4(transform.translation, 1.f);
     push.color = glm::vec4(lightColor, lightIntensity);
@@ -95,10 +94,11 @@ void PointLightObject::render(VkPipelineLayout &pipelineLayout, VkCommandBuffer 
     sizeof(PointLightPushConstants),
     &push);
 
+
     vkCmdDraw(commandBuffer, 3, 1, 0, 0);
 }
 
-void PointLightObject::update(float deltaTime) {
+void PointLightObject::update([[maybe_unused]] float deltaTime) {
     
 }
 

@@ -86,23 +86,23 @@ void Game::run() {
 	// Register Bindings,
 	GUI.setBinding("Window Debug Open", true);
 	GUI.setBinding("Camera Speed", 3.0f);
-	GUI.setBinding("F3 Down", false);
+	GUI.setBinding("Debug Menu Key Down", false);
 	GUI.setBinding("Objects", &Objects);
 	 
 	Editor_T Editor;
 	Editor.RegisterBindings();
 	Console.RegisterBindings();
 
-	GUI.registerWindow(Editor.RegisterWindow(&window));
-	Console.RegisterWindow();
+	Editor.RegisterWindow(&window);
+	Console.RegisterWindow(&window);
 
 	GUI.registerWindow([this]() {
 		// GUI.getBindingValue<>("")
-		if(glfwGetKey(window.getWindow(), GLFW_KEY_F3) == GLFW_PRESS && !GUI.getBindingValue<bool>("F3 Down")) {
+		if(glfwGetKey(window.getWindow(), GLFW_KEY_F3) == GLFW_PRESS && !GUI.getBindingValue<bool>("Debug Menu Key Down")) {
 			*GUI.getBindingPointer<bool>("Window Debug Open") = !GUI.getBindingValue<bool>("Window Debug Open");
-			*GUI.getBindingPointer<bool>("F3 Down") = true;
+			*GUI.getBindingPointer<bool>("Debug Menu Key Down") = true;
 		} else if(glfwGetKey(window.getWindow(), GLFW_KEY_F3) == GLFW_RELEASE) {
-			*GUI.getBindingPointer<bool>("F3 Down") = false;
+			*GUI.getBindingPointer<bool>("Debug Menu Key Down") = false;
 		}
 		if (GUI.getBindingValue<bool>("Window Debug Open") == true) {
 			ImGui::Begin("Debug Window", GUI.getBindingPointer<bool>("Window Debug Open"), ImGuiWindowFlags_NoCollapse);
@@ -240,9 +240,15 @@ void Game::loadGameObjects() {
 			glm::sin(glm::radians(i * 360.0f / objectCount)) * radius
 		};
 		
-		obj.transform.scale.x = 1.0f;
-		obj.lightIntensity = 5.2f;
+		obj.transform.scale = { 2, 2, 2};
+		obj.lightIntensity = 0.9f;
 		Objects.push_back(std::make_shared<PointLightObject>(obj));
+
+		auto obja = MeshObject();
+		obja.setModel(&device, Resources.getModel("quad"));
+		obja.transform.translation = obj.transform.translation;
+		obja.transform.scale = obj.transform.scale;
+		Objects.push_back(std::make_shared<MeshObject>(obja));
 	}
 	
 }

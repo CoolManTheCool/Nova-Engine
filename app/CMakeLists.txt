@@ -18,6 +18,7 @@ include_directories(${GLFW_INCLUDE_DIRS})
 set(SOURCE_FILES
     engine/systems/point_light_system.cpp
     engine/systems/mesh_system.cpp
+    engine/systems/physics_system.cpp
     engine/graphics/descriptors.cpp
     engine/graphics/swap_chain.cpp
     engine/graphics/renderer.cpp

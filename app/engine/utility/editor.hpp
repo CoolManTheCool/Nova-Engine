@@ -9,7 +9,7 @@ class Editor_T {
 public:
     Editor_T();
     void RegisterBindings();
-    std::function<void()> RegisterWindow(nova_Window* window);
+    void RegisterWindow(nova_Window* window);
     
 private:
 

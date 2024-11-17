@@ -22,7 +22,7 @@ Camera::Camera(nova_Window *window, float fovy, float aspect, float near, float 
 	setPerspectiveProjection(fovy, aspect, near, far);
 }
 
-void Camera::setViewDirection(glm::vec3 position, glm::vec3 direction, glm::vec3 up) {
+void Camera::setViewDirection(glm::vec3 position, glm::vec3 direction) {
 	transform.translation = position;
     transform.rotation = direction;
 }
@@ -114,7 +114,7 @@ void Camera::update(float deltaTime) {
 	setViewYXZ();
 }
 
-void Camera::render(VkPipelineLayout &pipelineLayout, VkCommandBuffer &commandBuffer) {
+void Camera::render([[maybe_unused]] VkPipelineLayout &pipelineLayout, [[maybe_unused]] VkCommandBuffer &commandBuffer) {
 	std::cout << "Camera Object should NOT be rendered." << std::endl;
 	throw std::invalid_argument("render() called on Camera Object!");
 }

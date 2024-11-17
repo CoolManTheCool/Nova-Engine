@@ -2,6 +2,7 @@
 
 // std
 #include <array>
+#include <algorithm>
 #include <cstdlib>
 #include <cstring>
 #include <iostream>
@@ -345,23 +346,41 @@ VkSurfaceFormatKHR nova_SwapChain::chooseSwapSurfaceFormat(const std::vector<VkS
 	return availableFormats[0];
 }
 
+const char* presentModeToString(VkPresentModeKHR mode) {
+    switch (mode) {
+        case VK_PRESENT_MODE_FIFO_KHR:
+            return "FIFO (Higher Latency, V-Sync ON)";
+        case VK_PRESENT_MODE_MAILBOX_KHR:
+            return "Mailbox (DEFAULT, Hybrid Mode, V-Sync ON, Makes frames cosntantly, Only draws the newest.)";
+        case VK_PRESENT_MODE_FIFO_RELAXED_KHR:
+            return "FIFO Relaxed (Look this one up)";
+        case VK_PRESENT_MODE_IMMEDIATE_KHR:
+            return "Immediate (Fallback/User Chosen, V-Sync OFF, Draws a frame when complete)";
+        default:
+            return "Unknown Present Mode";
+    }
+}
+
 VkPresentModeKHR nova_SwapChain::chooseSwapPresentMode(const std::vector<VkPresentModeKHR> &availablePresentModes) {
-	for (const auto &availablePresentMode : availablePresentModes) {
-		if (availablePresentMode == VK_PRESENT_MODE_MAILBOX_KHR) {
-			std::cout << "Present mode: Mailbox" << std::endl;
-			return availablePresentMode;
-		}
-	}
+	// Define the priority order of present modes
+    const std::vector<VkPresentModeKHR> presentModePriority = {
+        VK_PRESENT_MODE_MAILBOX_KHR,
+        VK_PRESENT_MODE_FIFO_KHR,
+        VK_PRESENT_MODE_FIFO_RELAXED_KHR,
+        VK_PRESENT_MODE_IMMEDIATE_KHR
+    };
 
-	// for (const auto &availablePresentMode : availablePresentModes) {
-	//   if (availablePresentMode == VK_PRESENT_MODE_IMMEDIATE_KHR) {
-	//     std::cout << "Present mode: Immediate" << std::endl;
-	//     return availablePresentMode;
-	//   }
-	// }
+    // Loop through the priority list and return the first available present mode
+    for (VkPresentModeKHR mode : presentModePriority) {
+        if (std::find(availablePresentModes.begin(), availablePresentModes.end(), mode) != availablePresentModes.end()) {
+            std::cout << "Selected Present Mode: " << presentModeToString(mode) << std::endl;
+            return mode;  // Return the first matching present mode
+        }
+    }
 
-	std::cout << "Present mode: V-Sync" << std::endl;
-	return VK_PRESENT_MODE_FIFO_KHR;
+    // If none are found, return the default present mode (FIFO)
+    std::cout << "Selected Present Mode: " << presentModeToString(VK_PRESENT_MODE_FIFO_KHR) << std::endl;
+    return VK_PRESENT_MODE_FIFO_KHR;
 }
 
 VkExtent2D nova_SwapChain::chooseSwapExtent(const VkSurfaceCapabilitiesKHR &capabilities) {
