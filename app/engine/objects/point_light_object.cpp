@@ -81,21 +81,8 @@ unsigned int PointLightObject::getObjectType() {
     return OBJECT_TYPE_POINT_LIGHT;
 }
 
-void PointLightObject::render(VkPipelineLayout &pipelineLayout, VkCommandBuffer &commandBuffer) {
-    PointLightPushConstants push{};
-    push.position = glm::vec4(transform.translation, 1.f);
-    push.color = glm::vec4(lightColor, lightIntensity);
-    push.radius = transform.scale.x;
-
-    vkCmdPushConstants(commandBuffer,
-    pipelineLayout,
-    VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT,
-    0,
-    sizeof(PointLightPushConstants),
-    &push);
-
-
-    vkCmdDraw(commandBuffer, 3, 1, 0, 0);
+void PointLightObject::render([[maybe_unused]] VkPipelineLayout &pipelineLayout, [[maybe_unused]] VkCommandBuffer &commandBuffer) {
+    throw std::logic_error("You aren't suppost to call this function!!");
 }
 
 void PointLightObject::update([[maybe_unused]] float deltaTime) {

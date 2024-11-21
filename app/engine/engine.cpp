@@ -2,7 +2,6 @@
 
 #include "camera.hpp"
 #include "buffer.hpp"
-#include "point_light_system.hpp"
 #include "gui_system.hpp"
 
 #include "resources.hpp"
@@ -67,7 +66,6 @@ void Game::run() {
 	}
 
 	MeshSystem renderSystem{device, Renderer.getSwapChainRenderPass(), globalSetLayout->getDescriptorSetLayout()};
-	PointLightSystem pointLightSystem{device, Renderer.getSwapChainRenderPass(), globalSetLayout->getDescriptorSetLayout()};
 	/*
 	float aspect = Renderer.getAspectRation();
 	camera.setPerspectiveProjection(glm::radians(50.f), aspect, 0.1f, 1000.f);
@@ -180,13 +178,11 @@ void Game::run() {
 			UBO.projection = camera->getProjection();
 			UBO.view = camera->getView();
 			UBO.inverseView = camera->getInverseView();
-			pointLightSystem.update(frameInfo, UBO);
 			UBOBuffers[frameIndex]->writeToBuffer(&UBO);
 			UBOBuffers[frameIndex]->flush();
 
 			Renderer.beginSwapChainRenderPass(commandBuffer);
 			renderSystem.render(frameInfo);
-			pointLightSystem.render(frameInfo);
 			GUI.render(&commandBuffer);
 			Renderer.endSwapChainRenderPass(commandBuffer);
 			Renderer.endFrame();
