@@ -1,8 +1,7 @@
 # Nova Engine
 
-## NOTE: This does NOT work.
-The game structure is broken.
-You cannot compile the project.
+## NOTE: This is still in development.
+The game structure is wrong.
 There isn't even an engine header for you to link against.
 
 ## Overview
@@ -112,7 +111,7 @@ Contributions are welcome! Please follow these steps to contribute:
 
 ### License
 
-This project is licensed under Nova Studio's Software License. See the [LICENSE](LICENSE) file for details.
+This project is licensed under Ignis Studio's Software License. See the [LICENSE](LICENSE) file for details.
 Usage of this software in any way subjects you to this license. 
 
 ### Acknowledgements
