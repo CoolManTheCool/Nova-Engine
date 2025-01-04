@@ -3,6 +3,7 @@
 #include "camera.hpp"
 #include "buffer.hpp"
 #include "gui_system.hpp"
+#include "point_light_object.hpp"
 
 #include "resources.hpp"
 #include "util.hpp"

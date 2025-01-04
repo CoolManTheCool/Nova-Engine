@@ -16,7 +16,6 @@ include_directories(${GLFW_INCLUDE_DIRS})
 #find_package(OpenAL REQUIRED)
 
 set(SOURCE_FILES
-    engine/systems/point_light_system.cpp
     engine/systems/mesh_system.cpp
     engine/systems/physics_system.cpp
     engine/graphics/descriptors.cpp
