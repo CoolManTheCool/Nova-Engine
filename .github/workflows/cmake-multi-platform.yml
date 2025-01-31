@@ -61,7 +61,7 @@ jobs:
       run: tar -czf ./bin.tar.gz -C ./bin .
 
     - name: Upload build artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: build
         path: ./bin.tar.gz
