@@ -64,7 +64,6 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     engine/utility/
     engine/graphics/
     engine/
-    src/game/
     libs/
 
     ${Vulkan_INCLUDE_DIRS}
