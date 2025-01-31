@@ -179,6 +179,17 @@ void Game::run() {
 			UBO.projection = camera->getProjection();
 			UBO.view = camera->getView();
 			UBO.inverseView = camera->getInverseView();
+			uint8_t numObjects = 0;
+			for(auto& obj : Objects) {
+				if(obj->getObjectType() == OBJECT_TYPE_POINT_LIGHT) {
+					auto lightObject = std::dynamic_pointer_cast<PointLightObject>(obj);
+					UBO.pointLights[numObjects].color = vec4(lightObject->lightColor, lightObject->lightIntensity);
+					UBO.pointLights[numObjects].position = vec4(lightObject->transform.translation, 0);
+					numObjects++;
+				}
+			}
+			
+			UBO.numLights = numObjects;
 			UBOBuffers[frameIndex]->writeToBuffer(&UBO);
 			UBOBuffers[frameIndex]->flush();
 
