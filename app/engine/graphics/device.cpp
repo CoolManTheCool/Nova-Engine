@@ -52,11 +52,11 @@ void DestroyDebugUtilsMessengerEXT(
 }
 
 // class member functions
-nova_Device::nova_Device(nova_Window &window) : window{window} {
+nova_Device::nova_Device(nova_Window &window, Settings settings) : window{window} {
   createInstance();
   setupDebugMessenger();
   createSurface();
-  pickPhysicalDevice();
+  pickPhysicalDevice(settings);
   createLogicalDevice();
   createCommandPool();
 }
@@ -113,7 +113,7 @@ void nova_Device::createInstance() {
   hasGflwRequiredInstanceExtensions();
 }
 
-void nova_Device::pickPhysicalDevice() {
+void nova_Device::pickPhysicalDevice(Settings settings) {
   uint32_t deviceCount = 0;
   vkEnumeratePhysicalDevices(instance, &deviceCount, nullptr);
   if (deviceCount == 0) {
@@ -153,9 +153,9 @@ void nova_Device::pickPhysicalDevice() {
 
   }
 
-  uint32_t ForceGPUID = Settings.RenderSettings.ForceGPUID;
+  uint32_t ForceGPUID = settings.RenderSettings.ForceGPUID;
   //force GPU #Settings.ForceGPU or dont
-  if (Settings.RenderSettings.ForceGPU) { //runs ifn't NULL
+  if (settings.RenderSettings.ForceGPU) { //runs ifn't NULL
     std::cout << "ForceGPU: " << ForceGPUID << "\n";
     for (const auto &device : devices) {
       vkGetPhysicalDeviceProperties(device, &properties);

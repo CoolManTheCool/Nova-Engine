@@ -25,19 +25,16 @@ std::ostream& operator<<(std::ostream& os, const glm::mat2& mat);
 std::ostream& operator<<(std::ostream& os, const glm::mat3& mat);
 std::ostream& operator<<(std::ostream& os, const glm::mat4& mat);
 
-struct Settings_t {
-    Settings_t();
-    // Window settings
-    int width;
-    int height;
-    std::string title;
-    std::string version_name;
-    unsigned int version_ID;
-    size_t console_lines;
+struct Settings {
+    int width = 512;
+    int height = 512;
+    std::string title = "Untitled Project | Nova Engine";
+    std::string version_name = "Unknown Version";
+    unsigned int version_ID = 0;
+    size_t console_lines = 100;
 
-    struct S_RendererSettings {
-        S_RendererSettings();
-        bool     ForceGPU;
+    struct RenderSettings {
+        bool     ForceGPU = false;
         uint32_t ForceGPUID;
     } RenderSettings;
 };
@@ -67,11 +64,5 @@ void hashCombine(std::size_t& seed, const T& v, const Rest&... rest) {
   (hashCombine(seed, rest), ...);
 };
 }
-
-// Declare Settings as extern
-#ifndef SETTINGS_EXTERN
-#define SETTINGS_EXTERN
-extern Settings_t Settings;
-#endif
 
 #endif // UTIL_HPP

@@ -9,26 +9,26 @@
 
 //we want to immediately abort when there is an error. In normal engines this would give an error message to the user, or perform a dump of state.
 using namespace std;
-#define VK_CHECK(x)                                                 \
-	do                                                              \
-	{                                                               \
-		VkResult err = x;                                           \
-		if (err)                                                    \
-		{                                                           \
+#define VK_CHECK(x)                                                    \
+	do                                                                 \
+	{                                                                  \
+		VkResult err = x;                                              \
+		if (err)                                                       \
+		{                                                              \
 			std::cout <<"Detected Vulkan error: " << err << std::endl; \
-			abort();                                                \
-		}                                                           \
+			abort();                                                   \
+		}                                                              \
 	} while (0)
 
 namespace nova {
 class nova_Window {
   public:
-	nova_Window();
+	nova_Window(Settings settings);
 
 	bool shouldClose() { return glfwWindowShouldClose(window); }
 	VkExtent2D getExtent() {
-		return {static_cast<uint32_t>(Settings.width),
-				static_cast<uint32_t>(Settings.height)};
+		return {static_cast<uint32_t>(settings->width),
+				static_cast<uint32_t>(settings->height)};
 	};
 	void createWindowSurface(VkInstance instance, VkSurfaceKHR *surface);
 	bool wasWindowResized() { return frameBufferResized; };
@@ -45,6 +45,8 @@ class nova_Window {
 	static void frameBufferResizeCallback(GLFWwindow *window, int width, int height);
 
 	bool frameBufferResized = false;
+
+	Settings* settings;
 
 	GLFWwindow *window;
 };

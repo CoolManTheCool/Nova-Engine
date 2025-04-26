@@ -8,8 +8,6 @@
 #include <string>
 #include <chrono>
 
-#define MAX_CONSOLE_ELEMENTS 1000
-
 namespace nova {
 
 class Console_T {
@@ -30,7 +28,7 @@ public:
         };
     };
 
-    Console_T();
+    Console_T(Settings settings);
     void RegisterBindings();
     void RegisterWindow(nova_Window* window);
     
@@ -39,11 +37,6 @@ private:
 
     char* filter = new char[25]();
 };
-
-#ifndef CONSOLE_EXTERN
-#define CONSOLE_EXTERN
-extern Console_T Console;
-#endif
 
 }
 

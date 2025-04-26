@@ -78,19 +78,3 @@ std::ostream& operator<<(std::ostream& os, const glm::mat4& mat) {
     os << " }";
     return os;
 }
-
-Settings_t::Settings_t() {
-    width         = 512;
-    height        = 512;
-    title         = "Untitled Project | Nova Engine";
-    version_ID    = 0;
-    version_name  = "Unknown Version";
-    console_lines = 25;
-}
-
-Settings_t::S_RendererSettings::S_RendererSettings() {
-    ForceGPU   = false;
-    ForceGPUID = 7298; // 0
-}
-
-Settings_t Settings = Settings_t();

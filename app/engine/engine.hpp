@@ -7,33 +7,46 @@
 #include "window.hpp"
 #include "descriptors.hpp"
 #include "mesh_system.hpp"
+#include "console.hpp"
 
-// std
 #include <memory>
 #include <vector>
 
 namespace nova {
-class Game {
- public:
 
-  Game();
-  ~Game();
+struct EngineConfig {
+  Resources resources;
+  Settings settings;
+};
 
-  Game(const Game &) = delete;
-  Game &operator=(const Game &) = delete;
+typedef std::vector<std::shared_ptr<nova_Object>> ObjectList;
 
+class Engine {
+public:
+
+  Engine(EngineConfig config);
+  ~Engine();
+
+  Engine(const Engine &) = delete;
+  Engine &operator=(const Engine &) = delete;
+
+  nova_Device& getDevice() { return device; }
+  
   void run();
 
- private:
-  void loadGameObjects();
+  std::vector<std::shared_ptr<nova_Object>> Objects;
+  Resources resources;
+private:
 
-  nova_Window window{};
-  nova_Device device{window};
-  nova_Renderer Renderer{window, device};
+  nova_Window window;
+  nova_Device device;
+  nova_Renderer Renderer;
 
   VkDescriptorPool imguiPool;
   std::unique_ptr<nova_DescriptorPool> globalPool{};
-  std::vector<std::shared_ptr<nova_Object>> Objects;
+
+  Settings settings;
+	Console_T Console;
 };
 }  // namespace nova
 

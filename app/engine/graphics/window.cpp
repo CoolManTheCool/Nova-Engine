@@ -2,14 +2,17 @@
 #include <stdexcept>
 
 namespace nova {
-nova_Window::nova_Window() { initWindow(); }
+nova_Window::nova_Window(Settings settings) {
+	this->settings = &settings;
+	initWindow();
+}
 
 void nova_Window::initWindow() {
 	glfwInit();
 	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 	glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
 
-	window = glfwCreateWindow(Settings.width, Settings.height, Settings.title.c_str(), nullptr, nullptr);
+	window = glfwCreateWindow(settings->width, settings->height, settings->title.c_str(), nullptr, nullptr);
 	glfwSetWindowUserPointer(window, this);
 	glfwSetFramebufferSizeCallback(window, frameBufferResizeCallback);
 }
@@ -28,7 +31,7 @@ nova_Window::~nova_Window() {
 void nova_Window::frameBufferResizeCallback(GLFWwindow *window, int width, int height) {
 	auto novaWindow = reinterpret_cast<nova_Window *>(glfwGetWindowUserPointer(window));
 	novaWindow->frameBufferResized = true;
-	Settings.width = width;
-	Settings.height = height;
+	novaWindow->settings->width = width;
+	novaWindow->settings->height = height;
 }
 } // namespace nova

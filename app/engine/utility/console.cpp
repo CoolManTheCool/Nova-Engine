@@ -3,11 +3,8 @@
 
 namespace nova {
 
-Console_T Console = Console_T();
-
-Console_T::Console_T() {
-    size_t max_elements = Settings.console_lines;
-    if (max_elements < MAX_CONSOLE_ELEMENTS) max_elements = MAX_CONSOLE_ELEMENTS;
+Console_T::Console_T(Settings settings) {
+    size_t max_elements = settings.console_lines;
 
     elements.reserve(max_elements);
 	for (int i = 0; i<20; i++) {

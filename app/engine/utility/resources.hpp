@@ -26,9 +26,9 @@ enum KeyMappings {
     lookDown = GLFW_KEY_DOWN,
 };
 
-class Resources_t {
+class Resources {
 public:
-    Resources_t();
+    Resources();
     nova::nova_Model::Builder getModel(const std::string name);
     const std::string getShader(const std::string name);
     const std::string getExecutablePath() const { return executablePath; }
@@ -42,10 +42,5 @@ private:
     //std::string vertFilepath = resourcePath + "shaders/vertex.vert.spv";
     //std::string fragFilepath = resourcePath + "shaders/fragment.frag.spv";
 };
-
-#ifndef RESOURCES_EXTERN
-#define RESOURCES_EXTERN
-extern Resources_t Resources;
-#endif
 
 #endif // RESOURCES_HPP

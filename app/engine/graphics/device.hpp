@@ -31,7 +31,7 @@ class nova_Device {
   const bool enableValidationLayers = true;
 #endif
 
-  nova_Device(nova_Window &window);
+  nova_Device(nova_Window &window, Settings settings);
   ~nova_Device();
 
   // Not copyable or movable
@@ -79,7 +79,7 @@ class nova_Device {
   void createInstance();
   void setupDebugMessenger();
   void createSurface();
-  void pickPhysicalDevice();
+  void pickPhysicalDevice(Settings settings);
   void createLogicalDevice();
   void createCommandPool();
 

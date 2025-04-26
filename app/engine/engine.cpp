@@ -8,7 +8,6 @@
 #include "resources.hpp"
 #include "util.hpp"
 #include "editor.hpp"
-#include "console.hpp"
 
 #define MAX_FRAME_TIME 1.f
 
@@ -24,19 +23,26 @@ namespace nova {
 
 //using namespace nova_Logger;
 
-Game::Game() {
+Engine::Engine(EngineConfig config) :
+window(config.settings),
+device(window, config.settings),
+Renderer(window, device),
+Console(config.settings) {
+
 	srand(time(NULL));
+
+	settings = config.settings;
+	resources = config.resources;
+
 	globalPool = nova_DescriptorPool::Builder(device)
 	.setMaxSets(nova_SwapChain::MAX_FRAMES_IN_FLIGHT)
 	.addPoolSize(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, nova_SwapChain::MAX_FRAMES_IN_FLIGHT)
 	.build();
-
-	loadGameObjects();
 }
 
-Game::~Game() {}
+Engine::~Engine() {}
 
-void Game::run() {
+void Engine::run() {
 	std::vector<std::unique_ptr<nova_Buffer>> UBOBuffers(nova_SwapChain::MAX_FRAMES_IN_FLIGHT);
 	for(size_t i = 0; i < UBOBuffers.size(); i++) {
 		UBOBuffers[i] = std::make_unique<nova_Buffer>(device, sizeof(GlobalUBO), 1,
@@ -66,7 +72,7 @@ void Game::run() {
 		.build(globalDescriptorSets[i]);
 	}
 
-	MeshSystem renderSystem{device, Renderer.getSwapChainRenderPass(), globalSetLayout->getDescriptorSetLayout()};
+	MeshSystem renderSystem{device, Renderer.getSwapChainRenderPass(), globalSetLayout->getDescriptorSetLayout(), resources};
 	/*
 	float aspect = Renderer.getAspectRation();
 	camera.setPerspectiveProjection(glm::radians(50.f), aspect, 0.1f, 1000.f);
@@ -206,7 +212,6 @@ void Game::run() {
 	ImGui_ImplVulkan_Shutdown();
 	ImGui_ImplGlfw_Shutdown();
 	ImGui::DestroyContext();
-	vkDestroyDescriptorPool(device.device(), imguiPool, NULL);
 
 	vkDeviceWaitIdle(device.device());
 }
@@ -218,48 +223,5 @@ glm::vec3 randomVec3(float min, float max) {
 		randRange<float>(min, max)	// Random z-component
 	);
 }
-
-void Game::loadGameObjects() {
-	{
-	auto obj = MeshObject();
-	obj.setModel(&device, Resources.getModel("smooth_vase"));
-	obj.transform.translation = {-.5f, 0.f, -1.5f};
-	obj.transform.scale = {5, -5, 5};
-	Objects.push_back(std::make_shared<MeshObject>(obj));
-
-	obj.setModel(&device, Resources.getModel("flat_vase"));
-	obj.transform.translation = {.5f, 1.f, -3.f};
-	obj.transform.scale = {5, -5, 5};
-	Objects.push_back(std::make_shared<MeshObject>(obj));
-
-	obj.setModel(&device, Resources.getModel("quad"));
-	obj.transform.translation = {0.01f, 0.f, 0.f};
-	obj.transform.scale = {15, 1, 15};
-	Objects.push_back(std::make_shared<MeshObject>(obj));
-	}
-	const int objectCount = 20;
-	const float radius = 8;
-	for(int i = 0; i < objectCount; i++) {
-		auto obj = PointLightObject();
-		//obj.lightColor = {0.0, 0.1, 0.1};
-		obj.transform.translation = {
-			glm::cos(glm::radians(i * 360.0f / objectCount)) * radius,
-			7.5,
-			glm::sin(glm::radians(i * 360.0f / objectCount)) * radius
-		};
-		
-		obj.transform.scale = { 2, 2, 2};
-		obj.lightIntensity = 0.9f;
-		Objects.push_back(std::make_shared<PointLightObject>(obj));
-
-		auto obja = MeshObject();
-		obja.setModel(&device, Resources.getModel("quad"));
-		obja.transform.translation = obj.transform.translation;
-		obja.transform.scale = obj.transform.scale;
-		Objects.push_back(std::make_shared<MeshObject>(obja));
-	}
-	
-}
-
 
 }	// namespace nova

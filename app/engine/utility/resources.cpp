@@ -12,8 +12,6 @@
 #include <iostream>
 namespace fs = std::filesystem;
 
-Resources_t Resources = Resources_t();
-
 std::vector<std::string> searchDirectory(const std::string& directory);
 uint64_t constexpr mix(char m, uint64_t s) {
     return ((s<<7) + ~(s>>3)) + ~m;
@@ -51,7 +49,7 @@ std::string getExecutableDirectory() {
     return directory;
 }
 
-Resources_t::Resources_t() {
+Resources::Resources() {
     std::cout << "================================\n";
     std::cout << "Nova Engine \n";
     std::cout << "================================\n";
@@ -114,7 +112,7 @@ std::vector<std::string> searchDirectory(const std::string& directory) {
     return files;
 }
 
-nova::nova_Model::Builder Resources_t::getModel(const std::string name) { 
+nova::nova_Model::Builder Resources::getModel(const std::string name) { 
     auto p = models.find(name);
     if(p != models.end()) {
         return p->second;
@@ -123,7 +121,7 @@ nova::nova_Model::Builder Resources_t::getModel(const std::string name) {
     }
 }
 
-const std::string Resources_t::getShader(const std::string name) {
+const std::string Resources::getShader(const std::string name) {
     auto p = shaderPaths.find(name);
     if(p != shaderPaths.end()) {
         return p->second;
