@@ -13,7 +13,7 @@ void GUI_System_T::Init_ImGui(nova_Device* device, nova_Window* window, nova_Ren
     this->renderer = renderer;
     this->imguiPool = imguiPool;
 
-    // Vulkan descriptor pool setup
+    // Create descriptor pool for ImGui
     VkDescriptorPoolSize poolSizes[] = {
         { VK_DESCRIPTOR_TYPE_SAMPLER, 1000 },
         { VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1000 },
@@ -30,16 +30,16 @@ void GUI_System_T::Init_ImGui(nova_Device* device, nova_Window* window, nova_Ren
 
     VkDescriptorPoolCreateInfo poolInfo = {};
     poolInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
+    poolInfo.flags = VK_DESCRIPTOR_POOL_CREATE_FREE_DESCRIPTOR_SET_BIT;
+    poolInfo.maxSets = 1000;
     poolInfo.poolSizeCount = static_cast<uint32_t>(std::size(poolSizes));
     poolInfo.pPoolSizes = poolSizes;
-    poolInfo.maxSets = 100;
-    poolInfo.flags = VK_DESCRIPTOR_POOL_CREATE_FREE_DESCRIPTOR_SET_BIT;
 
     if (vkCreateDescriptorPool(device->device(), &poolInfo, nullptr, imguiPool) != VK_SUCCESS) {
-        throw std::runtime_error("Failed to create descriptor pool for ImGui!");
+        throw std::runtime_error("Failed to create ImGui descriptor pool!");
     }
 
-    // ImGui context initialization
+    // Initialize ImGui
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO(); (void)io;

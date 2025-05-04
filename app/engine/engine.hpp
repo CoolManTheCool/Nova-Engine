@@ -42,11 +42,14 @@ private:
   nova_Device device;
   nova_Renderer Renderer;
 
-  VkDescriptorPool imguiPool;
+  VkDescriptorPool imguiPool = VK_NULL_HANDLE;  // Initialize to null
   std::unique_ptr<nova_DescriptorPool> globalPool{};
 
   Settings settings;
 	Console_T Console;
+
+  std::vector<std::unique_ptr<nova_Buffer>> UBOBuffers;
+  std::unique_ptr<nova_Buffer> globalUBOBuffer;
 };
 }  // namespace nova
 

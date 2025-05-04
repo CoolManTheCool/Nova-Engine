@@ -40,25 +40,54 @@ Console(config.settings) {
 	.build();
 }
 
-Engine::~Engine() {}
+Engine::~Engine() {
+    vkDeviceWaitIdle(device.device());
+
+    // Clear scene objects first since they may hold references to resources
+    Objects.clear();
+
+    // Clear buffers before destroying pools
+    UBOBuffers.clear();
+    globalUBOBuffer.reset();
+
+    // Cleanup ImGui first
+    if (ImGui::GetCurrentContext() != nullptr) {
+        ImGui_ImplVulkan_Shutdown();
+        ImGui_ImplGlfw_Shutdown();
+        ImGui::DestroyContext();
+    }
+
+    // Destroy descriptor pools after ImGui cleanup
+    if (imguiPool != VK_NULL_HANDLE) {
+        vkDestroyDescriptorPool(device.device(), imguiPool, nullptr);
+        imguiPool = VK_NULL_HANDLE;
+    }
+    globalPool.reset();
+}
 
 void Engine::run() {
-	std::vector<std::unique_ptr<nova_Buffer>> UBOBuffers(nova_SwapChain::MAX_FRAMES_IN_FLIGHT);
-	for(size_t i = 0; i < UBOBuffers.size(); i++) {
-		UBOBuffers[i] = std::make_unique<nova_Buffer>(device, sizeof(GlobalUBO), 1,
-		 VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
-		 VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT);
-		UBOBuffers[i]->map();
-	}
-	nova_Buffer globalUBOBuffer {
-		device,
-		sizeof(GlobalUBO),
-		nova_SwapChain::MAX_FRAMES_IN_FLIGHT,
-		VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
-		VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT,
-		device.properties.limits.minUniformBufferOffsetAlignment
-	};
-	globalUBOBuffer.map();
+    // Initialize buffers as class members instead of local variables
+    UBOBuffers.resize(nova_SwapChain::MAX_FRAMES_IN_FLIGHT);
+    for(size_t i = 0; i < UBOBuffers.size(); i++) {
+        UBOBuffers[i] = std::make_unique<nova_Buffer>(
+            device,
+            sizeof(GlobalUBO),
+            1,
+            VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
+            VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT
+        );
+        UBOBuffers[i]->map();
+    }
+
+    globalUBOBuffer = std::make_unique<nova_Buffer>(
+        device,
+        sizeof(GlobalUBO),
+        nova_SwapChain::MAX_FRAMES_IN_FLIGHT,
+        VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
+        VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT,
+        device.properties.limits.minUniformBufferOffsetAlignment
+    );
+    globalUBOBuffer->map();
 
 	auto globalSetLayout = nova_DescriptorSetLayout::Builder(device)
 	.addBinding(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_ALL_GRAPHICS)
@@ -165,6 +194,10 @@ void Engine::run() {
 		if (window.wasWindowResized()) {
 			float aspect = Renderer.getAspectRation();
 			camera->setPerspectiveProjection(glm::radians(65.f), aspect, 0.1f, 1000.f);
+			//vkDeviceWaitIdle(device.device());
+			window.resetWindowResizedFlag();
+			Renderer.recreateSwapChain();
+			//continue;
 		}
 
 		GUI.update();
@@ -206,12 +239,6 @@ void Engine::run() {
 			Renderer.endFrame();
 		}
 	}
-
-	vkDeviceWaitIdle(device.device());
-
-	ImGui_ImplVulkan_Shutdown();
-	ImGui_ImplGlfw_Shutdown();
-	ImGui::DestroyContext();
 
 	vkDeviceWaitIdle(device.device());
 }

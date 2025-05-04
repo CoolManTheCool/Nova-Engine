@@ -31,8 +31,12 @@ class nova_Window {
 				static_cast<uint32_t>(settings->height)};
 	};
 	void createWindowSurface(VkInstance instance, VkSurfaceKHR *surface);
-	bool wasWindowResized() { return frameBufferResized; };
-	void resetWindowResizedFlag() { frameBufferResized = false; }
+	bool wasWindowResized() const { 
+		return frameBufferResized; 
+	}
+	void resetWindowResizedFlag() { 
+		frameBufferResized = false; 
+	}
 	GLFWwindow *getWindow() const { return window; }
 
 	nova_Window(const nova_Window &) = delete;

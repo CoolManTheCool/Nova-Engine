@@ -31,8 +31,12 @@ nova_Buffer::nova_Buffer(
 
 nova_Buffer::~nova_Buffer() {
   unmap();
-  vkDestroyBuffer(device.device(), buffer, nullptr);
-  vkFreeMemory(device.device(), memory, nullptr);
+  if (buffer != VK_NULL_HANDLE) {
+    vkDestroyBuffer(device.device(), buffer, nullptr);
+  }
+  if (memory != VK_NULL_HANDLE) {
+    vkFreeMemory(device.device(), memory, nullptr);
+  }
 }
 
 /**

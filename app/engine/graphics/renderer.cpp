@@ -19,34 +19,17 @@ nova_Renderer::~nova_Renderer() { freeCommandBuffers(); }
 
 void nova_Renderer::recreateSwapChain() {
     auto extent = window.getExtent();
-	while (extent.width == 0 || extent.height == 0) {
-		extent = window.getExtent();
-		glfwWaitEvents();
-	}
-
-	vkDeviceWaitIdle(device.device());
-	SwapChain = nullptr;
-	SwapChain = std::make_unique<nova_SwapChain>(device, extent);
-
-  /*
-  auto extent = window.getExtent();
-  while (extent.width == 0 || extent.height == 0) {
-    extent = window.getExtent();
-    glfwWaitEvents();
-  }
-  vkDeviceWaitIdle(device.device());
-
-  if (SwapChain == nullptr) {
+    /*while (extent.width == 0 || extent.height == 0) {
+        extent = window.getExtent();
+        glfwWaitEvents();
+    }*/
+    
+    // Wait for all operations to complete
+    vkDeviceWaitIdle(device.device());
+    
+    // Destroy old swapchain and create new one
+    SwapChain = nullptr;
     SwapChain = std::make_unique<nova_SwapChain>(device, extent);
-  } else {
-    std::shared_ptr<nova_SwapChain> oldSwapChain = std::move(SwapChain);
-    SwapChain = std::make_unique<nova_SwapChain>(device, extent, oldSwapChain);
-
-    if (!oldSwapChain->compareSwapFormats(*SwapChain.get())) { //todo
-      throw std::runtime_error("Swap chain image(or depth) format has changed!");
-    }
-  }
-  */
 }
 
 void nova_Renderer::createCommandBuffers() {

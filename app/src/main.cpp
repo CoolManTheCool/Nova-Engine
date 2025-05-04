@@ -15,21 +15,18 @@ std::shared_ptr<T> createObject(nova::Engine& engine) {
 
 void loadGameObjects(nova::Engine& engine) {
     auto obj = createObject<nova::MeshObject>(engine);
-    std::cout << "After creating first MeshObject, # of Objects: " << engine.Objects.size() << std::endl;
     
     obj->setModel(engine.getDevice(), engine.resources.getModel("smooth_vase"));
     obj->transform.translation = {-.5f, 0.f, -1.5f};
     obj->transform.scale = {5, -5, 5};
     
     obj = createObject<nova::MeshObject>(engine);
-    std::cout << "After creating second MeshObject, # of Objects: " << engine.Objects.size() << std::endl;
     
     obj->setModel(engine.getDevice(), engine.resources.getModel("flat_vase"));
     obj->transform.translation = {.5f, 1.f, -3.f};
     obj->transform.scale = {5, -5, 5};
     
     obj = createObject<nova::MeshObject>(engine);
-    std::cout << "After creating third MeshObject, # of Objects: " << engine.Objects.size() << std::endl;
     
     obj->setModel(engine.getDevice(), engine.resources.getModel("quad"));
     obj->transform.translation = {0.01f, 0.f, 0.f};
@@ -39,7 +36,6 @@ void loadGameObjects(nova::Engine& engine) {
     const float radius = 8;
     for (int i = 0; i < objectCount; i++) {
         auto lightObj = createObject<nova::PointLightObject>(engine);
-        std::cout << "After creating PointLightObject " << i << ", # of Objects: " << engine.Objects.size() << std::endl;
 
         // Setup light properties
         lightObj->transform.translation = {
@@ -56,8 +52,8 @@ int main() {
     nova::EngineConfig config;
 
     config.settings.console_lines = 100;
-    config.settings.height = 1280;
-    config.settings.width = 720;
+    config.settings.height = 720;
+    config.settings.width = 1280;
     config.settings.title = "Nova Engine Development Build";
     config.settings.version_ID = 1;
     config.settings.version_name = "Alpha 1";

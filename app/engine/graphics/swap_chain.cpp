@@ -373,13 +373,11 @@ VkPresentModeKHR nova_SwapChain::chooseSwapPresentMode(const std::vector<VkPrese
     // Loop through the priority list and return the first available present mode
     for (VkPresentModeKHR mode : presentModePriority) {
         if (std::find(availablePresentModes.begin(), availablePresentModes.end(), mode) != availablePresentModes.end()) {
-            std::cout << "Selected Present Mode: " << presentModeToString(mode) << std::endl;
             return mode;  // Return the first matching present mode
         }
     }
 
     // If none are found, return the default present mode (FIFO)
-    std::cout << "Selected Present Mode: " << presentModeToString(VK_PRESENT_MODE_FIFO_KHR) << std::endl;
     return VK_PRESENT_MODE_FIFO_KHR;
 }
 
