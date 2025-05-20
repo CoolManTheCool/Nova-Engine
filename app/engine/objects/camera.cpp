@@ -90,9 +90,9 @@ void Camera::setViewYXZ() {
 	viewMatrix[0][2] = w.x;
 	viewMatrix[1][2] = w.y;
 	viewMatrix[2][2] = w.z;
-	viewMatrix[3][0] = -glm::dot(u, transform.translation);
-	viewMatrix[3][1] = -glm::dot(v, transform.translation);
-	viewMatrix[3][2] = -glm::dot(w, transform.translation);
+	viewMatrix[3][0] = -glm::dot(u, (vec3)transform.translation);
+	viewMatrix[3][1] = -glm::dot(v, (vec3)transform.translation);
+	viewMatrix[3][2] = -glm::dot(w, (vec3)transform.translation);
 
 	inverseViewMatrix = glm::mat4{1.f};
 	inverseViewMatrix[0][0] = u.x;

@@ -10,7 +10,7 @@
 
 namespace nova {
 
-MeshSystem::MeshSystem(nova_Device& device, VkRenderPass renderPass, VkDescriptorSetLayout globalSetLayout, Resources resources)
+MeshSystem::MeshSystem(nova_Device& device, VkRenderPass renderPass, VkDescriptorSetLayout globalSetLayout, Resources* resources)
     	: device{device} {
   	createPipelineLayout(globalSetLayout);
   	createPipeline(renderPass, resources);
@@ -40,7 +40,7 @@ void MeshSystem::createPipelineLayout(VkDescriptorSetLayout globalSetLayout) {
   }
 }
 
-void MeshSystem::createPipeline(VkRenderPass renderPass, Resources resources) {
+void MeshSystem::createPipeline(VkRenderPass renderPass, Resources* resources) {
   	assert(pipelineLayout != nullptr && "Cannot create pipeline before pipeline layout");
 
   	PipelineConfigInfo pipelineConfig{};
@@ -49,8 +49,8 @@ void MeshSystem::createPipeline(VkRenderPass renderPass, Resources resources) {
   	pipelineConfig.pipelineLayout = pipelineLayout;
   	pipeline = std::make_unique<nova_PipeLine>(
       device,
-      resources.getShader("mesh.vert"),
-      resources.getShader("mesh.frag"),
+      resources->getShader("mesh.vert"),
+      resources->getShader("mesh.frag"),
       pipelineConfig);
 }
 

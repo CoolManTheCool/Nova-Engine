@@ -21,8 +21,7 @@ uint64_t constexpr _hash(const char * m) {
     return (*m) ? mix(*m, _hash(m+1)) : 0;
 }
 
-std::string getExecutableDirectory() {
-    std::string executablePath;
+std::string getExecutableDirectory() {    std::string executablePath;
 
     // Get the full path to the executable
 #ifdef _WIN32

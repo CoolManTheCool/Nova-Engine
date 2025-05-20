@@ -10,9 +10,6 @@ public:
     Editor_T();
     void RegisterBindings();
     void RegisterWindow(nova_Window* window);
-    
-private:
-
 };
 
 }

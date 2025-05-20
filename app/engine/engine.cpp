@@ -23,16 +23,16 @@ namespace nova {
 
 //using namespace nova_Logger;
 
-Engine::Engine(EngineConfig config) :
-window(config.settings),
-device(window, config.settings),
+Engine::Engine(EngineConfig* config) :
+window(config->settings),
+device(window, config->settings),
 Renderer(window, device),
-Console(config.settings) {
+Console(config->settings) {
 
 	srand(time(NULL));
 
-	settings = config.settings;
-	resources = config.resources;
+	settings = config->settings;
+	resources = &config->resources;
 
 	globalPool = nova_DescriptorPool::Builder(device)
 	.setMaxSets(nova_SwapChain::MAX_FRAMES_IN_FLIGHT)
@@ -120,6 +120,7 @@ void Engine::run() {
 	// Register Bindings,
 	GUI.setBinding("Window Debug Open", true);
 	GUI.setBinding("Camera Speed", 3.0f);
+	GUI.setBinding("Camera FOV", radians(65.0f));
 	GUI.setBinding("Debug Menu Key Down", false);
 	GUI.setBinding("Objects", &Objects);
 	 
@@ -142,35 +143,16 @@ void Engine::run() {
 			ImGui::Begin("Debug Window", GUI.getBindingPointer<bool>("Window Debug Open"), ImGuiWindowFlags_NoCollapse);
 			ImGui::Checkbox("Editor Menu", GUI.getBindingPointer<bool>("Window Editor Open"));
 			ImGui::SliderFloat("Camera Speed", GUI.getBindingPointer<float>("Camera Speed"), 2.0f, 6.0f);
-			ImGui::Text("Nova Engine | V0.0.0");
+			ImGui::SliderAngle("Camera FOV", GUI.getBindingPointer<float>("Camera FOV"), 50.0f, 100.0f);
+			ImGui::Text(settings.title.c_str());
 			ImGui::Text("Written by CoolManTheCool");
 			ImGui::Text("Copyright © 2024");
-			/*
-			if(ImGui::Button("Options")) ImGui::OpenPopup("OptionsDropdown");
-			ImGui::SameLine();
-			if(ImGui::Button("Clear")) {}
-			ImGui::SameLine();
-			if(ImGui::Button("Copy")) {}
-			ImGui::SameLine();
-			ImGui::Text("Filter: ");
-			ImGui::SameLine();
-			//ImGui::InputTextWithHint("Filter", "Filter", text, 25);
-			ImGui::InputTextWithHint("Filter", "Filter", GUI.getBindingValue<char *>("Filter Text"), 25);
-
-			if(ImGui::BeginPopup("OptionsDropdown")) {
-				bool hovered = ImGui::IsWindowHovered();
-
-				ImGui::Checkbox("Test Checkbox 1", GUI.getBindingPointer<bool>("Option 1 Checkbox"));
-				ImGui::Checkbox("Test Checkbox 2", GUI.getBindingPointer<bool>("Option 2 Checkbox"));
-
-				ImGui::EndPopup();
-				if (!hovered) ImGui::CloseCurrentPopup();
-			}
-			*/
 
 			ImGui::End();
 		}	
 	});
+	
+	float past = GUI.getBindingValue<float>("Camera FOV");
 
 	while (!window.shouldClose()) {
 		glfwPollEvents();
@@ -191,10 +173,17 @@ void Engine::run() {
 
 		camera->movement_speed = GUI.getBindingValue<float>("Camera Speed");
 
+		if(past != GUI.getBindingValue<float>("Camera FOV")) {
+			past = GUI.getBindingValue<float>("Camera FOV");
+
+			float aspect = Renderer.getAspectRation();
+			camera->setPerspectiveProjection(GUI.getBindingValue<float>("Camera FOV"), aspect, 0.1f, 1000.f);
+		}
+
+
 		if (window.wasWindowResized()) {
 			float aspect = Renderer.getAspectRation();
-			camera->setPerspectiveProjection(glm::radians(65.f), aspect, 0.1f, 1000.f);
-			//vkDeviceWaitIdle(device.device());
+			camera->setPerspectiveProjection(GUI.getBindingValue<float>("Camera FOV"), aspect, 0.1f, 1000.f);
 			window.resetWindowResizedFlag();
 			Renderer.recreateSwapChain();
 			//continue;

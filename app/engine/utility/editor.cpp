@@ -38,9 +38,9 @@ void Editor_T::RegisterWindow(nova_Window* window) {
         ImGui::SliderFloat("Y Rotation", &obj->transform.rotation.y, 0, 2*M_PI);
         ImGui::SliderFloat("Z Rotation", &obj->transform.rotation.z, 0, 2*M_PI);
         ImGui::Text("Object Translation:");
-        ImGui::SliderFloat("X Translation", &obj->transform.translation.x, min_dist_edit, max_dist_edit);
-        ImGui::SliderFloat("Y Translation", &obj->transform.translation.y, min_dist_edit, max_dist_edit);
-        ImGui::SliderFloat("Z Translation", &obj->transform.translation.z, min_dist_edit, max_dist_edit);
+        ImGui::SliderDouble("X Translation", &obj->transform.translation.x, min_dist_edit, max_dist_edit);
+        ImGui::SliderDouble("Y Translation", &obj->transform.translation.y, min_dist_edit, max_dist_edit);
+        ImGui::SliderDouble("Z Translation", &obj->transform.translation.z, min_dist_edit, max_dist_edit);
     	ImGui::End();
 	}});
 

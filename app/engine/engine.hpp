@@ -24,7 +24,7 @@ typedef std::vector<std::shared_ptr<nova_Object>> ObjectList;
 class Engine {
 public:
 
-  Engine(EngineConfig config);
+  Engine(EngineConfig* config);
   ~Engine();
 
   Engine(const Engine &) = delete;
@@ -35,7 +35,7 @@ public:
   void run();
 
   std::vector<std::shared_ptr<nova_Object>> Objects;
-  Resources resources;
+  Resources* resources;
 private:
 
   nova_Window window;
