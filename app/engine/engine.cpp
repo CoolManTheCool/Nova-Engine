@@ -157,7 +157,6 @@ void Engine::run() {
 
 	Console.log("Nova Engine Initialized!", Console.INFO);
 	Console.log("Nova Engine Version: " + settings.version_name, Console.INFO);
-	Console.log("Nova Engine Version ID: " + std::to_string(settings.version_ID), Console.INFO);
 	Console.log("Nova Engine Settings: " + std::to_string(settings.width) + "x" + std::to_string(settings.height), Console.INFO);
 	Console.log("Nova Engine Console Lines: " + std::to_string(settings.console_lines), Console.INFO);
 

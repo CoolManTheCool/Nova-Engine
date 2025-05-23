@@ -5,6 +5,7 @@
 #include "engine.hpp"
 #include "mesh_object.hpp"
 #include "point_light_object.hpp"
+#include "console.hpp"
 
 template<typename T, typename = std::enable_if_t<std::is_base_of_v<nova::nova_Object, T>>>
 std::shared_ptr<T> createObject(nova::Engine& engine) {
@@ -54,12 +55,30 @@ int main() {
     config.settings.height = 720;
     config.settings.width = 1280;
     config.settings.title = "Nova Engine Development Build";
-    config.settings.version_ID = 2;
-    config.settings.version_name = "Alpha 1.1.0";
+    config.settings.version_name = "Alpha 1.1.1";
 
     nova::Engine engine = nova::Engine(&config);
 
     loadGameObjects(engine);
+
+    nova::Console.registerCommand("help", [](nova::Console_T::CommandContext context) {
+        nova::Console.log("Available commands:", nova::Console.INFO);
+        nova::Console.log("/help - Show this help message", nova::Console.INFO);
+        nova::Console.log("/exit - Exit the application", nova::Console.INFO);
+    });
+
+    nova::Console.registerCommand("exit", [&engine](nova::Console_T::CommandContext context) {
+        nova::Console.log("Exiting application by console command...", nova::Console.INFO);
+        abort();
+    });
+
+    nova::Console.registerCommand("say", [&engine](nova::Console_T::CommandContext context) {
+        if (context.args.empty()) {
+            nova::Console.log("Usage: /say <message>", nova::Console.WARNING);
+            return;
+        }
+        nova::Console.log("[Console] " + context.args, nova::Console.INFO);
+    });
 
     // Begin Render Loop
     engine.run();
@@ -77,7 +96,6 @@ int main(void) {
     config.settings.height = 720;
     config.settings.width = 1280;
     config.settings.title = "Nova Engine Development Build";
-    config.settings.version_ID = 1;
     config.settings.version_name = "Alpha 1";
 
     nova::Engine engine = nova::Engine(config);

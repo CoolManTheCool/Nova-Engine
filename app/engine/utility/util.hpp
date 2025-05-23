@@ -30,7 +30,6 @@ struct Settings {
     int height = 512;
     std::string title = "Untitled Project | Nova Engine";
     std::string version_name = "Unknown Version";
-    unsigned int version_ID = 0;
     size_t console_lines = 100;
 
     struct RenderSettings {

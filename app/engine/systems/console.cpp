@@ -2,6 +2,7 @@
 #include "gui_system.hpp"
 
 namespace nova {
+	
 
 Console_T Console;
 
@@ -108,7 +109,28 @@ void Console_T::RegisterWindow(nova_Window* window) {
 
 			if (ImGui::InputTextWithHint("##Command", "Run \"/help\" to get started.", command, 50, ImGuiInputTextFlags_EnterReturnsTrue)) {
 				if (command[0] != '\0') {
-					log(command, INFO);
+					if(command[0] == '/') {
+						std::string cmd(command);
+						cmd.erase(0, 1); // Remove the leading '/'
+						CommandContext context;
+						context.commandName = cmd;
+						// populate context.args
+						size_t spacePos = cmd.find(' ');
+						if (spacePos != std::string::npos) {
+							context.args = cmd.substr(spacePos + 1);
+							cmd = cmd.substr(0, spacePos);
+						} else {
+							context.args = "";
+						}
+						auto it = commandMap.find(cmd);
+						if (it != commandMap.end()) {
+							it->second(context);
+						} else {
+							log("Command not found: " + cmd, WARNING);
+						}
+					} else {
+						log("Invalid command format. Use \"/\" to start a command.", WARNING);
+					}
 					command[0] = '\0'; // Clear the command input
 				}
 
@@ -124,4 +146,5 @@ void Console_T::RegisterWindow(nova_Window* window) {
 		}	
 	});
 }
-}
+
+} // namespace nova

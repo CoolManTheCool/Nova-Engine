@@ -13,6 +13,14 @@ namespace nova {
 
 class Console_T {
 public:
+    struct CommandContext {
+        std::string commandName;
+        std::string args;
+    };
+
+    typedef std::function<void(CommandContext)> CommandFunction;
+
+
     struct console_element {
         std::string text;
         std::chrono::system_clock::time_point sent;
@@ -34,6 +42,11 @@ public:
     void RegisterBindings();
     void RegisterWindow(nova_Window* window);
 
+    bool registerCommand(std::string command, CommandFunction func) {
+        commandMap[command] = func;
+        return true;
+    }
+
     void resize(size_t size) {
         elements.resize(size);
     }
@@ -50,8 +63,10 @@ private:
     RollingBuffer elements
     {std::type_index(typeid(console_element)), 100};
 
-
     char* filter = new char[25]();
+
+    
+    std::unordered_map<std::string, CommandFunction> commandMap;
 };
 
 extern nova::Console_T Console;
