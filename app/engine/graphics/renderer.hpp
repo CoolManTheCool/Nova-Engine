@@ -47,6 +47,7 @@ private:
 	nova_Device &device;
 	std::unique_ptr<nova_SwapChain> SwapChain;
 	std::vector<VkCommandBuffer> commandBuffers;
+	std::vector<VkSemaphore> renderFinishedSemaphores;
 
 	uint32_t currentImageIndex;
   	int currentFrameIndex{0};

@@ -54,8 +54,8 @@ int main() {
     config.settings.height = 720;
     config.settings.width = 1280;
     config.settings.title = "Nova Engine Development Build";
-    config.settings.version_ID = 1;
-    config.settings.version_name = "Alpha 1";
+    config.settings.version_ID = 2;
+    config.settings.version_name = "Alpha 1.1.0";
 
     nova::Engine engine = nova::Engine(&config);
 

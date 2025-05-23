@@ -18,11 +18,13 @@
 // This is a workaround for the fact that ImGui doesn't have a SliderDouble function.
 // It uses the SliderScalar function instead, which is a more generic function that can handle different data types.
 // This is a temporary solution until ImGui adds a SliderDouble function.
+//
+// YAP session up there
 namespace ImGui {
     inline bool SliderDouble(const char* label, double* v, double v_min, double v_max, const char* format = "%.3f", ImGuiSliderFlags flags = 0) {
         return ImGui::SliderScalar(label, ImGuiDataType_Double, v, &v_min, &v_max, format, flags);
     }
-}
+} // namespace ImGui
 
 namespace nova {
 

@@ -46,7 +46,6 @@ private:
   std::unique_ptr<nova_DescriptorPool> globalPool{};
 
   Settings settings;
-	Console_T Console;
 
   std::vector<std::unique_ptr<nova_Buffer>> UBOBuffers;
   std::unique_ptr<nova_Buffer> globalUBOBuffer;

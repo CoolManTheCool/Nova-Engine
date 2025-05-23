@@ -62,27 +62,25 @@ VkResult nova_SwapChain::acquireNextImage(uint32_t *imageIndex) {
 	return result;
 }
 
-VkResult nova_SwapChain::submitCommandBuffers(const VkCommandBuffer *buffers, uint32_t *imageIndex) {
-	if (imagesInFlight[*imageIndex] != VK_NULL_HANDLE) {
-		vkWaitForFences(device.device(), 1, &imagesInFlight[*imageIndex], VK_TRUE, UINT64_MAX);
-	}
-	imagesInFlight[*imageIndex] = inFlightFences[currentFrame];
+VkResult nova_SwapChain::submitCommandBuffers(
+    const VkCommandBuffer* buffers,
+    uint32_t* imageIndex,
+    VkSemaphore* signalSemaphore) {
+    
+    VkSubmitInfo submitInfo = {};
+    submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
 
-	VkSubmitInfo submitInfo = {};
-	submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+    VkSemaphore waitSemaphores[] = {imageAvailableSemaphores[currentFrame]};
+    VkPipelineStageFlags waitStages[] = {VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT};
+    submitInfo.waitSemaphoreCount = 1;
+    submitInfo.pWaitSemaphores = waitSemaphores;
+    submitInfo.pWaitDstStageMask = waitStages;
 
-	VkSemaphore waitSemaphores[] = {imageAvailableSemaphores[currentFrame]};
-	VkPipelineStageFlags waitStages[] = {VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT};
-	submitInfo.waitSemaphoreCount = 1;
-	submitInfo.pWaitSemaphores = waitSemaphores;
-	submitInfo.pWaitDstStageMask = waitStages;
+    submitInfo.commandBufferCount = 1;
+    submitInfo.pCommandBuffers = buffers;
 
-	submitInfo.commandBufferCount = 1;
-	submitInfo.pCommandBuffers = buffers;
-
-	VkSemaphore signalSemaphores[] = {renderFinishedSemaphores[currentFrame]};
-	submitInfo.signalSemaphoreCount = 1;
-	submitInfo.pSignalSemaphores = signalSemaphores;
+    submitInfo.signalSemaphoreCount = 1;
+    submitInfo.pSignalSemaphores = signalSemaphore;  // Use the provided semaphore
 
 	vkResetFences(device.device(), 1, &inFlightFences[currentFrame]);
 	if (vkQueueSubmit(device.graphicsQueue(), 1, &submitInfo, inFlightFences[currentFrame]) != VK_SUCCESS) {
@@ -93,7 +91,7 @@ VkResult nova_SwapChain::submitCommandBuffers(const VkCommandBuffer *buffers, ui
 	presentInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
 
 	presentInfo.waitSemaphoreCount = 1;
-	presentInfo.pWaitSemaphores = signalSemaphores;
+	presentInfo.pWaitSemaphores = signalSemaphore;
 
 	VkSwapchainKHR swapChains[] = {swapChain};
 	presentInfo.swapchainCount = 1;

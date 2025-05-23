@@ -36,7 +36,10 @@ class nova_SwapChain {
   VkFormat findDepthFormat();
 
   VkResult acquireNextImage(uint32_t *imageIndex);
-  VkResult submitCommandBuffers(const VkCommandBuffer *buffers, uint32_t *imageIndex);
+  VkResult submitCommandBuffers(
+      const VkCommandBuffer *buffers,
+      uint32_t *imageIndex,
+      VkSemaphore *signalSemaphore);  // Modified to accept specific semaphore
 
     bool compareSwapFormats(const nova_SwapChain &swapChain) const {
     return swapChain.swapChainDepthFormat == swapChainDepthFormat &&

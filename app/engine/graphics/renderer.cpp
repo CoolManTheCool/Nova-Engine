@@ -45,6 +45,18 @@ void nova_Renderer::createCommandBuffers() {
       VK_SUCCESS) {
     throw std::runtime_error("failed to allocate command buffers!");
   }
+
+  // Create semaphores for each swap chain image
+  renderFinishedSemaphores.resize(SwapChain->imageCount());
+  
+  VkSemaphoreCreateInfo semaphoreInfo{};
+  semaphoreInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
+  
+  for (auto& semaphore : renderFinishedSemaphores) {
+      if (vkCreateSemaphore(device.device(), &semaphoreInfo, nullptr, &semaphore) != VK_SUCCESS) {
+          throw std::runtime_error("failed to create synchronization objects for a frame!");
+      }
+  }
 }
 
 void nova_Renderer::freeCommandBuffers() {
@@ -54,6 +66,11 @@ void nova_Renderer::freeCommandBuffers() {
       static_cast<uint32_t>(commandBuffers.size()),
       commandBuffers.data());
   commandBuffers.clear();
+
+  for (auto semaphore : renderFinishedSemaphores) {
+      vkDestroySemaphore(device.device(), semaphore, nullptr);
+  }
+  renderFinishedSemaphores.clear();
 }
 
 VkCommandBuffer nova_Renderer::beginFrame() {
@@ -88,7 +105,9 @@ void nova_Renderer::endFrame() {
     throw std::runtime_error("failed to record command buffer!");
   }
 
-  auto result = SwapChain->submitCommandBuffers(&commandBuffer, &currentImageIndex);
+  // Use the semaphore corresponding to the current image
+  VkSemaphore signalSemaphore = renderFinishedSemaphores[currentImageIndex];
+  auto result = SwapChain->submitCommandBuffers(&commandBuffer, &currentImageIndex, &signalSemaphore);
   if (result == VK_ERROR_OUT_OF_DATE_KHR || result == VK_SUBOPTIMAL_KHR ||
       window.wasWindowResized()) {
     window.resetWindowResizedFlag();
@@ -143,4 +162,4 @@ void nova_Renderer::endSwapChainRenderPass(VkCommandBuffer commandBuffer) {
   vkCmdEndRenderPass(commandBuffer);
 }
 
-}  // namespace lve
+}  // namespace nova

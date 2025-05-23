@@ -3,18 +3,9 @@
 
 namespace nova {
 
-Console_T::Console_T(Settings settings) {
-    size_t max_elements = settings.console_lines;
+Console_T Console;
 
-    elements.reserve(max_elements);
-	for (int i = 0; i<20; i++) {
-		console_element Element;
-
-		Element.level = i % console_element::MAX_LOG_LEVEL;
-		Element.text = "Some example text";
-
-		elements.push_back(Element);
-	}
+Console_T::Console_T() {
 
 }
 
@@ -23,21 +14,20 @@ void Console_T::RegisterBindings() {
     GUI.setBinding("Console Open", true);
 	GUI.setBinding("Console Key Down", false);
 	GUI.setBinding("Auto Scroll", true);
-	GUI.setBinding("Option 2 Checkbox", false);
 
 }
 
 void Console_T::RegisterWindow(nova_Window* window) {
 	char** _filter = &filter;
 	char* command = new char[100]();
-	std::vector<console_element>* _elements = &elements;
+	RollingBuffer* _elements = &elements;
 
-    GUI.registerWindow([window, _filter, _elements, command]() {
+    GUI.registerWindow([this, window, _filter, _elements, command]() {
 		// GUI.getBindingValue<>("")
-		if(glfwGetKey(window->getWindow(), GLFW_KEY_GRAVE_ACCENT) == GLFW_PRESS && !GUI.getBindingValue<bool>("Console Key Down")) {
+		if (glfwGetKey(window->getWindow(), GLFW_KEY_GRAVE_ACCENT) == GLFW_PRESS && !GUI.getBindingValue<bool>("Console Key Down")) {
 			*GUI.getBindingPointer<bool>("Console Open") = !GUI.getBindingValue<bool>("Console Open");
 			*GUI.getBindingPointer<bool>("Console Key Down") = true;
-		} else if(glfwGetKey(window->getWindow(), GLFW_KEY_GRAVE_ACCENT) == GLFW_RELEASE) {
+		} else if (glfwGetKey(window->getWindow(), GLFW_KEY_GRAVE_ACCENT) == GLFW_RELEASE) {
 			*GUI.getBindingPointer<bool>("Console Key Down") = false;
 		}
 
@@ -46,20 +36,22 @@ void Console_T::RegisterWindow(nova_Window* window) {
 			ImGui::Text("Console Window!!!");
 			if(ImGui::Button("Options")) ImGui::OpenPopup("OptionsDropdown");
 			ImGui::SameLine();
-			if(ImGui::Button("Clear")) {}
+			if(ImGui::Button("Clear")) {
+				_elements->clear();
+			}
 			ImGui::SameLine();
 			if(ImGui::Button("Copy")) {}
-			//ImGui::InputTextWithHint("Filter", "Filter", text, 25);
 			ImGui::InputTextWithHint("##Filter" /*Empty Label*/, "Filter", *_filter, 25);
 			ImVec2 logContentSize = ImVec2(0, -ImGui::GetFrameHeightWithSpacing() - ImGui::GetStyle().ItemSpacing.y); // Reserve space for the input bar
     		ImGui::BeginChild("LogContent", logContentSize, false, ImGuiWindowFlags_HorizontalScrollbar);
 			int index = 0;
-            for (const auto& element : *_elements) {
+            for (const auto& element : _elements->getOrderedArray<console_element>()) {
     			auto time = std::chrono::system_clock::to_time_t(element.sent);
     			std::tm* tm_time = std::localtime(&time);
 
     			// Convert timestamp to a string
     			char timeBuffer[100];
+				
     			std::strftime(timeBuffer, sizeof(timeBuffer), "%Y-%m-%d %H:%M:%S", tm_time);
 
     			// Determine log level and set the log label
@@ -67,23 +59,23 @@ void Console_T::RegisterWindow(nova_Window* window) {
     			ImVec4 levelColor = ImVec4(0.5f, 0.5f, 0.5f, 1.0f); // Default color (Gray)
 
     			switch (element.level) {
-    			    case console_element::INFO:
+    			    case INFO:
     			        levelStr = "INFO";
     			        levelColor = ImVec4(0.2f, 0.8f, 0.2f, 1.0f); // Green for INFO
     			        break;
-    			    case console_element::DEBUG:
+    			    case DEBUG:
     			        levelStr = "DEBUG";
     			        levelColor = ImVec4(0.7f, 0.7f, 0.7f, 1.0f); // Dark Gray for DEBUG
     			        break;
-    			    case console_element::WARNING:
+    			    case WARNING:
     			        levelStr = "WARNING";
     			        levelColor = ImVec4(1.0f, 1.0f, 0.0f, 1.0f); // Yellow for WARNING
     			        break;
-    			    case console_element::ERROR:
+    			    case ERROR:
     			        levelStr = "ERROR";
     			        levelColor = ImVec4(1.0f, 0.0f, 0.0f, 1.0f); // Red for ERROR
     			        break;
-    			    case console_element::CRITICAL:
+    			    case CRITICAL:
     			        levelStr = "CRITICAL";
     			        levelColor = ImVec4(0.8f, 0.0f, 0.0f, 1.0f); // Dark Red for CRITICAL
     			        break;
@@ -91,7 +83,7 @@ void Console_T::RegisterWindow(nova_Window* window) {
 
     			ImGui::PushStyleColor(ImGuiCol_Text, levelColor); // Set Text Color
 
-				if(element.details.size() > 0) {
+				if (element.details.size() > 0) {
 					bool open = ImGui::CollapsingHeader((element.text + "##" + to_string(index)).c_str());
 					if (open) {
 				    	// Display log details
@@ -114,20 +106,18 @@ void Console_T::RegisterWindow(nova_Window* window) {
     		}
 			ImGui::EndChild();
 
-			ImGui::InputTextWithHint("##Command" /*Empty Label*/, "Run \"/help\" to get started.", command, 50);
+			if (ImGui::InputTextWithHint("##Command", "Run \"/help\" to get started.", command, 50, ImGuiInputTextFlags_EnterReturnsTrue)) {
+				if (command[0] != '\0') {
+					log(command, INFO);
+					command[0] = '\0'; // Clear the command input
+				}
 
-			if(ImGui::IsItemFocused() && glfwGetKey(window->getWindow(), GLFW_KEY_ENTER) == GLFW_PRESS) {
-				
+				ImGui::SetKeyboardFocusHere(-1); // Stay focused
 			}
 
-			if(ImGui::BeginPopup("OptionsDropdown")) {
-				bool hovered = ImGui::IsWindowHovered();
-
+			if (ImGui::BeginPopup("OptionsDropdown")) {
 				ImGui::Checkbox("Auto Scroll", GUI.getBindingPointer<bool>("Auto Scroll"));
-				ImGui::Checkbox("Test Checkbox 2", GUI.getBindingPointer<bool>("Option 2 Checkbox"));
-
 				ImGui::EndPopup();
-				if (!hovered) ImGui::CloseCurrentPopup();
 			}
 
 			ImGui::End();

@@ -8,6 +8,7 @@
 #include "resources.hpp"
 #include "util.hpp"
 #include "editor.hpp"
+#include "console.hpp"
 
 #define MAX_FRAME_TIME 1.f
 
@@ -26,8 +27,7 @@ namespace nova {
 Engine::Engine(EngineConfig* config) :
 window(config->settings),
 device(window, config->settings),
-Renderer(window, device),
-Console(config->settings) {
+Renderer(window, device) {
 
 	srand(time(NULL));
 
@@ -131,7 +131,7 @@ void Engine::run() {
 	Editor.RegisterWindow(&window);
 	Console.RegisterWindow(&window);
 
-	GUI.registerWindow([this]() {
+	GUI.registerWindow([this, camera]() {
 		// GUI.getBindingValue<>("")
 		if(glfwGetKey(window.getWindow(), GLFW_KEY_F3) == GLFW_PRESS && !GUI.getBindingValue<bool>("Debug Menu Key Down")) {
 			*GUI.getBindingPointer<bool>("Window Debug Open") = !GUI.getBindingValue<bool>("Window Debug Open");
@@ -143,7 +143,10 @@ void Engine::run() {
 			ImGui::Begin("Debug Window", GUI.getBindingPointer<bool>("Window Debug Open"), ImGuiWindowFlags_NoCollapse);
 			ImGui::Checkbox("Editor Menu", GUI.getBindingPointer<bool>("Window Editor Open"));
 			ImGui::SliderFloat("Camera Speed", GUI.getBindingPointer<float>("Camera Speed"), 2.0f, 6.0f);
-			ImGui::SliderAngle("Camera FOV", GUI.getBindingPointer<float>("Camera FOV"), 50.0f, 100.0f);
+			if (ImGui::SliderAngle("Camera FOV", GUI.getBindingPointer<float>("Camera FOV"), 50.0f, 100.0f)) {
+				float aspect = Renderer.getAspectRation();
+				camera->setPerspectiveProjection(GUI.getBindingValue<float>("Camera FOV"), aspect, 0.1f, 1000.f);
+			}
 			ImGui::Text(settings.title.c_str());
 			ImGui::Text("Written by CoolManTheCool");
 			ImGui::Text("Copyright © 2024");
@@ -151,8 +154,12 @@ void Engine::run() {
 			ImGui::End();
 		}	
 	});
-	
-	float past = GUI.getBindingValue<float>("Camera FOV");
+
+	Console.log("Nova Engine Initialized!", Console.INFO);
+	Console.log("Nova Engine Version: " + settings.version_name, Console.INFO);
+	Console.log("Nova Engine Version ID: " + std::to_string(settings.version_ID), Console.INFO);
+	Console.log("Nova Engine Settings: " + std::to_string(settings.width) + "x" + std::to_string(settings.height), Console.INFO);
+	Console.log("Nova Engine Console Lines: " + std::to_string(settings.console_lines), Console.INFO);
 
 	while (!window.shouldClose()) {
 		glfwPollEvents();
@@ -173,24 +180,15 @@ void Engine::run() {
 
 		camera->movement_speed = GUI.getBindingValue<float>("Camera Speed");
 
-		if(past != GUI.getBindingValue<float>("Camera FOV")) {
-			past = GUI.getBindingValue<float>("Camera FOV");
-
-			float aspect = Renderer.getAspectRation();
-			camera->setPerspectiveProjection(GUI.getBindingValue<float>("Camera FOV"), aspect, 0.1f, 1000.f);
-		}
-
 
 		if (window.wasWindowResized()) {
 			float aspect = Renderer.getAspectRation();
 			camera->setPerspectiveProjection(GUI.getBindingValue<float>("Camera FOV"), aspect, 0.1f, 1000.f);
 			window.resetWindowResizedFlag();
 			Renderer.recreateSwapChain();
-			//continue;
 		}
 
 		GUI.update();
-		//std::cout << "Camera Debug: " << camera.getView() <<	std::endl;
 	
 		if (auto commandBuffer = Renderer.beginFrame()) {
 			int frameIndex = Renderer.getFrameIndex();

@@ -16,8 +16,12 @@ include_directories(${GLFW_INCLUDE_DIRS})
 #find_package(OpenAL REQUIRED)
 
 set(SOURCE_FILES
-    engine/systems/mesh_system.cpp
     engine/systems/physics_system.cpp
+    engine/systems/mesh_system.cpp
+    engine/systems/gui_system.cpp
+    engine/systems/console.cpp
+    engine/systems/editor.cpp
+    engine/data/rollingbuffer.cpp
     engine/graphics/descriptors.cpp
     engine/graphics/swap_chain.cpp
     engine/graphics/renderer.cpp
@@ -28,13 +32,10 @@ set(SOURCE_FILES
     engine/graphics/mesh.cpp
     engine/objects/point_light_object.cpp
     engine/objects/mesh_object.cpp
-    engine/utility/editor.cpp
-    engine/utility/console.cpp
     engine/objects/camera.cpp
     engine/objects/object.cpp
     engine/utility/resources.cpp
     engine/utility/util.cpp
-    engine/utility/gui_system.cpp
     engine/engine.cpp
     src/main.cpp
 )
@@ -61,6 +62,7 @@ add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 target_include_directories(${PROJECT_NAME} PRIVATE 
     engine/systems/
     engine/objects/
+    engine/data/
     engine/utility/
     engine/graphics/
     engine/
