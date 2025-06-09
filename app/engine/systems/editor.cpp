@@ -1,6 +1,7 @@
 #include "editor.hpp"
 #include "gui_system.hpp"
 #include "object.hpp"
+#include "mesh_object.hpp"
 
 namespace nova {
 
@@ -41,6 +42,12 @@ void Editor_T::RegisterWindow(nova_Window* window) {
         ImGui::SliderDouble("X Translation", &obj->transform.translation.x, min_dist_edit, max_dist_edit);
         ImGui::SliderDouble("Y Translation", &obj->transform.translation.y, min_dist_edit, max_dist_edit);
         ImGui::SliderDouble("Z Translation", &obj->transform.translation.z, min_dist_edit, max_dist_edit);
+        // Is obj a mesh, if so conver it
+        if (obj->getObjectType() == OBJECT_TYPE_MESH) {
+            auto meshObj = std::dynamic_pointer_cast<nova::MeshObject>(obj);
+            ImGui::SeparatorText("Mesh Properties");
+            ImGui::SliderFloat("Roughness", &meshObj->roughness, 0.0f, 1.0f);
+        }
     	ImGui::End();
 	}});
 

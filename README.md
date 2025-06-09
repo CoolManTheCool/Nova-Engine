@@ -6,7 +6,9 @@ There isn't even an engine header for you to link against.
 
 ## Overview
 
-Welcome to Nova Engine, a powerful and modern game development framework built with Vulkan. Designed to provide an intuitive and efficient way to create games, this engine allows you to build complex game worlds as if you were snapping together LEGO bricks. Featuring an OOP structure, automatic resource loading, and drag-and-drop simplicity, Nova Engine is perfect for both novice and experienced game developers.
+Nova Engine is the key component in a project called Ignis, Ingis is a game distrobution platform similar to roblox, while Nova Engine is the game engine behind Ingnis.
+
+Nova Engine is a powerful and modern game development framework built with Vulkan. Designed to provide an intuitive and efficient way to create games, this engine allows you to build complex games with simple controls. Featuring an object oriented structure, automatic resource loading, and drag-and-drop simplicity, Nova Engine is perfect for both novice and experienced game developers.
 
 ## Features
 
@@ -24,8 +26,8 @@ Welcome to Nova Engine, a powerful and modern game development framework built w
 Before you begin, ensure you have met the following requirements:
 - Operating System: Linux
 - [Vulkan SDK](https://vulkan.lunarg.com/sdk/home) installed
-- C++ Compiler (GCC, Clang, MSVC)
-- CMake (for building the project)
+- C++ Compiler (Ideally GCC)
+- CMake
 
 ### Installation
 
@@ -36,14 +38,18 @@ Before you begin, ensure you have met the following requirements:
    ```
 
 2. **Install Dependencies**
-   ```bash
-   sudo apt install libglfw3-dev libglm-dev libopenal-dev vulkan-tools libvulkan-dev vulkan-validationlayers-dev glslc spirv-tools
-   ```
+   - ImGui Docking Branch
+   - GLFW
 
 3. **Build the Project**
    ```bash
-   ./build.sh
+   mkdir build && cd build
+   cmake -G Ninja ../app
+   cmake --build .
    ```
+
+Make: 1m1.781s
+Ninja: 0m12.749s
 
 ### Using Nova Engine in Your Project
 

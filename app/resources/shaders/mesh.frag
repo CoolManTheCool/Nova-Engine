@@ -3,6 +3,7 @@
 layout (location = 0) in vec3 fragColor;
 layout (location = 1) in vec3 fragPosWorld;
 layout (location = 2) in vec3 fragNormalWorld;
+layout (location = 3) in vec2 fragUV;
 
 layout (location = 0) out vec4 outColor;
 
@@ -23,6 +24,7 @@ layout(set = 0, binding = 0) uniform GlobalUbo {
 layout(push_constant) uniform Push {
   mat4 modelMatrix;
   mat4 normalMatrix;
+  float roughness;
 } push;
 
 void main() {
@@ -48,9 +50,12 @@ void main() {
       diffuseLight += intensity * cosAngIncidence;
 
       vec3 halfAngle = normalize(directionToLight + viewDirection);
-      float blinnTerm = pow(clamp(dot(surfaceNormal, halfAngle), 0, 1), 128.0); // Higher values give sharper highlights.
 
-      specularLight += intensity * blinnTerm; 
+      float specPower = mix(128.0, 1.0, push.roughness);
+
+      float blinnTerm = pow(clamp(dot(surfaceNormal, halfAngle), 0, 1), specPower); // Higher values give sharper highlights.
+
+      specularLight += intensity * blinnTerm * 0.5; 
     }
   }
   

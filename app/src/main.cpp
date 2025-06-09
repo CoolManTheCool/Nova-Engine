@@ -5,7 +5,6 @@
 #include "engine.hpp"
 #include "mesh_object.hpp"
 #include "point_light_object.hpp"
-#include "console.hpp"
 
 template<typename T, typename = std::enable_if_t<std::is_base_of_v<nova::nova_Object, T>>>
 std::shared_ptr<T> createObject(nova::Engine& engine) {
@@ -55,19 +54,20 @@ int main() {
     config.settings.height = 720;
     config.settings.width = 1280;
     config.settings.title = "Nova Engine Development Build";
-    config.settings.version_name = "Alpha 1.1.1";
+    config.settings.version_name = "Alpha 1.1.2";
 
     nova::Engine engine = nova::Engine(&config);
 
     loadGameObjects(engine);
 
-    nova::Console.registerCommand("help", [](nova::Console_T::CommandContext context) {
+    nova::Console.registerCommand("help", []([[maybe_unused]] nova::Console_T::CommandContext context) {
         nova::Console.log("Available commands:", nova::Console.INFO);
         nova::Console.log("/help - Show this help message", nova::Console.INFO);
         nova::Console.log("/exit - Exit the application", nova::Console.INFO);
+        nova::Console.log("/say [string] - Prints a message to console", nova::Console.INFO);
     });
 
-    nova::Console.registerCommand("exit", [&engine](nova::Console_T::CommandContext context) {
+    nova::Console.registerCommand("exit", [&engine]([[maybe_unused]] nova::Console_T::CommandContext context) {
         nova::Console.log("Exiting application by console command...", nova::Console.INFO);
         abort();
     });

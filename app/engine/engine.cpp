@@ -229,12 +229,4 @@ void Engine::run() {
 	vkDeviceWaitIdle(device.device());
 }
 
-glm::vec3 randomVec3(float min, float max) {
-	return glm::vec3(
-		randRange<float>(min, max), // Random x-component
-		randRange<float>(min, max), // Random y-component
-		randRange<float>(min, max)	// Random z-component
-	);
-}
-
 }	// namespace nova

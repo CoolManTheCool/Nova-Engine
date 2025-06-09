@@ -1,79 +1,83 @@
-<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (X11; Linux x86_64; rv:132.0) Gecko/20100101 Firefox/132.0" version="24.9.1">
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (X11; Linux x86_64; rv:138.0) Gecko/20100101 Firefox/138.0" version="27.0.9">
   <diagram name="Page-1" id="-ywGE0IkXxx91exvHS4c">
-    <mxGraphModel dx="989" dy="537" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1000" pageHeight="1000" math="0" shadow="0">
+    <mxGraphModel dx="1188" dy="653" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1000" pageHeight="1000" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="NHG1jIdKIOBNoQRCa83L-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="NHG1jIdKIOBNoQRCa83L-2" target="NHG1jIdKIOBNoQRCa83L-3">
+        <mxCell id="7luEIdt7vg5TZx0GwpHG-17" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="480" y="290" width="320" height="240" as="geometry" />
+        </mxCell>
+        <mxCell id="7luEIdt7vg5TZx0GwpHG-28" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="NHG1jIdKIOBNoQRCa83L-2" target="NHG1jIdKIOBNoQRCa83L-3">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="NHG1jIdKIOBNoQRCa83L-2" value="&lt;div&gt;Nova Engine&lt;/div&gt;&lt;div&gt;Game being Built&lt;br&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="150" y="140" width="120" height="60" as="geometry" />
+        <mxCell id="NHG1jIdKIOBNoQRCa83L-2" value="Commit Change via Github" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="240" y="180" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="NHG1jIdKIOBNoQRCa83L-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="NHG1jIdKIOBNoQRCa83L-3" target="NHG1jIdKIOBNoQRCa83L-4">
+        <mxCell id="7luEIdt7vg5TZx0GwpHG-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="NHG1jIdKIOBNoQRCa83L-3" target="NHG1jIdKIOBNoQRCa83L-10">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="NHG1jIdKIOBNoQRCa83L-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="NHG1jIdKIOBNoQRCa83L-3" target="NHG1jIdKIOBNoQRCa83L-6">
+        <mxCell id="NHG1jIdKIOBNoQRCa83L-3" value="&lt;div&gt;Github Automations Builds Binaries&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="240" y="70" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="7luEIdt7vg5TZx0GwpHG-22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;startArrow=classic;startFill=1;" edge="1" parent="1" source="NHG1jIdKIOBNoQRCa83L-4" target="7luEIdt7vg5TZx0GwpHG-20">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="NHG1jIdKIOBNoQRCa83L-3" value="Ignis Studios&lt;br&gt;Cloud Compilation" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="150" y="240" width="120" height="60" as="geometry" />
+        <mxCell id="NHG1jIdKIOBNoQRCa83L-4" value="&lt;div&gt;Client&lt;br&gt;&lt;/div&gt;(Nova Engine)" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="500" y="330" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="NHG1jIdKIOBNoQRCa83L-16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="NHG1jIdKIOBNoQRCa83L-4" target="NHG1jIdKIOBNoQRCa83L-14">
+        <mxCell id="NHG1jIdKIOBNoQRCa83L-10" value="" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="520" y="40" width="280" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="7luEIdt7vg5TZx0GwpHG-25" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="NHG1jIdKIOBNoQRCa83L-11" target="NHG1jIdKIOBNoQRCa83L-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="NHG1jIdKIOBNoQRCa83L-11" value="Ignis Game Servers" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="530" y="90" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="7luEIdt7vg5TZx0GwpHG-24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.75;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="NHG1jIdKIOBNoQRCa83L-14" target="NHG1jIdKIOBNoQRCa83L-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="7luEIdt7vg5TZx0GwpHG-26" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=1;exitDx=0;exitDy=0;entryX=1;entryY=0.25;entryDx=0;entryDy=0;" edge="1" parent="1" source="NHG1jIdKIOBNoQRCa83L-14" target="7luEIdt7vg5TZx0GwpHG-20">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="310" y="410" />
-              <mxPoint x="310" y="350" />
+              <mxPoint x="760" y="270" />
+              <mxPoint x="820" y="270" />
+              <mxPoint x="820" y="425" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="NHG1jIdKIOBNoQRCa83L-4" value="&lt;div&gt;Client&lt;br&gt;&lt;/div&gt;(Nova Engine)" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="120" y="360" width="120" height="60" as="geometry" />
+        <mxCell id="NHG1jIdKIOBNoQRCa83L-14" value="Ignis Service Directory" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="670" y="90" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="NHG1jIdKIOBNoQRCa83L-18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="NHG1jIdKIOBNoQRCa83L-6" target="NHG1jIdKIOBNoQRCa83L-11">
+        <mxCell id="7luEIdt7vg5TZx0GwpHG-19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="NHG1jIdKIOBNoQRCa83L-20" target="NHG1jIdKIOBNoQRCa83L-4">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="NHG1jIdKIOBNoQRCa83L-6" value="Server&lt;br&gt;(Nova Engine)" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="310" y="240" width="120" height="60" as="geometry" />
+        <mxCell id="NHG1jIdKIOBNoQRCa83L-20" value="User" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="660" y="330" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="NHG1jIdKIOBNoQRCa83L-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="NHG1jIdKIOBNoQRCa83L-10" target="NHG1jIdKIOBNoQRCa83L-11">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="NHG1jIdKIOBNoQRCa83L-26" value="Game Specific Assets" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="575" y="220" width="130" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="NHG1jIdKIOBNoQRCa83L-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=1;exitDx=0;exitDy=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="NHG1jIdKIOBNoQRCa83L-10" target="NHG1jIdKIOBNoQRCa83L-14">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="NHG1jIdKIOBNoQRCa83L-27" value="&lt;div&gt;Public&lt;/div&gt;&lt;div&gt;Server&lt;/div&gt;&lt;div&gt;Connection&lt;/div&gt;" style="text;html=1;align=right;verticalAlign=middle;whiteSpace=wrap;rounded=0;labelPosition=left;verticalLabelPosition=middle;" parent="1" vertex="1">
+          <mxGeometry x="560" y="195" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="NHG1jIdKIOBNoQRCa83L-10" value="Ruby Hosting" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="510" y="100" width="120" height="60" as="geometry" />
+        <mxCell id="NHG1jIdKIOBNoQRCa83L-28" value="Upload Binaries" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="370" y="80" width="160" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="NHG1jIdKIOBNoQRCa83L-25" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="NHG1jIdKIOBNoQRCa83L-11" target="NHG1jIdKIOBNoQRCa83L-19">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="7luEIdt7vg5TZx0GwpHG-7" value="Cloud Hosting" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="610" y="50" width="100" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="NHG1jIdKIOBNoQRCa83L-11" value="Ignis Game Servers" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="470" y="250" width="120" height="60" as="geometry" />
+        <mxCell id="7luEIdt7vg5TZx0GwpHG-16" value="&lt;div&gt;Auto&lt;/div&gt;&lt;div&gt;Updating&lt;/div&gt;&lt;div&gt;Game&lt;/div&gt;&lt;div&gt;Binary&lt;/div&gt;" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;labelPosition=right;verticalLabelPosition=middle;" vertex="1" parent="1">
+          <mxGeometry x="820" y="320" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="NHG1jIdKIOBNoQRCa83L-42" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="NHG1jIdKIOBNoQRCa83L-14" target="NHG1jIdKIOBNoQRCa83L-19">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="7luEIdt7vg5TZx0GwpHG-18" value="Front End" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="610" y="300" width="60" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="NHG1jIdKIOBNoQRCa83L-14" value="Ignis Content Delivery Servers" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="610" y="320" width="120" height="60" as="geometry" />
+        <mxCell id="7luEIdt7vg5TZx0GwpHG-20" value="Computer" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="660" y="410" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="NHG1jIdKIOBNoQRCa83L-19" value="&lt;div&gt;Ignis Executable&lt;/div&gt;&lt;div&gt;(Client)&lt;br&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="470" y="470" width="120" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="NHG1jIdKIOBNoQRCa83L-21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="NHG1jIdKIOBNoQRCa83L-20" target="NHG1jIdKIOBNoQRCa83L-19">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="NHG1jIdKIOBNoQRCa83L-20" value="User" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="300" y="470" width="120" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="NHG1jIdKIOBNoQRCa83L-26" value="Exported Game Files" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
-          <mxGeometry x="611" y="463" width="60" height="30" as="geometry" />
-        </mxCell>
-        <mxCell id="NHG1jIdKIOBNoQRCa83L-27" value="&lt;div&gt;Public&lt;/div&gt;&lt;div&gt;Server&lt;br&gt;&lt;/div&gt;&lt;div&gt;Connection&lt;br&gt;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
-          <mxGeometry x="460" y="410" width="60" height="30" as="geometry" />
-        </mxCell>
-        <mxCell id="NHG1jIdKIOBNoQRCa83L-28" value="Upload Exported Client" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
-          <mxGeometry x="310" y="320" width="160" height="30" as="geometry" />
+        <mxCell id="7luEIdt7vg5TZx0GwpHG-30" value="&lt;h3 data-start=&quot;41&quot; data-end=&quot;80&quot;&gt;&amp;nbsp;Auto-Update &amp;amp; Asset Sync (Ignis)&lt;/h3&gt;&lt;ol data-start=&quot;82&quot; data-end=&quot;600&quot;&gt;&lt;li data-start=&quot;82&quot; data-end=&quot;383&quot;&gt;&lt;p data-start=&quot;85&quot; data-end=&quot;111&quot;&gt;&lt;strong data-start=&quot;85&quot; data-end=&quot;109&quot;&gt;Client Version Check&lt;/strong&gt;&lt;/p&gt;&lt;ul data-start=&quot;115&quot; data-end=&quot;383&quot;&gt;&lt;li data-start=&quot;115&quot; data-end=&quot;213&quot;&gt;&lt;p data-start=&quot;117&quot; data-end=&quot;213&quot;&gt;On startup, the client queries the &lt;strong data-start=&quot;152&quot; data-end=&quot;178&quot;&gt;Service Directory (SD)&lt;/strong&gt; for the latest version and hash.&lt;/p&gt;&lt;/li&gt;&lt;li data-start=&quot;217&quot; data-end=&quot;319&quot;&gt;&lt;p data-start=&quot;219&quot; data-end=&quot;319&quot;&gt;If the version matches but the hash doesn&#39;t, the client auto-replaces itself (corrupted/modified).&lt;/p&gt;&lt;/li&gt;&lt;li data-start=&quot;323&quot; data-end=&quot;383&quot;&gt;&lt;p data-start=&quot;325&quot; data-end=&quot;383&quot;&gt;If the version is outdated, it auto-updates to the latest.&lt;/p&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;li data-start=&quot;385&quot; data-end=&quot;600&quot;&gt;&lt;p data-start=&quot;388&quot; data-end=&quot;415&quot;&gt;&lt;strong data-start=&quot;388&quot; data-end=&quot;413&quot;&gt;Game Asset Validation&lt;/strong&gt;&lt;/p&gt;&lt;ul data-start=&quot;419&quot; data-end=&quot;600&quot;&gt;&lt;li data-start=&quot;419&quot; data-end=&quot;449&quot;&gt;&lt;p data-start=&quot;421&quot; data-end=&quot;449&quot;&gt;Assets are cached locally.&lt;/p&gt;&lt;/li&gt;&lt;li data-start=&quot;453&quot; data-end=&quot;537&quot;&gt;&lt;p data-start=&quot;455&quot; data-end=&quot;537&quot;&gt;During handshake with the &lt;strong data-start=&quot;481&quot; data-end=&quot;501&quot;&gt;Game Server (GS)&lt;/strong&gt;, the client sends its asset hash.&lt;/p&gt;&lt;/li&gt;&lt;li data-start=&quot;541&quot; data-end=&quot;600&quot;&gt;&lt;p data-start=&quot;543&quot; data-end=&quot;600&quot;&gt;If mismatched, the correct assets are pulled from the SD.&lt;/p&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;/ol&gt;" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;spacing=2;labelBackgroundColor=default;labelBorderColor=default;" vertex="1" parent="1">
+          <mxGeometry x="160" y="250" width="310" height="370" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

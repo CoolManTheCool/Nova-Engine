@@ -13,6 +13,7 @@ void MeshObject::render(VkPipelineLayout &pipelineLayout, VkCommandBuffer &comma
     PushMeshData push{};
     push.modelMatrix  = transform.mat4();
     push.normalMatrix = transform.normalMatrix();
+    push.roughness    = roughness;
     vkCmdPushConstants(
         commandBuffer,
         pipelineLayout,

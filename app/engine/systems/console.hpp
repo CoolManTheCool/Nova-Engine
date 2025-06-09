@@ -20,6 +20,10 @@ public:
 
     typedef std::function<void(CommandContext)> CommandFunction;
 
+    struct Command {
+        const std::string& name;
+        CommandFunction function;
+    };
 
     struct console_element {
         std::string text;
@@ -31,7 +35,7 @@ public:
     enum {
         INFO,      // Useful information,              eg: "Game engine initialized successfully."
         DEBUG,     // Default, Developer information,  eg: "Rendering optimization applied to scene X."
-        WARNING,   // Uncaught bug, usually mitigated, eg: "Missing texture in asset, default texture applied."
+        WARNING,   // Caught bug, usually mitigated, eg: "Missing texture in asset, default texture applied."
         ERROR,     // Not Fatal, likely dangerous,     eg: "Failed to load configuration file, using default settings."
         CRITICAL,  // Likely Fatal,                    eg: "Out of memory, system is unstable and will shut down."
 
@@ -64,7 +68,6 @@ private:
     {std::type_index(typeid(console_element)), 100};
 
     char* filter = new char[25]();
-
     
     std::unordered_map<std::string, CommandFunction> commandMap;
 };
