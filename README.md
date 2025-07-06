@@ -26,6 +26,7 @@ Nova Engine is a powerful and modern game development framework built with Vulka
 Before you begin, ensure you have met the following requirements:
 - Operating System: Linux
 - [Vulkan SDK](https://vulkan.lunarg.com/sdk/home) installed
+- [GLM](https://github.com/g-truc/glm) installed
 - C++ Compiler (Ideally GCC)
 - CMake
 
@@ -37,19 +38,13 @@ Before you begin, ensure you have met the following requirements:
    cd NovaEngine
    ```
 
-2. **Install Dependencies**
-   - ImGui Docking Branch
-   - GLFW
-
 3. **Build the Project**
    ```bash
-   mkdir build && cd build
+   ./resources.sh
+   mkdir -p build && cd build
    cmake -G Ninja ../app
    cmake --build .
    ```
-
-Make: 1m1.781s
-Ninja: 0m12.749s
 
 ### Using Nova Engine in Your Project
 
