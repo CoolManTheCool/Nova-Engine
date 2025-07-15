@@ -37,7 +37,7 @@ int main() {
     config.settings.height = 720;
     config.settings.width = 1280;
     config.settings.title = "Nova Engine Demo Development Build";
-    config.settings.version_name = "Alpha 1.1.3";
+    config.settings.version_name = "Alpha 1.1.4";
 
     nova::Engine engine = nova::Engine(&config);
 
@@ -62,12 +62,6 @@ int main() {
         }
         nova::Console.log("[Console] " + context.args, nova::Console.INFO);
     });
-
-    std::cout << "This stuff is seriously working!!!" << std::endl;
-    std::cout << "This stuff is seriously working!!!" << std::endl;
-    std::cout << "This stuff is seriously working!!!" << std::endl;
-    std::cout << "This stuff is seriously working!!!" << std::endl;
-    std::cout << "This stuff is seriously working!!!" << std::endl;
 
     // Begin Render Loop
     engine.run();

@@ -3,7 +3,7 @@
 projectroot=$PWD
 
 sourcedir=$projectroot/app/resources
-tempdir=$projectroot/build/resources
+tempdir=/tmp/nova-engine-build-$(date +%s%N)
 targetdir=$projectroot/bin/resources
 
 if [[ "$1" == "-clean" ]]; then
@@ -19,7 +19,7 @@ echo "[ OK ] Cleaning: $targetdir"
 echo 
 
 rm -rf $targetdir
-mkdir -p $projectroot/build
+mkdir -p $tempdir
 
 echo "[ OK ] Compiling Resources to $tempdir..."
 
@@ -43,8 +43,6 @@ for shader in "${shader_files[@]}"; do
     percentage=$((compiled_count * 100 / total_files))
     printf "[%3d%%] Finished Compiling: %s\n" "$percentage" "$filename"
 done
-
-mkdir -p $projectroot/build
 
 echo 
 echo "[ OK ] Copying: $sourcedir/models -> $tempdir/models..."

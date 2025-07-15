@@ -13,7 +13,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-22.04] #, windows-latest]
+        os: [ubuntu-22.04] #, windows-latest
         build_type: [Release]
 
     steps:
@@ -61,4 +61,6 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: build
-        path: ./bin/*
+        path: |
+          ./build/app/libnova_engine.so
+          ./examples/demo_game/bin/
