@@ -6,16 +6,14 @@ set(CMAKE_CXX_STANDARD 23)
 
 project(${PROJECT_NAME})
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/../bin)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../bin)
 
 find_package(Vulkan REQUIRED)
 find_package(glfw3 REQUIRED)
 include_directories(${GLFW_INCLUDE_DIRS})
 
-# Find OpenAL | Disabled, as not used.
-#find_package(OpenAL REQUIRED)
-
-set(SOURCE_FILES
+# Engine source files (no main.cpp)
+set(ENGINE_SOURCE_FILES
     engine/systems/physics_system.cpp
     engine/systems/mesh_system.cpp
     engine/systems/gui_system.cpp
@@ -37,29 +35,30 @@ set(SOURCE_FILES
     engine/utility/resources.cpp
     engine/utility/util.cpp
     engine/engine.cpp
-    src/main.cpp
 )
 
 set(IMGUI_SRC
-    ${CMAKE_SOURCE_DIR}/libs/imgui/imgui.cpp
-    ${CMAKE_SOURCE_DIR}/libs/imgui/imgui_draw.cpp
-    ${CMAKE_SOURCE_DIR}/libs/imgui/imgui_demo.cpp
-    ${CMAKE_SOURCE_DIR}/libs/imgui/imgui_tables.cpp
-    ${CMAKE_SOURCE_DIR}/libs/imgui/imgui_widgets.cpp
-    ${CMAKE_SOURCE_DIR}/libs/imgui/backends/imgui_impl_glfw.cpp
-    ${CMAKE_SOURCE_DIR}/libs/imgui/backends/imgui_impl_vulkan.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/libs/imgui/imgui.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/libs/imgui/imgui_draw.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/libs/imgui/imgui_demo.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/libs/imgui/imgui_tables.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/libs/imgui/imgui_widgets.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/libs/imgui/backends/imgui_impl_glfw.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/libs/imgui/backends/imgui_impl_vulkan.cpp
 )
 
 add_library(imgui STATIC ${IMGUI_SRC})
 
 target_include_directories(imgui PUBLIC
-    ${CMAKE_SOURCE_DIR}/libs/imgui
-    ${CMAKE_SOURCE_DIR}/libs/imgui/backends
+    ${CMAKE_CURRENT_SOURCE_DIR}/libs/imgui
+    ${CMAKE_CURRENT_SOURCE_DIR}/libs/imgui/backends
 )
 
-add_executable(${PROJECT_NAME} ${SOURCE_FILES})
+target_compile_options(imgui PRIVATE -fPIC)
 
-target_include_directories(${PROJECT_NAME} PRIVATE 
+add_library(nova_engine SHARED ${ENGINE_SOURCE_FILES})
+
+target_include_directories(nova_engine PUBLIC
     engine/systems/
     engine/objects/
     engine/data/
@@ -67,10 +66,9 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     engine/graphics/
     engine/
     libs/
-
     ${Vulkan_INCLUDE_DIRS}
 )
 
-target_link_libraries(${PROJECT_NAME} PRIVATE ${Vulkan_LIBRARIES} ${OPENAL_LIBRARY} glfw Vulkan::Vulkan imgui)
+target_link_libraries(nova_engine PRIVATE ${Vulkan_LIBRARIES} glfw Vulkan::Vulkan imgui)
 
-target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra)
+target_compile_options(nova_engine PRIVATE -Wall -Wextra)

@@ -9,6 +9,8 @@
 #include "mesh_system.hpp"
 #include "console.hpp"
 
+#include "macros.hpp"
+
 #include <memory>
 #include <vector>
 
@@ -21,7 +23,7 @@ struct EngineConfig {
 
 typedef std::vector<std::shared_ptr<nova_Object>> ObjectList;
 
-class Engine {
+class NOVA_ENGINE_API Engine {
 public:
 
   Engine(EngineConfig* config);
