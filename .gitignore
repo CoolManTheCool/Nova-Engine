@@ -1,5 +1,5 @@
-/build
-/bin
+build/
+bin/
 /.vscode
 *.spv
 *.code-workspace

@@ -2,6 +2,9 @@
 #include <iostream>
 
 #include "engine.hpp"
+#include "point_light_object.hpp"
+
+#include "game.hpp"
 
 template<typename T, typename = std::enable_if_t<std::is_base_of_v<nova::nova_Object, T>>>
 std::shared_ptr<T> createObject(nova::Engine& engine) {
@@ -28,6 +31,20 @@ void loadGameObjects(nova::Engine& engine) {
     obj->setModel(engine.getDevice(), engine.resources->getModel("quad"));
     obj->transform.translation = {0.01f, 0.f, 0.f};
     obj->transform.scale = {15, 1, 15};
+    const int objectCount = 100;
+    const float radius = 8;
+    for (int i = 0; i < objectCount; i++) {
+        auto lightObj = createObject<nova::PointLightObject>(engine);
+
+        // Setup light properties
+        lightObj->transform.translation = {
+            glm::cos(glm::radians(i * 360.0f / objectCount)) * radius,
+            4,
+            glm::sin(glm::radians(i * 360.0f / objectCount)) * radius
+        };
+        lightObj->transform.scale = {2, 2, 2};
+        lightObj->lightIntensity = 0.9f;
+    }    
 }
 
 int main() {
@@ -64,7 +81,7 @@ int main() {
     });
 
     // Begin Render Loop
-    engine.run();
+    engine.run(loop);
 
     return EXIT_SUCCESS;    
 }

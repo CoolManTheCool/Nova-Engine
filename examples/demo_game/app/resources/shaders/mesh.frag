@@ -39,12 +39,12 @@ void main() {
     PointLight light = ubo.pointLights[i];
     vec3 directionToLight = light.position.xyz - fragPosWorld;
     float distanceSquared = dot(directionToLight, directionToLight);
-    float maxDistance = light.color.w * 15.0; // Example factor, adjust as needed
+    float maxDistance = light.color.w * 15.0; 
     directionToLight = normalize(directionToLight);
 
     if (distanceSquared < maxDistance * maxDistance) {
-      float attenuation = 1.0 / distanceSquared;
-      float cosAngIncidence = max(dot(surfaceNormal, directionToLight), 1);
+      float attenuation = 1.0 / (distanceSquared + 1.0);
+      float cosAngIncidence = max(dot(surfaceNormal, directionToLight), 0.0);
       vec3 intensity = light.color.xyz * light.color.w * attenuation;
 
       diffuseLight += intensity * cosAngIncidence;
@@ -53,7 +53,7 @@ void main() {
 
       float specPower = mix(128.0, 1.0, push.roughness);
 
-      float blinnTerm = pow(clamp(dot(surfaceNormal, halfAngle), 0, 1), specPower); // Higher values give sharper highlights.
+      float blinnTerm = pow(clamp(dot(surfaceNormal, halfAngle), 0, 1), specPower);
 
       specularLight += intensity * blinnTerm * 0.5; 
     }

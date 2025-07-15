@@ -10,12 +10,19 @@ set(NOVA_ENGINE_LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../lib)
 set(NOVA_ENGINE_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../app/engine)
 set(LIBS_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/app/libs)
 
-add_executable(demo_game main.cpp)
+# Gather all .cpp and .hpp files in game/ recursively
+file(GLOB_RECURSE GAME_SOURCES CONFIGURE_DEPENDS
+    ${CMAKE_CURRENT_SOURCE_DIR}/game/*.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/game/*.hpp
+)
+
+add_executable(demo_game main.cpp ${GAME_SOURCES})
 
 target_include_directories(demo_game PRIVATE
     ${NOVA_ENGINE_INCLUDE_DIR}
     ${LIBS_INCLUDE_DIR}/imgui
     ${LIBS_INCLUDE_DIR}/imgui/backends
+    ${CMAKE_CURRENT_SOURCE_DIR}/game
 )
 
 # Link the shared engine library

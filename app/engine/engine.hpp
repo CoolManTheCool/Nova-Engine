@@ -12,6 +12,7 @@
 #include "macros.hpp"
 
 #include <memory>
+#include <functional>
 #include <vector>
 
 namespace nova {
@@ -22,6 +23,8 @@ struct EngineConfig {
 };
 
 typedef std::vector<std::shared_ptr<nova_Object>> ObjectList;
+
+struct LoopContext;
 
 class NOVA_ENGINE_API Engine {
 public:
@@ -34,7 +37,17 @@ public:
 
   nova_Device& getDevice() { return device; }
   
-  void run();
+  void run(bool (*loop)(LoopContext));
+
+  template<typename T>
+  std::shared_ptr<T> getFirstObject() {
+    for (const auto& obj : Objects) {
+      if (auto castedObj = std::dynamic_pointer_cast<T>(obj)) {
+        return castedObj;
+      }
+    }
+    return nullptr;
+  }
 
   std::vector<std::shared_ptr<nova_Object>> Objects;
   Resources* resources;
@@ -52,6 +65,16 @@ private:
   std::vector<std::unique_ptr<nova_Buffer>> UBOBuffers;
   std::unique_ptr<nova_Buffer> globalUBOBuffer;
 };
+
+struct LoopContext {
+    float frameTime;
+    ObjectList& objects;
+    Engine& engine;
+
+    LoopContext(float ft, ObjectList& objs, Engine& eng)
+        : frameTime(ft), objects(objs), engine(eng) {}
+};
+
 }  // namespace nova
 
 #endif

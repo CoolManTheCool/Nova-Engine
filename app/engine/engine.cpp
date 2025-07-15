@@ -65,7 +65,7 @@ Engine::~Engine() {
     globalPool.reset();
 }
 
-void Engine::run() {
+void Engine::run(bool (*loop)(LoopContext)) {
     // Initialize buffers as class members instead of local variables
     UBOBuffers.resize(nova_SwapChain::MAX_FRAMES_IN_FLIGHT);
     for(size_t i = 0; i < UBOBuffers.size(); i++) {
@@ -172,6 +172,12 @@ void Engine::run() {
 		float frameTime = std::chrono::duration<float, std::chrono::seconds::period>(std::chrono::high_resolution_clock::now() - oldTime).count();
 		oldTime = std::chrono::high_resolution_clock::now();
 		frameTime = glm::min(frameTime, MAX_FRAME_TIME);
+
+		LoopContext ctx(frameTime, Objects, *this);
+		if (loop(ctx) == false) {
+			Console.log("Game loop returned false, exiting...", Console.INFO);
+			break;  // Exit the loop if the game loop returns false
+		}
 
 		for(std::shared_ptr<nova_Object> &obj : Objects) {
 			obj->update(frameTime);
