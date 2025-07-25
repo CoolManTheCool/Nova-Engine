@@ -8,7 +8,7 @@
 #include <cassert>
 #include <stdexcept>
 
-namespace nova {
+namespace Nova {
 
 MeshSystem::MeshSystem(nova_Device& device, VkRenderPass renderPass, VkDescriptorSetLayout globalSetLayout, Resources* resources)
     	: device{device} {
@@ -68,4 +68,4 @@ void MeshSystem::render(FrameInfo &frameInfo) {
 	}
 }
 
-}  // namespace nova
+}  // namespace Nova

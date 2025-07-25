@@ -7,7 +7,7 @@
 #include <string>
 #include <vector>
 
-namespace nova {
+namespace Nova {
 
 struct SwapChainSupportDetails {
   VkSurfaceCapabilitiesKHR capabilities;

@@ -8,7 +8,7 @@
 #include <string>
 #include <vector>
 
-namespace nova {
+namespace Nova {
 
 struct PipelineConfigInfo {
 	PipelineConfigInfo() = default;
@@ -54,6 +54,6 @@ class nova_PipeLine {
 	VkShaderModule vertShaderModule;
 	VkShaderModule fragShaderModule;
 };
-} // namespace nova
+} // namespace Nova
 
 #endif

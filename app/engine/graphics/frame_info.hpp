@@ -31,14 +31,14 @@ layout(set = 0, binding = 0) uniform GlobalUbo {
 } ubo;
 */
 
-namespace nova {
+namespace Nova {
     struct FrameInfo {
         int frameIndex;
         float frameTime;
         VkCommandBuffer commandBuffer;
         Camera &camera;
         VkDescriptorSet globalDescriptorSet;
-        std::vector<std::shared_ptr<nova_Object>> &objects;
+        std::vector<std::shared_ptr<Object>> &objects;
 
     };
 }

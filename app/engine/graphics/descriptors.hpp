@@ -7,7 +7,7 @@
 #include <unordered_map>
 #include <vector>
 
-namespace nova {
+namespace Nova {
 
 class nova_DescriptorSetLayout {
  public:
@@ -101,4 +101,4 @@ class nova_DescriptorWriter {
   std::vector<VkWriteDescriptorSet> writes;
 };
 
-}  // namespace nova
+}  // namespace Nova

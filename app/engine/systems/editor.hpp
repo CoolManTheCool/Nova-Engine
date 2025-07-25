@@ -3,7 +3,7 @@
 
 #include "gui_system.hpp"
 
-namespace nova {
+namespace Nova {
 
 class Editor_T {
 public:

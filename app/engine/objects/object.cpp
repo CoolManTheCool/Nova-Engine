@@ -1,6 +1,10 @@
 #include "object.hpp"
 
-namespace nova {
+#include "render_data.hpp"
+
+#include <iostream>
+
+namespace Nova {
 
 glm::mat4 TransformComponent::mat4() {
     const float c3 = glm::cos(rotation.z);
@@ -61,16 +65,16 @@ glm::mat3 TransformComponent::normalMatrix() {
 
 /// @brief Gets the indentifier for the render system that should render the given object.
 /// @return unisgned int, 0 if not renderable.
-unsigned int nova_Object::getObjectType() {
+unsigned int Object::getObjectType() {
     return OBJECT_TYPE_NULL;
 }
 
-void nova_Object::update([[maybe_unused]] float deltaTime) {
+void Object::update([[maybe_unused]] float deltaTime) {
     
 }
 
-void nova_Object::render([[maybe_unused]] VkPipelineLayout &pipelineLayout, [[maybe_unused]] VkCommandBuffer &commandBuffer) {
+void Object::render(RenderData &renderData) {
     std::cout << "Uhm... a generic object just got rendered!" << std::endl;
 }
 
-} // namespace nova
+} // namespace Nova

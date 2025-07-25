@@ -20,7 +20,7 @@ using namespace std;
 		}                                                              \
 	} while (0)
 
-namespace nova {
+namespace Nova {
 class nova_Window {
   public:
 	nova_Window(Settings settings);
@@ -55,6 +55,6 @@ class nova_Window {
 	GLFWwindow *window;
 };
 
-} // namespace nova
+} // namespace Nova
 
 #endif

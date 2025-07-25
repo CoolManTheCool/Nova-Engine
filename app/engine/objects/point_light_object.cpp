@@ -1,6 +1,6 @@
 #include "point_light_object.hpp"
 
-namespace nova {
+namespace Nova {
 
 vec3 hsv2rgb(vec3 in) {
     double hh, p, q, t, ff;

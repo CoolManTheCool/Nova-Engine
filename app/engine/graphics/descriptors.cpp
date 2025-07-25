@@ -4,7 +4,7 @@
 #include <cassert>
 #include <stdexcept>
 
-namespace nova {
+namespace Nova {
 
 // *************** Descriptor Set Layout Builder *********************
 
@@ -192,4 +192,4 @@ void nova_DescriptorWriter::overwrite(VkDescriptorSet &set) {
   vkUpdateDescriptorSets(pool.device.device(), writes.size(), writes.data(), 0, nullptr);
 }
 
-}  // namespace nova
+}  // namespace Nova

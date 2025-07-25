@@ -1,6 +1,6 @@
 #include "mesh_object.hpp"
 
-namespace nova {
+namespace Nova {
 void MeshObject::setModel(nova_Device &device, const nova_Model::Builder builder) {
     model = std::make_shared<nova_Model>(device, builder);
 }

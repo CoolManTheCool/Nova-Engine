@@ -3,7 +3,7 @@
 #include <cassert>
 #include <cstring>
 
-namespace nova {
+namespace Nova {
 
 VkDeviceSize nova_Buffer::getAlignment(VkDeviceSize instanceSize, VkDeviceSize minOffsetAlignment) {
   if (minOffsetAlignment > 0) {
@@ -185,4 +185,4 @@ VkResult nova_Buffer::invalidateIndex(int index) {
   return invalidate(alignmentSize, index * alignmentSize);
 }
 
-}  // namespace nova_
+}  // namespace Nova_

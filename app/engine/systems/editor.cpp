@@ -3,7 +3,7 @@
 #include "object.hpp"
 #include "mesh_object.hpp"
 
-namespace nova {
+namespace Nova {
 
 #define min_dist_edit -10 // Minimum Distance the Editor allows.
 #define max_dist_edit 10 // Maximum Distance the Editor allows.
@@ -19,7 +19,7 @@ void Editor_T::RegisterBindings() {
 
 void Editor_T::RegisterWindow(nova_Window* window) {
 
-    std::vector<std::shared_ptr<nova_Object>> *objects = GUI.getBindingValue<std::vector<std::shared_ptr<nova_Object>>*>("Objects");
+    std::vector<std::shared_ptr<Object>> *objects = GUI.getBindingValue<std::vector<std::shared_ptr<Object>>*>("Objects");
     assert(objects && "'Objects' is not bound or is null.");
     
     GUI.registerWindow([window, objects]() {
@@ -33,7 +33,7 @@ void Editor_T::RegisterWindow(nova_Window* window) {
         *objNum = *objNum > maxObjects-1 ? 0 : *objNum;
         *objNum = *objNum < 0 ? maxObjects-1 : *objNum;
 
-        std::shared_ptr<nova_Object> obj = objects->at(*objNum);
+        std::shared_ptr<Object> obj = objects->at(*objNum);
         ImGui::Text("Object Rotation:");
         ImGui::SliderFloat("X Rotation", &obj->transform.rotation.x, 0, 2*M_PI);
         ImGui::SliderFloat("Y Rotation", &obj->transform.rotation.y, 0, 2*M_PI);

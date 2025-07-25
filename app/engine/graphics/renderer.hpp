@@ -10,7 +10,7 @@
 #include <vector>
 #include <cassert>
 
-namespace nova {
+namespace Nova {
 class nova_Renderer {
 public:
 	nova_Renderer(nova_Window &window, nova_Device &device);
@@ -53,6 +53,6 @@ private:
   	int currentFrameIndex{0};
 	bool isFrameStarted{false};
 };
-} // namespace nova
+} // namespace Nova
 
 #endif

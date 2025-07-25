@@ -3,7 +3,7 @@
 
 #include "object.hpp"
 
-namespace nova {
+namespace Nova {
 
 struct PushMeshData {
   	glm::mat4 modelMatrix{1.f};
@@ -11,7 +11,7 @@ struct PushMeshData {
 	float roughness{0.5f};
 };
 
-class MeshObject : public nova_Object {
+class MeshObject : public Object {
 public:
 	float roughness{0.5f};
     void setModel(nova_Device &device, const nova_Model::Builder builder);
@@ -21,6 +21,6 @@ public:
   	void render(VkPipelineLayout &pipelineLayout, VkCommandBuffer &commandBuffer) override;
 };
 
-} // namespace nova
+} // namespace Nova
 
 #endif // MESH_OBJECT_HPP

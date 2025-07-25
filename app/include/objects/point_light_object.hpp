@@ -3,7 +3,7 @@
 
 #include "object.hpp"
 
-namespace nova {
+namespace Nova {
 
 struct PointLightPushConstants {
 	vec4 position{};
@@ -11,7 +11,7 @@ struct PointLightPushConstants {
 	float radius;
 };
 
-class PointLightObject : public nova_Object {
+class PointLightObject : public Object {
 public:
     PointLightObject(float intensity = 2.0f, float radius = 1.f, vec3 lightColor = vec3(0.f, 0.f, 0.f));
     unsigned int getObjectType() override;
@@ -34,6 +34,6 @@ public:
     // transform.scale
 };
 
-} // namespace nova
+} // namespace Nova
 
 #endif // POINT_LIGHT_OBJECT_HPP

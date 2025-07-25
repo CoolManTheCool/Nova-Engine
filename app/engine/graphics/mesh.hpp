@@ -7,7 +7,7 @@
 #include <vector>
 #include <memory>
 
-namespace nova {
+namespace Nova {
 class nova_Model { 
 public:
 	struct Vertex {
@@ -55,6 +55,6 @@ private:
 	std::unique_ptr<nova_Buffer> indexBuffer;
 	uint32_t indexCount;
 };
-} // namespace nova
+} // namespace Nova
 
 #endif

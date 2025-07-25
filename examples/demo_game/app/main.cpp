@@ -6,7 +6,7 @@
 
 #include "game.hpp"
 
-template<typename T, typename = std::enable_if_t<std::is_base_of_v<nova::nova_Object, T>>>
+template<typename T, typename = std::enable_if_t<std::is_base_of_v<nova::Object, T>>>
 std::shared_ptr<T> createObject(nova::Engine& engine) {
     engine.Objects.push_back(std::make_shared<T>(T()));
 

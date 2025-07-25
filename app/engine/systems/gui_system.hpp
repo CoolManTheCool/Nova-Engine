@@ -26,7 +26,7 @@ namespace ImGui {
     }
 } // namespace ImGui
 
-namespace nova {
+namespace Nova {
 
 class GUI_System_T {
 public:
@@ -70,6 +70,6 @@ private:
 extern GUI_System_T GUI;
 #endif
 
-} // namespace nova
+} // namespace Nova
 
 #endif // GUI_SYSTEM_HPP

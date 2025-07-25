@@ -1,20 +1,13 @@
 #ifndef PHYSICS_SYSTEM_HPP
 #define PHYSICS_SYSTEM_HPP
-/**
- * @class Threaded Physics
- */
-class Threaded_Physics_Wrapper {
-public:
-    Threaded_Physics_Wrapper(bool isThreaded);
-private:
-    bool isThreaded;
-};
 
 /**
  * @class Physics System
  * @brief Independant, Non-global, Physics Engine  
  * 
  * Provides an algorithmic approach to solving physics in real time.
+ * This class is designed to be used within the Nova Engine framework.
+ * The system is designed to be multi-threaded and can be extended to support various physics simulations.
  */
 class Physics_System {
 public:

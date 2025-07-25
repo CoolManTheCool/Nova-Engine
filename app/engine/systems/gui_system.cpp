@@ -1,7 +1,7 @@
 #include "gui_system.hpp"
 #include "resources.hpp"
 
-namespace nova {
+namespace Nova {
 
 GUI_System_T GUI;
 
@@ -156,4 +156,4 @@ void GUI_System_T::registerWindow(std::function<void()> func) {
     windows.push_back(func);
 }
 
-} // namespace nova
+} // namespace Nova

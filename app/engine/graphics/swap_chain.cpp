@@ -10,7 +10,7 @@
 #include <set>
 #include <stdexcept>
 
-namespace nova {
+namespace Nova {
 
 nova_SwapChain::nova_SwapChain(nova_Device &deviceRef, VkExtent2D extent) : device{deviceRef}, windowExtent{extent} {
 	createSwapChain();
@@ -398,4 +398,4 @@ VkFormat nova_SwapChain::findDepthFormat() {
 									  VK_IMAGE_TILING_OPTIMAL, VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT);
 }
 
-} // namespace nova
+} // namespace Nova

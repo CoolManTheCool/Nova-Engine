@@ -5,8 +5,8 @@
 #include "object.hpp"
 #include "window.hpp"
 
-namespace nova {
-class Camera : public nova_Object{
+namespace Nova {
+class Camera : public Object{
 public:
 	Camera(nova_Window *window, float fovy, float aspect, float near, float far);
 	void setPerspectiveProjection(float fovy, float aspect, float near, float far);
@@ -35,5 +35,5 @@ private:
 	nova_Window *window;
 };
 
-} // namespace nova
+} // namespace Nova
 #endif

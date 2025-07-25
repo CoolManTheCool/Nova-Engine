@@ -1,13 +1,9 @@
 #ifndef ENGINE_HPP
 #define ENGINE_HPP
 
-#include "device.hpp"
 #include "object.hpp"
-#include "renderer.hpp"
-#include "window.hpp"
 #include "descriptors.hpp"
 #include "mesh_system.hpp"
-#include "console.hpp"
 
 #include "macros.hpp"
 
@@ -15,16 +11,19 @@
 #include <functional>
 #include <vector>
 
-namespace nova {
+namespace Nova {
 
 struct EngineConfig {
   Resources resources;
   Settings settings;
 };
 
-typedef std::vector<std::shared_ptr<nova_Object>> ObjectList;
+typedef std::vector<std::shared_ptr<Object>> ObjectList;
 
 struct LoopContext;
+
+class nova_Device; // forward declaration
+class nova_Window; // forward declaration
 
 class NOVA_ENGINE_API Engine {
 public:
@@ -49,13 +48,12 @@ public:
     return nullptr;
   }
 
-  std::vector<std::shared_ptr<nova_Object>> Objects;
+  ObjectList Objects;
   Resources* resources;
 private:
 
   nova_Window window;
   nova_Device device;
-  nova_Renderer Renderer;
 
   VkDescriptorPool imguiPool = VK_NULL_HANDLE;  // Initialize to null
   std::unique_ptr<nova_DescriptorPool> globalPool{};
@@ -75,6 +73,6 @@ struct LoopContext {
         : frameTime(ft), objects(objs), engine(eng) {}
 };
 
-}  // namespace nova
+}  // namespace Nova
 
 #endif

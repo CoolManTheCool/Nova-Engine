@@ -20,7 +20,7 @@ struct hash<nova::nova_Model::Vertex> {
 };
 }
 
-namespace nova {
+namespace Nova {
 
 nova_Model::nova_Model(nova_Device &device, const nova_Model::Builder &builder) : device{device} {
 	createVertexBuffers(builder.vertices);
@@ -182,4 +182,4 @@ void nova_Model::Builder::loadModel(const std::string &filepath) {
 	}
 }
 
-}  // namespace nova
+}  // namespace Nova

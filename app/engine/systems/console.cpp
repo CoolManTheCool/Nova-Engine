@@ -1,7 +1,7 @@
 #include "console.hpp"
 #include "gui_system.hpp"
 
-namespace nova {
+namespace Nova {
 	
 
 Console_T Console;
@@ -147,4 +147,4 @@ void Console_T::RegisterWindow(nova_Window* window) {
 	});
 }
 
-} // namespace nova
+} // namespace Nova

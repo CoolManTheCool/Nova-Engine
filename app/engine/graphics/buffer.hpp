@@ -2,7 +2,7 @@
 #define BUFFER_HPP
 #include "device.hpp"
 
-namespace nova {
+namespace Nova {
 
 class nova_Buffer {
  public:
@@ -56,5 +56,5 @@ class nova_Buffer {
   VkMemoryPropertyFlags memoryPropertyFlags;
 };
 
-}  // namespace nova_
+}  // namespace Nova_
 #endif

@@ -1,7 +1,7 @@
 #include "window.hpp"
 #include <stdexcept>
 
-namespace nova {
+namespace Nova {
 nova_Window::nova_Window(Settings settings) {
 	this->settings = &settings;
 	initWindow();
@@ -34,4 +34,4 @@ void nova_Window::frameBufferResizeCallback(GLFWwindow *window, int width, int h
 	novaWindow->settings->width = width;
 	novaWindow->settings->height = height;
 }
-} // namespace nova
+} // namespace Nova

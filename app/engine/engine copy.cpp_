@@ -4,11 +4,12 @@
 #include "buffer.hpp"
 #include "gui_system.hpp"
 #include "point_light_object.hpp"
-
+#include "device.hpp"
 #include "resources.hpp"
 #include "util.hpp"
 #include "editor.hpp"
 #include "console.hpp"
+#include "window.hpp"
 
 #define MAX_FRAME_TIME 1.f
 
@@ -20,14 +21,13 @@
 
 using namespace glm;
 
-namespace nova {
+namespace Nova {
 
-//using namespace nova_Logger;
+//using namespace Nova_Logger;
 
 Engine::Engine(EngineConfig* config) :
 window(config->settings),
-device(window, config->settings),
-Renderer(window, device) {
+device(window, config->settings), {
 
 	srand(time(NULL));
 
@@ -66,6 +66,9 @@ Engine::~Engine() {
 }
 
 void Engine::run(bool (*loop)(LoopContext)) {
+
+	nova_Renderer Renderer(window, device);
+
     // Initialize buffers as class members instead of local variables
     UBOBuffers.resize(nova_SwapChain::MAX_FRAMES_IN_FLIGHT);
     for(size_t i = 0; i < UBOBuffers.size(); i++) {
@@ -179,7 +182,7 @@ void Engine::run(bool (*loop)(LoopContext)) {
 			break;  // Exit the loop if the game loop returns false
 		}
 
-		for(std::shared_ptr<nova_Object> &obj : Objects) {
+		for(std::shared_ptr<Object> &obj : Objects) {
 			obj->update(frameTime);
 		}
 
@@ -235,4 +238,4 @@ void Engine::run(bool (*loop)(LoopContext)) {
 	vkDeviceWaitIdle(device.device());
 }
 
-}	// namespace nova
+}	// namespace Nova

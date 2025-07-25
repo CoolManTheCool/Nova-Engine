@@ -9,7 +9,7 @@
 #include <string>
 #include <vector>
 
-namespace nova {
+namespace Nova {
 
 class nova_SwapChain {
  public:

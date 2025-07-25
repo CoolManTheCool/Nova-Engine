@@ -9,7 +9,7 @@
 #include <stdexcept>
 #include <cassert>
 
-namespace nova {
+namespace Nova {
 std::vector<char> nova_PipeLine::readFile(const std::string &filepath) {
 
 	if (filepath.empty()) {
@@ -188,4 +188,4 @@ void nova_PipeLine::defaultPipelineConfigInfo(PipelineConfigInfo &configInfo) {
 	configInfo.attributeDescriptions = nova_Model::Vertex::getAttributeDescriptions();
 }
 
-} // namespace nova
+} // namespace Nova

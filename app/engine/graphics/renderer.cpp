@@ -7,7 +7,7 @@
 #include <stdexcept>
 #include <iostream>
 
-namespace nova {
+namespace Nova {
 
 nova_Renderer::nova_Renderer(nova_Window& window, nova_Device& device)
     : window{window}, device{device} {
@@ -162,4 +162,4 @@ void nova_Renderer::endSwapChainRenderPass(VkCommandBuffer commandBuffer) {
   vkCmdEndRenderPass(commandBuffer);
 }
 
-}  // namespace nova
+}  // namespace Nova

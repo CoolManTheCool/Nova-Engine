@@ -4,7 +4,7 @@
 #include "camera.hpp"
 #include "resources.hpp"
 
-namespace nova {
+namespace Nova {
 
 void Camera::setPerspectiveProjection(float fovy, float aspect, float near, float far) {
 	assert(glm::abs(aspect - std::numeric_limits<float>::epsilon()) > 0.0f);

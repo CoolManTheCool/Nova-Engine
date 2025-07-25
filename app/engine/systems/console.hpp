@@ -9,7 +9,7 @@
 #include <string>
 #include <chrono>
 
-namespace nova {
+namespace Nova {
 
 class Console_T {
 public:

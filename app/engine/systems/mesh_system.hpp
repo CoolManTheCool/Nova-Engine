@@ -11,7 +11,7 @@
 #include <memory>
 #include <vector>
 
-namespace nova {
+namespace Nova {
 
 class MeshSystem {
  public:
