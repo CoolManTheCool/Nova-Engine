@@ -12,7 +12,7 @@
 
 namespace Nova {
 
-nova_SwapChain::nova_SwapChain(nova_Device &deviceRef, VkExtent2D extent) : device{deviceRef}, windowExtent{extent} {
+SwapChain::SwapChain(Device& deviceRef, VkExtent2D extent) : device{deviceRef}, windowExtent{extent} {
 	createSwapChain();
 	createImageViews();
 	createRenderPass();
@@ -21,7 +21,7 @@ nova_SwapChain::nova_SwapChain(nova_Device &deviceRef, VkExtent2D extent) : devi
 	createSyncObjects();
 }
 
-nova_SwapChain::~nova_SwapChain() {
+SwapChain::~SwapChain() {
 	for (auto imageView : swapChainImageViews) {
 		vkDestroyImageView(device.device(), imageView, nullptr);
 	}
@@ -52,7 +52,7 @@ nova_SwapChain::~nova_SwapChain() {
 	}
 }
 
-VkResult nova_SwapChain::acquireNextImage(uint32_t *imageIndex) {
+VkResult SwapChain::acquireNextImage(uint32_t *imageIndex) {
 	vkWaitForFences(device.device(), 1, &inFlightFences[currentFrame], VK_TRUE, std::numeric_limits<uint64_t>::max());
 
 	VkResult result = vkAcquireNextImageKHR(device.device(), swapChain, std::numeric_limits<uint64_t>::max(),
@@ -62,7 +62,7 @@ VkResult nova_SwapChain::acquireNextImage(uint32_t *imageIndex) {
 	return result;
 }
 
-VkResult nova_SwapChain::submitCommandBuffers(
+VkResult SwapChain::submitCommandBuffers(
     const VkCommandBuffer* buffers,
     uint32_t* imageIndex,
     VkSemaphore* signalSemaphore) {
@@ -106,7 +106,7 @@ VkResult nova_SwapChain::submitCommandBuffers(
 	return result;
 }
 
-void nova_SwapChain::createSwapChain() {
+void SwapChain::createSwapChain() {
 	SwapChainSupportDetails swapChainSupport = device.getSwapChainSupport();
 
 	VkSurfaceFormatKHR surfaceFormat = chooseSwapSurfaceFormat(swapChainSupport.formats);
@@ -166,7 +166,7 @@ void nova_SwapChain::createSwapChain() {
 	swapChainExtent = extent;
 }
 
-void nova_SwapChain::createImageViews() {
+void SwapChain::createImageViews() {
 	swapChainImageViews.resize(swapChainImages.size());
 	for (size_t i = 0; i < swapChainImages.size(); i++) {
 		VkImageViewCreateInfo viewInfo{};
@@ -186,7 +186,7 @@ void nova_SwapChain::createImageViews() {
 	}
 }
 
-void nova_SwapChain::createRenderPass() {
+void SwapChain::createRenderPass() {
 	VkAttachmentDescription depthAttachment{};
 	depthAttachment.format = findDepthFormat();
 	depthAttachment.samples = VK_SAMPLE_COUNT_1_BIT;
@@ -244,7 +244,7 @@ void nova_SwapChain::createRenderPass() {
 	}
 }
 
-void nova_SwapChain::createFramebuffers() {
+void SwapChain::createFramebuffers() {
 	swapChainFramebuffers.resize(imageCount());
 	for (size_t i = 0; i < imageCount(); i++) {
 		std::array<VkImageView, 2> attachments = {swapChainImageViews[i], depthImageViews[i]};
@@ -265,7 +265,7 @@ void nova_SwapChain::createFramebuffers() {
 	}
 }
 
-void nova_SwapChain::createDepthResources() {
+void SwapChain::createDepthResources() {
 	VkFormat depthFormat = findDepthFormat();
   	swapChainDepthFormat = depthFormat;
 	VkExtent2D swapChainExtent = getSwapChainExtent();
@@ -311,7 +311,7 @@ void nova_SwapChain::createDepthResources() {
 	}
 }
 
-void nova_SwapChain::createSyncObjects() {
+void SwapChain::createSyncObjects() {
 	imageAvailableSemaphores.resize(MAX_FRAMES_IN_FLIGHT);
 	renderFinishedSemaphores.resize(MAX_FRAMES_IN_FLIGHT);
 	inFlightFences.resize(MAX_FRAMES_IN_FLIGHT);
@@ -333,7 +333,7 @@ void nova_SwapChain::createSyncObjects() {
 	}
 }
 
-VkSurfaceFormatKHR nova_SwapChain::chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR> &availableFormats) {
+VkSurfaceFormatKHR SwapChain::chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR> &availableFormats) {
 	for (const auto &availableFormat : availableFormats) {
 		if (availableFormat.format == VK_FORMAT_B8G8R8A8_SRGB &&
 			availableFormat.colorSpace == VK_COLOR_SPACE_SRGB_NONLINEAR_KHR) {
@@ -359,7 +359,7 @@ const char* presentModeToString(VkPresentModeKHR mode) {
     }
 }
 
-VkPresentModeKHR nova_SwapChain::chooseSwapPresentMode(const std::vector<VkPresentModeKHR> &availablePresentModes) {
+VkPresentModeKHR SwapChain::chooseSwapPresentMode(const std::vector<VkPresentModeKHR> &availablePresentModes) {
 	// Define the priority order of present modes
     const std::vector<VkPresentModeKHR> presentModePriority = {
         VK_PRESENT_MODE_MAILBOX_KHR,
@@ -379,7 +379,7 @@ VkPresentModeKHR nova_SwapChain::chooseSwapPresentMode(const std::vector<VkPrese
     return VK_PRESENT_MODE_FIFO_KHR;
 }
 
-VkExtent2D nova_SwapChain::chooseSwapExtent(const VkSurfaceCapabilitiesKHR &capabilities) {
+VkExtent2D SwapChain::chooseSwapExtent(const VkSurfaceCapabilitiesKHR &capabilities) {
 	if (capabilities.currentExtent.width != std::numeric_limits<uint32_t>::max()) {
 		return capabilities.currentExtent;
 	} else {
@@ -393,7 +393,7 @@ VkExtent2D nova_SwapChain::chooseSwapExtent(const VkSurfaceCapabilitiesKHR &capa
 	}
 }
 
-VkFormat nova_SwapChain::findDepthFormat() {
+VkFormat SwapChain::findDepthFormat() {
 	return device.findSupportedFormat({VK_FORMAT_D32_SFLOAT, VK_FORMAT_D32_SFLOAT_S8_UINT, VK_FORMAT_D24_UNORM_S8_UINT},
 									  VK_IMAGE_TILING_OPTIMAL, VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT);
 }

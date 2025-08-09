@@ -9,7 +9,7 @@ class Editor_T {
 public:
     Editor_T();
     void RegisterBindings();
-    void RegisterWindow(nova_Window* window);
+    void RegisterWindow(Window* window);
 };
 
 }

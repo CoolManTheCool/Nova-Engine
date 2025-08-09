@@ -2,13 +2,10 @@
 
 #include "camera.hpp"
 #include "buffer.hpp"
-#include "gui_system.hpp"
 #include "point_light_object.hpp"
 #include "device.hpp"
 #include "resources.hpp"
 #include "util.hpp"
-#include "editor.hpp"
-#include "console.hpp"
 #include "window.hpp"
 
 #define MAX_FRAME_TIME 1.f
@@ -23,88 +20,18 @@ using namespace glm;
 
 namespace Nova {
 
-//using namespace Nova_Logger;
-
-Engine::Engine(EngineConfig* config) :
-window(config->settings),
-device(window, config->settings), {
+Engine::Engine() :
+settings(Settings()),
+window(settings),
+device(window, settings) {
 
 	srand(time(NULL));
 
-	settings = config->settings;
-	resources = &config->resources;
+	resources = new Resources();
 
-	globalPool = nova_DescriptorPool::Builder(device)
-	.setMaxSets(nova_SwapChain::MAX_FRAMES_IN_FLIGHT)
-	.addPoolSize(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, nova_SwapChain::MAX_FRAMES_IN_FLIGHT)
-	.build();
 }
 
-Engine::~Engine() {
-    vkDeviceWaitIdle(device.device());
-
-    // Clear scene objects first since they may hold references to resources
-    Objects.clear();
-
-    // Clear buffers before destroying pools
-    UBOBuffers.clear();
-    globalUBOBuffer.reset();
-
-    // Cleanup ImGui first
-    if (ImGui::GetCurrentContext() != nullptr) {
-        ImGui_ImplVulkan_Shutdown();
-        ImGui_ImplGlfw_Shutdown();
-        ImGui::DestroyContext();
-    }
-
-    // Destroy descriptor pools after ImGui cleanup
-    if (imguiPool != VK_NULL_HANDLE) {
-        vkDestroyDescriptorPool(device.device(), imguiPool, nullptr);
-        imguiPool = VK_NULL_HANDLE;
-    }
-    globalPool.reset();
-}
-
-void Engine::run(bool (*loop)(LoopContext)) {
-
-	nova_Renderer Renderer(window, device);
-
-    // Initialize buffers as class members instead of local variables
-    UBOBuffers.resize(nova_SwapChain::MAX_FRAMES_IN_FLIGHT);
-    for(size_t i = 0; i < UBOBuffers.size(); i++) {
-        UBOBuffers[i] = std::make_unique<nova_Buffer>(
-            device,
-            sizeof(GlobalUBO),
-            1,
-            VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
-            VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT
-        );
-        UBOBuffers[i]->map();
-    }
-
-    globalUBOBuffer = std::make_unique<nova_Buffer>(
-        device,
-        sizeof(GlobalUBO),
-        nova_SwapChain::MAX_FRAMES_IN_FLIGHT,
-        VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
-        VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT,
-        device.properties.limits.minUniformBufferOffsetAlignment
-    );
-    globalUBOBuffer->map();
-
-	auto globalSetLayout = nova_DescriptorSetLayout::Builder(device)
-	.addBinding(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_ALL_GRAPHICS)
-	.build();
-
-	std::vector<VkDescriptorSet> globalDescriptorSets(nova_SwapChain::MAX_FRAMES_IN_FLIGHT);
-	for (size_t i = 0; i < globalDescriptorSets.size(); i++) {
-		auto bufferInfo = UBOBuffers[i]-> descriptorInfo();
-		nova_DescriptorWriter(*globalSetLayout, *globalPool)
-		.writeBuffer(0, &bufferInfo)
-		.build(globalDescriptorSets[i]);
-	}
-
-	MeshSystem renderSystem{device, Renderer.getSwapChainRenderPass(), globalSetLayout->getDescriptorSetLayout(), resources};
+void Engine::run() {
 	/*
 	float aspect = Renderer.getAspectRation();
 	camera.setPerspectiveProjection(glm::radians(50.f), aspect, 0.1f, 1000.f);

@@ -48,6 +48,7 @@ set(ENGINE_SOURCE_FILES
     engine/graphics/descriptors.cpp
     engine/graphics/swap_chain.cpp
     engine/graphics/renderer.cpp
+    engine/graphics/graphics.cpp
     engine/graphics/pipeline.cpp
     engine/graphics/window.cpp
     engine/graphics/device.cpp
@@ -55,7 +56,6 @@ set(ENGINE_SOURCE_FILES
     engine/graphics/mesh.cpp
 
     engine/objects/point_light_object.cpp
-    engine/objects/mesh_object.cpp
     engine/objects/camera.cpp
     engine/objects/object.cpp
 
@@ -76,6 +76,7 @@ target_include_directories(nova_engine
         engine/utility
         engine/systems
         engine/graphics
+        engine/graphics/mesh
         engine
         libs
 

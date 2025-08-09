@@ -8,6 +8,8 @@
 #include <fstream>
 #include <functional>
 
+#include "GLFW/glfw3.h"
+
 #include "mesh.hpp"
 
 uint64_t constexpr mix(char m, uint64_t s);
@@ -29,13 +31,13 @@ enum KeyMappings {
 class Resources {
 public:
     Resources();
-    nova::nova_Model::Builder getModel(const std::string name);
+    Nova::Mesh::Builder getModel(const std::string name);
     const std::string getShader(const std::string name);
     const std::string getExecutablePath() const { return executablePath; }
     
 private:
     std::unordered_map<std::string, std::string> shaderPaths;  // name, path
-    std::unordered_map<std::string, nova::nova_Model::Builder> models; // name, pointer to model
+    std::unordered_map<std::string, Nova::Mesh::Builder> models; // name, pointer to model
     //std::vector<std::string> texturePaths;
 
     std::string executablePath;

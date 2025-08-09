@@ -1,5 +1,7 @@
-#ifndef UTIL_HPP
-#define UTIL_HPP
+#pragma once
+
+// Public Facing
+
 #include <string>
 #include <filesystem> // for std::filesystem::current_path
 #include <functional>
@@ -15,8 +17,6 @@
 #include <glm/gtc/constants.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/ext.hpp>
-
-using namespace glm;
 
 std::ostream& operator<<(std::ostream& os, const glm::vec2& vec);
 std::ostream& operator<<(std::ostream& os, const glm::vec3& vec);
@@ -56,6 +56,8 @@ T randRange(T min, T max) {
         return distribution(generator);
     }
 }
+
+// Pretty damn close to dark magic
 namespace Nova {
 template <typename T, typename... Rest>
 void hashCombine(std::size_t& seed, const T& v, const Rest&... rest) {
@@ -63,5 +65,3 @@ void hashCombine(std::size_t& seed, const T& v, const Rest&... rest) {
   (hashCombine(seed, rest), ...);
 };
 }
-
-#endif // UTIL_HPP

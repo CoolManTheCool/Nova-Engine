@@ -21,9 +21,9 @@ using namespace std;
 	} while (0)
 
 namespace Nova {
-class nova_Window {
+class Window {
   public:
-	nova_Window(Settings settings);
+	Window(Settings settings);
 
 	bool shouldClose() { return glfwWindowShouldClose(window); }
 	VkExtent2D getExtent() {
@@ -39,10 +39,10 @@ class nova_Window {
 	}
 	GLFWwindow *getWindow() const { return window; }
 
-	nova_Window(const nova_Window &) = delete;
-	nova_Window &operator=(const nova_Window &) = delete;
+	Window(const Window &) = delete;
+	Window &operator=(const Window &) = delete;
 
-	~nova_Window();
+	~Window();
 
   private:
 	void initWindow();

@@ -4,19 +4,19 @@
 
 namespace Nova {
 
-class nova_Buffer {
+class Buffer {
  public:
-  nova_Buffer(
-      nova_Device& device,
+  Buffer(
+      Device& device,
       VkDeviceSize instanceSize,
       uint32_t instanceCount,
       VkBufferUsageFlags usageFlags,
       VkMemoryPropertyFlags memoryPropertyFlags,
       VkDeviceSize minOffsetAlignment = 1);
-  ~nova_Buffer();
+  ~Buffer();
 
-  nova_Buffer(const nova_Buffer&) = delete;
-  nova_Buffer& operator=(const nova_Buffer&) = delete;
+  Buffer(const Buffer&) = delete;
+  Buffer& operator=(const Buffer&) = delete;
 
   VkResult map(VkDeviceSize size = VK_WHOLE_SIZE, VkDeviceSize offset = 0);
   void unmap();
@@ -43,7 +43,7 @@ class nova_Buffer {
  private:
   static VkDeviceSize getAlignment(VkDeviceSize instanceSize, VkDeviceSize minOffsetAlignment);
 
-  nova_Device& device;
+  Device& device;
   void* mapped = nullptr;
   VkBuffer buffer = VK_NULL_HANDLE;
   VkDeviceMemory memory = VK_NULL_HANDLE;
@@ -56,5 +56,5 @@ class nova_Buffer {
   VkMemoryPropertyFlags memoryPropertyFlags;
 };
 
-}  // namespace Nova_
+}  // namespace Nova
 #endif

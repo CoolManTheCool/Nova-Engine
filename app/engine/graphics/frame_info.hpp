@@ -8,6 +8,17 @@
 
 #define MAX_LIGHTS 100
 
+/*
+layout(set = 0, binding = 0) uniform GlobalUbo {
+  mat4 projection;
+  mat4 view;
+  vec4 ambientLightColor; // w is intensity
+  PointLight pointLights[10];
+  int numLights;
+} ubo;
+*/
+
+namespace Nova {
 struct PointLight {
     vec4 position{}; // ignore w
     vec4 color{}; // w is intensity
@@ -21,26 +32,15 @@ struct GlobalUBO {
     PointLight pointLights[MAX_LIGHTS]; // UPDATE THIS IN THE SHADERS
     int numLights;
 };
-/*
-layout(set = 0, binding = 0) uniform GlobalUbo {
-  mat4 projection;
-  mat4 view;
-  vec4 ambientLightColor; // w is intensity
-  PointLight pointLights[10];
-  int numLights;
-} ubo;
-*/
 
-namespace Nova {
-    struct FrameInfo {
-        int frameIndex;
-        float frameTime;
-        VkCommandBuffer commandBuffer;
-        Camera &camera;
-        VkDescriptorSet globalDescriptorSet;
-        std::vector<std::shared_ptr<Object>> &objects;
-
-    };
+struct FrameInfo {
+    int frameIndex;
+    float frameTime;
+    VkCommandBuffer commandBuffer;
+    Camera &camera;
+    VkDescriptorSet globalDescriptorSet;
+    std::vector<std::shared_ptr<Object>> &objects;
+};
 }
 
 #endif

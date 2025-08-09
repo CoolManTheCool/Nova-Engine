@@ -1,7 +1,8 @@
-#ifndef MESH_OBJECT_HPP
-#define MESH_OBJECT_HPP
+#pragma once
 
 #include "object.hpp"
+#include "mesh.hpp"
+#include "graphics.hpp"
 
 namespace Nova {
 
@@ -14,13 +15,11 @@ struct PushMeshData {
 class MeshObject : public Object {
 public:
 	float roughness{0.5f};
-    void setModel(nova_Device &device, const nova_Model::Builder builder);
-	std::shared_ptr<nova::nova_Model> model{};
+    void setModel(std::shared_ptr<Mesh> model);
+	std::shared_ptr<Nova::Mesh> model{};
+
     unsigned int getObjectType() override;
-  	void update(float deltaTime) override;
-  	void render(VkPipelineLayout &pipelineLayout, VkCommandBuffer &commandBuffer) override;
+  	void render(RenderData& renderData) override;
 };
 
 } // namespace Nova
-
-#endif // MESH_OBJECT_HPP

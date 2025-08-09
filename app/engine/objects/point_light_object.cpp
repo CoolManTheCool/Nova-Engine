@@ -81,12 +81,4 @@ unsigned int PointLightObject::getObjectType() {
     return OBJECT_TYPE_POINT_LIGHT;
 }
 
-void PointLightObject::render([[maybe_unused]] VkPipelineLayout &pipelineLayout, [[maybe_unused]] VkCommandBuffer &commandBuffer) {
-    throw std::logic_error("You aren't suppost to call this function!!");
-}
-
-void PointLightObject::update([[maybe_unused]] float deltaTime) {
-    
-}
-
 }

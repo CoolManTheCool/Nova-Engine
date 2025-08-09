@@ -1,8 +1,7 @@
 #include "object.hpp"
 
-#include "render_data.hpp"
-
 #include <iostream>
+#include <stdexcept>
 
 namespace Nova {
 
@@ -69,12 +68,12 @@ unsigned int Object::getObjectType() {
     return OBJECT_TYPE_NULL;
 }
 
-void Object::update([[maybe_unused]] float deltaTime) {
-    
+void Object::update(float /*deltaTime*/) {
+    throw std::logic_error("You aren't supposed to call this function!!");
 }
 
-void Object::render(RenderData &renderData) {
-    std::cout << "Uhm... a generic object just got rendered!" << std::endl;
+void Object::render(RenderData& /*renderData Cannot use without graphics.hpp*/) {
+    throw std::logic_error("You aren't supposed to call this function!!");
 }
 
 } // namespace Nova

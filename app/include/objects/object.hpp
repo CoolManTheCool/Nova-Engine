@@ -1,7 +1,7 @@
 #ifndef OBJECT_HPP
 #define OBJECT_HPP
 
-#include "macros.hpp"
+#include "types.hpp"
 
 #include <glm/glm.hpp>
 
@@ -10,11 +10,7 @@
 
 namespace Nova {
 
-typedef std::vector<std::shared_ptr<Object>> ObjectList;
-
-struct RenderData; // Forward declaration
-
-enum NOVA_ENGINE_API {
+enum /*NOVA_ENGINE_API*/ {
 	OBJECT_TYPE_NULL,
 	OBJECT_TYPE_MESH,
 	OBJECT_TYPE_POINT_LIGHT,
@@ -23,7 +19,7 @@ enum NOVA_ENGINE_API {
 	OBJECT_TYPE_COUNT,
 };
 
-struct NOVA_ENGINE_API TransformComponent {
+struct TransformComponent {
   glm::dvec3 translation{};
   glm::vec3 scale{1.f, 1.f, 1.f};
   glm::vec3 rotation{};
@@ -32,7 +28,7 @@ struct NOVA_ENGINE_API TransformComponent {
   glm::mat3 normalMatrix();
 };
 
-class NOVA_ENGINE_API Object {
+class Object {
 public:
 	Object() = default;
 
@@ -42,6 +38,8 @@ public:
 	// private:
 	TransformComponent transform{};
 };
+
+typedef std::vector<std::shared_ptr<Object>> ObjectList;
 
 } // namespace Nova
 

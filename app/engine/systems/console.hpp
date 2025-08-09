@@ -44,7 +44,7 @@ public:
 
     Console_T();
     void RegisterBindings();
-    void RegisterWindow(nova_Window* window);
+    void RegisterWindow(Window* window);
 
     bool registerCommand(std::string command, CommandFunction func) {
         commandMap[command] = func;
@@ -72,7 +72,7 @@ private:
     std::unordered_map<std::string, CommandFunction> commandMap;
 };
 
-extern nova::Console_T Console;
+extern Nova::Console_T Console;
 
 }
 

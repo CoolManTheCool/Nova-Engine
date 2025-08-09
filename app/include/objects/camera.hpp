@@ -5,10 +5,13 @@
 #include "object.hpp"
 #include "window.hpp"
 
+#include <glm/glm.hpp>
+using namespace glm;
+
 namespace Nova {
-class Camera : public Object{
+class Camera : public Object {
 public:
-	Camera(nova_Window *window, float fovy, float aspect, float near, float far);
+	Camera(Window *window, float fovy, float aspect, float near, float far);
 	void setPerspectiveProjection(float fovy, float aspect, float near, float far);
 
 	void setViewDirection(glm::vec3 position, glm::vec3 direction);
@@ -23,7 +26,6 @@ public:
 
 	unsigned int getObjectType() override;
 	void update(float deltaTime) override;
-	void render(VkPipelineLayout &pipelineLayout, VkCommandBuffer &commandBuffer) override;
 
 	float movement_speed = 3;
 	float rotation_speed = 1.5f;
@@ -32,7 +34,7 @@ private:
 	mat4 projectionMatrix{1.f};
 	mat4 viewMatrix{1.f};
 	mat4 inverseViewMatrix{1.f};
-	nova_Window *window;
+	Window *window;
 };
 
 } // namespace Nova

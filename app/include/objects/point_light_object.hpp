@@ -3,6 +3,10 @@
 
 #include "object.hpp"
 
+#include <glm/glm.hpp>
+
+using namespace glm;
+
 namespace Nova {
 
 struct PointLightPushConstants {
@@ -15,8 +19,6 @@ class PointLightObject : public Object {
 public:
     PointLightObject(float intensity = 2.0f, float radius = 1.f, vec3 lightColor = vec3(0.f, 0.f, 0.f));
     unsigned int getObjectType() override;
-    void render(VkPipelineLayout &pipelineLayout, VkCommandBuffer &commandBuffer) override;
-    void update(float deltaTime) override;
 
     //void setIntensity(float intensity) { lightIntensity = intensity; }
     //void setColor(const vec4 &color) { lightColor = color; }

@@ -5,15 +5,15 @@
 
 namespace Nova {
 
-VkDeviceSize nova_Buffer::getAlignment(VkDeviceSize instanceSize, VkDeviceSize minOffsetAlignment) {
+VkDeviceSize Buffer::getAlignment(VkDeviceSize instanceSize, VkDeviceSize minOffsetAlignment) {
   if (minOffsetAlignment > 0) {
     return (instanceSize + minOffsetAlignment - 1) & ~(minOffsetAlignment - 1);
   }
   return instanceSize;
 }
 
-nova_Buffer::nova_Buffer(
-    nova_Device &device,
+Buffer::Buffer(
+    Devicedevice,
     VkDeviceSize instanceSize,
     uint32_t instanceCount,
     VkBufferUsageFlags usageFlags,
@@ -29,7 +29,7 @@ nova_Buffer::nova_Buffer(
   device.createBuffer(bufferSize, usageFlags, memoryPropertyFlags, buffer, memory);
 }
 
-nova_Buffer::~nova_Buffer() {
+Buffer::~Buffer() {
   unmap();
   if (buffer != VK_NULL_HANDLE) {
     vkDestroyBuffer(device.device(), buffer, nullptr);
@@ -48,7 +48,7 @@ nova_Buffer::~nova_Buffer() {
  *
  * @return VkResult of the buffer mapping call
  */
-VkResult nova_Buffer::map(VkDeviceSize size, VkDeviceSize offset) {
+VkResult Buffer::map(VkDeviceSize size, VkDeviceSize offset) {
   assert(buffer && memory && "Called map on buffer before create");
   return vkMapMemory(device.device(), memory, offset, size, 0, &mapped);
 }
@@ -58,7 +58,7 @@ VkResult nova_Buffer::map(VkDeviceSize size, VkDeviceSize offset) {
  *
  * @note Does not return a result as vkUnmapMemory can't fail
  */
-void nova_Buffer::unmap() {
+void Buffer::unmap() {
   if (mapped) {
     vkUnmapMemory(device.device(), memory);
     mapped = nullptr;
@@ -74,7 +74,7 @@ void nova_Buffer::unmap() {
  * @param offset (Optional) Byte offset from beginning of mapped region
  *
  */
-void nova_Buffer::writeToBuffer(void *data, VkDeviceSize size, VkDeviceSize offset) {
+void Buffer::writeToBuffer(void *data, VkDeviceSize size, VkDeviceSize offset) {
   assert(mapped && "Cannot copy to unmapped buffer");
 
   if (size == VK_WHOLE_SIZE) {
@@ -97,7 +97,7 @@ void nova_Buffer::writeToBuffer(void *data, VkDeviceSize size, VkDeviceSize offs
  *
  * @return VkResult of the flush call
  */
-VkResult nova_Buffer::flush(VkDeviceSize size, VkDeviceSize offset) {
+VkResult Buffer::flush(VkDeviceSize size, VkDeviceSize offset) {
   VkMappedMemoryRange mappedRange = {};
   mappedRange.sType = VK_STRUCTURE_TYPE_MAPPED_MEMORY_RANGE;
   mappedRange.memory = memory;
@@ -117,7 +117,7 @@ VkResult nova_Buffer::flush(VkDeviceSize size, VkDeviceSize offset) {
  *
  * @return VkResult of the invalidate call
  */
-VkResult nova_Buffer::invalidate(VkDeviceSize size, VkDeviceSize offset) {
+VkResult Buffer::invalidate(VkDeviceSize size, VkDeviceSize offset) {
   VkMappedMemoryRange mappedRange = {};
   mappedRange.sType = VK_STRUCTURE_TYPE_MAPPED_MEMORY_RANGE;
   mappedRange.memory = memory;
@@ -134,7 +134,7 @@ VkResult nova_Buffer::invalidate(VkDeviceSize size, VkDeviceSize offset) {
  *
  * @return VkDescriptorBufferInfo of specified offset and range
  */
-VkDescriptorBufferInfo nova_Buffer::descriptorInfo(VkDeviceSize size, VkDeviceSize offset) {
+VkDescriptorBufferInfo Buffer::descriptorInfo(VkDeviceSize size, VkDeviceSize offset) {
   return VkDescriptorBufferInfo{
       buffer,
       offset,
@@ -149,7 +149,7 @@ VkDescriptorBufferInfo nova_Buffer::descriptorInfo(VkDeviceSize size, VkDeviceSi
  * @param index Used in offset calculation
  *
  */
-void nova_Buffer::writeToIndex(void *data, int index) {
+void Buffer::writeToIndex(void *data, int index) {
   writeToBuffer(data, instanceSize, index * alignmentSize);
 }
 
@@ -159,7 +159,7 @@ void nova_Buffer::writeToIndex(void *data, int index) {
  * @param index Used in offset calculation
  *
  */
-VkResult nova_Buffer::flushIndex(int index) { return flush(alignmentSize, index * alignmentSize); }
+VkResult Buffer::flushIndex(int index) { return flush(alignmentSize, index * alignmentSize); }
 
 /**
  * Create a buffer info descriptor
@@ -168,7 +168,7 @@ VkResult nova_Buffer::flushIndex(int index) { return flush(alignmentSize, index 
  *
  * @return VkDescriptorBufferInfo for instance at index
  */
-VkDescriptorBufferInfo nova_Buffer::descriptorInfoForIndex(int index) {
+VkDescriptorBufferInfo Buffer::descriptorInfoForIndex(int index) {
   return descriptorInfo(alignmentSize, index * alignmentSize);
 }
 
@@ -181,8 +181,8 @@ VkDescriptorBufferInfo nova_Buffer::descriptorInfoForIndex(int index) {
  *
  * @return VkResult of the invalidate call
  */
-VkResult nova_Buffer::invalidateIndex(int index) {
+VkResult Buffer::invalidateIndex(int index) {
   return invalidate(alignmentSize, index * alignmentSize);
 }
 
-}  // namespace Nova_
+}  // namespace Nova

@@ -18,7 +18,7 @@ void Console_T::RegisterBindings() {
 
 }
 
-void Console_T::RegisterWindow(nova_Window* window) {
+void Console_T::RegisterWindow(Window* window) {
 	char** _filter = &filter;
 	char* command = new char[100]();
 	RollingBuffer* _elements = &elements;

@@ -23,7 +23,7 @@ struct QueueFamilyIndices {
   bool isComplete() { return graphicsFamilyHasValue && presentFamilyHasValue; }
 };
 
-class nova_Device {
+class Device {
  public:
 #ifdef DEBUG
   const bool enableValidationLayers = false;
@@ -31,14 +31,14 @@ class nova_Device {
   const bool enableValidationLayers = true;
 #endif
 
-  nova_Device(nova_Window &window, Settings settings);
-  ~nova_Device();
+  Device(Window &window, Settings settings);
+  ~Device();
 
   // Not copyable or movable
-  nova_Device(const nova_Device &) = delete;
-  nova_Device operator=(const nova_Device &) = delete;
-  nova_Device(nova_Device &&) = delete;
-  nova_Device &operator=(nova_Device &&) = delete;
+  Device(const Device& ) = delete;
+  Device operator=(const Device& ) = delete;
+  Device(Device& &) = delete;
+  Device& operator=(Device& &) = delete;
 
   VkCommandPool getCommandPool() { return commandPool; }
   VkDevice device() { return device_; }
@@ -96,7 +96,7 @@ class nova_Device {
   VkInstance instance;
   VkDebugUtilsMessengerEXT debugMessenger;
   VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
-  nova_Window &window;
+  Window &window;
   VkCommandPool commandPool;
 
   VkDevice device_;

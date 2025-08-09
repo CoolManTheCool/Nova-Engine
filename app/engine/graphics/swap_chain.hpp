@@ -11,15 +11,15 @@
 
 namespace Nova {
 
-class nova_SwapChain {
+class SwapChain {
  public:
   static constexpr int MAX_FRAMES_IN_FLIGHT = 3;
 
-  nova_SwapChain(nova_Device &deviceRef, VkExtent2D windowExtent);
-  ~nova_SwapChain();
+  SwapChain(Device& deviceRef, VkExtent2D windowExtent);
+  ~SwapChain();
 
-  nova_SwapChain(const nova_SwapChain &) = delete;
-  nova_SwapChain operator=(const nova_SwapChain &) = delete;
+  SwapChain(const SwapChain &) = delete;
+  SwapChain operator=(const SwapChain &) = delete;
 
   VkFramebuffer getFrameBuffer(int index) { return swapChainFramebuffers[index]; }
   VkRenderPass getRenderPass() { return renderPass; }
@@ -41,7 +41,7 @@ class nova_SwapChain {
       uint32_t *imageIndex,
       VkSemaphore *signalSemaphore);  // Modified to accept specific semaphore
 
-    bool compareSwapFormats(const nova_SwapChain &swapChain) const {
+    bool compareSwapFormats(const SwapChain &swapChain) const {
     return swapChain.swapChainDepthFormat == swapChainDepthFormat &&
            swapChain.swapChainImageFormat == swapChainImageFormat;
   }
@@ -74,7 +74,7 @@ class nova_SwapChain {
   std::vector<VkImage> swapChainImages;
   std::vector<VkImageView> swapChainImageViews;
 
-  nova_Device &device;
+  Device& device;
   VkExtent2D windowExtent;
 
   VkSwapchainKHR swapChain;

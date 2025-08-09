@@ -1,7 +1,15 @@
+// Implements
 #include "mesh.hpp"
+#include "mesh_object.hpp"
+
+// Public Dependencies
 #include "util.hpp"
 
-// std
+// Private Dependencies
+#include "renderer.hpp"
+#include "buffer.hpp"
+#include "mesh_builder.hpp"
+
 #include <cassert>
 #include <cstring>
 #include <unordered_map>
@@ -11,10 +19,10 @@
 
 namespace std {
 template <>
-struct hash<nova::nova_Model::Vertex> {
-	size_t operator()(nova::nova_Model::Vertex const &vertex) const {
+struct hash<Nova::Mesh::Vertex> {
+	size_t operator()(Nova::Mesh::Vertex const &vertex) const {
 		size_t seed = 0;
-		nova::hashCombine(seed, vertex.position, vertex.color, vertex.normal, vertex.uv);
+		Nova::hashCombine(seed, vertex.position, vertex.color, vertex.normal, vertex.uv);
 		return seed;
 	}
 };
@@ -22,25 +30,23 @@ struct hash<nova::nova_Model::Vertex> {
 
 namespace Nova {
 
-nova_Model::nova_Model(nova_Device &device, const nova_Model::Builder &builder) : device{device} {
+Mesh::Mesh(const MeshBuilder &builder) {
 	createVertexBuffers(builder.vertices);
 	createIndexBuffers(builder.indices);
 }
 
-std::unique_ptr<nova_Model> nova_Model::createModelFromFile(nova_Device &_device, const std::string &filepath) {
-	Builder builder{};
-	builder.loadModel(filepath);
-	return std::make_unique<nova_Model>(_device, builder);
+std::unique_ptr<Mesh> Mesh::createModelFromFile(Device& _device, const std::string &filepath) {
+	return std::make_unique<Mesh>(_device, createMeshBuilderFromFile(filepath));
 }
 
-void nova_Model::createVertexBuffers(const std::vector<Vertex> &vertices) {
+void Mesh::createVertexBuffers(const std::vector<Vertex> &vertices) {
 	vertexCount = static_cast<uint32_t>(vertices.size());
 	assert(vertexCount >= 3 && "Vertex count must be at least 3");
 	VkDeviceSize bufferSize = sizeof(vertices[0]) * vertexCount;
 	
 	uint32_t vertexSize = sizeof(vertices[0]);
 
-	nova_Buffer stagingBuffer{
+	Buffer stagingBuffer{
 		device,
 		vertexSize,
 		vertexCount,
@@ -51,7 +57,7 @@ void nova_Model::createVertexBuffers(const std::vector<Vertex> &vertices) {
 	stagingBuffer.map();
 	stagingBuffer.writeToBuffer((void *)vertices.data());
 
-	vertexBuffer = std::make_unique<nova_Buffer>(
+	vertexBuffer = std::make_unique<Buffer>(
 		device, vertexSize, vertexCount,
 		VK_BUFFER_USAGE_VERTEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT,
 		VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
@@ -59,7 +65,7 @@ void nova_Model::createVertexBuffers(const std::vector<Vertex> &vertices) {
 	device.copyBuffer(stagingBuffer.getBuffer(), vertexBuffer->getBuffer(), bufferSize);
 }
 
-void nova_Model::createIndexBuffers(const std::vector<uint32_t> &indices) {
+void Mesh::createIndexBuffers(const std::vector<uint32_t> &indices) {
 	indexCount = static_cast<uint32_t>(indices.size());
 	hasIndexBuffer = indexCount > 0;
 
@@ -68,7 +74,7 @@ void nova_Model::createIndexBuffers(const std::vector<uint32_t> &indices) {
 	VkDeviceSize bufferSize = sizeof(indices[0]) * indexCount;
 	uint32_t indexSize = sizeof(indices[0]);
 
-	nova_Buffer stagingBuffer{
+	Buffer stagingBuffer{
 		device, indexSize, indexCount,
 		VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
 		VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT
@@ -77,7 +83,7 @@ void nova_Model::createIndexBuffers(const std::vector<uint32_t> &indices) {
 	stagingBuffer.map();
 	stagingBuffer.writeToBuffer((void*) indices.data());
 	
-	indexBuffer = std::make_unique<nova_Buffer>(
+	indexBuffer = std::make_unique<Buffer>(
 		device, indexSize, indexCount,
 		VK_BUFFER_USAGE_INDEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT,
 		VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT
@@ -86,43 +92,43 @@ void nova_Model::createIndexBuffers(const std::vector<uint32_t> &indices) {
 	device.copyBuffer(stagingBuffer.getBuffer(), indexBuffer->getBuffer(), bufferSize);
 }
 
-void nova_Model::draw(VkCommandBuffer commandBuffer) {
+void Mesh::draw(RenderData renderData) {
 	if(hasIndexBuffer) {
-		vkCmdDrawIndexed(commandBuffer, indexCount, 1, 0, 0, 0);
+		vkCmdDrawIndexed(renderData.commandBuffer, indexCount, 1, 0, 0, 0);
 	} else {
-		vkCmdDraw(commandBuffer, vertexCount, 1, 0, 0);
+		vkCmdDraw(renderData.commandBuffer, vertexCount, 1, 0, 0);
 	}
 }
 
-void nova_Model::bind(VkCommandBuffer commandBuffer) {
+void Mesh::bind(RenderData renderData) {
 	VkBuffer buffers[] = {vertexBuffer->getBuffer()};
 	VkDeviceSize offsets[] = {0};
-	vkCmdBindVertexBuffers(commandBuffer, 0, 1, buffers, offsets);
+	vkCmdBindVertexBuffers(renderData.commandBuffer, 0, 1, buffers, offsets);
 
 	if (hasIndexBuffer) {
-		vkCmdBindIndexBuffer(commandBuffer, indexBuffer->getBuffer(), 0, VK_INDEX_TYPE_UINT32);
+		vkCmdBindIndexBuffer(renderData.commandBuffer, indexBuffer->getBuffer(), 0, VK_INDEX_TYPE_UINT32);
 	}
 }
 
-std::vector<VkVertexInputBindingDescription> nova_Model::Vertex::getBindingDescriptions() {
+std::vector<VkVertexInputBindingDescription> getBindingDescriptions() {
 	std::vector<VkVertexInputBindingDescription> bindingDescriptions(1);
 	bindingDescriptions[0].binding = 0;
-	bindingDescriptions[0].stride = sizeof(Vertex);
+	bindingDescriptions[0].stride = sizeof(Mesh::Vertex);
 	bindingDescriptions[0].inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
 	return bindingDescriptions;
 }	
 
-std::vector<VkVertexInputAttributeDescription> nova_Model::Vertex::getAttributeDescriptions() {
+std::vector<VkVertexInputAttributeDescription> getAttributeDescriptions() {
 	return {
 		//location, binding, format, offset
-		{0, 0, VK_FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, position)},
-		{1, 0, VK_FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, color)},
-		{2, 0, VK_FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, normal)},
-		{3, 0, VK_FORMAT_R32G32_SFLOAT, offsetof(Vertex, uv)},
+		{0, 0, VK_FORMAT_R32G32B32_SFLOAT, offsetof(Mesh::Vertex, Mesh::Vertex::position)},
+		{1, 0, VK_FORMAT_R32G32B32_SFLOAT, offsetof(Mesh::Vertex, Mesh::Vertex::color)},
+		{2, 0, VK_FORMAT_R32G32B32_SFLOAT, offsetof(Mesh::Vertex, Mesh::Vertex::normal)},
+		{3, 0, VK_FORMAT_R32G32_SFLOAT, offsetof(Mesh::Vertex, Mesh::Vertex::uv)},
 	};
 }
 
-void nova_Model::Builder::loadModel(const std::string &filepath) {
+void MeshBuilder::loadModel(const std::string &filepath) {
 	tinyobj::attrib_t attrib;
 	std::vector<tinyobj::shape_t> shapes;
 	std::vector<tinyobj::material_t> materials;
@@ -180,6 +186,30 @@ void nova_Model::Builder::loadModel(const std::string &filepath) {
 			indices.push_back(uniqueVertices[vertex]);
 		}
 	}
+}
+
+void MeshObject::setModel(std::shared_ptr<Mesh> model) {
+    this->model = model;
+}
+
+unsigned int MeshObject::getObjectType() {
+    return OBJECT_TYPE_MESH;
+}
+
+void MeshObject::render(RenderData& renderData) {
+    PushMeshData push{};
+    push.modelMatrix  = transform.mat4();
+    push.normalMatrix = transform.normalMatrix();
+    push.roughness    = roughness;
+    vkCmdPushConstants(
+        renderData.commandBuffer,
+        renderData.pipelineLayout,
+        	VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT,
+        0,
+        sizeof(PushMeshData),
+        &push);
+    model->bind(renderData);
+    model->draw(renderData);
 }
 
 }  // namespace Nova

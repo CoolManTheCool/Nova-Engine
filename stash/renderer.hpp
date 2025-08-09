@@ -1,23 +1,19 @@
-#ifndef RENDERER_HPP
-#define RENDERER_HPP
-
-// Private facing
+#ifndef Renderer_HPP
+#define Renderer_HPP
 
 #include "device.hpp"
-#include "window.hpp"
+#include "mesh.hpp"
 #include "swap_chain.hpp"
-#include "util.hpp"
+#include "window.hpp"
+
+#include <memory>
+#include <vector>
+#include <cassert>
 
 namespace Nova {
-
-struct RenderData {
-    VkPipelineLayout &pipelineLayout;
-    VkCommandBuffer &commandBuffer;
-};
-
 class Renderer {
 public:
-	Renderer(Settings& settings);
+	Renderer(Window &window, Device& device);
 	~Renderer();
 
 	Renderer(const Renderer &) = delete;
@@ -43,17 +39,12 @@ public:
   	void endSwapChainRenderPass(VkCommandBuffer commandBuffer);
 	void recreateSwapChain();
 
-	Device& getDevice();
-	Window& getWindow();
-
 private:
 	void createCommandBuffers();
   	void freeCommandBuffers();
 
-	Settings settings;
-
-	Window window;
-	Device device;
+	Window &window;
+	Device& device;
 	std::unique_ptr<SwapChain> swapChain;
 	std::vector<VkCommandBuffer> commandBuffers;
 	std::vector<VkSemaphore> renderFinishedSemaphores;
@@ -62,7 +53,6 @@ private:
   	int currentFrameIndex{0};
 	bool isFrameStarted{false};
 };
-
 } // namespace Nova
 
-#endif // RENDERER_HPP
+#endif

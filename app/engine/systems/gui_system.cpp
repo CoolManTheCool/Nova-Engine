@@ -5,7 +5,7 @@ namespace Nova {
 
 GUI_System_T GUI;
 
-void GUI_System_T::Init_ImGui(nova_Device* device, nova_Window* window, nova_Renderer* renderer, VkDescriptorPool* imguiPool) {
+void GUI_System_T::Init_ImGui(Device* device, Window* window, Renderer* renderer, VkDescriptorPool* imguiPool) {
     if (isRunning()) throw std::runtime_error("ImGui has already been initialized!");
 
     this->device = device;
@@ -56,8 +56,8 @@ void GUI_System_T::Init_ImGui(nova_Device* device, nova_Window* window, nova_Ren
     init_info.QueueFamily = device->findPhysicalQueueFamilies().graphicsFamily;
     init_info.Queue = device->graphicsQueue();
     init_info.DescriptorPool = *imguiPool;
-    init_info.MinImageCount = nova_SwapChain::MAX_FRAMES_IN_FLIGHT;
-    init_info.ImageCount = nova_SwapChain::MAX_FRAMES_IN_FLIGHT;
+    init_info.MinImageCount = SwapChain::MAX_FRAMES_IN_FLIGHT;
+    init_info.ImageCount = SwapChain::MAX_FRAMES_IN_FLIGHT;
     init_info.RenderPass = renderer->getSwapChainRenderPass();
 
     ImGui_ImplVulkan_Init(&init_info);

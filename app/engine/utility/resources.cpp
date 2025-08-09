@@ -72,7 +72,7 @@ Resources::Resources() {
                 shaderPaths.insert(std::make_pair(name, entry));
                 break;
             case _hash("obj"):
-                models.insert(std::make_pair(name, nova::nova_Model::createBuilderFromFile(entry)));
+                //models.insert(std::make_pair(name, Nova::Mesh::createBuilderFromFile(entry)));
                 break;
         }
         }
@@ -111,12 +111,12 @@ std::vector<std::string> searchDirectory(const std::string& directory) {
     return files;
 }
 
-nova::nova_Model::Builder Resources::getModel(const std::string name) { 
+Nova::Mesh::Builder Resources::getModel(const std::string name) { 
     auto p = models.find(name);
     if(p != models.end()) {
         return p->second;
     } else {
-        throw std::invalid_argument("Model not found: " + name);
+        throw std::invalid_argument("Mesh not found: " + name);
     }
 }
 

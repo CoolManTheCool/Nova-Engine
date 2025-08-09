@@ -1,22 +1,27 @@
 #ifndef ENGINE_HPP
 #define ENGINE_HPP
 
-#include "macros.hpp"
+// Forward facing
 
-#include "object.hpp"
+#include "graphics.hpp"
 
 #include <vector>
 #include <memory>
 
+#include "objects/object.hpp"
+
 namespace Nova {
 
-// Forward declarations
-struct Renderer;
-
-class NOVA_ENGINE_API Engine {
+class Engine {
 public:
     Engine() = default;
     ~Engine() = default;
+
+    void init();
+
+    void setSettings(const Settings& settings) {
+        this->settings = settings;
+    }
 
     // Prevent copying
     Engine(const Engine&) = delete;
@@ -24,10 +29,10 @@ public:
 
 private:
     ObjectList Objects;
-    Renderer renderer;
+    Settings settings;
+    Graphics graphics{settings};
 };
 
 } // namespace Nova
-
 
 #endif // ENGINE_HPP

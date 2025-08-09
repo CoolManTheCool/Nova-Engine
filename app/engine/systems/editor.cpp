@@ -17,7 +17,7 @@ void Editor_T::RegisterBindings() {
     GUI.setBinding("Obj Num", 0);
 }
 
-void Editor_T::RegisterWindow(nova_Window* window) {
+void Editor_T::RegisterWindow(Window* window) {
 
     std::vector<std::shared_ptr<Object>> *objects = GUI.getBindingValue<std::vector<std::shared_ptr<Object>>*>("Objects");
     assert(objects && "'Objects' is not bound or is null.");
@@ -44,7 +44,7 @@ void Editor_T::RegisterWindow(nova_Window* window) {
         ImGui::SliderDouble("Z Translation", &obj->transform.translation.z, min_dist_edit, max_dist_edit);
         // Is obj a mesh, if so conver it
         if (obj->getObjectType() == OBJECT_TYPE_MESH) {
-            auto meshObj = std::dynamic_pointer_cast<nova::MeshObject>(obj);
+            auto meshObj = std::dynamic_pointer_cast<Nova::MeshObject>(obj);
             ImGui::SeparatorText("Mesh Properties");
             ImGui::SliderFloat("Roughness", &meshObj->roughness, 0.0f, 1.0f);
         }

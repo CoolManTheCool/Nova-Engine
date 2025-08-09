@@ -77,7 +77,7 @@ Here's a simple example of how to create a window and run the engine:
 #include "nova-engine/engine.hpp"
 
 void render() {
- for(auto &object : Objects) {
+ for(autoobject : Objects) {
   draw(object);
  }
 }

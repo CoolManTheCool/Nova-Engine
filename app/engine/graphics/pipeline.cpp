@@ -10,7 +10,7 @@
 #include <cassert>
 
 namespace Nova {
-std::vector<char> nova_PipeLine::readFile(const std::string &filepath) {
+std::vector<char> Pipeline::readFile(const std::string &filepath) {
 
 	if (filepath.empty()) {
 		throw std::runtime_error("File path is empty");
@@ -29,17 +29,17 @@ std::vector<char> nova_PipeLine::readFile(const std::string &filepath) {
 	return buffer;
 }
 
-nova_PipeLine::nova_PipeLine(nova_Device &device, const std::string &vert, const std::string &frag, const PipelineConfigInfo &configInfo) : device{device} {
+Pipeline::Pipeline(Device& device, const std::string &vert, const std::string &frag, const PipelineConfigInfo &configInfo) : device{device} {
 	createGraphicsPipeline(vert, frag, configInfo);
 }
 
-nova_PipeLine::~nova_PipeLine() {
+Pipeline::~Pipeline() {
 	vkDestroyShaderModule(device.device(), vertShaderModule, nullptr);
 	vkDestroyShaderModule(device.device(), fragShaderModule, nullptr);
 	vkDestroyPipeline(device.device(), graphicsPipeLine, nullptr);
 }
 
-void nova_PipeLine::createGraphicsPipeline(const std::string &vert, const std::string &frag, const PipelineConfigInfo &configInfo) {
+void Pipeline::createGraphicsPipeline(const std::string &vert, const std::string &frag, const PipelineConfigInfo &configInfo) {
 	assert(configInfo.pipelineLayout != VK_NULL_HANDLE &&
 		   "Cannot create graphics pipeline: no pipelineLayout provided in configInfo");
 	assert(configInfo.renderPass != VK_NULL_HANDLE &&
@@ -101,11 +101,11 @@ void nova_PipeLine::createGraphicsPipeline(const std::string &vert, const std::s
 	}
 }
 
-void nova_PipeLine::bind(VkCommandBuffer commandBuffer) {
+void Pipeline::bind(VkCommandBuffer commandBuffer) {
 	vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipeLine);
 }
 
-void nova_PipeLine::createShaderModule(const std::vector<char> &code, VkShaderModule *shaderModule) {
+void Pipeline::createShaderModule(const std::vector<char> &code, VkShaderModule *shaderModule) {
 	VkShaderModuleCreateInfo createInfo{};
 	createInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
 	createInfo.codeSize = code.size();
@@ -116,7 +116,7 @@ void nova_PipeLine::createShaderModule(const std::vector<char> &code, VkShaderMo
 	}
 }
 
-void nova_PipeLine::defaultPipelineConfigInfo(PipelineConfigInfo &configInfo) {
+void Pipeline::defaultPipelineConfigInfo(PipelineConfigInfo &configInfo) {
 	configInfo.inputAssemblyInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
 	configInfo.inputAssemblyInfo.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
 	configInfo.inputAssemblyInfo.primitiveRestartEnable = VK_FALSE;
@@ -184,8 +184,8 @@ void nova_PipeLine::defaultPipelineConfigInfo(PipelineConfigInfo &configInfo) {
 	configInfo.dynamicStateInfo.dynamicStateCount = static_cast<uint32_t>(configInfo.dynamicStateEnables.size());
 	configInfo.dynamicStateInfo.flags = 0;
 
-	configInfo.bindingDescriptions = nova_Model::Vertex::getBindingDescriptions();
-	configInfo.attributeDescriptions = nova_Model::Vertex::getAttributeDescriptions();
+	configInfo.bindingDescriptions = Mesh::Vertex::getBindingDescriptions();
+	configInfo.attributeDescriptions = Mesh::Vertex::getAttributeDescriptions();
 }
 
 } // namespace Nova

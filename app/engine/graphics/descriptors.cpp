@@ -8,7 +8,7 @@ namespace Nova {
 
 // *************** Descriptor Set Layout Builder *********************
 
-nova_DescriptorSetLayout::Builder &nova_DescriptorSetLayout::Builder::addBinding(
+DescriptorSetLayout::Builder &DescriptorSetLayout::Builder::addBinding(
     uint32_t binding,
     VkDescriptorType descriptorType,
     VkShaderStageFlags stageFlags,
@@ -23,13 +23,13 @@ nova_DescriptorSetLayout::Builder &nova_DescriptorSetLayout::Builder::addBinding
   return *this;
 }
 
-std::unique_ptr<nova_DescriptorSetLayout> nova_DescriptorSetLayout::Builder::build() const {
-  return std::make_unique<nova_DescriptorSetLayout>(device, bindings);
+std::unique_ptr<DescriptorSetLayout> DescriptorSetLayout::Builder::build() const {
+  return std::make_unique<DescriptorSetLayout>(device, bindings);
 }
 
 // *************** Descriptor Set Layout *********************
 
-nova_DescriptorSetLayout::nova_DescriptorSetLayout(nova_Device &device, std::unordered_map<uint32_t, VkDescriptorSetLayoutBinding> bindings) :
+DescriptorSetLayout::DescriptorSetLayout(Device& device, std::unordered_map<uint32_t, VkDescriptorSetLayoutBinding> bindings) :
   device{device}, bindings{bindings} {
   std::vector<VkDescriptorSetLayoutBinding> setLayoutBindings{};
   for (auto kv : bindings) {
@@ -50,36 +50,36 @@ nova_DescriptorSetLayout::nova_DescriptorSetLayout(nova_Device &device, std::uno
   }
 }
 
-nova_DescriptorSetLayout::~nova_DescriptorSetLayout() {
+DescriptorSetLayout::~DescriptorSetLayout() {
   vkDestroyDescriptorSetLayout(device.device(), descriptorSetLayout, nullptr);
 }
 
 // *************** Descriptor Pool Builder *********************
 
-nova_DescriptorPool::Builder &nova_DescriptorPool::Builder::addPoolSize(
+DescriptorPool::Builder &DescriptorPool::Builder::addPoolSize(
     VkDescriptorType descriptorType, uint32_t count) {
   poolSizes.push_back({descriptorType, count});
   return *this;
 }
 
-nova_DescriptorPool::Builder &nova_DescriptorPool::Builder::setPoolFlags(
+DescriptorPool::Builder &DescriptorPool::Builder::setPoolFlags(
     VkDescriptorPoolCreateFlags flags) {
   poolFlags = flags;
   return *this;
 }
-nova_DescriptorPool::Builder &nova_DescriptorPool::Builder::setMaxSets(uint32_t count) {
+DescriptorPool::Builder &DescriptorPool::Builder::setMaxSets(uint32_t count) {
   maxSets = count;
   return *this;
 }
 
-std::unique_ptr<nova_DescriptorPool> nova_DescriptorPool::Builder::build() const {
-  return std::make_unique<nova_DescriptorPool>(device, maxSets, poolFlags, poolSizes);
+std::unique_ptr<DescriptorPool> DescriptorPool::Builder::build() const {
+  return std::make_unique<DescriptorPool>(device, maxSets, poolFlags, poolSizes);
 }
 
 // *************** Descriptor Pool *********************
 
-nova_DescriptorPool::nova_DescriptorPool(
-    nova_Device &device,
+DescriptorPool::DescriptorPool(
+    Device& device,
     uint32_t maxSets,
     VkDescriptorPoolCreateFlags poolFlags,
     const std::vector<VkDescriptorPoolSize> &poolSizes)
@@ -97,11 +97,11 @@ nova_DescriptorPool::nova_DescriptorPool(
   }
 }
 
-nova_DescriptorPool::~nova_DescriptorPool() {
+DescriptorPool::~DescriptorPool() {
   vkDestroyDescriptorPool(device.device(), descriptorPool, nullptr);
 }
 
-bool nova_DescriptorPool::allocateDescriptor(
+bool DescriptorPool::allocateDescriptor(
     const VkDescriptorSetLayout descriptorSetLayout, VkDescriptorSet &descriptor) const {
   VkDescriptorSetAllocateInfo allocInfo{};
   allocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
@@ -117,7 +117,7 @@ bool nova_DescriptorPool::allocateDescriptor(
   return true;
 }
 
-void nova_DescriptorPool::freeDescriptors(std::vector<VkDescriptorSet> &descriptors) const {
+void DescriptorPool::freeDescriptors(std::vector<VkDescriptorSet> &descriptors) const {
   vkFreeDescriptorSets(
       device.device(),
       descriptorPool,
@@ -125,16 +125,16 @@ void nova_DescriptorPool::freeDescriptors(std::vector<VkDescriptorSet> &descript
       descriptors.data());
 }
 
-void nova_DescriptorPool::resetPool() {
+void DescriptorPool::resetPool() {
   vkResetDescriptorPool(device.device(), descriptorPool, 0);
 }
 
 // *************** Descriptor Writer *********************
 
-nova_DescriptorWriter::nova_DescriptorWriter(nova_DescriptorSetLayout &setLayout, nova_DescriptorPool &pool)
+DescriptorWriter::DescriptorWriter(DescriptorSetLayout &setLayout, DescriptorPool &pool)
     : setLayout{setLayout}, pool{pool} {}
 
-nova_DescriptorWriter &nova_DescriptorWriter::writeBuffer(
+DescriptorWriter &DescriptorWriter::writeBuffer(
     uint32_t binding, VkDescriptorBufferInfo *bufferInfo) {
   assert(setLayout.bindings.count(binding) == 1 && "Layout does not contain specified binding");
 
@@ -155,7 +155,7 @@ nova_DescriptorWriter &nova_DescriptorWriter::writeBuffer(
   return *this;
 }
 
-nova_DescriptorWriter &nova_DescriptorWriter::writeImage(
+DescriptorWriter &DescriptorWriter::writeImage(
     uint32_t binding, VkDescriptorImageInfo *imageInfo) {
   assert(setLayout.bindings.count(binding) == 1 && "Layout does not contain specified binding");
 
@@ -176,7 +176,7 @@ nova_DescriptorWriter &nova_DescriptorWriter::writeImage(
   return *this;
 }
 
-bool nova_DescriptorWriter::build(VkDescriptorSet &set) {
+bool DescriptorWriter::build(VkDescriptorSet &set) {
   bool success = pool.allocateDescriptor(setLayout.getDescriptorSetLayout(), set);
   if (!success) {
     return false;
@@ -185,7 +185,7 @@ bool nova_DescriptorWriter::build(VkDescriptorSet &set) {
   return true;
 }
 
-void nova_DescriptorWriter::overwrite(VkDescriptorSet &set) {
+void DescriptorWriter::overwrite(VkDescriptorSet &set) {
   for (auto &write : writes) {
     write.dstSet = set;
   }

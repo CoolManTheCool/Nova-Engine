@@ -15,7 +15,7 @@ namespace Nova {
 
 class MeshSystem {
  public:
-  MeshSystem(nova_Device &device, VkRenderPass renderPass, VkDescriptorSetLayout globalSetLayout, Resources* resources);
+  MeshSystem(Device& device, VkRenderPass renderPass, VkDescriptorSetLayout globalSetLayout, Resources& resources);
   ~MeshSystem();
 
   MeshSystem(const MeshSystem &) = delete;
@@ -25,11 +25,11 @@ class MeshSystem {
 
  private:
   void createPipelineLayout(VkDescriptorSetLayout globalSetLayout);
-  void createPipeline(VkRenderPass renderPass, Resources* resources);
+  void createPipeline(VkRenderPass renderPass, Resources& resources);
 
-  nova_Device &device;
+  Device& device;
 
-  std::unique_ptr<nova_PipeLine> pipeline;
+  std::unique_ptr<Pipeline> pipeline;
   VkPipelineLayout pipelineLayout;
 };
 }  // namespace ~~lve~~nova

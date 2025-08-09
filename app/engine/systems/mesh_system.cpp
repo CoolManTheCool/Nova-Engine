@@ -8,9 +8,14 @@
 #include <cassert>
 #include <stdexcept>
 
+#include "device.hpp"
+#include "types.hpp"
+
+#include "renderer.hpp"
+
 namespace Nova {
 
-MeshSystem::MeshSystem(nova_Device& device, VkRenderPass renderPass, VkDescriptorSetLayout globalSetLayout, Resources* resources)
+MeshSystem::MeshSystem(Device& device, VkRenderPass renderPass, VkDescriptorSetLayout globalSetLayout, Resources& resources)
     	: device{device} {
   	createPipelineLayout(globalSetLayout);
   	createPipeline(renderPass, resources);
@@ -40,17 +45,17 @@ void MeshSystem::createPipelineLayout(VkDescriptorSetLayout globalSetLayout) {
   }
 }
 
-void MeshSystem::createPipeline(VkRenderPass renderPass, Resources* resources) {
+void MeshSystem::createPipeline(VkRenderPass renderPass, Resources& resources) {
   	assert(pipelineLayout != nullptr && "Cannot create pipeline before pipeline layout");
 
   	PipelineConfigInfo pipelineConfig{};
-  	nova_PipeLine::defaultPipelineConfigInfo(pipelineConfig);
+  	Pipeline::defaultPipelineConfigInfo(pipelineConfig);
   	pipelineConfig.renderPass = renderPass;
   	pipelineConfig.pipelineLayout = pipelineLayout;
-  	pipeline = std::make_unique<nova_PipeLine>(
+  	pipeline = std::make_unique<Pipeline>(
       device,
-      resources->getShader("mesh.vert"),
-      resources->getShader("mesh.frag"),
+      resources.getShader("mesh.vert"),
+      resources.getShader("mesh.frag"),
       pipelineConfig);
 }
 
@@ -59,11 +64,13 @@ void MeshSystem::render(FrameInfo &frameInfo) {
 
   	//auto projectionView = frameInfo.camera.getProjection() * frameInfo.camera.getView();
 
+	RenderData renderData { pipelineLayout, frameInfo.commandBuffer};
+
   	vkCmdBindDescriptorSets(frameInfo.commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 0, 1, &frameInfo.globalDescriptorSet, 0, nullptr);
   	for (auto &obj : frameInfo.objects) {
 
 		if(obj->getObjectType() != OBJECT_TYPE_MESH) continue;
-		obj->render(pipelineLayout, frameInfo.commandBuffer);
+		obj->render(renderData);
 		
 	}
 }

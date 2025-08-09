@@ -1,11 +1,18 @@
 #include "renderer.hpp"
 
+// std
+#include <array>
+#include <cassert>
+#include <memory>
+#include <stdexcept>
+#include <iostream>
+
 namespace Nova {
 
-Renderer::Renderer(Settings& settings) : settings(settings), window(settings), device(window, settings) {
-
-  	recreateSwapChain();
-  	createCommandBuffers();
+Renderer::Renderer(Window& window, Device& device)
+    : window{window}, device{device} {
+  recreateSwapChain();
+  createCommandBuffers();
 }
 
 Renderer::~Renderer() { freeCommandBuffers(); }
@@ -16,15 +23,6 @@ void Renderer::recreateSwapChain() {
         extent = window.getExtent();
         glfwWaitEvents();
     }*/
-
-    // This is extremely cursed...
-    // It'll probably be like this for another year or so...
-    // It's 6:08 PM 7/28/25, a Monday after school.
-    // I've been working on this stupid refactor for so long...
-    // I just want to get this done so I can move on to the next thing.
-    // I'm just thinking about all of the features I want to add,
-    // and how much I want to improve the engine.
-    // I want to add optimized rendering, physics, better everything.
     
     // Wait for all operations to complete
     vkDeviceWaitIdle(device.device());
@@ -32,14 +30,6 @@ void Renderer::recreateSwapChain() {
     // Destroy old swapchain and create new one
     swapChain = nullptr;
     swapChain = std::make_unique<SwapChain>(device, extent);
-}
-
-Device& Renderer::getDevice() {
-    return device;
-}
-
-Window& Renderer::getWindow() {
-    return window;
 }
 
 void Renderer::createCommandBuffers() {
@@ -172,4 +162,4 @@ void Renderer::endSwapChainRenderPass(VkCommandBuffer commandBuffer) {
   vkCmdEndRenderPass(commandBuffer);
 }
 
-} // namespace Nova
+}  // namespace Nova

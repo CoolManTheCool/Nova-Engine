@@ -30,7 +30,7 @@ namespace Nova {
 
 class GUI_System_T {
 public:
-    void Init_ImGui(nova_Device* device, nova_Window* window, nova_Renderer* renderer, VkDescriptorPool* imguiPool);
+    void Init_ImGui(Device* device, Window* window, Renderer* renderer, VkDescriptorPool* imguiPool);
     bool isRunning();
     void update();
     void render(VkCommandBuffer* commandBuffer);
@@ -56,9 +56,9 @@ public:
     void registerWindow(std::function<void()> func);
 
 private:
-    nova_Device* device = nullptr;
-    nova_Window* window = nullptr;
-    nova_Renderer* renderer = nullptr;
+    Device* device = nullptr;
+    Window* window = nullptr;
+    Renderer* renderer = nullptr;
     VkDescriptorPool* imguiPool = nullptr;
 
     std::map<std::string, std::any> bindings;
