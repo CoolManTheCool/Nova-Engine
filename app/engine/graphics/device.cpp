@@ -604,4 +604,4 @@ void Device::createImageWithInfo(
   }
 }
 
-}  // namespace lve
+}  // namespace Nova

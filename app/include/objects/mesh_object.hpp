@@ -1,7 +1,7 @@
 #pragma once
 
 #include "object.hpp"
-#include "mesh.hpp"
+#include "types/mesh.hpp"
 #include "graphics.hpp"
 
 namespace Nova {
@@ -14,12 +14,23 @@ struct PushMeshData {
 
 class MeshObject : public Object {
 public:
+	// Todo: Make private and apart of mesh
 	float roughness{0.5f};
-    void setModel(std::shared_ptr<Mesh> model);
-	std::shared_ptr<Nova::Mesh> model{};
 
-    unsigned int getObjectType() override;
+	/**
+	 * @brief Transfers ownership of the mesh to this object
+	 */
+    void getMesh(std::unique_ptr<Mesh> mesh);
+	
+	/**
+	 * @brief Get a unique copy of the mesh from this object.
+	 */
+	std::shared_ptr<Mesh> getMesh();
+    
+	unsigned int getObjectType() override;
   	void render(RenderData& renderData) override;
+private:
+	std::shared_ptr<Mesh> mesh{};
 };
 
 } // namespace Nova

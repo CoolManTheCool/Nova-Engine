@@ -38,6 +38,11 @@ Before you begin, ensure you have met the following requirements:
    cd NovaEngine
    ```
 
+2. **Make sure to initalize git submodules**
+   ```bash
+   git submodule update --init --recursive
+   ```
+
 3. **Build the Project**
    ```bash
    ./resources.sh

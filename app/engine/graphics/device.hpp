@@ -23,6 +23,9 @@ struct QueueFamilyIndices {
   bool isComplete() { return graphicsFamilyHasValue && presentFamilyHasValue; }
 };
 
+// Forward declare Settings if not included
+class Settings;
+
 class Device {
  public:
 #ifdef DEBUG
@@ -35,10 +38,10 @@ class Device {
   ~Device();
 
   // Not copyable or movable
-  Device(const Device& ) = delete;
-  Device operator=(const Device& ) = delete;
-  Device(Device& &) = delete;
-  Device& operator=(Device& &) = delete;
+  Device(const Device&) = delete;
+  Device& operator=(const Device&) = delete;
+  Device(Device&&) = delete;
+  Device& operator=(Device&&) = delete;
 
   VkCommandPool getCommandPool() { return commandPool; }
   VkDevice device() { return device_; }
@@ -108,6 +111,6 @@ class Device {
   const std::vector<const char *> deviceExtensions = {VK_KHR_SWAPCHAIN_EXTENSION_NAME};
 };
 
-}  // namespace lve
+}  // namespace Nova
 
 #endif
