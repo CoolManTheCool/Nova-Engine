@@ -2,6 +2,7 @@
 #define EDITOR_HPP
 
 #include "gui_system.hpp"
+#include "window.hpp"
 
 namespace Nova {
 

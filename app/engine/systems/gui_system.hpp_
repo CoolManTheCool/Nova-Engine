@@ -1,0 +1,54 @@
+#ifndef GUI_SYSTEM_HPP
+#define GUI_SYSTEM_HPP
+
+#include "types.hpp"
+
+#include <any>
+#include <map>
+#include <vector>
+#include <string>
+#include <functional>
+
+struct VkDescriptorPool_T;
+typedef VkDescriptorPool_T *VkDescriptorPool;
+
+namespace Nova {
+
+class GUI_System {
+public:
+    GUI_System(Device& device, Renderer& renderer, VkDescriptorPool& imguiPool);
+    void update();
+    void render(VkCommandBuffer* commandBuffer);
+    ~GUI_System();
+
+    template<typename T>
+    T* getBindingPointer(const std::string& name) {
+        auto it = bindings.find(name);
+        if (it == bindings.end()) {
+            throw std::runtime_error("Binding not found: " + name);
+        }
+        return std::any_cast<T>(&it->second);
+    }
+    template<typename T>
+    T getBindingValue(const std::string& name) {
+        auto it = getBindingPointer<T>(name);
+        return std::any_cast<T>(*it);
+    }
+
+    std::any* setBinding(const std::string& name, std::any value = false);
+    
+    bool checkBinding(const std::string& name);
+    void registerWindow(std::function<void()> func);
+
+private:
+    Device& device;
+    Renderer& renderer;
+    VkDescriptorPool& imguiPool;
+
+    std::map<std::string, std::any> bindings;
+    std::vector<std::function<void()>> windows; 
+};
+
+} // namespace Nova
+
+#endif // GUI_SYSTEM_HPP

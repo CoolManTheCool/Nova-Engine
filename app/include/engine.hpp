@@ -35,6 +35,7 @@ private:
     Settings settings;
     Resources resources;
     Graphics graphics{settings, resources};
+    
 };
 
 } // namespace Nova

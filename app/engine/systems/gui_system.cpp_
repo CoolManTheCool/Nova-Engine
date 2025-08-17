@@ -1,17 +1,31 @@
 #include "gui_system.hpp"
 #include "resources.hpp"
 
+#include "descriptors.hpp"
+#include "renderer.hpp"
+#include "swap_chain.hpp"
+#include "imgui.h"
+#include "imgui_impl_vulkan.h"
+#include "imgui_impl_glfw.h"
+
+// This shouldn't exist, and it will stop working once ImGui updates to a version that has this built in.
+// This is a workaround for the fact that ImGui doesn't have a SliderDouble function.
+// It uses the SliderScalar function instead, which is a more generic function that can handle different data types.
+// This is a temporary solution until ImGui adds a SliderDouble function.
+//
+// YAP session up there
+namespace ImGui {
+    inline bool SliderDouble(const char* label, double* v, double v_min, double v_max, const char* format = "%.3f", ImGuiSliderFlags flags = 0) {
+        return ImGui::SliderScalar(label, ImGuiDataType_Double, v, &v_min, &v_max, format, flags);
+    }
+} // namespace ImGui
+
 namespace Nova {
 
-GUI_System_T GUI;
+GUI_System::GUI_System(Device& device, Renderer& renderer, VkDescriptorPool& imguiPool)
+    : device(device), renderer(renderer), imguiPool(imguiPool) {
 
-void GUI_System_T::Init_ImGui(Device& device, Window& window, Renderer& renderer, VkDescriptorPool& imguiPool) {
-    if (isRunning()) throw std::runtime_error("ImGui has already been initialized!");
-
-    this->device = device;
-    this->window = window;
-    this->renderer = renderer;
-    this->imguiPool = imguiPool;
+    Window& window = renderer.getWindow();
 
     // Create descriptor pool for ImGui
     VkDescriptorPoolSize poolSizes[] = {
@@ -35,7 +49,7 @@ void GUI_System_T::Init_ImGui(Device& device, Window& window, Renderer& renderer
     poolInfo.poolSizeCount = static_cast<uint32_t>(std::size(poolSizes));
     poolInfo.pPoolSizes = poolSizes;
 
-    if (vkCreateDescriptorPool(device->device(), &poolInfo, nullptr, imguiPool) != VK_SUCCESS) {
+    if (vkCreateDescriptorPool(device.device(), &poolInfo, nullptr, imguiPool) != VK_SUCCESS) {
         throw std::runtime_error("Failed to create ImGui descriptor pool!");
     }
 
@@ -48,17 +62,17 @@ void GUI_System_T::Init_ImGui(Device& device, Window& window, Renderer& renderer
     ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
     // Platform/Renderer bindings
-    ImGui_ImplGlfw_InitForVulkan(window->getWindow(), true);
+    ImGui_ImplGlfw_InitForVulkan(window.getWindow(), true);
     ImGui_ImplVulkan_InitInfo init_info = {};
-    init_info.Instance = device->getInstance();
-    init_info.PhysicalDevice = device->getPhysicalDevice();
-    init_info.Device = device->device();
-    init_info.QueueFamily = device->findPhysicalQueueFamilies().graphicsFamily;
-    init_info.Queue = device->graphicsQueue();
-    init_info.DescriptorPool = *imguiPool;
+    init_info.Instance = device.getInstance();
+    init_info.PhysicalDevice = device.getPhysicalDevice();
+    init_info.Device = device.device();
+    init_info.QueueFamily = device.findPhysicalQueueFamilies().graphicsFamily;
+    init_info.Queue = device.graphicsQueue();
+    init_info.DescriptorPool = imguiPool;
     init_info.MinImageCount = SwapChain::MAX_FRAMES_IN_FLIGHT;
     init_info.ImageCount = SwapChain::MAX_FRAMES_IN_FLIGHT;
-    init_info.RenderPass = renderer->getSwapChainRenderPass();
+    init_info.RenderPass = renderer.getSwapChainRenderPass();
 
     ImGui_ImplVulkan_Init(&init_info);
 
@@ -66,11 +80,11 @@ void GUI_System_T::Init_ImGui(Device& device, Window& window, Renderer& renderer
     VkCommandBufferAllocateInfo allocInfo = {};
     allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
     allocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
-    allocInfo.commandPool = device->getCommandPool();
+    allocInfo.commandPool = device.getCommandPool();
     allocInfo.commandBufferCount = 1;
 
     VkCommandBuffer command_buffer;
-    vkAllocateCommandBuffers(device->device(), &allocInfo, &command_buffer);
+    vkAllocateCommandBuffers(device.device(), &allocInfo, &command_buffer);
 
     VkCommandBufferBeginInfo beginInfo = {};
     beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
@@ -87,19 +101,15 @@ void GUI_System_T::Init_ImGui(Device& device, Window& window, Renderer& renderer
     submitInfo.commandBufferCount = 1;
     submitInfo.pCommandBuffers = &command_buffer;
 
-    vkQueueSubmit(device->graphicsQueue(), 1, &submitInfo, VK_NULL_HANDLE);
-    vkQueueWaitIdle(device->graphicsQueue());
+    vkQueueSubmit(device.graphicsQueue(), 1, &submitInfo, VK_NULL_HANDLE);
+    vkQueueWaitIdle(device.graphicsQueue());
 
-    vkFreeCommandBuffers(device->device(), device->getCommandPool(), 1, &command_buffer);
+    vkFreeCommandBuffers(device.device(), device.getCommandPool(), 1, &command_buffer);
 
     ImGui_ImplVulkan_DestroyFontsTexture();
 }
 
-bool GUI_System_T::isRunning() {
-    return (device != nullptr);
-}
-
-void GUI_System_T::update() {
+void GUI_System::update() {
     ImGui_ImplVulkan_NewFrame();
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
@@ -110,31 +120,30 @@ void GUI_System_T::update() {
     }
 }
 
-void GUI_System_T::render(VkCommandBuffer* commandBuffer) {
+void GUI_System::render(VkCommandBuffer* commandBuffer) {
     ImGui::Render();
     ImGui::UpdatePlatformWindows();
     ImGui_ImplVulkan_RenderDrawData(ImGui::GetDrawData(), *commandBuffer);
 }
 
-void GUI_System_T::Shutdown() {
-    if (!isRunning()) throw std::runtime_error("Tried shutting down ImGui while not running!");
+GUI_System::~GUI_System() {
 
     ImGui_ImplVulkan_Shutdown();
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
 
-    vkDestroyDescriptorPool(device->device(), *imguiPool, nullptr);
+    vkDestroyDescriptorPool(device.device(), imguiPool, nullptr);
 }
+
 /*
+template<typename T>
+T* GUI_System::getBindingPointer(const std::string& name)
 
 template<typename T>
-T* GUI_System_T::getBindingPointer(const std::string& name)
-
-template<typename T>
-T GUI_System_T::getBindingValue(const std::string& name) 
-
+T GUI_System::getBindingValue(const std::string& name) 
 */
-bool GUI_System_T::checkBinding(const std::string& name) {
+
+bool GUI_System::checkBinding(const std::string& name) {
     auto it = bindings.find(name);
     if (it == bindings.end()) {
         return false;
@@ -142,7 +151,7 @@ bool GUI_System_T::checkBinding(const std::string& name) {
     return true;
 }
 
-std::any* GUI_System_T::setBinding(const std::string& name, std::any value) {
+std::any* GUI_System::setBinding(const std::string& name, std::any value) {
     auto it = bindings.find(name);
     if (it == bindings.end()) {
         bindings.emplace(name, std::move(value));
@@ -152,7 +161,7 @@ std::any* GUI_System_T::setBinding(const std::string& name, std::any value) {
     return &it->second;
 }
 
-void GUI_System_T::registerWindow(std::function<void()> func) {
+void GUI_System::registerWindow(std::function<void()> func) {
     windows.push_back(func);
 }
 

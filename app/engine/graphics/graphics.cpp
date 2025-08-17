@@ -5,9 +5,9 @@
 #include "frame_info.hpp"
 #include "buffer.hpp"
 
-#include "gui_system.hpp"
-#include "editor.hpp"
-#include "console.hpp"
+//#include "gui_system.hpp"
+//#include "editor.hpp"
+//#include "console.hpp"
 #include "mesh_system.hpp"
 
 #include "objects/point_light_object.hpp"
@@ -68,7 +68,7 @@ void Graphics::init() {
         resources
     };
 
-    GUI.Init_ImGui(device, renderer->getWindow(), renderer, globalPool->getDescriptorPool());
+    //GUI.Init_ImGui(device, renderer->getWindow(), renderer, globalPool->getDescriptorPool());
 }
 
 void Graphics::renderFrame(ObjectList& objects, float frameTime) {
@@ -114,7 +114,7 @@ void Graphics::renderFrame(ObjectList& objects, float frameTime) {
 
 		renderer->beginSwapChainRenderPass(commandBuffer);
 		//renderSystem.render(frameInfo);
-		GUI.render(&commandBuffer);
+		//GUI.render(&commandBuffer);
 		renderer->endSwapChainRenderPass(commandBuffer);
 		renderer->endFrame();
 	}
@@ -128,11 +128,13 @@ Graphics::~Graphics() {
     UBOBuffers.clear();
     globalUBOBuffer.reset();
 
+    /*
     if (ImGui::GetCurrentContext() != nullptr) {
         ImGui_ImplVulkan_Shutdown();
         ImGui_ImplGlfw_Shutdown();
         ImGui::DestroyContext();
     }
+    */
 
     globalPool.reset();
 
