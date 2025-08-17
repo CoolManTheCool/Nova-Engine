@@ -4,13 +4,11 @@
 #include "renderer.hpp"
 #include "frame_info.hpp"
 #include "buffer.hpp"
-
-//#include "gui_system.hpp"
-//#include "editor.hpp"
-//#include "console.hpp"
 #include "mesh_system.hpp"
 
 #include "objects/point_light_object.hpp"
+
+#include <thread>
 
 namespace Nova {
 
@@ -22,6 +20,10 @@ void Graphics::init() {
     renderer = new Renderer(settings);
 
     Device& device = renderer->getDevice();
+
+    std::thread resourceLoader = std::thread([this, &device]() {
+        resources.loadMeshs(device);
+    });
 
     globalPool = DescriptorPool::Builder(device)
 	.setMaxSets(SwapChain::MAX_FRAMES_IN_FLIGHT)
@@ -61,12 +63,14 @@ void Graphics::init() {
 		.build(globalDescriptorSets[i]);
 	}
 
-    MeshSystem renderSystem {
+    meshSystem = new MeshSystem(
         device,
         renderer->getSwapChainRenderPass(),
         globalSetLayout->getDescriptorSetLayout(),
         resources
-    };
+    );
+
+    resourceLoader.join();
 
     //GUI.Init_ImGui(device, renderer->getWindow(), renderer, globalPool->getDescriptorPool());
 }
@@ -113,7 +117,7 @@ void Graphics::renderFrame(ObjectList& objects, float frameTime) {
 		UBOBuffers[frameIndex]->flush();
 
 		renderer->beginSwapChainRenderPass(commandBuffer);
-		//renderSystem.render(frameInfo);
+		meshSystem->render(frameInfo);
 		//GUI.render(&commandBuffer);
 		renderer->endSwapChainRenderPass(commandBuffer);
 		renderer->endFrame();

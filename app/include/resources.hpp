@@ -34,13 +34,15 @@ enum KeyMappings {
 class Resources {
 public:
     Resources();
-    std::shared_ptr<Mesh> getModel(const std::string name);
+    void loadMeshs(Device& device);
+    std::shared_ptr<Mesh> getMesh(const std::string name);
     std::vector<char> getShader(const std::string name);
     const std::string getExecutablePath() const { return executablePath; }
     
 private:
     std::unordered_map<std::string, std::string> shaderPaths;  // name, path
-    std::unordered_map<std::string, Mesh> meshs; // name, pointer to model
+    std::unordered_map<std::string, std::shared_ptr<Mesh>> meshs; // name, shared_ptr to mesh
+    std::vector<std::pair<std::string, std::string>> meshQueue; // List of pairs to be processed, name and filepath 
     //std::vector<std::string> texturePaths;
 
     std::string executablePath;

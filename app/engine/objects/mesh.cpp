@@ -118,19 +118,21 @@ unsigned int MeshObject::getObjectType() {
 }
 
 void MeshObject::render(RenderData& renderData) {
-    PushMeshData push{};
-    push.modelMatrix  = transform.mat4();
-    push.normalMatrix = transform.normalMatrix();
-    push.roughness    = roughness;
-    vkCmdPushConstants(
-        renderData.commandBuffer,
-        renderData.pipelineLayout,
-        	VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT,
-        0,
-        sizeof(PushMeshData),
-        &push);
-    mesh->bind(renderData);
-    mesh->draw(renderData);
+    if(mesh) {
+        PushMeshData push{};
+        push.modelMatrix  = transform.mat4();
+        push.normalMatrix = transform.normalMatrix();
+        push.roughness    = roughness;
+        vkCmdPushConstants(
+            renderData.commandBuffer,
+            renderData.pipelineLayout,
+            VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT,
+            0,
+            sizeof(PushMeshData),
+            &push);
+        mesh->bind(renderData);
+        mesh->draw(renderData);
+    }
 }
 
 };  // namespace Nova

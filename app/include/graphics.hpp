@@ -15,6 +15,8 @@ typedef struct VkDescriptorSet_T* VkDescriptorSet;
 
 namespace Nova {
 
+class MeshSystem;
+
 class Graphics {
 friend class Object;
 public:
@@ -29,9 +31,10 @@ public:
 
     void renderFrame(ObjectList& objects, float frameTime);
 private:
-    Settings&  settings;
-	Resources& resources;
-    Renderer*  renderer;
+    Settings&   settings;
+	Resources&  resources;
+    Renderer*   renderer;
+    MeshSystem* meshSystem;
 
     std::unique_ptr<DescriptorPool> globalPool{};
 

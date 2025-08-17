@@ -27,8 +27,15 @@ Before you begin, ensure you have met the following requirements:
 - Operating System: Linux
 - [Vulkan SDK](https://vulkan.lunarg.com/sdk/home) installed
 - [GLM](https://github.com/g-truc/glm) installed
+- glslc
 - C++ Compiler (Ideally GCC)
 - CMake
+
+For example on an Ubuntu based system:
+```bash
+sudo apt update
+sudo apt install cmake build-essential libvulkan-dev vulkan-tools libglfw3 libglfw3-dev libglm-dev ninja-build
+```
 
 ### Installation
 

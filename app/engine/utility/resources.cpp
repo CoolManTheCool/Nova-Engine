@@ -70,40 +70,52 @@ std::string getExecutableDirectory() {
 
 Resources::Resources() {
     std::cout << "================================\n";
-    std::cout << "Nova Engine \n";
+    std::cout << "Nova Engine                     \n";
     std::cout << "================================\n";
 
     executablePath = getExecutableDirectory();
     std::cout << "Executable path: " << executablePath << std::endl;
     std::cout << "\nResources:\n";
-    for (const auto& entry : searchDirectory(executablePath)) {
+    for (const auto& path : searchDirectory(executablePath)) {
         std::string ext;
         std::string name;
-        size_t dotPos = entry.find_last_of(".") + 1;
-        ext = (dotPos != 0) ? entry.substr(dotPos) : "";
-        size_t slashPos = entry.find_last_of("/") + 1;
-        name = (dotPos != std::string::npos) ? entry.substr(0, dotPos-1) : "";
+        size_t dotPos = path.find_last_of(".") + 1;
+        ext = (dotPos != 0) ? path.substr(dotPos) : "";
+        size_t slashPos = path.find_last_of("/") + 1;
+        name = (dotPos != std::string::npos) ? path.substr(0, dotPos-1) : "";
         name = (dotPos != std::string::npos) ? name.substr(slashPos) : "";
         if (!(name == "" || ext == "")) {
             //(ext == "frag" || ext == "vert") ? std::cout : std::cout << "Name: " << name << " Ext: " << ext << "\n";
             switch(_hash(ext.c_str())) {
             case _hash("spv"):
-                //std::cout << "- Shader: " << entry << "\n";
-                shaderPaths.insert(std::make_pair(name, entry));
+                shaderPaths.insert(std::make_pair(name, path));
                 break;
             case _hash("obj"):
-                //meshs.insert(std::make_pair(name, Nova::Mesh::createBuilderFromFile(entry)));
+                //meshs.insert(std::make_pair(name, Nova::Mesh::createBuilderFromFile(path)));
+                meshQueue.emplace_back(std::pair<std::string, std::string>(name, path));
                 break;
-        }
+            }
         }
     }
-    std::cout << "\nShaders:\n";
+    std::cout << "\nShaders:";
     for (const auto& entry : shaderPaths) {
-        std::cout << " - " << entry.first << "\n";
+        std::cout << "\n - " << entry.first;
     }
-    std::cout << "\nModels:\n";
-    for (const auto& entry : meshs) {
-        std::cout << " - " << entry.first << "\n";
+    std::cout << "\nModels:";
+    for (const auto& entry : meshQueue) {
+        std::cout << "\n - " << entry.first;
+    }
+    std::cout << std::endl;
+}
+
+void Resources::loadMeshs(Device& device) {
+    // Load meshes from the meshs map
+    for (const auto& entry : meshQueue) {
+        std::string name = entry.first;
+        std::string path = entry.second;
+
+        meshs.insert(std::make_pair(name, loadMesh(path, device)));
+        std::cout << "Loaded mesh: " << name << " from " << path << std::endl;
     }
 }
 
@@ -202,15 +214,13 @@ std::shared_ptr<Mesh> loadMesh(const std::string &filepath, Device &device) {
  * 
  * @todo Implement the model loading logic.
  */
-std::shared_ptr<Nova::Mesh> Resources::getModel(const std::string) { 
-    /*
+std::shared_ptr<Nova::Mesh> Resources::getMesh(const std::string name) { 
     auto p = meshs.find(name);
     if(p != meshs.end()) {
         return p->second;
     } else {
         throw std::invalid_argument("Mesh not found: " + name);
     }
-    */
    return nullptr;
 }
 

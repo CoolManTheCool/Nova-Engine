@@ -45,6 +45,10 @@ void MeshSystem::createPipelineLayout(VkDescriptorSetLayout globalSetLayout) {
   }
 }
 
+unsigned int MeshSystem::getObjectType() {
+    return SYSTEM_TYPE_MESH;
+}
+
 void MeshSystem::createPipeline(VkRenderPass renderPass, Resources& resources) {
   	assert(pipelineLayout != nullptr && "Cannot create pipeline before pipeline layout");
 

@@ -13,7 +13,7 @@
 
 namespace Nova {
 
-class MeshSystem {
+class MeshSystem : public Object {
  public:
   MeshSystem(Device& device, VkRenderPass renderPass, VkDescriptorSetLayout globalSetLayout, Resources& resources);
   ~MeshSystem();
@@ -22,6 +22,8 @@ class MeshSystem {
   MeshSystem &operator=(const MeshSystem &) = delete;
 
   void render(FrameInfo &frameInfo);
+
+  unsigned int getObjectType() override;
 
  private:
   void createPipelineLayout(VkDescriptorSetLayout globalSetLayout);
