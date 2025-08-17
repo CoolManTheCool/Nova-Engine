@@ -30,7 +30,7 @@ namespace Nova {
 
 class GUI_System_T {
 public:
-    void Init_ImGui(Device* device, Window* window, Renderer* renderer, VkDescriptorPool* imguiPool);
+    void Init_ImGui(Device& device, Window& window, Renderer& renderer, VkDescriptorPool& imguiPool);
     bool isRunning();
     void update();
     void render(VkCommandBuffer* commandBuffer);
@@ -42,12 +42,12 @@ public:
         if (it == bindings.end()) {
             throw std::runtime_error("Binding not found: " + name);
         }
-        return any_cast<T>(&it->second);
+        return std::any_cast<T>(&it->second);
     }
     template<typename T>
     T getBindingValue(const std::string& name) {
         auto it = getBindingPointer<T>(name);
-        return any_cast<T>(*it);
+        return std::any_cast<T>(*it);
     }
 
     std::any* setBinding(const std::string& name, std::any value = false);

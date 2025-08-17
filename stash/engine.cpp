@@ -16,8 +16,6 @@
 #include <stdexcept>
 #include <iostream>
 
-using namespace glm;
-
 namespace Nova {
 
 Engine::Engine() :

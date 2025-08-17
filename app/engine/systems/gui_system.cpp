@@ -5,7 +5,7 @@ namespace Nova {
 
 GUI_System_T GUI;
 
-void GUI_System_T::Init_ImGui(Device* device, Window* window, Renderer* renderer, VkDescriptorPool* imguiPool) {
+void GUI_System_T::Init_ImGui(Device& device, Window& window, Renderer& renderer, VkDescriptorPool& imguiPool) {
     if (isRunning()) throw std::runtime_error("ImGui has already been initialized!");
 
     this->device = device;

@@ -13,7 +13,7 @@ VkDeviceSize Buffer::getAlignment(VkDeviceSize instanceSize, VkDeviceSize minOff
 }
 
 Buffer::Buffer(
-    Devicedevice,
+    Device& device,
     VkDeviceSize instanceSize,
     uint32_t instanceCount,
     VkBufferUsageFlags usageFlags,

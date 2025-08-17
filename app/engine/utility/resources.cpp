@@ -7,10 +7,29 @@
 #include <limits.h>
 #endif
 
+#include <iostream>
 #include <iterator>
 #include <filesystem>
-#include <iostream>
 namespace fs = std::filesystem;
+
+#define TINYOBJLOADER_IMPLEMENTATION
+#include <tiny_obj_loader.h>
+
+#include "util.hpp"
+
+namespace std {
+template <>
+struct hash<Nova::Mesh::Vertex> {
+    size_t operator()(const Nova::Mesh::Vertex& vertex) const {
+        size_t seed = 0;
+        Nova::hashCombine(seed, vertex.position, vertex.color, vertex.normal, vertex.uv);
+        return seed;
+    }
+};
+
+}; // Namespace std
+
+namespace Nova {
 
 std::vector<std::string> searchDirectory(const std::string& directory);
 uint64_t constexpr mix(char m, uint64_t s) {
@@ -21,7 +40,8 @@ uint64_t constexpr _hash(const char * m) {
     return (*m) ? mix(*m, _hash(m+1)) : 0;
 }
 
-std::string getExecutableDirectory() {    std::string executablePath;
+std::string getExecutableDirectory() {
+    std::string executablePath;
 
     // Get the full path to the executable
 #ifdef _WIN32
@@ -72,7 +92,7 @@ Resources::Resources() {
                 shaderPaths.insert(std::make_pair(name, entry));
                 break;
             case _hash("obj"):
-                //models.insert(std::make_pair(name, Nova::Mesh::createBuilderFromFile(entry)));
+                //meshs.insert(std::make_pair(name, Nova::Mesh::createBuilderFromFile(entry)));
                 break;
         }
         }
@@ -82,7 +102,7 @@ Resources::Resources() {
         std::cout << " - " << entry.first << "\n";
     }
     std::cout << "\nModels:\n";
-    for (const auto& entry : models) {
+    for (const auto& entry : meshs) {
         std::cout << " - " << entry.first << "\n";
     }
 }
@@ -111,20 +131,104 @@ std::vector<std::string> searchDirectory(const std::string& directory) {
     return files;
 }
 
-Nova::Mesh::Builder Resources::getModel(const std::string name) { 
-    auto p = models.find(name);
-    if(p != models.end()) {
+std::shared_ptr<Mesh> loadMesh(const std::string &filepath, Device &device) {
+	tinyobj::attrib_t attrib;
+	std::vector<tinyobj::shape_t> shapes;
+	std::vector<tinyobj::material_t> materials;
+	std::string warn, err;
+
+	if(!tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, filepath.c_str())) {
+		throw std::runtime_error(warn + err);
+	}
+
+	std::vector<Mesh::Vertex> vertices;
+    std::vector<uint32_t> indices;
+
+	std::unordered_map<Mesh::Vertex, uint32_t> uniqueVertices{};
+
+	for(const auto &shape : shapes) {
+		for (const auto &index : shape.mesh.indices) {
+			Mesh::Vertex vertex{};
+
+			if (index.vertex_index >= 0) {
+				vertex.position = {
+					attrib.vertices[3 * index.vertex_index + 0],
+					attrib.vertices[3 * index.vertex_index + 1],
+					attrib.vertices[3 * index.vertex_index + 2],
+				};
+
+				auto colorIndex = static_cast<std::vector<float>::size_type>(3 * index.vertex_index + 2);
+				if (colorIndex < attrib.colors.size()) {
+					vertex.color = {
+					attrib.colors[colorIndex - 2],
+					attrib.colors[colorIndex - 1],
+					attrib.colors[colorIndex - 0],
+					};
+				} else {
+					vertex.color = {1.f, 1.f, 1.f};
+				}
+			}
+			if (index.normal_index >= 0) {
+				vertex.normal = {
+					attrib.normals[3 * index.normal_index + 0],
+					attrib.normals[3 * index.normal_index + 1],
+					attrib.normals[3 * index.normal_index + 2],
+				};
+			}
+			if (index.texcoord_index >= 0) {
+				vertex.uv = {
+					attrib.texcoords[2 * index.texcoord_index + 0],
+					attrib.texcoords[2 * index.texcoord_index + 1],
+				};
+			}
+
+			if (uniqueVertices.count(vertex) == 0) {
+				uniqueVertices[vertex] = static_cast<uint32_t>(vertices.size());
+                vertices.push_back(vertex);
+			}
+			indices.push_back(uniqueVertices[vertex]);
+		}
+	}
+
+    return std::shared_ptr<Mesh>(new Mesh(vertices, indices, device));
+}
+
+/**
+ * @brief Get a model by name.
+ * 
+ * @param name The name of the model.
+ * @return std::shared_ptr<Nova::Mesh> A shared pointer to the model.
+ * @throws std::invalid_argument if the model is not found.
+ * 
+ * @todo Implement the model loading logic.
+ */
+std::shared_ptr<Nova::Mesh> Resources::getModel(const std::string) { 
+    /*
+    auto p = meshs.find(name);
+    if(p != meshs.end()) {
         return p->second;
     } else {
         throw std::invalid_argument("Mesh not found: " + name);
     }
+    */
+   return nullptr;
 }
 
-const std::string Resources::getShader(const std::string name) {
-    auto p = shaderPaths.find(name);
-    if(p != shaderPaths.end()) {
-        return p->second;
-    } else {
+std::vector<char> Resources::getShader(const std::string name) {
+    auto path = shaderPaths.find(name);
+    if(path == shaderPaths.end()) {
         throw std::invalid_argument("Shader not found: " + name);
     }
+    std::ifstream file{path->second, std::ios::ate | std::ios::binary};
+	if (!file.is_open()) {
+		throw std::runtime_error("Failed to open file: " + path->second);
+	}
+    size_t fileSize = static_cast<size_t>(file.tellg());
+	std::vector<char> buffer(fileSize);
+
+	file.seekg(0);
+	file.read(buffer.data(), fileSize);
+	return buffer;
 }
+
+} // namespace Nova

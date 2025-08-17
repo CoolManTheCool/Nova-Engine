@@ -10,9 +10,9 @@ class Buffer;
 class DescriptorPool;
 class MeshBackend;
 class Renderer;
+class Device;
 
 struct RenderData;
-struct MeshBuilder;
 
 } // namespace Nova
 

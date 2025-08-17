@@ -6,7 +6,6 @@
 #include "window.hpp"
 
 #include <glm/glm.hpp>
-using namespace glm;
 
 namespace Nova {
 class Camera : public Object {
@@ -17,9 +16,9 @@ public:
 	void setViewDirection(glm::vec3 position, glm::vec3 direction);
 	void setViewTarget(glm::vec3 position, glm::vec3 target, glm::vec3 up = glm::vec3{0.f, 1.f, 0.f});
 
-	const mat4& getProjection() const { return projectionMatrix; };
-	const mat4& getView() const { return viewMatrix; };
-	const mat4& getInverseView() const { return inverseViewMatrix; };
+	const glm::mat4& getProjection() const { return projectionMatrix; };
+	const glm::mat4& getView() const { return viewMatrix; };
+	const glm::mat4& getInverseView() const { return inverseViewMatrix; };
 	void setViewYXZ();
 
 	void moveInPlaneXZ(float dt);
@@ -31,9 +30,9 @@ public:
 	float rotation_speed = 1.5f;
 
 private:
-	mat4 projectionMatrix{1.f};
-	mat4 viewMatrix{1.f};
-	mat4 inverseViewMatrix{1.f};
+	glm::mat4 projectionMatrix{1.f};
+	glm::mat4 viewMatrix{1.f};
+	glm::mat4 inverseViewMatrix{1.f};
 	Window *window;
 };
 

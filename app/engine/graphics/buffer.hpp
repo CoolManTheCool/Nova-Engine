@@ -1,5 +1,4 @@
-#ifndef BUFFER_HPP
-#define BUFFER_HPP
+#pragma once
 #include "device.hpp"
 
 namespace Nova {
@@ -57,4 +56,3 @@ class Buffer {
 };
 
 }  // namespace Nova
-#endif

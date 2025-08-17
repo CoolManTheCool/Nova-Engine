@@ -1,5 +1,6 @@
-#ifndef RESOURCES_HPP
-#define RESOURCES_HPP
+#pragma once
+
+// Public Facing
 
 #include <string>
 #include <vector>
@@ -8,13 +9,14 @@
 #include <fstream>
 #include <functional>
 
-#include "GLFW/glfw3.h"
+#include "components/mesh.hpp"
 
-#include "mesh.hpp"
+namespace Nova {
 
 uint64_t constexpr mix(char m, uint64_t s);
 uint64_t constexpr _hash(const char * m);
 
+/*
 enum KeyMappings {
     moveLeft = GLFW_KEY_A,
     moveRight = GLFW_KEY_D,
@@ -27,17 +29,18 @@ enum KeyMappings {
     lookUp = GLFW_KEY_UP,
     lookDown = GLFW_KEY_DOWN,
 };
+*/
 
 class Resources {
 public:
     Resources();
-    Nova::Mesh::Builder getModel(const std::string name);
-    const std::string getShader(const std::string name);
+    std::shared_ptr<Mesh> getModel(const std::string name);
+    std::vector<char> getShader(const std::string name);
     const std::string getExecutablePath() const { return executablePath; }
     
 private:
     std::unordered_map<std::string, std::string> shaderPaths;  // name, path
-    std::unordered_map<std::string, Nova::Mesh::Builder> models; // name, pointer to model
+    std::unordered_map<std::string, Mesh> meshs; // name, pointer to model
     //std::vector<std::string> texturePaths;
 
     std::string executablePath;
@@ -45,4 +48,4 @@ private:
     //std::string fragFilepath = resourcePath + "shaders/fragment.frag.spv";
 };
 
-#endif // RESOURCES_HPP
+}

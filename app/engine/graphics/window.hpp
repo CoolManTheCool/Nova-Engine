@@ -8,7 +8,7 @@
 #include <iostream>
 
 //we want to immediately abort when there is an error. In normal engines this would give an error message to the user, or perform a dump of state.
-using namespace std;
+
 #define VK_CHECK(x)                                                    \
 	do                                                                 \
 	{                                                                  \

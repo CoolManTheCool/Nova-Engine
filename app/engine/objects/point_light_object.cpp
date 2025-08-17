@@ -2,10 +2,10 @@
 
 namespace Nova {
 
-vec3 hsv2rgb(vec3 in) {
+glm::vec3 hsv2rgb(glm::vec3 in) {
     double hh, p, q, t, ff;
     long i;
-    vec3 out;
+    glm::vec3 out;
 
     if (in.g <= 0.0) {       // < is bogus, just shuts up warnings
         out.r = in.b;
@@ -60,11 +60,11 @@ vec3 hsv2rgb(vec3 in) {
     return out;
 }
 
-PointLightObject::PointLightObject(float intensity, float radius, vec3 lightColor){
+PointLightObject::PointLightObject(float intensity, float radius, glm::vec3 lightColor){
     this->lightIntensity    = intensity;
     this->transform.scale.x = radius;
 
-    if(lightColor != vec3(0.0f, 0.0f, 0.0f)) { // If color is defined.
+    if(lightColor != glm::vec3(0.0f, 0.0f, 0.0f)) { // If color is defined.
         this->lightColor = lightColor;
 
     } else { // If color is not defined.

@@ -8,6 +8,9 @@
 #include <array>
 #include <string>
 #include <chrono>
+#include <functional>
+
+#include "types.hpp"
 
 namespace Nova {
 

@@ -54,8 +54,7 @@ void MeshSystem::createPipeline(VkRenderPass renderPass, Resources& resources) {
   	pipelineConfig.pipelineLayout = pipelineLayout;
   	pipeline = std::make_unique<Pipeline>(
       device,
-      resources.getShader("mesh.vert"),
-      resources.getShader("mesh.frag"),
+      resources,
       pipelineConfig);
 }
 

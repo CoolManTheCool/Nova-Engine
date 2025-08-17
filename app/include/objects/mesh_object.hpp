@@ -1,7 +1,7 @@
 #pragma once
 
 #include "object.hpp"
-#include "types/mesh.hpp"
+#include "components/mesh.hpp"
 #include "graphics.hpp"
 
 namespace Nova {
@@ -20,7 +20,7 @@ public:
 	/**
 	 * @brief Transfers ownership of the mesh to this object
 	 */
-    void getMesh(std::unique_ptr<Mesh> mesh);
+    void setMesh(std::shared_ptr<Mesh> mesh);
 	
 	/**
 	 * @brief Get a unique copy of the mesh from this object.

@@ -25,12 +25,14 @@ std::ostream& operator<<(std::ostream& os, const glm::mat2& mat);
 std::ostream& operator<<(std::ostream& os, const glm::mat3& mat);
 std::ostream& operator<<(std::ostream& os, const glm::mat4& mat);
 
+namespace Nova {
+
 struct Settings {
     int width = 512;
     int height = 512;
     std::string title = "Untitled Project | Nova Engine";
     std::string version_name = "Unknown Version";
-    size_t console_lines = 100;
+    unsigned int console_lines = 100;
 
     struct RenderSettings {
         bool     ForceGPU = false;
@@ -57,11 +59,34 @@ T randRange(T min, T max) {
     }
 }
 
-// Pretty damn close to dark magic
-namespace Nova {
+/**
+ * WARNING TO ALL DEVS BEYOND THIS POINT:
+ * The following code was written by me (Noah) at 11:32 PM on Augaust 15, 2025
+ * and is some of the most mind-bending C++ I've ever written.
+ * If you break it, I will find you and I will hurt you.
+ * 
+ * This code is a variadic template function to combine hash values.
+ * Whatever the FUCK that means. (Copilot suggested that)
+ * 
+ * Throwback to my freshman year of highschool, playing my show for Band.
+ * 
+ * DARK MAGIC BELOW - YOU ARE WARNED
+ */
+
+// Base case: do nothing
+inline void hashCombine(std::size_t&) {}
+
+// Variadic case
 template <typename T, typename... Rest>
 void hashCombine(std::size_t& seed, const T& v, const Rest&... rest) {
-  seed ^= std::hash<T>{}(v) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
-  (hashCombine(seed, rest), ...);
-};
+    static_assert(std::is_default_constructible_v<std::hash<T>>,
+                  "Type must be hashable with std::hash");
+    seed ^= std::hash<T>{}(v) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+    hashCombine(seed, rest...);
 }
+
+/**
+ * DARK MAGIC WARNING OVER
+ */
+
+} // namespace Nova

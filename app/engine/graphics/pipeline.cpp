@@ -1,5 +1,5 @@
 #include "pipeline.hpp"
-#include "mesh.hpp"
+#include "components/mesh.hpp"
 
 #include "util.hpp"
 #include "resources.hpp"
@@ -10,27 +10,8 @@
 #include <cassert>
 
 namespace Nova {
-std::vector<char> Pipeline::readFile(const std::string &filepath) {
-
-	if (filepath.empty()) {
-		throw std::runtime_error("File path is empty");
-	}
-
-	std::ifstream file{filepath, std::ios::ate | std::ios::binary};
-	if (!file.is_open()) {
-		throw std::runtime_error("Failed to open file: " + filepath);
-	}
-
-	size_t fileSize = static_cast<size_t>(file.tellg());
-	std::vector<char> buffer(fileSize);
-
-	file.seekg(0);
-	file.read(buffer.data(), fileSize);
-	return buffer;
-}
-
-Pipeline::Pipeline(Device& device, const std::string &vert, const std::string &frag, const PipelineConfigInfo &configInfo) : device{device} {
-	createGraphicsPipeline(vert, frag, configInfo);
+Pipeline::Pipeline(Device& device, Resources& resources, const PipelineConfigInfo &configInfo) : device{device} {
+	createGraphicsPipeline(resources, configInfo);
 }
 
 Pipeline::~Pipeline() {
@@ -39,16 +20,14 @@ Pipeline::~Pipeline() {
 	vkDestroyPipeline(device.device(), graphicsPipeLine, nullptr);
 }
 
-void Pipeline::createGraphicsPipeline(const std::string &vert, const std::string &frag, const PipelineConfigInfo &configInfo) {
+void Pipeline::createGraphicsPipeline(Resources& resources, const PipelineConfigInfo &configInfo) {
 	assert(configInfo.pipelineLayout != VK_NULL_HANDLE &&
 		   "Cannot create graphics pipeline: no pipelineLayout provided in configInfo");
 	assert(configInfo.renderPass != VK_NULL_HANDLE &&
 		   "Cannot create graphics pipeline: no renderPass provided in configInfo");
 
-	auto fragCode = readFile(frag);
-	auto vertCode = readFile(vert);
-	createShaderModule(vertCode, &vertShaderModule);
-	createShaderModule(fragCode, &fragShaderModule);
+	createShaderModule(resources.getShader("mesh.vert"), &vertShaderModule);
+	createShaderModule(resources.getShader("mesh.frag"), &fragShaderModule);
 
 	VkPipelineShaderStageCreateInfo shaderStages[2];
 	shaderStages[0].sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
@@ -114,6 +93,24 @@ void Pipeline::createShaderModule(const std::vector<char> &code, VkShaderModule 
 	if (vkCreateShaderModule(device.device(), &createInfo, nullptr, shaderModule) != VK_SUCCESS) {
 		throw std::runtime_error("Failed to create shader module!");
 	}
+}
+
+std::vector<VkVertexInputBindingDescription> getBindingDescriptions() {
+	std::vector<VkVertexInputBindingDescription> bindingDescriptions(1);
+	bindingDescriptions[0].binding = 0;
+	bindingDescriptions[0].stride = sizeof(Mesh::Vertex);
+	bindingDescriptions[0].inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
+	return bindingDescriptions;
+}	
+
+std::vector<VkVertexInputAttributeDescription> getAttributeDescriptions() {
+	return {
+		//location, binding, format, offset
+		{0, 0, VK_FORMAT_R32G32B32_SFLOAT, offsetof(Mesh::Vertex, position)},
+		{1, 0, VK_FORMAT_R32G32B32_SFLOAT, offsetof(Mesh::Vertex, color)},
+		{2, 0, VK_FORMAT_R32G32B32_SFLOAT, offsetof(Mesh::Vertex, normal)},
+		{3, 0, VK_FORMAT_R32G32_SFLOAT, offsetof(Mesh::Vertex, uv)},
+	};
 }
 
 void Pipeline::defaultPipelineConfigInfo(PipelineConfigInfo &configInfo) {
@@ -184,8 +181,8 @@ void Pipeline::defaultPipelineConfigInfo(PipelineConfigInfo &configInfo) {
 	configInfo.dynamicStateInfo.dynamicStateCount = static_cast<uint32_t>(configInfo.dynamicStateEnables.size());
 	configInfo.dynamicStateInfo.flags = 0;
 
-	configInfo.bindingDescriptions = Mesh::Vertex::getBindingDescriptions();
-	configInfo.attributeDescriptions = Mesh::Vertex::getAttributeDescriptions();
+	configInfo.bindingDescriptions = getBindingDescriptions();
+	configInfo.attributeDescriptions = getAttributeDescriptions();
 }
 
 } // namespace Nova

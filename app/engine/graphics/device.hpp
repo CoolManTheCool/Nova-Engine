@@ -3,6 +3,9 @@
 
 #include "window.hpp"
 
+// Vulkan header
+#include <vulkan/vulkan.h>
+
 // std lib headers
 #include <string>
 #include <vector>

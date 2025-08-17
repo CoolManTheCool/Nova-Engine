@@ -4,6 +4,7 @@
 // Forward facing
 
 #include "graphics.hpp"
+#include "resources.hpp"
 
 #include <vector>
 #include <memory>
@@ -19,6 +20,8 @@ public:
 
     void init();
 
+    void loop(const std::function<void()>& gameLogic);
+
     void setSettings(const Settings& settings) {
         this->settings = settings;
     }
@@ -28,9 +31,10 @@ public:
     Engine& operator=(const Engine&) = delete;
 
 private:
-    ObjectList Objects;
+    ObjectList objects;
     Settings settings;
-    Graphics graphics{settings};
+    Resources resources;
+    Graphics graphics{settings, resources};
 };
 
 } // namespace Nova

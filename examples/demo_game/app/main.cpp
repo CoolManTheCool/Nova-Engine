@@ -9,7 +9,7 @@ int main() {
 
     Nova::Engine engine = Nova::Engine();
 
-    Settings settings;
+    Nova::Settings settings;
     settings.width = 500;
     settings.height = 1000;
     settings.title = "Demo Game | Nova Engine";
@@ -19,6 +19,10 @@ int main() {
     engine.setSettings(settings);
 
     engine.init();
+
+    engine.loop([&]() {
+        
+    });
 
     return EXIT_SUCCESS;    
 }

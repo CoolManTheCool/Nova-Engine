@@ -85,7 +85,7 @@ void Console_T::RegisterWindow(Window* window) {
     			ImGui::PushStyleColor(ImGuiCol_Text, levelColor); // Set Text Color
 
 				if (element.details.size() > 0) {
-					bool open = ImGui::CollapsingHeader((element.text + "##" + to_string(index)).c_str());
+					bool open = ImGui::CollapsingHeader((element.text + "##" + std::to_string(index)).c_str());
 					if (open) {
 				    	// Display log details
 				    	ImGui::Text("[%s] [%s] %s", timeBuffer, levelStr, element.text.c_str());

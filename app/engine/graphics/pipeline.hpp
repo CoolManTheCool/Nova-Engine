@@ -3,6 +3,7 @@
 
 #include "device.hpp"
 #include "util.hpp"
+#include "resources.hpp"
 
 // I have std
 #include <string>
@@ -33,8 +34,8 @@ struct PipelineConfigInfo {
 };
 
 class Pipeline {
-  public:
-	Pipeline(Device& device, const std::string &vert, const std::string &frag, const PipelineConfigInfo &configInfo);
+public:
+	Pipeline(Device& device, Resources& resources, const PipelineConfigInfo &configInfo);
 	~Pipeline();
     Pipeline(const Pipeline &) = delete;
     Pipeline operator=(const Pipeline &) = delete;
@@ -42,10 +43,9 @@ class Pipeline {
 	void bind(VkCommandBuffer commandBuffer);
 	static void defaultPipelineConfigInfo(PipelineConfigInfo &configInfo);
 
-  private:
-	static std::vector<char> readFile(const std::string &filepath);
+private:
 
-	void createGraphicsPipeline(const std::string &vert, const std::string &frag, const PipelineConfigInfo &configInfo);
+	void createGraphicsPipeline(Resources& resources, const PipelineConfigInfo &configInfo);
 
 	void createShaderModule(const std::vector<char> &code, VkShaderModule *shaderModule);
 

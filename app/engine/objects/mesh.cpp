@@ -1,5 +1,5 @@
 // Implements
-#include "mesh.hpp"
+#include "components/mesh.hpp"
 #include "mesh_object.hpp"
 
 // Public Dependencies
@@ -8,37 +8,28 @@
 // Private Dependencies
 #include "renderer.hpp"
 #include "buffer.hpp"
-#include "mesh_builder.hpp"
 
 #include <cassert>
 #include <cstring>
 #include <unordered_map>
-
-#define TINYOBJLOADER_IMPLEMENTATION
-#include <tiny_obj_loader.h>
-
-namespace std {
-template <>
-struct hash<Nova::Mesh::Vertex> {
-    size_t operator()(Nova::Mesh::Vertex const &vertex) const {
-        size_t seed = 0;
-        Nova::hashCombine(seed, vertex.position, vertex.color, vertex.normal, vertex.uv);
-        return seed;
-    }
-};
-
-} // namespace std
+#include <memory>
 
 namespace Nova {
 
 // --- Mesh Implementation ---
 
-Mesh::Mesh(std::vector<Mesh::Vertex>& vertices, std::vector<uint32_t>& indices, Device& device)
+Mesh::~Mesh() {
+    // unique_ptrs will be automatically destroyed
+}
+
+Mesh::Mesh(const std::vector<Mesh::Vertex>& vertices,
+           const std::vector<uint32_t>& indices,
+           Device& device)
     : vertices(vertices), indices(indices), device(device) {
-    
-    vertexCount = static_cast<uint32_t>(vertices.size());
+
+    vertexCount = static_cast<uint32_t>(this->vertices.size());
     assert(vertexCount >= 3 && "Vertex count must be at least 3");
-    indexCount = static_cast<uint32_t>(indices.size());
+    indexCount = static_cast<uint32_t>(this->indices.size());
     hasIndexBuffer = indexCount > 0;
 
     reconstruct();
@@ -87,27 +78,6 @@ void Mesh::reconstruct() {
     }
 }
 
-Mesh::Mesh(const Mesh& other)
-    : vertices(other.vertices), indices(other.indices), device(other.device) {
-
-    vertexCount = static_cast<uint32_t>(vertices.size());
-    indexCount = static_cast<uint32_t>(indices.size());
-    hasIndexBuffer = indexCount > 0;
-
-    reconstruct();
-}
-
-Mesh &Mesh::operator=(const Mesh &other)  {
-    if (this == &other) return *this; // self-assignment guard
-
-    vertices = other.vertices;
-    indices = other.indices;
-    
-    // Device is already bound for some unholy reason
-
-    return *this;
-}
-
 void Mesh::bind(RenderData& renderData) {
     VkBuffer buffers[] = { vertexBuffer->getBuffer() };
     VkDeviceSize offsets[] = { 0 };
@@ -125,95 +95,21 @@ void Mesh::draw(RenderData& renderData) {
     }
 }
 
-std::vector<VkVertexInputBindingDescription> getBindingDescriptions() {
-	std::vector<VkVertexInputBindingDescription> bindingDescriptions(1);
-	bindingDescriptions[0].binding = 0;
-	bindingDescriptions[0].stride = sizeof(Mesh::Vertex);
-	bindingDescriptions[0].inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
-	return bindingDescriptions;
-}	
-
-std::vector<VkVertexInputAttributeDescription> getAttributeDescriptions() {
-	return {
-		//location, binding, format, offset
-		{0, 0, VK_FORMAT_R32G32B32_SFLOAT, offsetof(Mesh::Vertex, Mesh::Vertex::position)},
-		{1, 0, VK_FORMAT_R32G32B32_SFLOAT, offsetof(Mesh::Vertex, Mesh::Vertex::color)},
-		{2, 0, VK_FORMAT_R32G32B32_SFLOAT, offsetof(Mesh::Vertex, Mesh::Vertex::normal)},
-		{3, 0, VK_FORMAT_R32G32_SFLOAT, offsetof(Mesh::Vertex, Mesh::Vertex::uv)},
-	};
-}
-        
-void MeshBuilder::loadModel(const std::string &filepath) {
-	tinyobj::attrib_t attrib;
-	std::vector<tinyobj::shape_t> shapes;
-	std::vector<tinyobj::material_t> materials;
-	std::string warn, err;
-
-	if(!tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, filepath.c_str())) {
-		throw std::runtime_error(warn + err);
-	}
-
-	vertices.clear();
-	indices.clear();
-
-	std::unordered_map<Mesh::Vertex, uint32_t> uniqueVertices{};
-
-	for(const auto &shape : shapes) {
-		for (const auto &index : shape.mesh.indices) {
-			Mesh::Vertex vertex{};
-
-			if (index.vertex_index >= 0) {
-				vertex.position = {
-					attrib.vertices[3 * index.vertex_index + 0],
-					attrib.vertices[3 * index.vertex_index + 1],
-					attrib.vertices[3 * index.vertex_index + 2],
-				};
-
-				auto colorIndex = static_cast<std::vector<float>::size_type>(3 * index.vertex_index + 2);
-				if (colorIndex < attrib.colors.size()) {
-					vertex.color = {
-					attrib.colors[colorIndex - 2],
-					attrib.colors[colorIndex - 1],
-					attrib.colors[colorIndex - 0],
-					};
-				} else {
-					vertex.color = {1.f, 1.f, 1.f};
-				}
-			}
-			if (index.normal_index >= 0) {
-				vertex.normal = {
-					attrib.normals[3 * index.normal_index + 0],
-					attrib.normals[3 * index.normal_index + 1],
-					attrib.normals[3 * index.normal_index + 2],
-				};
-			}
-			if (index.texcoord_index >= 0) {
-				vertex.uv = {
-					attrib.texcoords[2 * index.texcoord_index + 0],
-					attrib.texcoords[2 * index.texcoord_index + 1],
-				};
-			}
-
-			if (uniqueVertices.count(vertex) == 0) {
-				uniqueVertices[vertex] = static_cast<uint32_t>(vertices.size());
-                vertices.push_back(vertex);
-			}
-			indices.push_back(uniqueVertices[vertex]);
-		}
-	}
+std::shared_ptr<Mesh> Mesh::unique() {
+    return std::shared_ptr<Mesh>(new Mesh(vertices, indices, device));
 }
 
 // --- MeshObject Implementation ---
 
-void MeshObject::setModel(std::shared_ptr<Mesh> mesh) {
+void MeshObject::setMesh(std::shared_ptr<Mesh> mesh) {
     if(mesh) {
-        this->mesh = std::make_shared<Mesh>(*mesh);
+        this->mesh = mesh;
     } else {
         this->mesh.reset(); // reset to nullptr if null passed
     }
 }
 
-std::shared_ptr<Mesh> MeshObject::getModel() {
+std::shared_ptr<Mesh> MeshObject::getMesh() {
     return mesh;
 }
 
@@ -233,8 +129,8 @@ void MeshObject::render(RenderData& renderData) {
         0,
         sizeof(PushMeshData),
         &push);
-    model->bind(renderData);
-    model->draw(renderData);
+    mesh->bind(renderData);
+    mesh->draw(renderData);
 }
 
-}  // namespace Nova
+};  // namespace Nova

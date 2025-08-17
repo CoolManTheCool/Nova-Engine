@@ -4,11 +4,13 @@
 #include "camera.hpp"
 #include "resources.hpp"
 
+#include "GLFW/glfw3.h"
+
 namespace Nova {
 
 void Camera::setPerspectiveProjection(float fovy, float aspect, float near, float far) {
 	assert(glm::abs(aspect - std::numeric_limits<float>::epsilon()) > 0.0f);
-	const float tanHalfFovy = tan(fovy / 2.f);
+	const float tanHalfFovy = glm::tan(fovy / 2.f);
 	projectionMatrix = glm::mat4{0.0f};
 	projectionMatrix[0][0] = 1.f / (aspect * tanHalfFovy);
 	projectionMatrix[1][1] = -1.f / (tanHalfFovy);
@@ -32,27 +34,40 @@ void Camera::setViewTarget(glm::vec3 position, glm::vec3 target, glm::vec3 up) {
     inverseViewMatrix = glm::inverse(viewMatrix);
 }
 
+enum KeyMappings {
+    moveLeft = GLFW_KEY_A,
+    moveRight = GLFW_KEY_D,
+    moveForward = GLFW_KEY_W,
+    moveBackward = GLFW_KEY_S,
+    moveUp = GLFW_KEY_SPACE,
+    moveDown = GLFW_KEY_LEFT_SHIFT,
+    lookLeft = GLFW_KEY_LEFT,
+    lookRight = GLFW_KEY_RIGHT,
+    lookUp = GLFW_KEY_UP,
+    lookDown = GLFW_KEY_DOWN,
+};
+
 // MOVEMENT
 
 void Camera::moveInPlaneXZ(float dt) {
-	vec3 rotate{0};
+	glm::vec3 rotate{0};
 	
 	rotate.y += static_cast<float>(glfwGetKey(window->getWindow(), KeyMappings::lookRight) == GLFW_PRESS);
 	rotate.y -= static_cast<float>(glfwGetKey(window->getWindow(), KeyMappings::lookLeft) == GLFW_PRESS);
 	rotate.x -= static_cast<float>(glfwGetKey(window->getWindow(), KeyMappings::lookUp) == GLFW_PRESS);
 	rotate.x += static_cast<float>(glfwGetKey(window->getWindow(), KeyMappings::lookDown) == GLFW_PRESS);
 
-	if(dot(rotate, rotate) > std::numeric_limits<float>::epsilon()) transform.rotation += rotation_speed * dt * glm::normalize(rotate);
+	if(glm::dot(rotate, rotate) > std::numeric_limits<float>::epsilon()) transform.rotation += rotation_speed * dt * glm::normalize(rotate);
 
 	transform.rotation.x = glm::clamp(transform.rotation.x, -1.5f, 1.5f);
-	transform.rotation.y = mod(transform.rotation.y, two_pi<float>());
+	transform.rotation.y = glm::mod(transform.rotation.y, glm::two_pi<float>());
 
 	float yaw = transform.rotation.y;
-	const vec3 forwardDir{sin(yaw), 0.f, cos(yaw)};
-	const vec3 rightDir{forwardDir.z, 0.f, -forwardDir.x};
-	const vec3 upDir{0.f, 1.f, 0.f};
+	const glm::vec3 forwardDir{glm::sin(yaw), 0.f, glm::cos(yaw)};
+	const glm::vec3 rightDir{forwardDir.z, 0.f, -forwardDir.x};
+	const glm::vec3 upDir{0.f, 1.f, 0.f};
 
-	vec3 moveDir{0.f};
+	glm::vec3 moveDir{0.f};
 
 	moveDir += forwardDir * static_cast<float>(glfwGetKey(window->getWindow(), KeyMappings::moveForward) == GLFW_PRESS);
 	moveDir -= forwardDir * static_cast<float>(glfwGetKey(window->getWindow(), KeyMappings::moveBackward) == GLFW_PRESS);
@@ -61,7 +76,7 @@ void Camera::moveInPlaneXZ(float dt) {
 	moveDir += upDir * static_cast<float>(glfwGetKey(window->getWindow(), KeyMappings::moveUp) == GLFW_PRESS);
 	moveDir -= upDir * static_cast<float>(glfwGetKey(window->getWindow(), KeyMappings::moveDown) == GLFW_PRESS);
 
-	if(dot(moveDir, moveDir) > std::numeric_limits<float>::epsilon()) transform.translation += movement_speed * dt * glm::normalize(moveDir);
+	if(glm::dot(moveDir, moveDir) > std::numeric_limits<float>::epsilon()) transform.translation += movement_speed * dt * glm::normalize(moveDir);
 
 }
 
@@ -90,9 +105,9 @@ void Camera::setViewYXZ() {
 	viewMatrix[0][2] = w.x;
 	viewMatrix[1][2] = w.y;
 	viewMatrix[2][2] = w.z;
-	viewMatrix[3][0] = -glm::dot(u, (vec3)transform.translation);
-	viewMatrix[3][1] = -glm::dot(v, (vec3)transform.translation);
-	viewMatrix[3][2] = -glm::dot(w, (vec3)transform.translation);
+	viewMatrix[3][0] = -glm::dot(u, (glm::vec3)transform.translation);
+	viewMatrix[3][1] = -glm::dot(v, (glm::vec3)transform.translation);
+	viewMatrix[3][2] = -glm::dot(w, (glm::vec3)transform.translation);
 
 	inverseViewMatrix = glm::mat4{1.f};
 	inverseViewMatrix[0][0] = u.x;
