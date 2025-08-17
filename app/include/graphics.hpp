@@ -16,9 +16,11 @@ typedef struct VkDescriptorSet_T* VkDescriptorSet;
 namespace Nova {
 
 class MeshSystem;
+class Camera;
 
 class Graphics {
 friend class Object;
+friend class Camera;
 public:
     Graphics(Settings& settings, Resources& resources);
     ~Graphics();
@@ -30,6 +32,7 @@ public:
     Graphics& operator=(const Graphics&) = delete;
 
     void renderFrame(ObjectList& objects, float frameTime);
+    bool shouldClose() const;
 private:
     Settings&   settings;
 	Resources&  resources;

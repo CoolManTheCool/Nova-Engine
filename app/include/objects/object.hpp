@@ -35,7 +35,7 @@ public:
 
 	virtual unsigned int getObjectType();
 	virtual void update(float deltaTime);
-	virtual void render(RenderData &renderData);
+	virtual void render(RenderData&);
 	// private:
 	TransformComponent transform{};
 };

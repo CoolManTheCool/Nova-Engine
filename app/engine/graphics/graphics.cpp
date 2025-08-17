@@ -76,6 +76,8 @@ void Graphics::init() {
 }
 
 void Graphics::renderFrame(ObjectList& objects, float frameTime) {
+	glfwPollEvents();
+    
     if (auto commandBuffer = renderer->beginFrame()) {
 		int frameIndex = renderer->getFrameIndex();
 
@@ -122,6 +124,10 @@ void Graphics::renderFrame(ObjectList& objects, float frameTime) {
 		renderer->endSwapChainRenderPass(commandBuffer);
 		renderer->endFrame();
 	}
+}
+
+bool Graphics::shouldClose() const {
+    return renderer->getWindow().shouldClose() || glfwGetKey(renderer->getWindow().getWindow(), GLFW_KEY_ESCAPE) == GLFW_PRESS;
 }
 
 Graphics::~Graphics() {

@@ -8,9 +8,11 @@
 #include <glm/glm.hpp>
 
 namespace Nova {
+class Graphics;
+
 class Camera : public Object {
 public:
-	Camera(Window *window, float fovy, float aspect, float near, float far);
+	Camera(Graphics& graphics, float fovy, float aspect, float near, float far);
 	void setPerspectiveProjection(float fovy, float aspect, float near, float far);
 
 	void setViewDirection(glm::vec3 position, glm::vec3 direction);
@@ -33,7 +35,7 @@ private:
 	glm::mat4 projectionMatrix{1.f};
 	glm::mat4 viewMatrix{1.f};
 	glm::mat4 inverseViewMatrix{1.f};
-	Window *window;
+	Window& window;
 };
 
 } // namespace Nova

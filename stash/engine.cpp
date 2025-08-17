@@ -101,12 +101,6 @@ void Engine::run() {
 		oldTime = std::chrono::high_resolution_clock::now();
 		frameTime = glm::min(frameTime, MAX_FRAME_TIME);
 
-		LoopContext ctx(frameTime, Objects, *this);
-		if (loop(ctx) == false) {
-			Console.log("Game loop returned false, exiting...", Console.INFO);
-			break;  // Exit the loop if the game loop returns false
-		}
-
 		for(std::shared_ptr<Object> &obj : Objects) {
 			obj->update(frameTime);
 		}

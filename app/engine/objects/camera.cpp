@@ -3,6 +3,7 @@
 
 #include "camera.hpp"
 #include "resources.hpp"
+#include "graphics.hpp"
 
 #include "GLFW/glfw3.h"
 
@@ -19,8 +20,8 @@ void Camera::setPerspectiveProjection(float fovy, float aspect, float near, floa
 	projectionMatrix[3][2] = -(far * near) / (far - near);
 }
 
-Camera::Camera(Window *window, float fovy, float aspect, float near, float far) {
-	this->window = window;
+Camera::Camera(Graphics& graphics, float fovy, float aspect, float near, float far) {
+	this->window = graphics.renderer->getWindow();;
 	setPerspectiveProjection(fovy, aspect, near, far);
 }
 
@@ -52,10 +53,10 @@ enum KeyMappings {
 void Camera::moveInPlaneXZ(float dt) {
 	glm::vec3 rotate{0};
 	
-	rotate.y += static_cast<float>(glfwGetKey(window->getWindow(), KeyMappings::lookRight) == GLFW_PRESS);
-	rotate.y -= static_cast<float>(glfwGetKey(window->getWindow(), KeyMappings::lookLeft) == GLFW_PRESS);
-	rotate.x -= static_cast<float>(glfwGetKey(window->getWindow(), KeyMappings::lookUp) == GLFW_PRESS);
-	rotate.x += static_cast<float>(glfwGetKey(window->getWindow(), KeyMappings::lookDown) == GLFW_PRESS);
+	rotate.y += static_cast<float>(glfwGetKey(window.getWindow(), KeyMappings::lookRight) == GLFW_PRESS);
+	rotate.y -= static_cast<float>(glfwGetKey(window.getWindow(), KeyMappings::lookLeft) == GLFW_PRESS);
+	rotate.x -= static_cast<float>(glfwGetKey(window.getWindow(), KeyMappings::lookUp) == GLFW_PRESS);
+	rotate.x += static_cast<float>(glfwGetKey(window.getWindow(), KeyMappings::lookDown) == GLFW_PRESS);
 
 	if(glm::dot(rotate, rotate) > std::numeric_limits<float>::epsilon()) transform.rotation += rotation_speed * dt * glm::normalize(rotate);
 
@@ -69,12 +70,12 @@ void Camera::moveInPlaneXZ(float dt) {
 
 	glm::vec3 moveDir{0.f};
 
-	moveDir += forwardDir * static_cast<float>(glfwGetKey(window->getWindow(), KeyMappings::moveForward) == GLFW_PRESS);
-	moveDir -= forwardDir * static_cast<float>(glfwGetKey(window->getWindow(), KeyMappings::moveBackward) == GLFW_PRESS);
-	moveDir += rightDir * static_cast<float>(glfwGetKey(window->getWindow(), KeyMappings::moveRight) == GLFW_PRESS);
-	moveDir -= rightDir * static_cast<float>(glfwGetKey(window->getWindow(), KeyMappings::moveLeft) == GLFW_PRESS);
-	moveDir += upDir * static_cast<float>(glfwGetKey(window->getWindow(), KeyMappings::moveUp) == GLFW_PRESS);
-	moveDir -= upDir * static_cast<float>(glfwGetKey(window->getWindow(), KeyMappings::moveDown) == GLFW_PRESS);
+	moveDir += forwardDir * static_cast<float>(glfwGetKey(window.getWindow(), KeyMappings::moveForward) == GLFW_PRESS);
+	moveDir -= forwardDir * static_cast<float>(glfwGetKey(window.getWindow(), KeyMappings::moveBackward) == GLFW_PRESS);
+	moveDir += rightDir * static_cast<float>(glfwGetKey(window.getWindow(), KeyMappings::moveRight) == GLFW_PRESS);
+	moveDir -= rightDir * static_cast<float>(glfwGetKey(window.getWindow(), KeyMappings::moveLeft) == GLFW_PRESS);
+	moveDir += upDir * static_cast<float>(glfwGetKey(window.getWindow(), KeyMappings::moveUp) == GLFW_PRESS);
+	moveDir -= upDir * static_cast<float>(glfwGetKey(window.getWindow(), KeyMappings::moveDown) == GLFW_PRESS);
 
 	if(glm::dot(moveDir, moveDir) > std::numeric_limits<float>::epsilon()) transform.translation += movement_speed * dt * glm::normalize(moveDir);
 
