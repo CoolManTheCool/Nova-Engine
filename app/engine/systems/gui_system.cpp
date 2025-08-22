@@ -2,6 +2,7 @@
 #include "resources.hpp"
 
 #include "descriptors.hpp"
+#include "graphics.hpp"
 #include "renderer.hpp"
 #include "swap_chain.hpp"
 #include "imgui.h"
@@ -22,8 +23,8 @@ namespace ImGui {
 
 namespace Nova {
 
-GUI_System::GUI_System(Device& device, Renderer& renderer, VkDescriptorPool& imguiPool)
-    : device(device), renderer(renderer), imguiPool(imguiPool) {
+GUI_System::GUI_System(Graphics& graphics)
+    : renderer(graphics.getRenderer()), device(renderer.getDevice()), imguiPool(graphics.imguiPool) {
 
     Window& window = renderer.getWindow();
 
@@ -49,7 +50,7 @@ GUI_System::GUI_System(Device& device, Renderer& renderer, VkDescriptorPool& img
     poolInfo.poolSizeCount = static_cast<uint32_t>(std::size(poolSizes));
     poolInfo.pPoolSizes = poolSizes;
 
-    if (vkCreateDescriptorPool(device.device(), &poolInfo, nullptr, imguiPool) != VK_SUCCESS) {
+    if (vkCreateDescriptorPool(device.device(), &poolInfo, nullptr, &imguiPool) != VK_SUCCESS) {
         throw std::runtime_error("Failed to create ImGui descriptor pool!");
     }
 
@@ -109,21 +110,30 @@ GUI_System::GUI_System(Device& device, Renderer& renderer, VkDescriptorPool& img
     ImGui_ImplVulkan_DestroyFontsTexture();
 }
 
-void GUI_System::update() {
+void GUI_System::update(float) {
     ImGui_ImplVulkan_NewFrame();
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
     ImGui::DockSpaceOverViewport(ImGui::GetMainViewport()->ID, ImGui::GetMainViewport(), ImGuiDockNodeFlags_PassthruCentralNode);
 
+    std::cout << "Updating ImGui..." << std::endl;
+
     for (auto &Funky_Window : windows) {
-        Funky_Window();
+        Funky_Window(); // I love getting funky with Emmy <3
+                        // Edit: She didn't feel the same way :(
+        std::cout << "Running ImGui window..." << std::endl;
     }
 }
 
-void GUI_System::render(VkCommandBuffer* commandBuffer) {
+void GUI_System::render(RenderData& renderData) {
+    std::cout << "Rendering ImGui..." << std::endl;
     ImGui::Render();
     ImGui::UpdatePlatformWindows();
-    ImGui_ImplVulkan_RenderDrawData(ImGui::GetDrawData(), *commandBuffer);
+    ImGui_ImplVulkan_RenderDrawData(ImGui::GetDrawData(), renderData.commandBuffer);
+}
+
+unsigned int GUI_System::getObjectType() {
+    return SYSTEM_TYPE_GUI;
 }
 
 GUI_System::~GUI_System() {

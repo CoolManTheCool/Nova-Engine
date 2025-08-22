@@ -11,6 +11,8 @@
 
 #include "objects/object.hpp"
 
+#define MAX_FRAME_TIME 1.f
+
 namespace Nova {
 
 class Engine {
@@ -20,11 +22,9 @@ public:
 
     void init();
 
-    void loop(const std::function<void()>& gameLogic);
+    void loop(const std::function<void(float)>& gameLogic);
 
-    void setSettings(const Settings& settings) {
-        this->settings = settings;
-    }
+    void setSettings(const Settings& settings);
 
     // Prevent copying
     Engine(const Engine&) = delete;
@@ -35,7 +35,6 @@ private:
     Settings settings;
     Resources resources;
     Graphics graphics{settings, resources};
-    
 };
 
 } // namespace Nova

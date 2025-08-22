@@ -8,8 +8,6 @@
 #include "util.hpp"
 #include "window.hpp"
 
-#define MAX_FRAME_TIME 1.f
-
 #include <array>
 #include <chrono>
 #include <cassert>

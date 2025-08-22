@@ -9,17 +9,26 @@
 #include <string>
 #include <functional>
 
+#include "graphics.hpp"
+#include "device.hpp"
+
 struct VkDescriptorPool_T;
 typedef VkDescriptorPool_T *VkDescriptorPool;
 
 namespace Nova {
 
-class GUI_System {
+class GUI_System : public Object {
 public:
-    GUI_System(Device& device, Renderer& renderer, VkDescriptorPool& imguiPool);
-    void update();
-    void render(VkCommandBuffer* commandBuffer);
+    GUI_System(Graphics& graphics);
     ~GUI_System();
+
+    GUI_System(const GUI_System &) = delete;
+    GUI_System &operator=(const GUI_System &) = delete;
+
+    void update(float deltaTime) override;
+    void render(RenderData& renderData) override;
+
+    unsigned int getObjectType() override;
 
     template<typename T>
     T* getBindingPointer(const std::string& name) {
@@ -41,8 +50,8 @@ public:
     void registerWindow(std::function<void()> func);
 
 private:
-    Device& device;
     Renderer& renderer;
+    Device& device;
     VkDescriptorPool& imguiPool;
 
     std::map<std::string, std::any> bindings;

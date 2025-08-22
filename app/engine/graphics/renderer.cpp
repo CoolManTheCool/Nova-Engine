@@ -12,10 +12,10 @@ Renderer::~Renderer() { freeCommandBuffers(); }
 
 void Renderer::recreateSwapChain() {
     auto extent = window.getExtent();
-    /*while (extent.width == 0 || extent.height == 0) {
+    while (extent.width == 0 || extent.height == 0) {
         extent = window.getExtent();
         glfwWaitEvents();
-    }*/
+    }
 
     // This is extremely cursed...
     // It'll probably be like this for another year or so...

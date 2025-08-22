@@ -68,12 +68,8 @@ unsigned int Object::getObjectType() {
     return OBJECT_TYPE_NULL;
 }
 
-void Object::update(float /*deltaTime*/) {
-    throw std::logic_error("You aren't supposed to call this function!!");
-}
+void Object::update(float /*deltaTime*/) {};
 
-void Object::render(RenderData& /*renderData Cannot use without graphics.hpp*/) {
-    throw std::logic_error("You aren't supposed to call this function!!");
-}
+void Object::render(RenderData& /*renderData Cannot use without graphics.hpp*/) {}
 
 } // namespace Nova

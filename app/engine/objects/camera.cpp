@@ -4,6 +4,7 @@
 #include "camera.hpp"
 #include "resources.hpp"
 #include "graphics.hpp"
+#include "renderer.hpp"
 
 #include "GLFW/glfw3.h"
 
@@ -20,8 +21,7 @@ void Camera::setPerspectiveProjection(float fovy, float aspect, float near, floa
 	projectionMatrix[3][2] = -(far * near) / (far - near);
 }
 
-Camera::Camera(Graphics& graphics, float fovy, float aspect, float near, float far) {
-	this->window = graphics.renderer->getWindow();;
+Camera::Camera(Graphics& graphics, float fovy, float aspect, float near, float far) : window{graphics.getRenderer().getWindow()} {
 	setPerspectiveProjection(fovy, aspect, near, far);
 }
 

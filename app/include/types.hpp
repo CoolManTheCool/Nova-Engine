@@ -11,6 +11,7 @@ class DescriptorPool;
 class MeshBackend;
 class Renderer;
 class Device;
+class GUI_System;
 
 struct RenderData;
 

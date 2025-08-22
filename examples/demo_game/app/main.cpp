@@ -10,8 +10,8 @@ int main() {
     Nova::Engine engine = Nova::Engine();
 
     Nova::Settings settings;
-    settings.width = 500;
-    settings.height = 1000;
+    settings.width = 512/4*3;
+    settings.height = 512/4*3;
     settings.title = "Demo Game | Nova Engine";
     settings.console_lines = 100;
     settings.version_name = "Alpha 2";
@@ -20,7 +20,7 @@ int main() {
 
     engine.init();
 
-    engine.loop([&]() {
+    engine.loop([&](float) {
         
     });
 

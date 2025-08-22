@@ -5,6 +5,7 @@
 #include "frame_info.hpp"
 #include "buffer.hpp"
 #include "mesh_system.hpp"
+#include "gui_system.hpp"
 
 #include "objects/point_light_object.hpp"
 
@@ -75,6 +76,10 @@ void Graphics::init() {
     //GUI.Init_ImGui(device, renderer->getWindow(), renderer, globalPool->getDescriptorPool());
 }
 
+Renderer& Graphics::getRenderer() {
+    return *renderer;
+}
+
 void Graphics::renderFrame(ObjectList& objects, float frameTime) {
 	glfwPollEvents();
     
@@ -105,6 +110,9 @@ void Graphics::renderFrame(ObjectList& objects, float frameTime) {
 		UBO.view = camera->getView();
 		UBO.inverseView = camera->getInverseView();
 		uint8_t numObjects = 0;
+
+        std::shared_ptr<GUI_System> GUI = nullptr;
+
 		for(auto& obj : objects) {
 			if(obj->getObjectType() == OBJECT_TYPE_POINT_LIGHT) {
 				auto lightObject = std::dynamic_pointer_cast<PointLightObject>(obj);
@@ -112,6 +120,10 @@ void Graphics::renderFrame(ObjectList& objects, float frameTime) {
 				UBO.pointLights[numObjects].position = glm::vec4(lightObject->transform.translation, 0);
 				numObjects++;
 			}
+
+            if(obj->getObjectType() == SYSTEM_TYPE_GUI) {
+                GUI = std::dynamic_pointer_cast<GUI_System>(obj);
+            }
 		}
 			
 		UBO.numLights = numObjects;
@@ -120,7 +132,11 @@ void Graphics::renderFrame(ObjectList& objects, float frameTime) {
 
 		renderer->beginSwapChainRenderPass(commandBuffer);
 		meshSystem->render(frameInfo);
-		//GUI.render(&commandBuffer);
+		if(GUI) {
+            VkPipelineLayout dummyPipeline = VK_NULL_HANDLE;
+            RenderData rD { dummyPipeline, commandBuffer };
+            GUI->render(rD);
+        }
 		renderer->endSwapChainRenderPass(commandBuffer);
 		renderer->endFrame();
 	}

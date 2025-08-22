@@ -13,14 +13,21 @@
 struct VkDescriptorSet_T;
 typedef struct VkDescriptorSet_T* VkDescriptorSet;
 
+struct VkDescriptorPool_T;
+typedef VkDescriptorPool_T *VkDescriptorPool;
+
+#ifndef VK_NULL_HANDLE
+#define VK_NULL_HANDLE 0
+#endif
+
 namespace Nova {
 
 class MeshSystem;
-class Camera;
+class GUI_System;
 
 class Graphics {
 friend class Object;
-friend class Camera;
+friend class GUI_System;
 public:
     Graphics(Settings& settings, Resources& resources);
     ~Graphics();
@@ -31,6 +38,8 @@ public:
     Graphics(const Graphics&) = delete;
     Graphics& operator=(const Graphics&) = delete;
 
+    Renderer& getRenderer();
+
     void renderFrame(ObjectList& objects, float frameTime);
     bool shouldClose() const;
 private:
@@ -40,10 +49,12 @@ private:
     MeshSystem* meshSystem;
 
     std::unique_ptr<DescriptorPool> globalPool{};
+    VkDescriptorPool imguiPool = VK_NULL_HANDLE;
 
   	std::vector<std::unique_ptr<Buffer>> UBOBuffers;
   	std::unique_ptr<Buffer> globalUBOBuffer;
     std::vector<VkDescriptorSet> globalDescriptorSets;
+    
 };
 
 } // namespace Nova

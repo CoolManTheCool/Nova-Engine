@@ -30,8 +30,6 @@ jobs:
     - name: Install Dependencies on Linux
       if: runner.os == 'Linux'
       run: |
-        wget -qO- https://packages.lunarg.com/lunarg-signing-key-pub.asc | sudo tee /etc/apt/trusted.gpg.d/lunarg.asc
-        sudo wget -qO /etc/apt/sources.list.d/lunarg-vulkan-jammy.list https://packages.lunarg.com/vulkan/lunarg-vulkan-jammy.list
         sudo apt update
         sudo apt install -y \
           cmake \
@@ -41,7 +39,7 @@ jobs:
           libglfw3 \
           libglfw3-dev \
           libglm-dev \
-          vulkan-sdk \
+          shaderc-tools \
           ninja-build
 
     - name: Create build directory

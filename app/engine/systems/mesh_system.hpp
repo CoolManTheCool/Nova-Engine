@@ -22,6 +22,7 @@ class MeshSystem : public Object {
   MeshSystem &operator=(const MeshSystem &) = delete;
 
   void render(FrameInfo &frameInfo);
+  using Object::render; // To avoid hiding the base class render method
 
   unsigned int getObjectType() override;
 

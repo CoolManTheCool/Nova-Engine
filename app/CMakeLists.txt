@@ -39,7 +39,7 @@ target_compile_options(imgui PRIVATE -fPIC)
 
 set(ENGINE_SOURCE_FILES
     engine/systems/mesh_system.cpp
-    #engine/systems/gui_system.cpp
+    engine/systems/gui_system.cpp
     #engine/systems/console.cpp
     #engine/systems/editor.cpp
 

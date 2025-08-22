@@ -16,6 +16,7 @@ enum /*NOVA_ENGINE_API*/ {
 	OBJECT_TYPE_POINT_LIGHT,
 	OBJECT_TYPE_CAMERA,
 	SYSTEM_TYPE_MESH,
+	SYSTEM_TYPE_GUI,
 
 	OBJECT_TYPE_COUNT,
 };
@@ -35,7 +36,7 @@ public:
 
 	virtual unsigned int getObjectType();
 	virtual void update(float deltaTime);
-	virtual void render(RenderData&);
+	virtual void render(RenderData& renderData);
 	// private:
 	TransformComponent transform{};
 };
