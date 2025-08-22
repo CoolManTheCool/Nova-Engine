@@ -39,7 +39,7 @@ jobs:
           libglfw3 \
           libglfw3-dev \
           libglm-dev \
-          shaderc-tools \
+          glslc \
           ninja-build
 
     - name: Create build directory
