@@ -32,7 +32,7 @@ public:
     Graphics(Settings& settings, Resources& resources);
     ~Graphics();
 
-    void init();
+    std::shared_ptr<MeshSystem> init();
 
     // Prevent copying
     Graphics(const Graphics&) = delete;
@@ -45,8 +45,8 @@ public:
 private:
     Settings&   settings;
 	Resources&  resources;
+    std::shared_ptr<MeshSystem> meshSystem;
     Renderer*   renderer;
-    MeshSystem* meshSystem;
 
     std::unique_ptr<DescriptorPool> globalPool{};
     VkDescriptorPool imguiPool = VK_NULL_HANDLE;
@@ -54,7 +54,6 @@ private:
   	std::vector<std::unique_ptr<Buffer>> UBOBuffers;
   	std::unique_ptr<Buffer> globalUBOBuffer;
     std::vector<VkDescriptorSet> globalDescriptorSets;
-    
 };
 
 } // namespace Nova

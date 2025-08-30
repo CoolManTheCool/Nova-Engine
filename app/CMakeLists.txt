@@ -53,6 +53,7 @@ set(ENGINE_SOURCE_FILES
     engine/graphics/window.cpp
     engine/graphics/device.cpp
     engine/graphics/buffer.cpp
+    engine/graphics/debug.cpp
     
     engine/objects/mesh.cpp
     engine/objects/point_light_object.cpp

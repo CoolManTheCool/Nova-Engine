@@ -53,6 +53,7 @@ void DestroyDebugUtilsMessengerEXT(
 
 // class member functions
 Device::Device(Window &window, Settings settings) : window{window} {
+
   createInstance();
   setupDebugMessenger();
   createSurface();
@@ -62,6 +63,8 @@ Device::Device(Window &window, Settings settings) : window{window} {
 }
 
 Device::~Device() {
+  vkDeviceWaitIdle(device_);
+
   vkDestroyCommandPool(device_, commandPool, nullptr);
   vkDestroyDevice(device_, nullptr);
 

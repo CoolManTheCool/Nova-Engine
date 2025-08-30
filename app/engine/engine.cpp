@@ -5,16 +5,27 @@
 #include "renderer.hpp"
 #include "gui_system.hpp"
 
+// Public
+#include "mesh_system.hpp"
+
 #include "imgui.h"
 #include "imgui_impl_vulkan.h"
 #include "imgui_impl_glfw.h"
 
 #include <thread>
+#include <memory> // Literally hate this library but I love it too
+
+#include "debug.hpp"
 
 namespace Nova {
 
+Engine::~Engine() {
+    Debugger.print();
+}
+
 void Engine::init() {
-    graphics.init(); // Lines up beautifully
+    std::shared_ptr<MeshSystem> meshSystem = graphics.init();
+    objects.push_back(std::static_pointer_cast<Nova::Object>(meshSystem));
 
     auto meshObj = std::shared_ptr<MeshObject>(new MeshObject());
     meshObj->transform.translation = glm::vec3(0.0f, 0.0f, 0.0f);
@@ -32,18 +43,16 @@ void Engine::init() {
 void Engine::loop(const std::function<void(float)>& gameLogic) {
     auto oldTime = std::chrono::high_resolution_clock::now();
 
-    auto camera = std::shared_ptr<Camera>(new Camera(graphics, 45.0f, 512 / static_cast<float>(512), 0.1f, 100.0f));
+    auto camera = std::shared_ptr<Camera>(new Camera(graphics));
     camera->transform.translation = glm::vec3(0.0f, 0.0f, 3.0f);
     camera->transform.rotation = glm::vec3(0.0f, 0.0f, 0.0f);
     objects.push_back(camera);
-    /*
     camera->setPerspectiveProjection(
-        glm::radians(45.0f),
-        512 / static_cast<float>(512),
+        glm::radians(60.0f),
+        settings.width / static_cast<float>(settings.height),
         0.1f,
         100.0f
     );
-    */
 
     auto GUI = std::shared_ptr<GUI_System>(new GUI_System(graphics));
 
@@ -67,7 +76,9 @@ void Engine::loop(const std::function<void(float)>& gameLogic) {
 		if (GUI->getBindingValue<bool>("Window Debug Open") == true) {
 			ImGui::Begin("Debug Window", GUI->getBindingPointer<bool>("Window Debug Open"), ImGuiWindowFlags_NoCollapse);
 			//ImGui::Checkbox("Editor Menu", GUI->getBindingPointer<bool>("Window Editor Open"));
-			ImGui::SliderFloat("Camera Speed", GUI->getBindingPointer<float>("Camera Speed"), 2.0f, 6.0f);
+			if (ImGui::SliderFloat("Camera Speed", GUI->getBindingPointer<float>("Camera Speed"), 2.0f, 6.0f)) {
+                camera->movement_speed = GUI->getBindingValue<float>("Camera Speed");
+            }
 			if (ImGui::SliderAngle("Camera FOV", GUI->getBindingPointer<float>("Camera FOV"), 50.0f, 100.0f)) {
 				float aspect = graphics.getRenderer().getAspectRation();
 				camera->setPerspectiveProjection(GUI->getBindingValue<float>("Camera FOV"), aspect, 0.1f, 1000.f);
@@ -98,6 +109,9 @@ void Engine::loop(const std::function<void(float)>& gameLogic) {
 
         frameCount++;
     }
+
+    GUI->~GUI_System();
+    vkDeviceWaitIdle(graphics.getRenderer().getDevice().device());
 }
 
 void Engine::setSettings(const Settings& settings) {

@@ -19,7 +19,8 @@ namespace Nova {
 // --- Mesh Implementation ---
 
 Mesh::~Mesh() {
-    // unique_ptrs will be automatically destroyed
+    vertexBuffer.reset();
+    indexBuffer.reset();
 }
 
 Mesh::Mesh(const std::vector<Mesh::Vertex>& vertices,

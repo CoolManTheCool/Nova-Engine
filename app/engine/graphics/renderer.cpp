@@ -8,7 +8,10 @@ Renderer::Renderer(Settings& settings) : settings(settings), window(settings), d
   	createCommandBuffers();
 }
 
-Renderer::~Renderer() { freeCommandBuffers(); }
+Renderer::~Renderer() {
+  freeCommandBuffers();
+  
+}
 
 void Renderer::recreateSwapChain() {
     auto extent = window.getExtent();

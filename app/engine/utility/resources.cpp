@@ -115,7 +115,6 @@ void Resources::loadMeshs(Device& device) {
         std::string path = entry.second;
 
         meshs.insert(std::make_pair(name, loadMesh(path, device)));
-        std::cout << "Loaded mesh: " << name << " from " << path << std::endl;
     }
 }
 

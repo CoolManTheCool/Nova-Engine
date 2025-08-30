@@ -3,18 +3,16 @@
 
 #include "engine.hpp"
 
-#include "game.hpp"
-
 int main() {
 
     Nova::Engine engine = Nova::Engine();
 
     Nova::Settings settings;
-    settings.width = 512/4*3;
-    settings.height = 512/4*3;
+    settings.width = 1280;
+    settings.height = 720;
     settings.title = "Demo Game | Nova Engine";
     settings.console_lines = 100;
-    settings.version_name = "Alpha 2";
+    settings.version_name = "Alpha 3";
 
     engine.setSettings(settings);
 

@@ -1,5 +1,6 @@
-#ifndef RENDER_SYSTEM_HPP
-#define RENDER_SYSTEM_HPP
+#pragma once
+
+// Private facing
 
 #include "device.hpp"
 #include "pipeline.hpp"
@@ -36,5 +37,3 @@ class MeshSystem : public Object {
   VkPipelineLayout pipelineLayout;
 };
 }  // namespace ~~lve~~nova
-
-#endif  // RENDER_SYSTEM_HPP

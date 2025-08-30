@@ -32,6 +32,8 @@ public:
     	return commandBuffers[currentFrameIndex];
   	}
 
+  	void freeCommandBuffers();
+
   	int getFrameIndex() const {
     	assert(isFrameStarted && "Cannot get frame index when frame not in progress");
     	return currentFrameIndex;
@@ -48,15 +50,14 @@ public:
 
 private:
 	void createCommandBuffers();
-  	void freeCommandBuffers();
 
 	Settings settings;
 
-	Window window;
-	Device device;
 	std::unique_ptr<SwapChain> swapChain;
 	std::vector<VkCommandBuffer> commandBuffers;
 	std::vector<VkSemaphore> renderFinishedSemaphores;
+	Window window;
+	Device device;
 
 	uint32_t currentImageIndex;
   	int currentFrameIndex{0};

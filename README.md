@@ -124,7 +124,7 @@ Contributions are welcome! Please follow these steps to contribute:
 
 ### License
 
-This project is licensed under Ignis Studio's Software License. See the [LICENSE](LICENSE) file for details.
+This project is licensed under Nova Studios General Software License. See the [LICENSE](LICENSE) file for details.
 Usage of this software in any way subjects you to this license. 
 
 ### Acknowledgements
@@ -132,7 +132,7 @@ Usage of this software in any way subjects you to this license.
 - [Vulkan](https://www.vulkan.org/)
 - [GLFW](https://www.glfw.org/)
 - [GLM](https://github.com/g-truc/glm)
-- [OpenAL](https://www.openal.org/)
+- [OpenAL](https://www.openal.org/) (Temporarily unused)
 
 ## Contact
 

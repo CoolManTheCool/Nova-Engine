@@ -116,17 +116,13 @@ void GUI_System::update(float) {
     ImGui::NewFrame();
     ImGui::DockSpaceOverViewport(ImGui::GetMainViewport()->ID, ImGui::GetMainViewport(), ImGuiDockNodeFlags_PassthruCentralNode);
 
-    std::cout << "Updating ImGui..." << std::endl;
-
     for (auto &Funky_Window : windows) {
         Funky_Window(); // I love getting funky with Emmy <3
                         // Edit: She didn't feel the same way :(
-        std::cout << "Running ImGui window..." << std::endl;
     }
 }
 
 void GUI_System::render(RenderData& renderData) {
-    std::cout << "Rendering ImGui..." << std::endl;
     ImGui::Render();
     ImGui::UpdatePlatformWindows();
     ImGui_ImplVulkan_RenderDrawData(ImGui::GetDrawData(), renderData.commandBuffer);

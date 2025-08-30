@@ -3,6 +3,8 @@
 #include <cassert>
 #include <cstring>
 
+#include "debug.hpp"
+
 namespace Nova {
 
 VkDeviceSize Buffer::getAlignment(VkDeviceSize instanceSize, VkDeviceSize minOffsetAlignment) {
@@ -18,7 +20,8 @@ Buffer::Buffer(
     uint32_t instanceCount,
     VkBufferUsageFlags usageFlags,
     VkMemoryPropertyFlags memoryPropertyFlags,
-    VkDeviceSize minOffsetAlignment)
+    VkDeviceSize minOffsetAlignment,
+    std::string debugName)
     : device{device},
       instanceSize{instanceSize},
       instanceCount{instanceCount},
@@ -27,9 +30,12 @@ Buffer::Buffer(
   alignmentSize = getAlignment(instanceSize, minOffsetAlignment);
   bufferSize = alignmentSize * instanceCount;
   device.createBuffer(bufferSize, usageFlags, memoryPropertyFlags, buffer, memory);
+
+  id = Debugger.create();
 }
 
 Buffer::~Buffer() {
+  Debugger.destroy(id);
   unmap();
   if (buffer != VK_NULL_HANDLE) {
     vkDestroyBuffer(device.device(), buffer, nullptr);

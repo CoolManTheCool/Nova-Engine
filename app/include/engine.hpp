@@ -18,7 +18,7 @@ namespace Nova {
 class Engine {
 public:
     Engine() = default;
-    ~Engine() = default;
+    ~Engine();
 
     void init();
 

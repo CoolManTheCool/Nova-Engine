@@ -21,9 +21,7 @@ void Camera::setPerspectiveProjection(float fovy, float aspect, float near, floa
 	projectionMatrix[3][2] = -(far * near) / (far - near);
 }
 
-Camera::Camera(Graphics& graphics, float fovy, float aspect, float near, float far) : window{graphics.getRenderer().getWindow()} {
-	setPerspectiveProjection(fovy, aspect, near, far);
-}
+Camera::Camera(Graphics& graphics) : window{graphics.getRenderer().getWindow()} {}
 
 void Camera::setViewDirection(glm::vec3 position, glm::vec3 direction) {
 	transform.translation = position;

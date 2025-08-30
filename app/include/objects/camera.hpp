@@ -12,7 +12,7 @@ class Graphics;
 
 class Camera : public Object {
 public:
-	Camera(Graphics& graphics, float fovy, float aspect, float near, float far);
+	Camera(Graphics& graphics);
 	void setPerspectiveProjection(float fovy, float aspect, float near, float far);
 
 	void setViewDirection(glm::vec3 position, glm::vec3 direction);

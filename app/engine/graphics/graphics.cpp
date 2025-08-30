@@ -17,7 +17,7 @@ Graphics::Graphics(Settings& settings, Resources& resources) : settings(settings
     globalDescriptorSets.resize(SwapChain::MAX_FRAMES_IN_FLIGHT);
 }
 
-void Graphics::init() {
+std::shared_ptr<MeshSystem> Graphics::init() {
     renderer = new Renderer(settings);
 
     Device& device = renderer->getDevice();
@@ -64,7 +64,7 @@ void Graphics::init() {
 		.build(globalDescriptorSets[i]);
 	}
 
-    meshSystem = new MeshSystem(
+    meshSystem = std::make_shared<MeshSystem>(
         device,
         renderer->getSwapChainRenderPass(),
         globalSetLayout->getDescriptorSetLayout(),
@@ -73,7 +73,7 @@ void Graphics::init() {
 
     resourceLoader.join();
 
-    //GUI.Init_ImGui(device, renderer->getWindow(), renderer, globalPool->getDescriptorPool());
+    return meshSystem;
 }
 
 Renderer& Graphics::getRenderer() {
@@ -149,20 +149,17 @@ bool Graphics::shouldClose() const {
 Graphics::~Graphics() {
     Device& device = renderer->getDevice();
 
+    // test if device is valid
+    std::cout << "Device: " << device.device() << std::endl;
+
     vkDeviceWaitIdle(device.device());
 
     UBOBuffers.clear();
     globalUBOBuffer.reset();
 
-    /*
-    if (ImGui::GetCurrentContext() != nullptr) {
-        ImGui_ImplVulkan_Shutdown();
-        ImGui_ImplGlfw_Shutdown();
-        ImGui::DestroyContext();
-    }
-    */
-
     globalPool.reset();
+    
+    renderer->~Renderer();
 
     delete renderer;
 }

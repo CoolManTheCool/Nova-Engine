@@ -1,17 +1,20 @@
 #pragma once
 #include "device.hpp"
 
+#include <string>
+
 namespace Nova {
 
 class Buffer {
- public:
+public:
   Buffer(
       Device& device,
       VkDeviceSize instanceSize,
       uint32_t instanceCount,
       VkBufferUsageFlags usageFlags,
       VkMemoryPropertyFlags memoryPropertyFlags,
-      VkDeviceSize minOffsetAlignment = 1);
+      VkDeviceSize minOffsetAlignment = 1,
+	  std::string debugName = "Unnamed Buffer");
   ~Buffer();
 
   Buffer(const Buffer&) = delete;
@@ -34,12 +37,12 @@ class Buffer {
   void* getMappedMemory() const { return mapped; }
   uint32_t getInstanceCount() const { return instanceCount; }
   VkDeviceSize getInstanceSize() const { return instanceSize; }
-  VkDeviceSize getAlignmentSize() const { return instanceSize; }
+  VkDeviceSize getAlignmentSize() const { return alignmentSize; }
   VkBufferUsageFlags getUsageFlags() const { return usageFlags; }
   VkMemoryPropertyFlags getMemoryPropertyFlags() const { return memoryPropertyFlags; }
   VkDeviceSize getBufferSize() const { return bufferSize; }
 
- private:
+private:
   static VkDeviceSize getAlignment(VkDeviceSize instanceSize, VkDeviceSize minOffsetAlignment);
 
   Device& device;
@@ -53,6 +56,8 @@ class Buffer {
   VkDeviceSize alignmentSize;
   VkBufferUsageFlags usageFlags;
   VkMemoryPropertyFlags memoryPropertyFlags;
+
+  unsigned int id;
 };
 
 }  // namespace Nova
