@@ -158,10 +158,12 @@ Graphics::~Graphics() {
     globalUBOBuffer.reset();
 
     globalPool.reset();
-    
-    renderer->~Renderer();
 
+    meshSystem.reset();
+    
+    std::cout << "Pre dstr renderer: Device: " << device.device() << std::endl;
     delete renderer;
+    std::cout << "Post dstr renderer: Device: " << device.device() << std::endl;
 }
 
 }  // namespace Nova

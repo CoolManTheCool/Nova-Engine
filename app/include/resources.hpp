@@ -38,6 +38,8 @@ public:
     std::shared_ptr<Mesh> getMesh(const std::string name);
     std::vector<char> getShader(const std::string name);
     const std::string getExecutablePath() const { return executablePath; }
+
+    void cleanup();
     
 private:
     std::unordered_map<std::string, std::string> shaderPaths;  // name, path

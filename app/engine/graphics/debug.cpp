@@ -4,7 +4,7 @@
 
 unsigned int Debugger_T::create() {
     unsigned int id = nextId++;
-    objects[id] = std::stacktrace::current();
+    objects[id] = boost::stacktrace::stacktrace(); // captures current stack
 
     return id;
 }
@@ -18,6 +18,8 @@ void Debugger_T::print() const {
         std::cout << "Object ID: " << id << "\n";
         std::cout << trace << "\n";
     }
+
+    std::cout << "Total live objects: " << objects.size() << "\n";
 }
 
 Debugger_T Debugger;

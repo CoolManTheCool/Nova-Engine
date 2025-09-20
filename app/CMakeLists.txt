@@ -4,6 +4,7 @@ project(${PROJECT_NAME})
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../bin)
+set(CMAKE_BUILD_TYPE Debug)
 
 # ----------------------------------------------------
 # Dependencies
@@ -11,6 +12,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../bin)
 
 find_package(Vulkan REQUIRED)
 find_package(glfw3 REQUIRED)
+find_package(boost_headers REQUIRED CONFIG)
 
 # ----------------------------------------------------
 # IMGUI Library
@@ -80,19 +82,40 @@ target_include_directories(nova_engine
         engine/graphics/mesh
         engine
         libs
-
         ${CMAKE_CURRENT_SOURCE_DIR}/include/objects
-
         ${Vulkan_INCLUDE_DIRS}
 )
 
+# ----------------------------------------------------
+# Platform-specific Boost.Stacktrace backend
+# ----------------------------------------------------
+if(WIN32)
+    set(STACKTRACE_LIB boost_stacktrace_basic)
+    target_compile_definitions(nova_engine PRIVATE BOOST_STACKTRACE_USE_BASIC)
+elseif(APPLE)
+    set(STACKTRACE_LIB boost_stacktrace_addr2line)
+    target_compile_definitions(nova_engine PRIVATE BOOST_STACKTRACE_USE_ADDR2LINE)
+else() # Linux (Arch)
+    set(STACKTRACE_LIB boost_stacktrace_addr2line)
+    target_compile_definitions(nova_engine PRIVATE BOOST_STACKTRACE_USE_ADDR2LINE)
+endif()
+
+# ----------------------------------------------------
+# Link libraries
+# ----------------------------------------------------
 target_link_libraries(nova_engine
     PRIVATE
         ${Vulkan_LIBRARIES}
         glfw
         Vulkan::Vulkan
         imgui
+        Boost::headers
+        ${STACKTRACE_LIB}
+        dl
 )
+
+# Required for Boost.Stacktrace to resolve symbols
+target_link_options(nova_engine PRIVATE "-Wl,--export-dynamic")
 
 target_compile_options(nova_engine PRIVATE -Wall -Wextra)
 

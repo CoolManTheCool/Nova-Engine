@@ -3,14 +3,14 @@
 namespace Nova {
 
 Renderer::Renderer(Settings& settings) : settings(settings), window(settings), device(window, settings) {
-
-  	recreateSwapChain();
-  	createCommandBuffers();
+  recreateSwapChain();
+  createCommandBuffers();
 }
 
 Renderer::~Renderer() {
+  vkDeviceWaitIdle(device.device());
   freeCommandBuffers();
-  
+  swapChain.reset();
 }
 
 void Renderer::recreateSwapChain() {
@@ -33,7 +33,7 @@ void Renderer::recreateSwapChain() {
     vkDeviceWaitIdle(device.device());
     
     // Destroy old swapchain and create new one
-    swapChain = nullptr;
+    swapChain.reset();
     swapChain = std::make_unique<SwapChain>(device, extent);
 }
 

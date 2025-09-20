@@ -2,7 +2,8 @@
 
 #include <map>
 #include <string>
-#include <stacktrace>
+
+#include <boost/stacktrace.hpp>
 
 class Debugger_T {
 public:
@@ -11,8 +12,8 @@ public:
 
     void print() const;
 private:
-    std::map<unsigned int, std::stacktrace> objects;
-    unsigned int nextId;
+    std::map<unsigned int, boost::stacktrace::stacktrace> objects;
+    unsigned int nextId = 0;
 };
 
 extern Debugger_T Debugger;

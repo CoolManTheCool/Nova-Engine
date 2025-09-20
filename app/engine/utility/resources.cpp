@@ -108,6 +108,12 @@ Resources::Resources() {
     std::cout << std::endl;
 }
 
+void Resources::cleanup() {
+    meshs.clear();
+    shaderPaths.clear();
+    meshQueue.clear();
+}
+
 void Resources::loadMeshs(Device& device) {
     // Load meshes from the meshs map
     for (const auto& entry : meshQueue) {

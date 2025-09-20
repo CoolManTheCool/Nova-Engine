@@ -20,6 +20,12 @@
 namespace Nova {
 
 Engine::~Engine() {
+
+    objects.clear();
+    resources.cleanup();
+
+    vkDeviceWaitIdle(graphics.getRenderer().getDevice().device());
+    
     Debugger.print();
 }
 
@@ -55,7 +61,6 @@ void Engine::loop(const std::function<void(float)>& gameLogic) {
     );
 
     auto GUI = std::shared_ptr<GUI_System>(new GUI_System(graphics));
-
     objects.push_back(GUI);
     
     GUI->setBinding("Window Debug Open", true);
@@ -109,9 +114,6 @@ void Engine::loop(const std::function<void(float)>& gameLogic) {
 
         frameCount++;
     }
-
-    GUI->~GUI_System();
-    vkDeviceWaitIdle(graphics.getRenderer().getDevice().device());
 }
 
 void Engine::setSettings(const Settings& settings) {
