@@ -13,8 +13,7 @@ public:
       uint32_t instanceCount,
       VkBufferUsageFlags usageFlags,
       VkMemoryPropertyFlags memoryPropertyFlags,
-      VkDeviceSize minOffsetAlignment = 1,
-	  std::string debugName = "Unnamed Buffer");
+      VkDeviceSize minOffsetAlignment = 1);
   ~Buffer();
 
   Buffer(const Buffer&) = delete;

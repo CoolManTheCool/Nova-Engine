@@ -12,7 +12,6 @@ set(CMAKE_BUILD_TYPE Debug)
 
 find_package(Vulkan REQUIRED)
 find_package(glfw3 REQUIRED)
-find_package(boost_headers REQUIRED CONFIG)
 
 # ----------------------------------------------------
 # IMGUI Library

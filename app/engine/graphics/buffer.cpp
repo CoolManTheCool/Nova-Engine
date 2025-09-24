@@ -18,8 +18,7 @@ Buffer::Buffer(
     uint32_t instanceCount,
     VkBufferUsageFlags usageFlags,
     VkMemoryPropertyFlags memoryPropertyFlags,
-    VkDeviceSize minOffsetAlignment,
-    std::string debugName)
+    VkDeviceSize minOffsetAlignment)
     : device{device},
       instanceSize{instanceSize},
       instanceCount{instanceCount},

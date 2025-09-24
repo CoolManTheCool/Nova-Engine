@@ -12,7 +12,7 @@ int main() {
     settings.height = 720;
     settings.title = "Demo Game | Nova Engine";
     settings.console_lines = 100;
-    settings.version_name = "Alpha 4";
+    settings.version_name = "Alpha 4.1";
 
     engine.setSettings(settings);
 
