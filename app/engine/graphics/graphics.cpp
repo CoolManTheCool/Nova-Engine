@@ -149,9 +149,6 @@ bool Graphics::shouldClose() const {
 Graphics::~Graphics() {
     Device& device = renderer->getDevice();
 
-    // test if device is valid
-    std::cout << "Device: " << device.device() << std::endl;
-
     vkDeviceWaitIdle(device.device());
 
     UBOBuffers.clear();
@@ -161,9 +158,7 @@ Graphics::~Graphics() {
 
     meshSystem.reset();
     
-    std::cout << "Pre dstr renderer: Device: " << device.device() << std::endl;
     delete renderer;
-    std::cout << "Post dstr renderer: Device: " << device.device() << std::endl;
 }
 
 }  // namespace Nova

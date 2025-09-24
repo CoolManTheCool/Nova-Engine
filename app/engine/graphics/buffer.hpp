@@ -56,8 +56,6 @@ private:
   VkDeviceSize alignmentSize;
   VkBufferUsageFlags usageFlags;
   VkMemoryPropertyFlags memoryPropertyFlags;
-
-  unsigned int id;
 };
 
 }  // namespace Nova

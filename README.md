@@ -1,8 +1,7 @@
 # Nova Engine
 
 ## NOTE: This is still in development.
-The game structure is wrong.
-There isn't even an engine header for you to link against.
+There is extremely limited functionality and lacks any ability to develop a playable game.
 
 ## Overview
 

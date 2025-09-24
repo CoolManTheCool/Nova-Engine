@@ -15,18 +15,14 @@
 #include <thread>
 #include <memory> // Literally hate this library but I love it too
 
-#include "debug.hpp"
-
 namespace Nova {
 
 Engine::~Engine() {
 
+    vkDeviceWaitIdle(graphics.getRenderer().getDevice().device());
+
     objects.clear();
     resources.cleanup();
-
-    vkDeviceWaitIdle(graphics.getRenderer().getDevice().device());
-    
-    Debugger.print();
 }
 
 void Engine::init() {

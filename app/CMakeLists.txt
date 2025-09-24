@@ -55,7 +55,6 @@ set(ENGINE_SOURCE_FILES
     engine/graphics/window.cpp
     engine/graphics/device.cpp
     engine/graphics/buffer.cpp
-    engine/graphics/debug.cpp
     
     engine/objects/mesh.cpp
     engine/objects/point_light_object.cpp
@@ -87,20 +86,6 @@ target_include_directories(nova_engine
 )
 
 # ----------------------------------------------------
-# Platform-specific Boost.Stacktrace backend
-# ----------------------------------------------------
-if(WIN32)
-    set(STACKTRACE_LIB boost_stacktrace_basic)
-    target_compile_definitions(nova_engine PRIVATE BOOST_STACKTRACE_USE_BASIC)
-elseif(APPLE)
-    set(STACKTRACE_LIB boost_stacktrace_addr2line)
-    target_compile_definitions(nova_engine PRIVATE BOOST_STACKTRACE_USE_ADDR2LINE)
-else() # Linux (Arch)
-    set(STACKTRACE_LIB boost_stacktrace_addr2line)
-    target_compile_definitions(nova_engine PRIVATE BOOST_STACKTRACE_USE_ADDR2LINE)
-endif()
-
-# ----------------------------------------------------
 # Link libraries
 # ----------------------------------------------------
 target_link_libraries(nova_engine
@@ -109,13 +94,7 @@ target_link_libraries(nova_engine
         glfw
         Vulkan::Vulkan
         imgui
-        Boost::headers
-        ${STACKTRACE_LIB}
-        dl
 )
-
-# Required for Boost.Stacktrace to resolve symbols
-target_link_options(nova_engine PRIVATE "-Wl,--export-dynamic")
 
 target_compile_options(nova_engine PRIVATE -Wall -Wextra)
 

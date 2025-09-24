@@ -7,8 +7,6 @@
 #include <set>
 #include <unordered_set>
 
-#include <boost/stacktrace.hpp>
-
 namespace Nova {
 
 // local callback functions
@@ -65,7 +63,6 @@ Device::Device(Window &window, Settings settings) : window{window} {
 }
 
 Device::~Device() {
-  std::cout << "Stack Trace of Device deletion: " << boost::stacktrace::stacktrace();
   if(device_ == VK_NULL_HANDLE) {
     std::cout << "[WARNING] ----- Device already destroyed?!?!" << std::endl;
   }
