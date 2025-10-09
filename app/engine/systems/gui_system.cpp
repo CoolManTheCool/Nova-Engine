@@ -117,8 +117,13 @@ void GUI_System::update(float) {
     ImGui::DockSpaceOverViewport(ImGui::GetMainViewport()->ID, ImGui::GetMainViewport(), ImGuiDockNodeFlags_PassthruCentralNode);
 
     for (auto &Funky_Window : windows) {
-        Funky_Window(); // I love getting funky with Emmy <3
+        Funky_Window(*this); // I love getting funky with Emmy <3
                         // Edit: She didn't feel the same way :(
+                        // Edit 2: Yeah, I'm over her now (I've got someone else in my sights)
+                        // Edit 3: I miss Emmy :(, and it's complicated with the other girl
+                        //         I don't think she likes me ngl
+
+        // The variable naming is so cursed, but I'm not changing it
     }
 }
 
@@ -133,6 +138,11 @@ unsigned int GUI_System::getObjectType() {
 }
 
 GUI_System::~GUI_System() {
+
+    // Destory windows then bindings
+    // Note this is implict already but whatever
+    //windows.clear();
+    //bindings.clear();
 
     ImGui_ImplVulkan_Shutdown();
     ImGui_ImplGlfw_Shutdown();
@@ -167,7 +177,7 @@ std::any* GUI_System::setBinding(const std::string& name, std::any value) {
     return &it->second;
 }
 
-void GUI_System::registerWindow(std::function<void()> func) {
+void GUI_System::registerWindow(std::function<void(GUI_System&)> func) {
     windows.push_back(func);
 }
 

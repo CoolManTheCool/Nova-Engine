@@ -30,14 +30,25 @@ public:
 
     unsigned int getObjectType() override;
 
+    /**
+     * @brief Get a pointer to a binding
+     * @tparam T The type of the binding
+     * @param name The name of the binding
+     * @return A pointer to the binding
+     * @throws std::runtime_error if the binding does not exist or if is called with empty name
+     */
     template<typename T>
     T* getBindingPointer(const std::string& name) {
+        if (name.empty()) {
+            throw std::runtime_error("getBindingPointer called with empty name");
+        }
         auto it = bindings.find(name);
         if (it == bindings.end()) {
             throw std::runtime_error("Binding not found: " + name);
         }
         return std::any_cast<T>(&it->second);
     }
+
     template<typename T>
     T getBindingValue(const std::string& name) {
         auto it = getBindingPointer<T>(name);
@@ -47,15 +58,14 @@ public:
     std::any* setBinding(const std::string& name, std::any value = false);
     
     bool checkBinding(const std::string& name);
-    void registerWindow(std::function<void()> func);
-
+    void registerWindow(std::function<void(GUI_System&)> func);
 private:
     Renderer& renderer;
     Device& device;
     VkDescriptorPool& imguiPool;
 
+    std::vector<std::function<void(GUI_System&)>> windows;
     std::map<std::string, std::any> bindings;
-    std::vector<std::function<void()>> windows; 
 };
 
 } // namespace Nova

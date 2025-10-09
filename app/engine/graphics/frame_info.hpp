@@ -3,6 +3,7 @@
 
 #include "camera.hpp"
 #include "mesh_object.hpp"
+#include "object_ref.hpp"
 
 #include "vulkan/vulkan.h"
 
@@ -39,7 +40,7 @@ struct FrameInfo {
     VkCommandBuffer commandBuffer;
     Camera &camera;
     VkDescriptorSet globalDescriptorSet;
-    std::vector<std::shared_ptr<Object>> &objects;
+    ObjectRef<Object> root;
 };
 }
 

@@ -2,6 +2,8 @@
 #include <iostream>
 
 #include "engine.hpp"
+#include "mesh_object.hpp"
+#include "resources.hpp"
 
 int main() {
 
@@ -12,14 +14,26 @@ int main() {
     settings.height = 720;
     settings.title = "Demo Game | Nova Engine";
     settings.console_lines = 100;
-    settings.version_name = "Alpha 4.1";
+    settings.version_name = "Alpha 5.0";
 
     engine.setSettings(settings);
 
     engine.init();
 
+    auto meshObj = std::shared_ptr<Nova::MeshObject>(new Nova::MeshObject());
+    meshObj->transform.translation = glm::vec3(1.0f, 0.0f, 0.0f);
+    meshObj->transform.rotation = glm::vec3(0.0f, 0.0f, 0.0f);
+    meshObj->setMesh(engine.getResources().getMesh("cube"));
+    engine.getRoot()->addChild(meshObj);
+
+    auto meshObj2 = std::shared_ptr<Nova::MeshObject>(new Nova::MeshObject());
+    meshObj->transform.translation = glm::vec3(0.0f, 0.0f, 5.0f);
+    meshObj->transform.rotation = glm::vec3(0.0f, 0.0f, 0.0f);
+    meshObj->setMesh(engine.getResources().getMesh("text"));
+    engine.getRoot()->addChild(meshObj);
+
     engine.loop([&](float) {
-        
+
     });
 
     return EXIT_SUCCESS;    

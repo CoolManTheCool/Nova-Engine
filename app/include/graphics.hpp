@@ -5,6 +5,7 @@
 
 #include "types.hpp"
 #include "object.hpp"
+#include "object_ref.hpp"
 #include "util.hpp"
 #include "resources.hpp"
 
@@ -40,7 +41,7 @@ public:
 
     Renderer& getRenderer();
 
-    void renderFrame(ObjectList& objects, float frameTime);
+    void renderFrame(ObjectRef<Object> root, float frameTime);
     bool shouldClose() const;
 private:
     Settings&   settings;

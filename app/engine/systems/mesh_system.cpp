@@ -70,7 +70,7 @@ void MeshSystem::render(FrameInfo &frameInfo) {
 	RenderData renderData { pipelineLayout, frameInfo.commandBuffer};
 
   	vkCmdBindDescriptorSets(frameInfo.commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 0, 1, &frameInfo.globalDescriptorSet, 0, nullptr);
-  	for (auto &obj : frameInfo.objects) {
+  	for (ObjectRef<Object> obj : frameInfo.root->getChildrenRecursive()) {
 
 		if(obj->getObjectType() != OBJECT_TYPE_MESH) continue;
 		obj->render(renderData);

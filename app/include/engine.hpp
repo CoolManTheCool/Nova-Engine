@@ -25,13 +25,16 @@ public:
     void loop(const std::function<void(float)>& gameLogic);
 
     void setSettings(const Settings& settings);
+    Resources& getResources();
+
+    ObjectRef<Object> getRoot();
 
     // Prevent copying
     Engine(const Engine&) = delete;
     Engine& operator=(const Engine&) = delete;
 
 private:
-    ObjectList objects;
+    std::shared_ptr<Object> root; // Root object for the scene graph
     Settings settings;
     Resources resources;
     Graphics graphics{settings, resources};
