@@ -13,18 +13,38 @@ class Graphics;
 class Camera : public Object {
 public:
 	Camera(Graphics& graphics);
+	/**
+     * @brief Set the perspective projection matrix for the camera.
+     * @param fovy Field of view in the y direction, in radians.
+     * @param aspect Aspect ratio of the viewport (width / height).
+     * @param near Near clipping plane distance.
+     * @param far Far clipping plane distance.
+     */
 	void setPerspectiveProjection(float fovy, float aspect, float near, float far);
 
+	/**
+	 * @brief Move the camera to position and look in direction.
+	 */
 	void setViewDirection(glm::vec3 position, glm::vec3 direction);
-	void setViewTarget(glm::vec3 position, glm::vec3 target, glm::vec3 up = glm::vec3{0.f, 1.f, 0.f});
+	/**
+  	 * @brief Move the camera to position and look toward target.
+ 	 */
+	void setViewTarget(glm::vec3 position, glm::vec3 target);
 
 	const glm::mat4& getProjection() const { return projectionMatrix; };
 	const glm::mat4& getView() const { return viewMatrix; };
 	const glm::mat4& getInverseView() const { return inverseViewMatrix; };
 	void setViewYXZ();
 
+	/**
+     * @brief Basic fly flight WASD movement.
+     */
 	void moveInPlaneXZ(float dt);
-
+	
+	/**
+     * @brief Usefull for debugging and knowing what object this is.
+     * @return unisgned int
+     */
 	unsigned int getObjectType() override;
 	void update(float deltaTime) override;
 

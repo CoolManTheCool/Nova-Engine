@@ -63,15 +63,13 @@ glm::mat3 TransformComponent::normalMatrix() {
         }};
 }
 
-/// @brief Gets the indentifier for the render system that should render the given object.
-/// @return unisgned int, 0 if not renderable.
 unsigned int Object::getObjectType() {
     return OBJECT_TYPE_NULL;
 }
 
 void Object::update(float /*deltaTime*/) {};
 
-void Object::render(RenderData&) {}
+void Object::render(RenderData& /*renderData*/) {}
 
 void Object::addChild(const std::shared_ptr<Object>& child) {
     if (!child) return;

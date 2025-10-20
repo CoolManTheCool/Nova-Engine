@@ -28,8 +28,8 @@ void Camera::setViewDirection(glm::vec3 position, glm::vec3 direction) {
     transform.rotation = direction;
 }
 
-void Camera::setViewTarget(glm::vec3 position, glm::vec3 target, glm::vec3 up) {
-	viewMatrix = glm::lookAt(position, target, up);
+void Camera::setViewTarget(glm::vec3 position, glm::vec3 target) {
+	viewMatrix = glm::lookAt(position, target, glm::vec3{0.f, 1.f, 0.f});
     inverseViewMatrix = glm::inverse(viewMatrix);
 }
 
@@ -45,8 +45,6 @@ enum KeyMappings {
     lookUp = GLFW_KEY_UP,
     lookDown = GLFW_KEY_DOWN,
 };
-
-// MOVEMENT
 
 void Camera::moveInPlaneXZ(float dt) {
 	glm::vec3 rotate{0};
@@ -79,8 +77,7 @@ void Camera::moveInPlaneXZ(float dt) {
 
 }
 
-/// @brief Usefull for debugging and knowing what object this is.
-/// @return unisgned int
+
 unsigned int Camera::getObjectType() {
 	return OBJECT_TYPE_CAMERA;
 }
