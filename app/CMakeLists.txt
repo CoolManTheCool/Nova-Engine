@@ -32,6 +32,7 @@ target_include_directories(imgui PUBLIC
     libs/imgui
     libs/imgui/backends
 )
+
 target_compile_options(imgui PRIVATE -fPIC)
 
 # ----------------------------------------------------
@@ -54,6 +55,8 @@ set(ENGINE_SOURCE_FILES
     engine/graphics/window.cpp
     engine/graphics/device.cpp
     engine/graphics/buffer.cpp
+
+    engine/modules/module_manager.cpp
     
     engine/objects/mesh.cpp
     engine/objects/point_light_object.cpp
@@ -77,10 +80,9 @@ target_include_directories(nova_engine
         engine/utility
         engine/systems
         engine/graphics
-        engine/graphics/mesh
+        engine/modules
         engine
         libs
-        ${CMAKE_CURRENT_SOURCE_DIR}/include/objects
         ${Vulkan_INCLUDE_DIRS}
 )
 

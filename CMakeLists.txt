@@ -3,3 +3,4 @@ project(NovaEngineWorkspace)
 
 add_subdirectory(app)
 add_subdirectory(examples/demo_game/app)
+add_subdirectory(modules)

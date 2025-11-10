@@ -1,19 +1,21 @@
 #include "engine.hpp"
 
-#include "objects/camera.hpp"
-#include "objects/mesh_object.hpp"
-#include "renderer.hpp"
-#include "gui_system.hpp"
+#include <thread>
+#include <memory> // Literally hate this library but I love it too
 
 // Public
+#include "objects/camera.hpp"
+#include "objects/mesh_object.hpp"
+#include "module_manager.hpp"
+
+// Private
 #include "mesh_system.hpp"
+#include "gui_system.hpp"
+#include "renderer.hpp"
 
 #include "imgui.h"
 #include "imgui_impl_vulkan.h"
 #include "imgui_impl_glfw.h"
-
-#include <thread>
-#include <memory> // Literally hate this library but I love it too
 
 namespace Nova {
 
@@ -75,6 +77,9 @@ void Engine::init() {
 			ImGui::End();
 		}	
 	});
+
+    auto moduleManager = std::shared_ptr<ModuleManager>(new ModuleManager(resources));
+    root->addChild(moduleManager);
 }
 
 Resources& Engine::getResources() {

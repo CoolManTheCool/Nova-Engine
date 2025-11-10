@@ -1,5 +1,4 @@
-#ifndef OBJECT_HPP
-#define OBJECT_HPP
+#pragma once
 
 #include "types.hpp"
 #include "object_ref.hpp"
@@ -128,5 +127,3 @@ private:
 };
 
 } // namespace Nova
-
-#endif

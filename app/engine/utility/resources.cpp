@@ -74,9 +74,12 @@ Resources::Resources() {
     std::cout << "================================\n";
 
     executablePath = getExecutableDirectory();
-    std::cout << "Executable path: " << executablePath << std::endl;
-    std::cout << "\nResources:\n";
-    for (const auto& path : searchDirectory(executablePath)) {
+    if (DEBUG_RESOURCES) std::cout << "Executable path: " << executablePath << std::endl;
+    if (DEBUG_RESOURCES) std::cout << "\nResources:\n";
+
+    std::vector<std::string> modules;
+
+    for (const auto& path : searchDirectory(executablePath + "/resources")) {
         std::string ext;
         std::string name;
         size_t dotPos = path.find_last_of(".") + 1;
@@ -97,15 +100,15 @@ Resources::Resources() {
             }
         }
     }
-    std::cout << "\nShaders:";
+    if (DEBUG_RESOURCES) std::cout << "\nShaders:";
     for (const auto& entry : shaderPaths) {
-        std::cout << "\n - " << entry.first;
+        if (DEBUG_RESOURCES) std::cout << "\n - " << entry.first;
     }
-    std::cout << "\nModels:";
+    if (DEBUG_RESOURCES) std::cout << "\nModels:";
     for (const auto& entry : meshQueue) {
-        std::cout << "\n - " << entry.first;
+        if (DEBUG_RESOURCES) std::cout << "\n - " << entry.first;
     }
-    std::cout << std::endl;
+    if (DEBUG_RESOURCES) std::cout << std::endl;
 }
 
 void Resources::cleanup() {
@@ -244,6 +247,27 @@ std::vector<char> Resources::getShader(const std::string name) {
 	file.seekg(0);
 	file.read(buffer.data(), fileSize);
 	return buffer;
+}
+
+std::vector<std::string> Resources::getModulePaths() {
+    std::vector<std::string> modulePaths;
+    std::string modulesDir = executablePath + "/modules";
+
+    if (DEBUG_RESOURCES) std::cout << "\nSearching for modules in: " << modulesDir << std::endl;
+
+    for (const auto& path : searchDirectory(modulesDir)) {
+        std::string ext;
+        size_t dotPos = path.find_last_of(".") + 1;
+        ext = (dotPos != 0) ? path.substr(dotPos) : "";
+        if (ext == "dll" || ext == "so" || ext == "dylib") {
+            modulePaths.push_back(path);
+            if (DEBUG_RESOURCES) std::cout << " - Module found: " << path << std::endl;
+        }
+    }
+
+    if (DEBUG_RESOURCES) std::cout << std::endl;
+
+    return modulePaths;
 }
 
 } // namespace Nova

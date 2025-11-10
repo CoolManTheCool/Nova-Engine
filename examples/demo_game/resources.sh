@@ -56,5 +56,9 @@ cp -r $tempdir $targetdir
 echo "[ OK ] Deleting: $tempdir..."
 rm -rf $tempdir
 
+echo 
+echo "[ OK ] Copying modules to bin/modules"
+cp -r $projectroot/../../modules/bin $projectroot/bin/modules
+
 echo
 echo Compilation finished successfully.

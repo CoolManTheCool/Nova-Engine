@@ -11,6 +11,8 @@
 
 #include "components/mesh.hpp"
 
+#define DEBUG_RESOURCES false
+
 namespace Nova {
 
 uint64_t constexpr mix(char m, uint64_t s);
@@ -37,6 +39,7 @@ public:
     void loadMeshs(Device& device);
     std::shared_ptr<Mesh> getMesh(const std::string name);
     std::vector<char> getShader(const std::string name);
+    std::vector<std::string> getModulePaths();
     const std::string getExecutablePath() const { return executablePath; }
 
     void cleanup();

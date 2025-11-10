@@ -8,7 +8,6 @@
 #include "frame_info.hpp"
 #include "resources.hpp"
 
-// std
 #include <memory>
 #include <vector>
 

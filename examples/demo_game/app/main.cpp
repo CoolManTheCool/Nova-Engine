@@ -5,7 +5,11 @@
 #include "mesh_object.hpp"
 #include "resources.hpp"
 
+#include "FancyUtility.hpp"
+
 int main() {
+
+    FancyUtilityFunction();
 
     Nova::Engine engine = Nova::Engine();
 
@@ -21,15 +25,17 @@ int main() {
     engine.init();
 
     auto meshObj = std::shared_ptr<Nova::MeshObject>(new Nova::MeshObject());
-    meshObj->transform.translation = glm::vec3(1.0f, 0.0f, 0.0f);
+    meshObj->transform.translation = glm::vec3(0.0f, 0.0f, 2.0f);
+    meshObj->transform.scale = glm::vec3(0.2f, 0.2f, 0.2f);
     meshObj->transform.rotation = glm::vec3(0.0f, 0.0f, 0.0f);
     meshObj->setMesh(engine.getResources().getMesh("cube"));
     engine.getRoot()->addChild(meshObj);
 
-    auto meshObj2 = std::shared_ptr<Nova::MeshObject>(new Nova::MeshObject());
-    meshObj->transform.translation = glm::vec3(0.0f, 0.0f, 5.0f);
+    meshObj = std::shared_ptr<Nova::MeshObject>(new Nova::MeshObject());
+    meshObj->transform.translation = glm::vec3(2.0f, 0.0f, 3.0f);
+    meshObj->transform.scale = glm::vec3(0.2f, 0.2f, 0.2f);
     meshObj->transform.rotation = glm::vec3(0.0f, 0.0f, 0.0f);
-    meshObj->setMesh(engine.getResources().getMesh("text"));
+    meshObj->setMesh(engine.getResources().getMesh("ngon"));
     engine.getRoot()->addChild(meshObj);
 
     engine.loop([&](float) {

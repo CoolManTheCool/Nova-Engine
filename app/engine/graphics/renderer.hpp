@@ -1,5 +1,4 @@
-#ifndef RENDERER_HPP
-#define RENDERER_HPP
+#pragma once
 
 // Private facing
 
@@ -65,5 +64,3 @@ private:
 };
 
 } // namespace Nova
-
-#endif // RENDERER_HPP
