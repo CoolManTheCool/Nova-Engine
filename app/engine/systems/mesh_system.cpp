@@ -9,7 +9,7 @@
 #include <stdexcept>
 
 #include "device.hpp"
-#include "types.hpp"
+#include "utility/types.hpp"
 
 #include "renderer.hpp"
 
@@ -45,10 +45,6 @@ void MeshSystem::createPipelineLayout(VkDescriptorSetLayout globalSetLayout) {
   }
 }
 
-unsigned int MeshSystem::getObjectType() {
-    return SYSTEM_TYPE_MESH;
-}
-
 void MeshSystem::createPipeline(VkRenderPass renderPass, Resources& resources) {
   	assert(pipelineLayout != nullptr && "Cannot create pipeline before pipeline layout");
 
@@ -71,10 +67,7 @@ void MeshSystem::render(FrameInfo &frameInfo) {
 
   	vkCmdBindDescriptorSets(frameInfo.commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 0, 1, &frameInfo.globalDescriptorSet, 0, nullptr);
   	for (ObjectRef<Object> obj : frameInfo.root->getChildrenRecursive()) {
-
-		if(obj->getObjectType() != OBJECT_TYPE_MESH) continue;
-		obj->render(renderData);
-		
+		if(obj->getObjectType() == MeshObject::getStaticObjectType()) obj->render(renderData);
 	}
 }
 

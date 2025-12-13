@@ -2,9 +2,9 @@
 #include <memory>
 
 // Public
-#include "INovaModule.hpp"
-#include "object.hpp"
-#include "resources.hpp"
+#include "core/nova_module.hpp"
+#include "objects/object.hpp"
+#include "utility/resources.hpp"
 
 namespace Nova {
 

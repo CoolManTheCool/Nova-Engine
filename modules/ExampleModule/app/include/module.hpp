@@ -1,5 +1,5 @@
 #pragma once
-#include "INovaModule.hpp"
+#include "core/nova_module.hpp"
 
 class ExampleModule : public INovaModule {
 public:

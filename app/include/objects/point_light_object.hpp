@@ -1,7 +1,7 @@
 #ifndef POINT_LIGHT_OBJECT_HPP
 #define POINT_LIGHT_OBJECT_HPP
 
-#include "object.hpp"
+#include "objects/object.hpp"
 
 #include <glm/glm.hpp>
 
@@ -15,8 +15,25 @@ struct PointLightPushConstants {
 
 class PointLightObject : public Object {
 public:
+	/**
+	 * @brief Initializes a point light object with given intensity, radius, and color.
+	 * @param intensity Light intensity (Float).
+	 * @param radius Light radius (Float).
+	 * @param lightColor Light color (GLM Vec3).
+	 */
     PointLightObject(float intensity = 2.0f, float radius = 1.f, glm::vec3 lightColor = glm::vec3(0.f, 0.f, 0.f));
-    unsigned int getObjectType() override;
+
+    /**
+	 * @brief Gets the static identifier for the type of object
+	 * @return const char*, 0 if generic.
+	 */
+	static const char* getStaticObjectType() { return "Point Light Object"; }
+
+	/**
+	 * @brief Gets the identifier for the type of object
+	 * @return const char*, 0 if generic.
+	 */
+  	const char* getObjectType() const override { return getStaticObjectType(); }
 
     //void setIntensity(float intensity) { lightIntensity = intensity; }
     //void setColor(const vec4 &color) { lightColor = color; }

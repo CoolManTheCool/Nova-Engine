@@ -74,7 +74,6 @@ add_library(nova_engine SHARED ${ENGINE_SOURCE_FILES})
 target_include_directories(nova_engine
     PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/include
-        ${CMAKE_CURRENT_SOURCE_DIR}/include/objects
     PRIVATE
         engine/data
         engine/utility

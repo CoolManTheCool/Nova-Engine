@@ -13,9 +13,9 @@ set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME "example_module")
 
 target_include_directories(${PROJECT_NAME}
     PUBLIC
-        ${CMAKE_CURRENT_SOURCE_DIR}/include
+        ${CMAKE_CURRENT_SOURCE_DIR}/include # Our headers
     PRIVATE
-        ${CMAKE_SOURCE_DIR}/app/include
+        ${CMAKE_SOURCE_DIR}/app/include # Nova Engine public headers
         #${CMAKE_SOURCE_DIR}/app/engine # Engine internals (if needed)
 )
 

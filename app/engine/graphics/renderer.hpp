@@ -5,7 +5,7 @@
 #include "device.hpp"
 #include "window.hpp"
 #include "swap_chain.hpp"
-#include "util.hpp"
+#include "utility/util.hpp"
 
 namespace Nova {
 

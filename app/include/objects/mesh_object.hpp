@@ -1,8 +1,8 @@
 #pragma once
 
-#include "object.hpp"
+#include "objects/object.hpp"
 #include "components/mesh.hpp"
-#include "graphics.hpp"
+#include "core/graphics.hpp"
 
 namespace Nova {
 
@@ -27,7 +27,18 @@ public:
 	 */
 	std::shared_ptr<Mesh> getMesh();
     
-	unsigned int getObjectType() override;
+	/**
+	 * @brief Gets the static identifier for the type of object
+	 * @return const char*, 0 if generic.
+	 */
+	static const char* getStaticObjectType() { return "Mesh Object"; }
+
+	/**
+	 * @brief Gets the identifier for the type of object
+	 * @return const char*, 0 if generic.
+	 */
+  	const char* getObjectType() const override { return getStaticObjectType(); }
+
   	void render(RenderData& renderData) override;
 private:
 	std::shared_ptr<Mesh> mesh{};

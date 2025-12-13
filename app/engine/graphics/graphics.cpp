@@ -1,4 +1,4 @@
-#include "graphics.hpp"
+#include "core/graphics.hpp"
 
 #include "descriptors.hpp"
 #include "renderer.hpp"
@@ -90,7 +90,7 @@ void Graphics::renderFrame(ObjectRef<Object> root, float frameTime) {
 
         // TODO: NOT loop every object to find camera
         for (ObjectRef<Object> obj : root->getChildrenRecursive()) {
-            if (obj->getObjectType() == OBJECT_TYPE_CAMERA) {
+            if (obj->getObjectType() == Camera::getStaticObjectType()) {
                 camera = std::dynamic_pointer_cast<Camera>(obj.lock());
                 break;
             }
@@ -114,14 +114,14 @@ void Graphics::renderFrame(ObjectRef<Object> root, float frameTime) {
         std::shared_ptr<GUI_System> GUI = nullptr;
 
 		for(ObjectRef<Object> obj : root->getChildrenRecursive()) {
-			if(obj->getObjectType() == OBJECT_TYPE_POINT_LIGHT) {
+			if(obj->getObjectType() == PointLightObject::getStaticObjectType()) {
 				auto lightObject = std::dynamic_pointer_cast<PointLightObject>(obj.lock());
 				UBO.pointLights[numObjects].color = glm::vec4(lightObject->lightColor, lightObject->lightIntensity);
 				UBO.pointLights[numObjects].position = glm::vec4(lightObject->transform.translation, 0);
 				numObjects++;
 			}
 
-            if(obj->getObjectType() == SYSTEM_TYPE_GUI) {
+            if(obj->getObjectType() == GUI_System::getStaticObjectType()) {
                 GUI = std::dynamic_pointer_cast<GUI_System>(obj.lock());
             }
 		}

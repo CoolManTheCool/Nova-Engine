@@ -1,5 +1,5 @@
 #include "device.hpp"
-#include "util.hpp"
+#include "utility/util.hpp"
 
 // std headers
 #include <cstring>

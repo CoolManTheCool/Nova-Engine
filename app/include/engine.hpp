@@ -3,8 +3,8 @@
 
 // Forward facing
 
-#include "graphics.hpp"
-#include "resources.hpp"
+#include "core/graphics.hpp"
+#include "utility/resources.hpp"
 
 #include <vector>
 #include <memory>

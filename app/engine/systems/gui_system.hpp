@@ -1,7 +1,7 @@
 #ifndef GUI_SYSTEM_HPP
 #define GUI_SYSTEM_HPP
 
-#include "types.hpp"
+#include "utility/types.hpp"
 
 #include <any>
 #include <map>
@@ -9,7 +9,7 @@
 #include <string>
 #include <functional>
 
-#include "graphics.hpp"
+#include "core/graphics.hpp"
 #include "device.hpp"
 
 struct VkDescriptorPool_T;
@@ -28,7 +28,17 @@ public:
     void update(float deltaTime) override;
     void render(RenderData& renderData) override;
 
-    unsigned int getObjectType() override;
+    /**
+	 * @brief Gets the static identifier for the type of object
+	 * @return const char*, 0 if generic.
+	 */
+	static const char* getStaticObjectType() { return "GUI System"; }
+
+	/**
+	 * @brief Gets the identifier for the type of object
+	 * @return const char*, 0 if generic.
+	 */
+  	const char* getObjectType() const override { return getStaticObjectType(); }
 
     /**
      * @brief Get a pointer to a binding

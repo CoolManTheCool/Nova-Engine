@@ -2,8 +2,8 @@
 #define PIPELINE_HPP
 
 #include "device.hpp"
-#include "util.hpp"
-#include "resources.hpp"
+#include "utility/util.hpp"
+#include "utility/resources.hpp"
 
 // I have std
 #include <string>

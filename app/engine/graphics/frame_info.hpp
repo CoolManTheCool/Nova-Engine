@@ -1,9 +1,9 @@
 #ifndef FRAME_INFO_HPP
 #define FRAME_INFO_HPP
 
-#include "camera.hpp"
-#include "mesh_object.hpp"
-#include "object_ref.hpp"
+#include "objects/camera.hpp"
+#include "objects/mesh_object.hpp"
+#include "objects/object_ref.hpp"
 
 #include "vulkan/vulkan.h"
 

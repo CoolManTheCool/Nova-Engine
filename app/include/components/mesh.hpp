@@ -2,7 +2,7 @@
 
 // Public Facing
 
-#include "types.hpp"
+#include "utility/types.hpp"
 
 #include <vector>
 #include <memory>

@@ -1,9 +1,9 @@
 // Implements
 #include "components/mesh.hpp"
-#include "mesh_object.hpp"
+#include "objects/mesh_object.hpp"
 
 // Public Dependencies
-#include "util.hpp"
+#include "utility/util.hpp"
 
 // Private Dependencies
 #include "renderer.hpp"
@@ -112,10 +112,6 @@ void MeshObject::setMesh(std::shared_ptr<Mesh> mesh) {
 
 std::shared_ptr<Mesh> MeshObject::getMesh() {
     return mesh;
-}
-
-unsigned int MeshObject::getObjectType() {
-    return OBJECT_TYPE_MESH;
 }
 
 void MeshObject::render(RenderData& renderData) {

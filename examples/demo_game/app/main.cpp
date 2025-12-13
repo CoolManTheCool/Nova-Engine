@@ -2,8 +2,9 @@
 #include <iostream>
 
 #include "engine.hpp"
-#include "mesh_object.hpp"
-#include "resources.hpp"
+#include "objects/mesh_object.hpp"
+#include "objects/point_light_object.hpp"
+#include "utility/resources.hpp"
 
 #include "FancyUtility.hpp"
 
@@ -18,7 +19,7 @@ int main() {
     settings.height = 720;
     settings.title = "Demo Game | Nova Engine";
     settings.console_lines = 100;
-    settings.version_name = "Alpha 5.0";
+    settings.version_name = "Alpha 1.1";
 
     engine.setSettings(settings);
 
@@ -27,16 +28,24 @@ int main() {
     auto meshObj = std::shared_ptr<Nova::MeshObject>(new Nova::MeshObject());
     meshObj->transform.translation = glm::vec3(0.0f, 0.0f, 2.0f);
     meshObj->transform.scale = glm::vec3(0.2f, 0.2f, 0.2f);
-    meshObj->transform.rotation = glm::vec3(0.0f, 0.0f, 0.0f);
     meshObj->setMesh(engine.getResources().getMesh("cube"));
     engine.getRoot()->addChild(meshObj);
 
     meshObj = std::shared_ptr<Nova::MeshObject>(new Nova::MeshObject());
     meshObj->transform.translation = glm::vec3(2.0f, 0.0f, 3.0f);
     meshObj->transform.scale = glm::vec3(0.2f, 0.2f, 0.2f);
-    meshObj->transform.rotation = glm::vec3(0.0f, 0.0f, 0.0f);
     meshObj->setMesh(engine.getResources().getMesh("ngon"));
     engine.getRoot()->addChild(meshObj);
+
+    meshObj = std::shared_ptr<Nova::MeshObject>(new Nova::MeshObject());
+    meshObj->transform.translation = glm::vec3(0.0f, -1.0f, 0.0f);
+    meshObj->transform.scale = glm::vec3(10.0f, 1.0f, 10.0f);
+    meshObj->setMesh(engine.getResources().getMesh("quad"));
+    engine.getRoot()->addChild(meshObj);
+
+    auto pointLight = std::shared_ptr<Nova::PointLightObject>(new Nova::PointLightObject(2, 1, glm::vec3(1.f, 0.2f, 0.2f)));
+    pointLight->transform.translation = glm::vec3(0.5f, 3.0f, 2.0f);
+    engine.getRoot()->addChild(pointLight);
 
     engine.loop([&](float) {
 

@@ -63,7 +63,7 @@ To use Nova Engine in your project, follow these steps:
 
 1. **Include the Engine Header**
    ```cpp
-   #include "nova-engine/engine.hpp"
+   #include "nova/engine.hpp"
    ```
 
 2. **Write your project**
@@ -83,9 +83,10 @@ To use Nova Engine in your project, follow these steps:
 ### Example
 
 Here's a simple example of how to create a window and run the engine:
+-# This example is a placeholder and does not reflect the actual project, please look at the examples.
 
 ```cpp
-#include "nova-engine/engine.hpp"
+#include "nova/engine.hpp"
 
 void render() {
  for(autoobject : Objects) {

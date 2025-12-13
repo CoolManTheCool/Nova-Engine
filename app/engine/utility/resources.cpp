@@ -1,4 +1,4 @@
-#include "resources.hpp"
+#include "utility/resources.hpp"
 
 #ifdef _WIN32
 #include <windows.h>
@@ -15,7 +15,7 @@ namespace fs = std::filesystem;
 #define TINYOBJLOADER_IMPLEMENTATION
 #include <tiny_obj_loader.h>
 
-#include "util.hpp"
+#include "utility/util.hpp"
 
 namespace std {
 template <>

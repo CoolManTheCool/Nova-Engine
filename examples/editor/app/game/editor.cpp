@@ -1,12 +1,13 @@
 #include "editor.hpp"
 #include "gui_system.hpp"
-#include "object.hpp"
-#include "mesh_object.hpp"
+#include "objects/object.hpp"
+#include "objects/mesh_object.hpp"
 
 namespace Nova {
 
-#define min_dist_edit -10 // Minimum Distance the Editor allows.
-#define max_dist_edit 10 // Maximum Distance the Editor allows.
+// Min and max translation distances for editor sliders
+#define min_dist_edit -10
+#define max_dist_edit 10
 
 Editor_T::Editor_T() {
 

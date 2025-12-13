@@ -1,8 +1,8 @@
 #include "pipeline.hpp"
 #include "components/mesh.hpp"
 
-#include "util.hpp"
-#include "resources.hpp"
+#include "utility/util.hpp"
+#include "utility/resources.hpp"
 
 #include <fstream>
 #include <iostream>

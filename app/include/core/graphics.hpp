@@ -3,11 +3,11 @@
 
 // Forward facing
 
-#include "types.hpp"
-#include "object.hpp"
-#include "object_ref.hpp"
-#include "util.hpp"
-#include "resources.hpp"
+#include "utility/types.hpp"
+#include "objects/object.hpp"
+#include "objects/object_ref.hpp"
+#include "utility/util.hpp"
+#include "utility/resources.hpp"
 
 #include <memory>
 

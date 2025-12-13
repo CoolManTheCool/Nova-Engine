@@ -1,9 +1,9 @@
 #include <cassert>
 #include <limits>
 
-#include "camera.hpp"
-#include "resources.hpp"
-#include "graphics.hpp"
+#include "objects/camera.hpp"
+#include "utility/resources.hpp"
+#include "core/graphics.hpp"
 #include "renderer.hpp"
 
 #include "GLFW/glfw3.h"
@@ -75,11 +75,6 @@ void Camera::moveInPlaneXZ(float dt) {
 
 	if(glm::dot(moveDir, moveDir) > std::numeric_limits<float>::epsilon()) transform.translation += movement_speed * dt * glm::normalize(moveDir);
 
-}
-
-
-unsigned int Camera::getObjectType() {
-	return OBJECT_TYPE_CAMERA;
 }
 
 void Camera::setViewYXZ() {

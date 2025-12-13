@@ -1,8 +1,8 @@
 #ifndef CAMERA_HPP
 #define CAMERA_HPP
 
-#include "util.hpp"
-#include "object.hpp"
+#include "utility/util.hpp"
+#include "objects/object.hpp"
 #include "window.hpp"
 
 #include <glm/glm.hpp>
@@ -42,10 +42,17 @@ public:
 	void moveInPlaneXZ(float dt);
 	
 	/**
-     * @brief Usefull for debugging and knowing what object this is.
-     * @return unisgned int
-     */
-	unsigned int getObjectType() override;
+	 * @brief Gets the static identifier for the type of object
+	 * @return const char*, 0 if generic.
+	 */
+	static const char* getStaticObjectType() { return "Camera Object"; }
+
+	/**
+	 * @brief Gets the identifier for the type of object
+	 * @return const char*, 0 if generic.
+	 */
+  	const char* getObjectType() const override { return getStaticObjectType(); }
+
 	void update(float deltaTime) override;
 
 	float movement_speed = 3;

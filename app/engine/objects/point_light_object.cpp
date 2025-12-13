@@ -1,4 +1,4 @@
-#include "point_light_object.hpp"
+#include "objects/point_light_object.hpp"
 
 namespace Nova {
 
@@ -75,10 +75,5 @@ PointLightObject::PointLightObject(float intensity, float radius, glm::vec3 ligh
         this->lightColor = hsv2rgb({randomHue, randomSaturation, randomValue});
     }
 };
-
-
-unsigned int PointLightObject::getObjectType() {
-    return OBJECT_TYPE_POINT_LIGHT;
-}
 
 }

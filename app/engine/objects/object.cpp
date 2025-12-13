@@ -1,5 +1,5 @@
-#include "object.hpp"
-#include "object_ref.hpp"
+#include "objects/object.hpp"
+#include "objects/object_ref.hpp"
 
 #include <iostream>
 #include <stdexcept>
@@ -61,10 +61,6 @@ glm::mat3 TransformComponent::normalMatrix() {
             invScale.z * (-s2),
             invScale.z * (c1 * c2),
         }};
-}
-
-unsigned int Object::getObjectType() {
-    return OBJECT_TYPE_NULL;
 }
 
 void Object::update(float /*deltaTime*/) {};

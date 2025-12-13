@@ -1,8 +1,8 @@
 #include "gui_system.hpp"
-#include "resources.hpp"
+#include "utility/resources.hpp"
 
 #include "descriptors.hpp"
-#include "graphics.hpp"
+#include "core/graphics.hpp"
 #include "renderer.hpp"
 #include "swap_chain.hpp"
 #include "imgui.h"
@@ -131,10 +131,6 @@ void GUI_System::render(RenderData& renderData) {
     ImGui::Render();
     ImGui::UpdatePlatformWindows();
     ImGui_ImplVulkan_RenderDrawData(ImGui::GetDrawData(), renderData.commandBuffer);
-}
-
-unsigned int GUI_System::getObjectType() {
-    return SYSTEM_TYPE_GUI;
 }
 
 GUI_System::~GUI_System() {

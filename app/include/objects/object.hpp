@@ -1,7 +1,8 @@
 #pragma once
 
-#include "types.hpp"
-#include "object_ref.hpp"
+#include "utility/types.hpp"
+#include "objects/object_ref.hpp"
+#include "utility/hash.hpp"
 
 #include <glm/glm.hpp>
 
@@ -10,18 +11,6 @@
 #include <algorithm>
 
 namespace Nova {
-
-
-enum /*NOVA_ENGINE_API*/ {
-	OBJECT_TYPE_NULL,
-	OBJECT_TYPE_MESH,
-	OBJECT_TYPE_POINT_LIGHT,
-	OBJECT_TYPE_CAMERA,
-	SYSTEM_TYPE_MESH,
-	SYSTEM_TYPE_GUI,
-
-	OBJECT_TYPE_COUNT,
-};
 
 /**
  * @brief A component that defines an object's position, rotation, and scale in 3D space.
@@ -51,15 +40,23 @@ public:
 	~Object();
 
 	/**
-	 * @brief Gets the identifier for the type of object
-	 * @return unisgned int, 0 if generic.
-	 */
-	virtual unsigned int getObjectType();
-	/**
 	 * @brief Update logic, called once per frame.
 	 * @param deltaTime Time elapsed since last frame in seconds.
 	 */
 	virtual void update(float deltaTime);
+
+	/**
+	 * @brief Gets the static identifier for the type of object
+	 * @return const char*, 0 if generic.
+	 */
+	static const char* getStaticObjectType() { return "Object"; }
+
+	/**
+	 * @brief Gets the identifier for the type of object
+	 * @return const char*, 0 if generic.
+	 */
+    virtual const char* getObjectType() const { return getStaticObjectType(); }
+
 	/**
 	 * @brief Render logic, called once per frame.
 	 * Note that you cannot define this function in script.
@@ -74,6 +71,7 @@ public:
 	 * @param child Shared pointer to the child object to add.
 	 */
     void addChild(const std::shared_ptr<Object>& child);
+
 	/** 
 	 * @brief Removes a child object from this object.
 	 * Note that this doesn't even make sense at all...
@@ -81,6 +79,7 @@ public:
 	 * @param child Shared pointer to the child object to remove. (You don't have one? Too bad.)
 	 */
     void removeChild(const std::shared_ptr<Object>& child);
+
 	/**
 	 * @brief Recursively clears all children from this object.
 	 * This is the only reasonable function here...
@@ -94,6 +93,7 @@ public:
 	 * Orphan
 	 */
     void removeFromParent();
+
 	/**
 	 * @brief Queues this object for deletion by removing it from its parent and clearing its children.
 	 * After calling this, there could be remaining ObjectRefs to this object, but they will be invalid.
@@ -106,12 +106,14 @@ public:
 	 * @brief Gets a reference to the parent object.
 	 */
     ObjectRef<Object> getParent() const;
+
 	/**
 	 * @brief Get all of the childern.
 	 * @todo Return array instead of vector?
 	 * @return Vector of ObjectRefs to child objects.
 	 */
     std::vector<ObjectRef<Object>> getChildren() const;
+	
 	/**
 	 * @brief Get all children recursively.
 	 * getChildren().getChildren().getChildren()...
@@ -123,7 +125,7 @@ public:
 	TransformComponent transform{};
 private:
 	std::weak_ptr<Object> parent;
-	ObjectList children{};
+	ObjectList children{};	
 };
 
 } // namespace Nova
