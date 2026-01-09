@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.28)
 
 set(PROJECT_NAME "nova-engine")
-project(${PROJECT_NAME} VERSION 1.0 LANGUAGES CXX)
+project(${PROJECT_NAME} VERSION 5.0.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_BUILD_TYPE RelWithDebInfo)
