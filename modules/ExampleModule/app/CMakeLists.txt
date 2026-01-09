@@ -22,7 +22,7 @@ target_include_directories(${PROJECT_NAME}
 target_link_libraries(${PROJECT_NAME} PRIVATE nova_engine)
 
 install(DIRECTORY include/
-    DESTINATION include/nova/modules/${PROJECT_NAME}
+    DESTINATION include/nova-engine/modules/${PROJECT_NAME}
 )
 
 install(TARGETS ${PROJECT_NAME}

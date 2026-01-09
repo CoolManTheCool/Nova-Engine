@@ -1,10 +1,10 @@
 #include <string>
 #include <iostream>
 
-#include "engine.hpp"
-#include "objects/mesh_object.hpp"
-#include "objects/point_light_object.hpp"
-#include "utility/resources.hpp"
+#include "nova/engine.hpp"
+#include "nova/objects/mesh_object.hpp"
+#include "nova/objects/point_light_object.hpp"
+#include "nova/utility/resources.hpp"
 
 #include "FancyUtility.hpp"
 
