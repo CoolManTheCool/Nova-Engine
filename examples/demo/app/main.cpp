@@ -5,7 +5,7 @@
 int main() {
     Nova::EngineConfig c;
 
-    c.title = "First Project | Nova Engine " + c.EngMajorVer + c.EngMajorVer + c.EngPatchVer;
+    c.title = "First Project | " + c.engineName + " " + c.formatAppVersion();
     c.appMajorVer = 1;
     c.appMajorVer = 0;
     c.appMajorVer = 0;
@@ -13,8 +13,6 @@ int main() {
     Nova::Engine engine{c};
 
     auto scene = engine.getScene();
-
-    
 
     engine.run();
 

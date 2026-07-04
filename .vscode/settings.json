@@ -1,3 +1,12 @@
 {
-    "cmake.sourceDirectory": "/home/noah/media/writable/Projects/Nova-Engine/"
+    "cmake.sourceDirectory": "/home/noah/media/writable/Projects/Nova-Engine/",
+    "files.exclude": {
+        "**/build": true
+    },
+    "search.exclude": {
+        "**/build": true
+    },
+    "files.watcherExclude": {
+        "**/build/**": true
+    }
 }

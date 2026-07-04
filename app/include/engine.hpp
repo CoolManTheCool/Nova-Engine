@@ -5,7 +5,12 @@
 
 #include "objects/scene.hpp"
 #include "systems/system.hpp"
+#include "graphics/graphics.hpp"
 #include "primatives/engine_config.hpp"
+
+/**
+ * Nova Engine X
+ */
 
 namespace Nova {
 
@@ -15,16 +20,15 @@ public:
      * @brief Constructor for the Engine.
      *        Sets up Vulkan and GLFW contexts/devices but does not begin the main loop.
      */
-    Engine(EngineConfig config);
+    Engine(const EngineConfig& config);
 
     void run();
 
     void setScene(std::shared_ptr<Scene> obj);
-    std::weak_ptr<Scene> Engine::getScene();
+    std::weak_ptr<Scene> getScene();
 
 private:
-    
-    void process(double deltaTime);
+    Graphics graphics;
 
     std::shared_ptr<Scene> scene = std::make_shared<Nova::Scene>();
     std::vector<std::unique_ptr<System>> systems;

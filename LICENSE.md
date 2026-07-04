@@ -1,0 +1,2 @@
+Copyright (c) 2026 Noah Grimes. All rights reserved.
+Nova Engine and all associated materials are proprietary software. No permission is granted to use, copy, modify, or distribute without explicit written consent.

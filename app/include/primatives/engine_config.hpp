@@ -24,6 +24,8 @@ public:
     uint32_t appMinorVer = 0;
     uint32_t appPatchVer = 0;
 
+    std::string formatAppVersion() const;
+
     std::string title = "Untitled Application | Nova Engine";
 
     /**
@@ -31,28 +33,19 @@ public:
      */
 
     // Version: Major.Minor.Patch
-    const uint32_t EngMajorVer = 10;
-    const uint32_t EngMinorVer = 1;
-    const uint32_t EngPatchVer = 0;
+    const uint32_t engMajorVer = 10;
+    const uint32_t engMinorVer = 2;
+    const uint32_t engPatchVer = 0;
 
-    /**
-     * @brief Do NOT forget to null terminate.
-     */
-    const char* engineName = "Nova Engine\0";
-
-    bool     forceGPU = false;
-    uint32_t forceGPUID;
+    const std::string engineName = "Nova Engine";
 
     const std::string& getExecPath() const;
     std::vector<std::string> getModulePaths();
 
-#ifndef NDEBUG
-    bool enableValidationLayers = true;
-    const bool debug = true;
-#else
-    bool enableValidationLayers = false;
-    const bool debug = false;
-#endif
+    /**
+     * Enables validation layers right now and probably more later
+     */
+    bool debug = true;
 private:
     std::string executablePath;
 

@@ -15,6 +15,13 @@ namespace fs = std::filesystem;
 
 namespace Nova {
 
+
+std::string EngineConfig::formatAppVersion() const {
+    return std::to_string(engMajorVer) + "." +
+          std::to_string(engMinorVer) + "." +
+          std::to_string(engPatchVer);
+}
+    
 std::string getExecutableDirectory() {
     std::string executablePath;
 

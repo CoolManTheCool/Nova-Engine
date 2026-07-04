@@ -1,0 +1,40 @@
+# Gave Chat GPT a few of my files and
+# told it to make a .clang-format for
+# me and it worked with a bit of tweaking
+# You may use this freely without credit
+
+BasedOnStyle: LLVM
+
+# Indentation
+IndentWidth: 4
+TabWidth: 4
+UseTab: Never
+ContinuationIndentWidth: 4
+
+# Braces
+BreakBeforeBraces: Attach
+
+# Short statements
+AllowShortIfStatementsOnASingleLine: WithoutElse
+AllowShortBlocksOnASingleLine: Never
+AllowShortFunctionsOnASingleLine: None
+AllowShortLoopsOnASingleLine: false
+
+# Wrapping
+ColumnLimit: 0
+
+# Pointers/references/variables
+PointerAlignment: Left
+ReferenceAlignment: Left
+AlignConsecutiveDeclarations: true
+AlignConsecutiveAssignments: true
+
+# Includes
+SortIncludes: false
+IncludeBlocks: Preserve
+
+# Misc.
+IndentCaseLabels: true
+ReflowComments: false
+AccessModifierOffset: -4
+IndentAccessModifiers: false

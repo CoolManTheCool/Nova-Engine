@@ -2,31 +2,14 @@
 
 #include <iostream>
 
+#include "graphics/window.hpp"
+
+#include <GL/gl.h>
+
 namespace Nova {
 
-Engine::Engine(EngineConfig config) {
-
-}
-
-void Engine::process(double dt) {
-
-    if(!scene) return;
-
-    for(auto& weak : scene->getChildrenRecursive()) {
-        std::shared_ptr<Object> obj = weak.lock();
-        obj->process(dt);
-
-        if(!obj->isRegistered()) {
-            for(auto& system : systems) {
-                system->accept(obj);
-                obj->setRegistered(true);
-            }
-        }
-    }
-
-    for(auto& system : systems) {
-        system->process(dt);
-    }
+Engine::Engine(const EngineConfig& config)
+    : graphics{config} {
 }
 
 void Engine::setScene(std::shared_ptr<Scene> obj) {
@@ -41,12 +24,9 @@ void Engine::setScene(std::shared_ptr<Scene> obj) {
     // But the other one is still there but I don't think it'll work
     // I forgot I was writing this function hold on...
 
-
     // TODO: Make sure that adoption and scene change
     //       handles object registration correctly
     scene = obj;
-
-
 }
 
 std::weak_ptr<Scene> Engine::getScene() {
@@ -54,9 +34,30 @@ std::weak_ptr<Scene> Engine::getScene() {
 }
 
 void Engine::run() {
-    while(true) {
-        process(0);
-    }
+    const FrameCtx* ctx = {};
+
+    do {
+        if (!scene) return;
+        ctx = graphics.startFrame();
+
+        for (auto& weak : scene->getChildrenRecursive()) {
+            std::shared_ptr<Object> obj = weak.lock();
+            obj->process(0);
+
+            if (!obj->isRegistered()) {
+                for (auto& system : systems) {
+                    system->accept(obj);
+                    obj->setRegistered(true);
+                }
+            }
+        }
+
+        for (auto& system : systems) {
+            system->process(0);
+        }
+
+        graphics.endFrame();
+    } while (ctx->running);
 }
 
-}
+} // namespace Nova
