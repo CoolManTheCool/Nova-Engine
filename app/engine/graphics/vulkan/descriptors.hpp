@@ -1,6 +1,7 @@
 #pragma once
 
 #include "device.hpp"
+#include "buffer.hpp"
 
 // std
 #include <memory>
@@ -99,6 +100,34 @@ class DescriptorWriter {
   DescriptorSetLayout &setLayout;
   DescriptorPool &pool;
   std::vector<VkWriteDescriptorSet> writes;
+};
+
+class DescriptorSet {
+public:
+    DescriptorSet(
+        DescriptorPool& pool,
+        DescriptorSetLayout& layout);
+
+    void writeBuffer(
+        uint32_t binding,
+        VkDescriptorBufferInfo* bufferInfo);
+
+    void writeImage(
+        uint32_t binding,
+        VkDescriptorImageInfo* imageInfo);
+
+    void update();
+
+    const VkDescriptorSet& get() const {
+        return descriptorSet;
+    }
+
+private:
+    DescriptorPool& pool;
+    DescriptorSetLayout& layout;
+
+    VkDescriptorSet descriptorSet = VK_NULL_HANDLE;
+    std::unique_ptr<DescriptorWriter> writer;
 };
 
 }  // namespace Nova

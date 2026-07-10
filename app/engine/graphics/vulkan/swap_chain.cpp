@@ -362,9 +362,9 @@ const char* presentModeToString(VkPresentModeKHR mode) {
 VkPresentModeKHR SwapChain::chooseSwapPresentMode(const std::vector<VkPresentModeKHR> &availablePresentModes) {
 	// Define the priority order of present modes
     const std::vector<VkPresentModeKHR> presentModePriority = {
-        VK_PRESENT_MODE_MAILBOX_KHR,
         VK_PRESENT_MODE_FIFO_KHR,
         VK_PRESENT_MODE_FIFO_RELAXED_KHR,
+        VK_PRESENT_MODE_MAILBOX_KHR,
         VK_PRESENT_MODE_IMMEDIATE_KHR
     };
 

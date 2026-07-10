@@ -6,11 +6,8 @@
 
 namespace Nova {
 
-System::System(Window& window, Device& device, Renderer& renderer) {
-    this->window   = &window;
-    this->device   = &device;
-    this->renderer = &renderer;
-}
+System::System(Window& window, Device& device, Renderer& renderer) :
+window(window), device(device), renderer(renderer) {}
 
 void System::update(double /*deltaTime*/) {}
 

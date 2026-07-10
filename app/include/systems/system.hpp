@@ -34,9 +34,9 @@ protected:
     // Private does not give children access... I understand it now.
     // It's like guns and stuff are protected but not private.
 
-    Window* window;
-    Device* device;
-    Renderer* renderer;
+    Window& window;
+    Device& device;
+    Renderer& renderer;
 };
 
 }

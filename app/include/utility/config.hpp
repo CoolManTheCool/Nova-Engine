@@ -3,6 +3,7 @@
 #include <cstdint>
 #include <string>
 #include <vector>
+#include <unordered_map>
 
 namespace Nova {
 
@@ -39,18 +40,15 @@ public:
 
     const char* engineName = "Nova Engine\0"; // Do NOT forget to null terminate
 
-    bool     forceGPU = false;
-    uint32_t forceGPUID;
-
     const bool debug = false;
 
     const std::string& getExecPath() const;
     std::vector<std::string> getModulePaths();
-
-    bool enableValidationLayers = false;
 private:
     std::string executablePath;
 
 };
+
+std::string getExecutableDirectory();
 
 }

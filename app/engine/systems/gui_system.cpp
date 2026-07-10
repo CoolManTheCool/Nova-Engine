@@ -20,65 +20,67 @@
 // This is a temporary solution until ImGui adds a SliderDouble function.
 //
 // YAP session up there
+// Edit: Do not touch this, it's been a year and it's the strongest standing function in the whole repo
+//       This "temporary" solution has outlasted  
 namespace ImGui {
-    inline bool SliderDouble(const char* label, double* v, double v_min, double v_max, const char* format = "%.3f", ImGuiSliderFlags flags = 0) {
-        return ImGui::SliderScalar(label, ImGuiDataType_Double, v, &v_min, &v_max, format, flags);
-    }
+inline bool SliderDouble(const char* label, double* v, double v_min, double v_max, const char* format = "%.3f", ImGuiSliderFlags flags = 0) {
+    return ImGui::SliderScalar(label, ImGuiDataType_Double, v, &v_min, &v_max, format, flags);
+}
 } // namespace ImGui
 
 namespace Nova {
 
 void GUI_System::init() {
     VkDescriptorPoolSize poolSizes[] = {
-        { VK_DESCRIPTOR_TYPE_SAMPLER, 1000 },
-        { VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1000 },
-        { VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE, 1000 },
-        { VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1000 },
-        { VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER, 1000 },
-        { VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER, 1000 },
-        { VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1000 },
-        { VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, 1000 },
-        { VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC, 1000 },
-        { VK_DESCRIPTOR_TYPE_STORAGE_BUFFER_DYNAMIC, 1000 },
-        { VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT, 1000 }
-    };
+        {VK_DESCRIPTOR_TYPE_SAMPLER, 1000},
+        {VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1000},
+        {VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE, 1000},
+        {VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1000},
+        {VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER, 1000},
+        {VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER, 1000},
+        {VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1000},
+        {VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, 1000},
+        {VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC, 1000},
+        {VK_DESCRIPTOR_TYPE_STORAGE_BUFFER_DYNAMIC, 1000},
+        {VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT, 1000}};
 
     VkDescriptorPoolCreateInfo poolInfo{};
-    poolInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
-    poolInfo.flags = VK_DESCRIPTOR_POOL_CREATE_FREE_DESCRIPTOR_SET_BIT;
-    poolInfo.maxSets = 1000;
+    poolInfo.sType         = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
+    poolInfo.flags         = VK_DESCRIPTOR_POOL_CREATE_FREE_DESCRIPTOR_SET_BIT;
+    poolInfo.maxSets       = 1000;
     poolInfo.poolSizeCount = static_cast<uint32_t>(std::size(poolSizes));
-    poolInfo.pPoolSizes = poolSizes;
+    poolInfo.pPoolSizes    = poolSizes;
 
-    if (vkCreateDescriptorPool(device->device(), &poolInfo, nullptr, &imguiPool) != VK_SUCCESS) {
+    if (vkCreateDescriptorPool(device.device(), &poolInfo, nullptr, &imguiPool) != VK_SUCCESS) {
         throw std::runtime_error("Failed to create ImGui descriptor pool!");
     }
 
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
-    ImGuiIO& io = ImGui::GetIO(); (void)io;
+    ImGuiIO& io = ImGui::GetIO();
+    (void)io;
     ImGui::StyleColorsDark();
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
-    ImGui_ImplGlfw_InitForVulkan(window->getWindow(), true);
+    ImGui_ImplGlfw_InitForVulkan(window.getWindow(), true);
 
     ImGui_ImplVulkan_InitInfo init_info{};
-    init_info.Instance       = device->getInstance();
-    init_info.PhysicalDevice = device->getPhysicalDevice();
-    init_info.Device         = device->device();
-    init_info.QueueFamily    = device->findPhysicalQueueFamilies().graphicsFamily;
-    init_info.Queue          = device->graphicsQueue();
-    init_info.PipelineCache  = VK_NULL_HANDLE;
-    init_info.DescriptorPool = imguiPool;
-    init_info.MinImageCount  = SwapChain::MAX_FRAMES_IN_FLIGHT;
-    init_info.ImageCount     = SwapChain::MAX_FRAMES_IN_FLIGHT;
-    init_info.Allocator      = nullptr;
+    init_info.Instance        = device.getInstance();
+    init_info.PhysicalDevice  = device.getPhysicalDevice();
+    init_info.Device          = device.device();
+    init_info.QueueFamily     = device.findPhysicalQueueFamilies().graphicsFamily;
+    init_info.Queue           = device.graphicsQueue();
+    init_info.PipelineCache   = VK_NULL_HANDLE;
+    init_info.DescriptorPool  = imguiPool;
+    init_info.MinImageCount   = SwapChain::MAX_FRAMES_IN_FLIGHT;
+    init_info.ImageCount      = SwapChain::MAX_FRAMES_IN_FLIGHT;
+    init_info.Allocator       = nullptr;
     init_info.CheckVkResultFn = [](VkResult err) {
         if (err != VK_SUCCESS)
             std::cerr << "[ImGui][Vulkan] VkResult = " << err << std::endl;
     };
 
-    init_info.PipelineInfoMain.RenderPass  = renderer->getSwapChainRenderPass();
+    init_info.PipelineInfoMain.RenderPass  = renderer.getSwapChainRenderPass();
     init_info.PipelineInfoMain.Subpass     = 0;
     init_info.PipelineInfoMain.MSAASamples = VK_SAMPLE_COUNT_1_BIT;
 
@@ -93,19 +95,26 @@ void GUI_System::update(double /*deltaTime*/) {
     ImGui::NewFrame();
     ImGui::DockSpaceOverViewport(ImGui::GetMainViewport()->ID, ImGui::GetMainViewport(), ImGuiDockNodeFlags_PassthruCentralNode);
 
-    for (auto &Funky_Window : windows) {
-        Funky_Window(*this); // I love getting funky with Emmy <3
-                        // Edit: She didn't feel the same way :(
-                        // Edit 2: Yeah, I'm over her now (I've got someone else in my sights)
-                        // Edit 3: I miss Emmy :(, and it's complicated with the other girl
-                        //         I don't think she likes me ngl
-                        // Edit 4: It's actually WILD that I added this here
-                        //         I've been working on this for nearly 2 years now
-                        //         I'm comfortable.
+    for (auto& Funky_Window : windows) {
+        Funky_Window(*this);
+        // I love getting funky with Emmy <3
+        // Edit: She didn't feel the same way :(
+        // Edit 2: Yeah, I'm over her now (I've got someone else in my sights)
+        // Edit 3: I miss Emmy :(, and it's complicated with the other girl
+        //         I don't think she likes me ngl
+        // Edit 4: It's actually WILD that I added this here
+        //         I've been working on this for nearly 2 years now
+        //         I'm comfortable.
+        // Edit 5: Yikes... the "someone else in my sights" rejected me...
+        //         "I don't think she likes me ngl"
+        //         It was so bad she PROACTIVELY rejected me, I didn't even ask
+        //         She wasn't the one for me, but I still miss Emmy...
+        //         Nova Engine X is on the way and idk if I'm going to continue this section
 
         // The variable naming is so cursed, but I'm not changing it
-        // This is lowkey some of the best code I've written 
+        // This is lowkey some of the best code I've written
         // I used VERY little AI on this one lmao
+        // This isn't a variable name, it's an artifact.
     }
 }
 
@@ -126,7 +135,7 @@ GUI_System::~GUI_System() {
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
 
-    vkDestroyDescriptorPool(device->device(), imguiPool, nullptr);
+    vkDestroyDescriptorPool(device.device(), imguiPool, nullptr);
 }
 
 /*
@@ -159,4 +168,4 @@ void GUI_System::registerWindow(std::function<void(GUI_System&)> func) {
     windows.push_back(func);
 }
 
-}
+} // namespace Nova

@@ -40,14 +40,16 @@ target_compile_options(imgui PRIVATE -fPIC -Wall -Wextra)
 # Nova Engine library
 # -------------------------
 set(ENGINE_SOURCE_FILES
-    engine/systems/system.cpp
     engine/systems/gui_system.cpp
+    engine/systems/system.cpp
 
     engine/data/rollingbuffer.cpp
 
+    engine/graphics/vulkan/compute_pipeline.cpp
     engine/graphics/vulkan/descriptors.cpp
     engine/graphics/vulkan/swap_chain.cpp
     engine/graphics/vulkan/renderer.cpp
+    engine/graphics/vulkan/compute.cpp
     engine/graphics/vulkan/device.cpp
     engine/graphics/vulkan/buffer.cpp
     engine/graphics/graphics.cpp
