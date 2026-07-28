@@ -46,6 +46,7 @@ set(ENGINE_SOURCE_FILES
     engine/data/rollingbuffer.cpp
 
     engine/graphics/vulkan/compute_pipeline.cpp
+    engine/graphics/vulkan/pipeline_layout.cpp
     engine/graphics/vulkan/descriptors.cpp
     engine/graphics/vulkan/swap_chain.cpp
     engine/graphics/vulkan/renderer.cpp

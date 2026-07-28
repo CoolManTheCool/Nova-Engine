@@ -6,11 +6,13 @@
 
 namespace Nova {
 
-System::System(Window& window, Device& device, Renderer& renderer) :
-window(window), device(device), renderer(renderer) {}
-
-void System::update(double /*deltaTime*/) {}
-
-void System::render(RenderData& /*renderData*/) {}
-
+System::System(Window& window, Device& device, Renderer& renderer) : window(window), device(device), renderer(renderer) {
 }
+
+void System::update(double /*deltaTime*/) {
+}
+
+void System::render(RenderData& /*renderData*/) {
+}
+
+} // namespace Nova

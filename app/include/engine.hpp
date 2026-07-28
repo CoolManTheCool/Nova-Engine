@@ -18,23 +18,23 @@ public:
 
     ObjectRef<Object> getRoot();
 
-    template<typename T>
+    template <typename T>
     void addSystem() {
         graphics.addSystem<T>();
     }
 
-    using GameLogicFn = void(*)(const FrameCtx&, void* userData);
+    using GameLogicFn = void (*)(const FrameCtx&, void* userData);
     void loop(GameLogicFn gameLogic);
 
     // Prevent copying
-    Engine(const Engine&) = delete;
+    Engine(const Engine&)            = delete;
     Engine& operator=(const Engine&) = delete;
 
 private:
     std::shared_ptr<Object> root;
-    Graphics graphics;
-    ModuleManager* moduleManager;
-    void* userData;
+    Graphics                graphics;
+    ModuleManager*          moduleManager;
+    void*                   userData;
 };
 
-}
+} // namespace Nova

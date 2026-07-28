@@ -18,8 +18,8 @@ class Renderer;
 
 struct FrameCtx {
     uint64_t frameCount = 0;
-    double deltaTime    = 0;
-    bool running        = true;
+    double   deltaTime  = 0;
+    bool     running    = true;
 };
 
 class Graphics {
@@ -27,10 +27,10 @@ public:
     Graphics(const EngineConfig& engineConfig);
     ~Graphics();
 
-    Graphics(const Graphics&) = delete;
+    Graphics(const Graphics&)            = delete;
     Graphics& operator=(const Graphics&) = delete;
-    
-    template<typename T>
+
+    template <typename T>
     void addSystem() {
         static_assert(std::is_base_of<System, T>::value, "T must derive from System");
         auto system = std::make_shared<T>(*window, *device, *renderer);
@@ -41,10 +41,11 @@ public:
     void waitDeviceIdle();
 
     const FrameCtx* startFrame();
-    void endFrame();
+    void            endFrame();
+
 private:
-    std::unique_ptr<Window> window;
-    std::unique_ptr<Device> device;
+    std::unique_ptr<Window>   window;
+    std::unique_ptr<Device>   device;
     std::unique_ptr<Renderer> renderer;
 
     std::vector<std::shared_ptr<System>> systems;
@@ -59,4 +60,4 @@ private:
     std::chrono::_V2::system_clock::time_point oldTime = std::chrono::high_resolution_clock::now();
 };
 
-}
+} // namespace Nova

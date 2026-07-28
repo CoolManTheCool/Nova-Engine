@@ -17,16 +17,16 @@ void RollingBuffer::resize(size_t newSize) {
     if (newSize == size) return;
 
     std::vector<std::unique_ptr<IValueHolder>> newBuffer(newSize);
-    size_t elementsToMove = std::min(count, newSize);
+    size_t                                     elementsToMove = std::min(count, newSize);
 
     // Copy elements in order to the new buffer
     for (size_t i = 0; i < elementsToMove; ++i) {
         size_t oldIndex = (index + size - count + i) % size;
-        newBuffer[i] = std::move(buffer[oldIndex]);
+        newBuffer[i]    = std::move(buffer[oldIndex]);
     }
 
     buffer = std::move(newBuffer);
-    size = newSize;
-    index = elementsToMove % newSize;
-    count = elementsToMove;
+    size   = newSize;
+    index  = elementsToMove % newSize;
+    count  = elementsToMove;
 }

@@ -40,13 +40,13 @@ void Graphics::waitDeviceIdle() {
 const FrameCtx* Graphics::startFrame() {
     FrameCtx* ctx = new FrameCtx;
     window->pollEvents();
-    auto now = std::chrono::high_resolution_clock::now();
-    ctx->deltaTime = glm::min(std::chrono::duration<double>(now - oldTime).count(), MAX_FRAME_TIME);
-    oldTime = now;
+    auto now        = std::chrono::high_resolution_clock::now();
+    ctx->deltaTime  = glm::min(std::chrono::duration<double>(now - oldTime).count(), MAX_FRAME_TIME);
+    oldTime         = now;
     ctx->frameCount = frameCount++;
-    ctx->running = !window->shouldClose();
+    ctx->running    = !window->shouldClose();
 
-    for(std::shared_ptr<System>& system : systems) {
+    for (std::shared_ptr<System>& system : systems) {
         system->update(ctx->deltaTime);
     }
 
@@ -59,9 +59,9 @@ void Graphics::endFrame() {
     renderer->beginSwapChainRenderPass(commandBuffer);
 
     VkPipelineLayout dummyPipeline = VK_NULL_HANDLE;
-    RenderData rD { dummyPipeline, commandBuffer };
+    RenderData       rD{dummyPipeline, commandBuffer};
 
-    for(std::shared_ptr<System>& system : systems) {
+    for (std::shared_ptr<System>& system : systems) {
         system->render(rD);
     }
 
@@ -69,4 +69,4 @@ void Graphics::endFrame() {
     renderer->endFrame();
 }
 
-}
+} // namespace Nova

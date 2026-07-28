@@ -17,27 +17,27 @@ public:
     explicit Window(const EngineConfig& config);
     ~Window();
 
-    Window(const Window&) = delete;
+    Window(const Window&)            = delete;
     Window& operator=(const Window&) = delete;
 
-    bool shouldClose();
+    bool               shouldClose();
     const WindowState& getWindowState() const noexcept;
-    void pollEvents() const noexcept;
+    void               pollEvents() const noexcept;
 
-    void createWindowSurface(VkInstance instance, VkSurfaceKHR *surface);
-    
-    VkExtent2D getExtent();
-    bool wasWindowResized() const;
-    void resetWindowResizedFlag();
+    void createWindowSurface(VkInstance instance, VkSurfaceKHR* surface);
+
+    VkExtent2D  getExtent();
+    bool        wasWindowResized() const;
+    void        resetWindowResizedFlag();
     GLFWwindow* getWindow() const;
-private:
 
+private:
     static void frameBufferResizeCallback(GLFWwindow* window, int width, int height);
 
-	bool frameBufferResized = false;
+    bool frameBufferResized = false;
 
     WindowState state;
     GLFWwindow* window = nullptr;
 };
 
-}
+} // namespace Nova

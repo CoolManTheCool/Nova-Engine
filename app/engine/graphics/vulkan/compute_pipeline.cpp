@@ -18,10 +18,7 @@ namespace fs = std::filesystem;
 #include "utility/config.hpp"
 
 namespace Nova {
-ComputePipeline::ComputePipeline(Device&              device,
-                                 const std::string&   shader,
-                                 DescriptorSetLayout& layout,
-                                 VkPushConstantRange  pushConstantRange)
+ComputePipeline::ComputePipeline(Device& device, const std::string& shader, DescriptorSetLayout& layout, VkPushConstantRange pushConstantRange)
     : device{device}, descriptorSetLayout{layout}, pushConstantRange{pushConstantRange} {
 
     createPipelineLayout();
@@ -66,14 +63,17 @@ void Nova::ComputePipeline::createPipelineLayout() {
             device.device(),
             &info,
             nullptr,
-            &pipelineLayout) != VK_SUCCESS) {
+            &pipelineLayout
+        ) != VK_SUCCESS) {
         throw std::runtime_error(
-            "Failed to create compute pipeline layout");
+            "Failed to create compute pipeline layout"
+        );
     }
 }
 
 void Nova::ComputePipeline::createComputePipeline(
-    const std::string& shader) {
+    const std::string& shader
+) {
 
     VkShaderModule shaderModule = createShaderModule(shader);
 
@@ -94,28 +94,32 @@ void Nova::ComputePipeline::createComputePipeline(
             1,
             &pipelineInfo,
             nullptr,
-            &pipeline) != VK_SUCCESS) {
+            &pipeline
+        ) != VK_SUCCESS) {
         throw std::runtime_error("Failed to create compute pipeline");
     }
 
     vkDestroyShaderModule(
         device.device(),
         shaderModule,
-        nullptr);
+        nullptr
+    );
 }
 
 void Nova::ComputePipeline::bind(VkCommandBuffer commandBuffer) const {
     vkCmdBindPipeline(
         commandBuffer,
         VK_PIPELINE_BIND_POINT_COMPUTE,
-        pipeline);
+        pipeline
+    );
 }
 
 void ComputePipeline::dispatch(
     VkCommandBuffer      cmd,
     const DescriptorSet& set,
     uint32_t             x,
-    const void*          pushData) {
+    const void*          pushData
+) {
 
     bind(cmd);
 
@@ -129,7 +133,8 @@ void ComputePipeline::dispatch(
         1,
         &descriptorSet,
         0,
-        nullptr);
+        nullptr
+    );
 
     if (pushData != nullptr && pushConstantRange.size > 0) {
         vkCmdPushConstants(
@@ -138,7 +143,8 @@ void ComputePipeline::dispatch(
             pushConstantRange.stageFlags,
             pushConstantRange.offset,
             pushConstantRange.size,
-            pushData);
+            pushData
+        );
     }
 
     vkCmdDispatch(cmd, x, 1, 1);

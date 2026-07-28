@@ -6,11 +6,11 @@
 namespace Nova {
 
 struct FrameInfo {
-    int frameIndex;
-    float frameTime;
-    VkCommandBuffer commandBuffer;
-    VkDescriptorSet globalDescriptorSet;
+    int               frameIndex;
+    float             frameTime;
+    VkCommandBuffer   commandBuffer;
+    VkDescriptorSet   globalDescriptorSet;
     ObjectRef<Object> root;
 };
 
-}
+} // namespace Nova

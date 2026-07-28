@@ -17,7 +17,8 @@ ComputeContext::ComputeContext(Device& device)
         device.device(),
         &info,
         nullptr,
-        &fence);
+        &fence
+    );
 
     createCommandPool();
 }
@@ -26,7 +27,8 @@ ComputeContext::~ComputeContext() {
     vkDestroyCommandPool(
         device.device(),
         commandPool,
-        nullptr);
+        nullptr
+    );
 
     vkDestroyFence(device.device(), fence, nullptr);
 }
@@ -43,9 +45,11 @@ void ComputeContext::createCommandPool() {
             device.device(),
             &info,
             nullptr,
-            &commandPool) != VK_SUCCESS) {
+            &commandPool
+        ) != VK_SUCCESS) {
         throw std::runtime_error(
-            "Failed to create compute command pool");
+            "Failed to create compute command pool"
+        );
     }
 }
 
@@ -61,7 +65,8 @@ VkCommandBuffer ComputeContext::begin() {
     vkAllocateCommandBuffers(
         device.device(),
         &alloc,
-        &buffer);
+        &buffer
+    );
 
     VkCommandBufferBeginInfo begin{};
     begin.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
@@ -76,7 +81,8 @@ void ComputeContext::copyBuffer(
     VkCommandBuffer cmd,
     Buffer&         src,
     Buffer&         dst,
-    VkDeviceSize    size) {
+    VkDeviceSize    size
+) {
 
     VkBufferMemoryBarrier barrier{};
     barrier.sType               = VK_STRUCTURE_TYPE_BUFFER_MEMORY_BARRIER;
@@ -95,7 +101,8 @@ void ComputeContext::copyBuffer(
         0,
         0, nullptr,
         1, &barrier,
-        0, nullptr);
+        0, nullptr
+    );
 
     VkBufferCopy region{};
     region.size = size;
@@ -105,11 +112,23 @@ void ComputeContext::copyBuffer(
         src.getBuffer(),
         dst.getBuffer(),
         1,
-        &region);
+        &region
+    );
 }
 
-void ComputeContext::end(VkCommandBuffer commandBuffer) {
-    vkEndCommandBuffer(commandBuffer);
+void Nova::ComputeContext::clearBuffer(
+    VkCommandBuffer cmd,
+    Buffer&         buffer,
+    uint32_t        value
+) {
+
+    vkCmdFillBuffer(
+        cmd,
+        buffer.getBuffer(),
+        0,
+        buffer.getBufferSize(),
+        value
+    );
 }
 
 void ComputeContext::submit(VkCommandBuffer commandBuffer) {
@@ -118,23 +137,53 @@ void ComputeContext::submit(VkCommandBuffer commandBuffer) {
     submit.commandBufferCount = 1;
     submit.pCommandBuffers    = &commandBuffer;
 
+    vkEndCommandBuffer(commandBuffer);
+
     vkQueueSubmit(
         queue,
         1,
         &submit,
-        fence);
+        fence
+    );
 
     vkWaitForFences(
         device.device(),
         1,
         &fence,
         VK_TRUE,
-        UINT64_MAX);
+        UINT64_MAX
+    );
 
     vkResetFences(
         device.device(),
         1,
-        &fence);
+        &fence
+    );
+}
+
+void Nova::ComputeContext::pipelineBarrier(
+    VkCommandBuffer cmd
+) {
+
+    VkMemoryBarrier barrier{};
+
+    barrier.sType         = VK_STRUCTURE_TYPE_MEMORY_BARRIER;
+    barrier.srcAccessMask = VK_ACCESS_SHADER_WRITE_BIT;
+    barrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT |
+                            VK_ACCESS_SHADER_WRITE_BIT;
+
+    vkCmdPipelineBarrier(
+        cmd,
+        VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT,
+        VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT,
+        0,
+        1,
+        &barrier,
+        0,
+        nullptr,
+        0,
+        nullptr
+    );
 }
 
 } // namespace Nova

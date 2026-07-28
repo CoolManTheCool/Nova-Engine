@@ -19,7 +19,6 @@ Engine::Engine(const EngineConfig& c)
 
     std::cout << "Engine initalized!!!!" << std::endl;
     userData = c.userData;
-
 }
 
 Engine::~Engine() {
@@ -38,15 +37,15 @@ void Engine::loop(GameLogicFn gameLogic) {
 
     do {
         ctx = graphics.startFrame();
-        
-        for(ObjectRef<Object> &obj : root->getChildrenRecursive()) {
+
+        for (ObjectRef<Object>& obj : root->getChildrenRecursive()) {
             obj->update(ctx->deltaTime);
         }
-        
+
         gameLogic(*ctx, userData);
-        
+
         graphics.endFrame();
     } while (ctx->running);
 }
 
-}	// namespace Nova
+} // namespace Nova

@@ -7,10 +7,7 @@ namespace Nova {
 
 class ComputePipeline {
 public:
-    ComputePipeline(Device&              device,
-                    const std::string&   shader,
-                    DescriptorSetLayout& layout,
-                    VkPushConstantRange  pushConstantRange);
+    ComputePipeline(Device& device, const std::string& shader, DescriptorSetLayout& layout, VkPushConstantRange pushConstantRange);
 
     void bind(VkCommandBuffer commandBuffer) const;
 
@@ -18,7 +15,17 @@ public:
         VkCommandBuffer      cmd,
         const DescriptorSet& set,
         uint32_t             x,
-        const void*          pushData);
+        const void*          pushData
+    );
+
+    void dispatch(
+        VkCommandBuffer      cmd,
+        const DescriptorSet& set,
+        uint32_t             x,
+        uint32_t             y,
+        uint32_t             z,
+        const void*          pushData
+    );
 
 private:
     VkShaderModule createShaderModule(const std::string& shader);

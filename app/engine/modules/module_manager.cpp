@@ -27,7 +27,7 @@ void ModuleManager::LoadModules(const std::vector<std::string>& modulePaths) {
             continue;
         }
 
-        auto createFunc = reinterpret_cast<INovaModule*(*)()>(
+        auto createFunc = reinterpret_cast<INovaModule* (*)()>(
             GetProcAddress(handle, "CreateModule")
         );
         if (!createFunc) {
@@ -40,11 +40,12 @@ void ModuleManager::LoadModules(const std::vector<std::string>& modulePaths) {
 #else
         void* handle = dlopen(path.c_str(), RTLD_LAZY);
         if (!handle) {
-            std::cerr << "[ModuleManager] Failed to load module: " << path << "\n" << dlerror() << "\n";
+            std::cerr << "[ModuleManager] Failed to load module: " << path << "\n"
+                      << dlerror() << "\n";
             continue;
         }
 
-        auto createFunc = reinterpret_cast<INovaModule*(*)()>(
+        auto createFunc = reinterpret_cast<INovaModule* (*)()>(
             dlsym(handle, "CreateModule")
         );
         if (!createFunc) {
@@ -55,7 +56,7 @@ void ModuleManager::LoadModules(const std::vector<std::string>& modulePaths) {
 
         std::unique_ptr<INovaModule> module(createFunc());
 #endif
-        
+
         try {
             module->OnLoad();
         } catch (const std::exception& e) {
@@ -67,7 +68,6 @@ void ModuleManager::LoadModules(const std::vector<std::string>& modulePaths) {
 
         // Store module
         modules.push_back(std::move(module));
-        
     }
 }
 
@@ -76,7 +76,6 @@ void ModuleManager::UnloadModules() {
         module->OnUnload();
     }
     modules.clear();
-
 }
 
 ModuleManager::~ModuleManager() {

@@ -12,7 +12,7 @@ namespace Nova {
 Window::Window(const EngineConfig& c) {
     glfwInit();
 
-    state.width = c.width;
+    state.width  = c.width;
     state.height = c.height;
 
     glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
@@ -24,14 +24,9 @@ Window::Window(const EngineConfig& c) {
         std::exit(EXIT_FAILURE);
     }
     glfwSwapInterval(c.enableVSync);
-	glfwSetWindowUserPointer(window, this);
-	glfwSetFramebufferSizeCallback(window, frameBufferResizeCallback);
-    std::cout << 
-        "Window created:" << 
-        "\n - Width: " << c.width <<
-        "\n - Height: " << c.height <<
-        "\n - Title: " << c.title <<
-        std::endl;
+    glfwSetWindowUserPointer(window, this);
+    glfwSetFramebufferSizeCallback(window, frameBufferResizeCallback);
+    std::cout << "Window created:" << "\n - Width: " << c.width << "\n - Height: " << c.height << "\n - Title: " << c.title << std::endl;
 }
 
 Window::~Window() {
@@ -51,10 +46,10 @@ void Window::pollEvents() const noexcept {
     glfwPollEvents();
 }
 
-void Window::createWindowSurface(VkInstance instance, VkSurfaceKHR *surface) {
-	if (glfwCreateWindowSurface(instance, window, nullptr, surface) != VK_SUCCESS) {
-		throw std::runtime_error("Failed to create window surface!");
-	}
+void Window::createWindowSurface(VkInstance instance, VkSurfaceKHR* surface) {
+    if (glfwCreateWindowSurface(instance, window, nullptr, surface) != VK_SUCCESS) {
+        throw std::runtime_error("Failed to create window surface!");
+    }
 }
 
 VkExtent2D Window::getExtent() {
@@ -73,11 +68,11 @@ GLFWwindow* Window::getWindow() const {
     return window;
 }
 
-void Window::frameBufferResizeCallback(GLFWwindow *window_, int width, int height) {
-	auto window = reinterpret_cast<Window *>(glfwGetWindowUserPointer(window_));
-	window->frameBufferResized = true;
-	window->state.width = width;
-	window->state.height = height;
+void Window::frameBufferResizeCallback(GLFWwindow* window_, int width, int height) {
+    auto window                = reinterpret_cast<Window*>(glfwGetWindowUserPointer(window_));
+    window->frameBufferResized = true;
+    window->state.width        = width;
+    window->state.height       = height;
 }
 
-}
+} // namespace Nova

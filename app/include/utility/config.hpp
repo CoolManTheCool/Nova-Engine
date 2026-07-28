@@ -14,9 +14,9 @@ public:
     /**
      * Application Config
      */
-    uint32_t width  = 1920/2;
-    uint32_t height = 1080/2;
-    
+    uint32_t width  = 1920 / 2;
+    uint32_t height = 1080 / 2;
+
     // Version: Major.Minor.Patch
     uint32_t appMajorVer = 1;
     uint32_t appMinorVer = 0;
@@ -42,13 +42,13 @@ public:
 
     const bool debug = false;
 
-    const std::string& getExecPath() const;
+    const std::string&       getExecPath() const;
     std::vector<std::string> getModulePaths();
+
 private:
     std::string executablePath;
-
 };
 
 std::string getExecutableDirectory();
 
-}
+} // namespace Nova

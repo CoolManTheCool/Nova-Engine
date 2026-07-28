@@ -30,7 +30,7 @@ std::string getExecutableDirectory() {
         GetModuleFileName(NULL, buffer, MAX_PATH);
         executablePath = std::string(buffer);
 #else
-        char buffer[PATH_MAX];
+        char    buffer[PATH_MAX];
         ssize_t length = readlink("/proc/self/exe", buffer, sizeof(buffer) - 1);
         if (length != -1) {
             buffer[length] = '\0';
@@ -88,14 +88,14 @@ std::vector<std::string> searchDirectory(const std::string& directory) {
 
 std::vector<std::string> EngineConfig::getModulePaths() {
     std::vector<std::string> modulePaths;
-    std::string modulesDir = executablePath + "/modules";
+    std::string              modulesDir = executablePath + "/modules";
 
-    if(debug) std::cout << "\nSearching for modules in: " << modulesDir << std::endl;
+    if (debug) std::cout << "\nSearching for modules in: " << modulesDir << std::endl;
 
     for (const auto& path : searchDirectory(modulesDir)) {
         std::string ext;
-        size_t dotPos = path.find_last_of(".") + 1;
-        ext = (dotPos != 0) ? path.substr(dotPos) : "";
+        size_t      dotPos = path.find_last_of(".") + 1;
+        ext                = (dotPos != 0) ? path.substr(dotPos) : "";
         if (ext == "dll" || ext == "so" || ext == "dylib") {
             modulePaths.push_back(path);
             if (debug) std::cout << " - Module found: " << path << std::endl;
@@ -106,4 +106,4 @@ std::vector<std::string> EngineConfig::getModulePaths() {
     return modulePaths;
 }
 
-}
+} // namespace Nova

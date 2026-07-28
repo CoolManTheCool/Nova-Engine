@@ -25,10 +25,10 @@ int main(void) {
     config.appMajorVer = 1;
     config.appMinorVer = 1;
     config.appPatchVer = 0;
-    config.title = "Nova Engine Demo Application";
+    config.title       = "Nova Engine Demo Application";
     AppConfig cfg;
     config.userData = &cfg;
-    
+
     Nova::Engine engine(config);
 
     engine.loop(gameLogic);

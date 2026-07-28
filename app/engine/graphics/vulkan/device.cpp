@@ -13,7 +13,8 @@ static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(
     VkDebugUtilsMessageSeverityFlagBitsEXT      messageSeverity,
     VkDebugUtilsMessageTypeFlagsEXT             messageType,
     const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData,
-    void*                                       pUserData) {
+    void*                                       pUserData
+) {
     std::cerr << "validation layer: " << pCallbackData->pMessage << std::endl;
 
     std::cout << "message type: " << messageType << "\n";
@@ -27,10 +28,12 @@ VkResult CreateDebugUtilsMessengerEXT(
     VkInstance                                instance,
     const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo,
     const VkAllocationCallbacks*              pAllocator,
-    VkDebugUtilsMessengerEXT*                 pDebugMessenger) {
+    VkDebugUtilsMessengerEXT*                 pDebugMessenger
+) {
     auto func = (PFN_vkCreateDebugUtilsMessengerEXT)vkGetInstanceProcAddr(
         instance,
-        "vkCreateDebugUtilsMessengerEXT");
+        "vkCreateDebugUtilsMessengerEXT"
+    );
     if (func != nullptr) {
         return func(instance, pCreateInfo, pAllocator, pDebugMessenger);
     } else {
@@ -41,10 +44,12 @@ VkResult CreateDebugUtilsMessengerEXT(
 void DestroyDebugUtilsMessengerEXT(
     VkInstance                   instance,
     VkDebugUtilsMessengerEXT     debugMessenger,
-    const VkAllocationCallbacks* pAllocator) {
+    const VkAllocationCallbacks* pAllocator
+) {
     auto func = (PFN_vkDestroyDebugUtilsMessengerEXT)vkGetInstanceProcAddr(
         instance,
-        "vkDestroyDebugUtilsMessengerEXT");
+        "vkDestroyDebugUtilsMessengerEXT"
+    );
     if (func != nullptr) {
         func(instance, debugMessenger, pAllocator);
     }
@@ -156,12 +161,12 @@ void Device::pickPhysicalDevice(EngineConfig c) {
         std::cout << " - " << properties.deviceName << " (" << type << ", " << properties.deviceID << ")." << "\n";
     }
 
-	for (const auto& device : devices) {
-		if (isDeviceSuitable(device)) {
-			physicalDevice = device;
-			break;
-		}
-	}
+    for (const auto& device : devices) {
+        if (isDeviceSuitable(device)) {
+            physicalDevice = device;
+            break;
+        }
+    }
 
     if (physicalDevice == VK_NULL_HANDLE) {
         throw std::runtime_error("Failed to find a suitable GPU!");
@@ -270,7 +275,8 @@ bool Device::isDeviceSuitable(VkPhysicalDevice device) {
 }
 
 void Device::populateDebugMessengerCreateInfo(
-    VkDebugUtilsMessengerCreateInfoEXT& createInfo) {
+    VkDebugUtilsMessengerCreateInfoEXT& createInfo
+) {
     createInfo                 = {};
     createInfo.sType           = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
     createInfo.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT |
@@ -362,7 +368,8 @@ bool Device::checkDeviceExtensionSupport(VkPhysicalDevice device) {
         device,
         nullptr,
         &extensionCount,
-        availableExtensions.data());
+        availableExtensions.data()
+    );
 
     std::set<std::string> requiredExtensions(deviceExtensions.begin(), deviceExtensions.end());
 
@@ -430,13 +437,15 @@ SwapChainSupportDetails Device::querySwapChainSupport(VkPhysicalDevice device) {
             device,
             surface_,
             &presentModeCount,
-            details.presentModes.data());
+            details.presentModes.data()
+        );
     }
     return details;
 }
 
 VkFormat Device::findSupportedFormat(
-    const std::vector<VkFormat>& candidates, VkImageTiling tiling, VkFormatFeatureFlags features) {
+    const std::vector<VkFormat>& candidates, VkImageTiling tiling, VkFormatFeatureFlags features
+) {
     for (VkFormat format : candidates) {
         VkFormatProperties props;
         vkGetPhysicalDeviceFormatProperties(physicalDevice, format, &props);
@@ -444,7 +453,8 @@ VkFormat Device::findSupportedFormat(
         if (tiling == VK_IMAGE_TILING_LINEAR && (props.linearTilingFeatures & features) == features) {
             return format;
         } else if (
-            tiling == VK_IMAGE_TILING_OPTIMAL && (props.optimalTilingFeatures & features) == features) {
+            tiling == VK_IMAGE_TILING_OPTIMAL && (props.optimalTilingFeatures & features) == features
+        ) {
             return format;
         }
     }
@@ -469,7 +479,8 @@ void Device::createBuffer(
     VkBufferUsageFlags    usage,
     VkMemoryPropertyFlags properties,
     VkBuffer&             buffer,
-    VkDeviceMemory&       bufferMemory) {
+    VkDeviceMemory&       bufferMemory
+) {
     VkBufferCreateInfo bufferInfo{};
     bufferInfo.sType       = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
     bufferInfo.size        = size;
@@ -540,7 +551,8 @@ void Device::copyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize siz
 }
 
 void Device::copyBufferToImage(
-    VkBuffer buffer, VkImage image, uint32_t width, uint32_t height, uint32_t layerCount) {
+    VkBuffer buffer, VkImage image, uint32_t width, uint32_t height, uint32_t layerCount
+) {
     VkCommandBuffer commandBuffer = beginSingleTimeCommands();
 
     VkBufferImageCopy region{};
@@ -562,7 +574,8 @@ void Device::copyBufferToImage(
         image,
         VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
         1,
-        &region);
+        &region
+    );
     endSingleTimeCommands(commandBuffer);
 }
 
@@ -570,7 +583,8 @@ void Device::createImageWithInfo(
     const VkImageCreateInfo& imageInfo,
     VkMemoryPropertyFlags    properties,
     VkImage&                 image,
-    VkDeviceMemory&          imageMemory) {
+    VkDeviceMemory&          imageMemory
+) {
     if (vkCreateImage(device_, &imageInfo, nullptr, &image) != VK_SUCCESS) {
         throw std::runtime_error("failed to create image!");
     }

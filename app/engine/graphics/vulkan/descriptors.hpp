@@ -1,9 +1,7 @@
 #pragma once
 
 #include "device.hpp"
-#include "buffer.hpp"
 
-// std
 #include <memory>
 #include <unordered_map>
 #include <vector>
@@ -11,123 +9,155 @@
 namespace Nova {
 
 class DescriptorSetLayout {
- public:
-  class Builder {
-   public:
-    Builder(Device& device) : device{device} {}
+public:
+    class Builder {
+    public:
+        Builder(Device& device) : device{device} {
+        }
 
-    Builder &addBinding(
-        uint32_t binding,
-        VkDescriptorType descriptorType,
-        VkShaderStageFlags stageFlags,
-        uint32_t count = 1);
-    std::unique_ptr<DescriptorSetLayout> build() const;
+        Builder& addBinding(
+            uint32_t           binding,
+            VkDescriptorType   descriptorType,
+            VkShaderStageFlags stageFlags,
+            uint32_t           count = 1
+        );
 
-   private:
+        std::unique_ptr<DescriptorSetLayout> build() const;
+
+    private:
+        Device& device;
+
+        std::unordered_map<uint32_t, VkDescriptorSetLayoutBinding> bindings{};
+    };
+
+    DescriptorSetLayout(
+        Device&                                                           device,
+        const std::unordered_map<uint32_t, VkDescriptorSetLayoutBinding>& bindings
+    );
+
+    ~DescriptorSetLayout();
+
+    DescriptorSetLayout(const DescriptorSetLayout&)            = delete;
+    DescriptorSetLayout& operator=(const DescriptorSetLayout&) = delete;
+
+    VkDescriptorSetLayout getDescriptorSetLayout() const {
+        return descriptorSetLayout;
+    }
+
+private:
     Device& device;
+
+    VkDescriptorSetLayout descriptorSetLayout = VK_NULL_HANDLE;
+
+    std::vector<VkDescriptorSetLayoutBinding>                  layoutBindings{};
     std::unordered_map<uint32_t, VkDescriptorSetLayoutBinding> bindings{};
-  };
 
-  DescriptorSetLayout(
-      Device& device, std::unordered_map<uint32_t, VkDescriptorSetLayoutBinding> bindings);
-  ~DescriptorSetLayout();
-  DescriptorSetLayout(const DescriptorSetLayout &) = delete;
-  DescriptorSetLayout &operator=(const DescriptorSetLayout &) = delete;
-
-  VkDescriptorSetLayout getDescriptorSetLayout() const { return descriptorSetLayout; }
-
- private:
-  Device& device;
-  VkDescriptorSetLayout descriptorSetLayout;
-  std::unordered_map<uint32_t, VkDescriptorSetLayoutBinding> bindings;
-
-  friend class DescriptorWriter;
+    friend class DescriptorWriter;
 };
 
 class DescriptorPool {
- public:
-  class Builder {
-   public:
-    Builder(Device& device) : device{device} {}
+public:
+    class Builder {
+    public:
+        Builder(Device& device) : device{device} {
+        }
 
-    Builder &addPoolSize(VkDescriptorType descriptorType, uint32_t count);
-    Builder &setPoolFlags(VkDescriptorPoolCreateFlags flags);
-    Builder &setMaxSets(uint32_t count);
-    std::unique_ptr<DescriptorPool> build() const;
+        Builder& addPoolSize(
+            VkDescriptorType descriptorType,
+            uint32_t         count
+        );
 
-   private:
+        Builder& setPoolFlags(
+            VkDescriptorPoolCreateFlags flags
+        );
+
+        Builder& setMaxSets(
+            uint32_t count
+        );
+
+        std::unique_ptr<DescriptorPool> build() const;
+
+    private:
+        Device&                           device;
+        std::vector<VkDescriptorPoolSize> poolSizes{};
+        uint32_t                          maxSets   = 1000;
+        VkDescriptorPoolCreateFlags       poolFlags = 0;
+    };
+
+    DescriptorPool(
+        Device&                                  device,
+        uint32_t                                 maxSets,
+        VkDescriptorPoolCreateFlags              poolFlags,
+        const std::vector<VkDescriptorPoolSize>& poolSizes
+    );
+
+    ~DescriptorPool();
+
+    DescriptorPool(const DescriptorPool&)            = delete;
+    DescriptorPool& operator=(const DescriptorPool&) = delete;
+
+    bool allocateDescriptor(VkDescriptorSetLayout descriptorSetLayout, VkDescriptorSet& descriptor) const;
+
+    void freeDescriptors(std::vector<VkDescriptorSet>& descriptors) const;
+
+    void resetPool();
+
+    VkDescriptorPool getPool() const {
+        return descriptorPool;
+    }
+
+private:
     Device& device;
-    std::vector<VkDescriptorPoolSize> poolSizes{};
-    uint32_t maxSets = 1000;
-    VkDescriptorPoolCreateFlags poolFlags = 0;
-  };
 
-  DescriptorPool(
-      Device& device,
-      uint32_t maxSets,
-      VkDescriptorPoolCreateFlags poolFlags,
-      const std::vector<VkDescriptorPoolSize> &poolSizes);
-  ~DescriptorPool();
-  DescriptorPool(const DescriptorPool &) = delete;
-  DescriptorPool &operator=(const DescriptorPool &) = delete;
+    VkDescriptorPool descriptorPool = VK_NULL_HANDLE;
 
-  bool allocateDescriptor(
-      const VkDescriptorSetLayout descriptorSetLayout, VkDescriptorSet &descriptor) const;
-
-  void freeDescriptors(std::vector<VkDescriptorSet> &descriptors) const;
-
-  void resetPool();
-  VkDescriptorPool getPool() { return descriptorPool; }
-
- private:
-  Device& device;
-  VkDescriptorPool descriptorPool;
-
-  friend class DescriptorWriter;
+    friend class DescriptorWriter;
 };
 
 class DescriptorWriter {
- public:
-  DescriptorWriter(DescriptorSetLayout &setLayout, DescriptorPool &pool);
+public:
+    DescriptorWriter(DescriptorSetLayout& setLayout, DescriptorPool& pool);
 
-  DescriptorWriter &writeBuffer(uint32_t binding, VkDescriptorBufferInfo *bufferInfo);
-  DescriptorWriter &writeImage(uint32_t binding, VkDescriptorImageInfo *imageInfo);
+    DescriptorWriter& writeBuffer(uint32_t binding, const VkDescriptorBufferInfo& bufferInfo);
+    DescriptorWriter& writeImage(uint32_t binding, const VkDescriptorImageInfo& imageInfo);
 
-  bool build(VkDescriptorSet &set);
-  void overwrite(VkDescriptorSet &set);
+    bool build(VkDescriptorSet& set);
 
- private:
-  DescriptorSetLayout &setLayout;
-  DescriptorPool &pool;
-  std::vector<VkWriteDescriptorSet> writes;
+    void overwrite(VkDescriptorSet set);
+
+private:
+    DescriptorSetLayout& setLayout;
+    DescriptorPool&      pool;
+
+    std::vector<VkWriteDescriptorSet>   writes{};
+    std::vector<VkDescriptorBufferInfo> bufferInfos{};
+    std::vector<VkDescriptorImageInfo>  imageInfos{};
 };
 
 class DescriptorSet {
 public:
-    DescriptorSet(
-        DescriptorPool& pool,
-        DescriptorSetLayout& layout);
+    DescriptorSet(DescriptorPool& pool, DescriptorSetLayout& layout);
 
-    void writeBuffer(
-        uint32_t binding,
-        VkDescriptorBufferInfo* bufferInfo);
+    ~DescriptorSet() = default;
 
-    void writeImage(
-        uint32_t binding,
-        VkDescriptorImageInfo* imageInfo);
+    DescriptorSet(const DescriptorSet&)            = delete;
+    DescriptorSet& operator=(const DescriptorSet&) = delete;
 
-    void update();
+    void bind(VkCommandBuffer cmd, VkPipelineLayout layout, uint32_t set = 0) const;
 
-    const VkDescriptorSet& get() const {
+    VkDescriptorSet get() const {
+        return descriptorSet;
+    }
+
+    VkDescriptorSet& get() {
         return descriptorSet;
     }
 
 private:
-    DescriptorPool& pool;
+    DescriptorPool&      pool;
     DescriptorSetLayout& layout;
 
     VkDescriptorSet descriptorSet = VK_NULL_HANDLE;
-    std::unique_ptr<DescriptorWriter> writer;
 };
 
-}  // namespace Nova
+} // namespace Nova

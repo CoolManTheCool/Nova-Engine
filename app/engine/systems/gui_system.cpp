@@ -21,7 +21,7 @@
 //
 // YAP session up there
 // Edit: Do not touch this, it's been a year and it's the strongest standing function in the whole repo
-//       This "temporary" solution has outlasted  
+//       This "temporary" solution has outlasted
 namespace ImGui {
 inline bool SliderDouble(const char* label, double* v, double v_min, double v_max, const char* format = "%.3f", ImGuiSliderFlags flags = 0) {
     return ImGui::SliderScalar(label, ImGuiDataType_Double, v, &v_min, &v_max, format, flags);
@@ -42,7 +42,8 @@ void GUI_System::init() {
         {VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, 1000},
         {VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC, 1000},
         {VK_DESCRIPTOR_TYPE_STORAGE_BUFFER_DYNAMIC, 1000},
-        {VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT, 1000}};
+        {VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT, 1000}
+    };
 
     VkDescriptorPoolCreateInfo poolInfo{};
     poolInfo.sType         = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
@@ -110,11 +111,16 @@ void GUI_System::update(double /*deltaTime*/) {
         //         It was so bad she PROACTIVELY rejected me, I didn't even ask
         //         She wasn't the one for me, but I still miss Emmy...
         //         Nova Engine X is on the way and idk if I'm going to continue this section
+        // Edit 6: This'll be short, and ofc I'm continuing this...
+        //         I've got another one... she is "my queen" (Still miss Emmy <3)
+        //         She's lowkey a lot younger than me...
+        //         I'm running low on options and capacity honestly.
 
         // The variable naming is so cursed, but I'm not changing it
         // This is lowkey some of the best code I've written
         // I used VERY little AI on this one lmao
         // This isn't a variable name, it's an artifact.
+        // THIS isn't an artifact it's a MONUMENT
     }
 }
 

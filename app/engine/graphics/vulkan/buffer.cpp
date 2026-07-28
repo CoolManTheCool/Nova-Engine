@@ -6,37 +6,38 @@
 namespace Nova {
 
 VkDeviceSize Buffer::getAlignment(VkDeviceSize instanceSize, VkDeviceSize minOffsetAlignment) {
-  if (minOffsetAlignment > 0) {
-    return (instanceSize + minOffsetAlignment - 1) & ~(minOffsetAlignment - 1);
-  }
-  return instanceSize;
+    if (minOffsetAlignment > 0) {
+        return (instanceSize + minOffsetAlignment - 1) & ~(minOffsetAlignment - 1);
+    }
+    return instanceSize;
 }
 
 Buffer::Buffer(
-    Device& device,
-    VkDeviceSize instanceSize,
-    uint32_t instanceCount,
-    VkBufferUsageFlags usageFlags,
+    Device&               device,
+    VkDeviceSize          instanceSize,
+    uint32_t              instanceCount,
+    VkBufferUsageFlags    usageFlags,
     VkMemoryPropertyFlags memoryPropertyFlags,
-    VkDeviceSize minOffsetAlignment)
+    VkDeviceSize          minOffsetAlignment
+)
     : device{device},
       instanceSize{instanceSize},
       instanceCount{instanceCount},
       usageFlags{usageFlags},
       memoryPropertyFlags{memoryPropertyFlags} {
-  alignmentSize = getAlignment(instanceSize, minOffsetAlignment);
-  bufferSize = alignmentSize * instanceCount;
-  device.createBuffer(bufferSize, usageFlags, memoryPropertyFlags, buffer, memory);
+    alignmentSize = getAlignment(instanceSize, minOffsetAlignment);
+    bufferSize    = alignmentSize * instanceCount;
+    device.createBuffer(bufferSize, usageFlags, memoryPropertyFlags, buffer, memory);
 }
 
 Buffer::~Buffer() {
-  unmap();
-  if (buffer != VK_NULL_HANDLE) {
-    vkDestroyBuffer(device.device(), buffer, nullptr);
-  }
-  if (memory != VK_NULL_HANDLE) {
-    vkFreeMemory(device.device(), memory, nullptr);
-  }
+    unmap();
+    if (buffer != VK_NULL_HANDLE) {
+        vkDestroyBuffer(device.device(), buffer, nullptr);
+    }
+    if (memory != VK_NULL_HANDLE) {
+        vkFreeMemory(device.device(), memory, nullptr);
+    }
 }
 
 /**
@@ -49,8 +50,8 @@ Buffer::~Buffer() {
  * @return VkResult of the buffer mapping call
  */
 VkResult Buffer::map(VkDeviceSize size, VkDeviceSize offset) {
-  assert(buffer && memory && "Called map on buffer before create");
-  return vkMapMemory(device.device(), memory, offset, size, 0, &mapped);
+    assert(buffer && memory && "Called map on buffer before create");
+    return vkMapMemory(device.device(), memory, offset, size, 0, &mapped);
 }
 
 /**
@@ -59,10 +60,10 @@ VkResult Buffer::map(VkDeviceSize size, VkDeviceSize offset) {
  * @note Does not return a result as vkUnmapMemory can't fail
  */
 void Buffer::unmap() {
-  if (mapped) {
-    vkUnmapMemory(device.device(), memory);
-    mapped = nullptr;
-  }
+    if (mapped) {
+        vkUnmapMemory(device.device(), memory);
+        mapped = nullptr;
+    }
 }
 
 /**
@@ -74,16 +75,16 @@ void Buffer::unmap() {
  * @param offset (Optional) Byte offset from beginning of mapped region
  *
  */
-void Buffer::writeToBuffer(void *data, VkDeviceSize size, VkDeviceSize offset) {
-  assert(mapped && "Cannot copy to unmapped buffer");
+void Buffer::writeToBuffer(void* data, VkDeviceSize size, VkDeviceSize offset) {
+    assert(mapped && "Cannot copy to unmapped buffer");
 
-  if (size == VK_WHOLE_SIZE) {
-    memcpy(mapped, data, bufferSize);
-  } else {
-    char *memOffset = (char *)mapped;
-    memOffset += offset;
-    memcpy(memOffset, data, size);
-  }
+    if (size == VK_WHOLE_SIZE) {
+        memcpy(mapped, data, bufferSize);
+    } else {
+        char* memOffset = (char*)mapped;
+        memOffset += offset;
+        memcpy(memOffset, data, size);
+    }
 }
 
 /**
@@ -98,12 +99,12 @@ void Buffer::writeToBuffer(void *data, VkDeviceSize size, VkDeviceSize offset) {
  * @return VkResult of the flush call
  */
 VkResult Buffer::flush(VkDeviceSize size, VkDeviceSize offset) {
-  VkMappedMemoryRange mappedRange = {};
-  mappedRange.sType = VK_STRUCTURE_TYPE_MAPPED_MEMORY_RANGE;
-  mappedRange.memory = memory;
-  mappedRange.offset = offset;
-  mappedRange.size = size;
-  return vkFlushMappedMemoryRanges(device.device(), 1, &mappedRange);
+    VkMappedMemoryRange mappedRange = {};
+    mappedRange.sType               = VK_STRUCTURE_TYPE_MAPPED_MEMORY_RANGE;
+    mappedRange.memory              = memory;
+    mappedRange.offset              = offset;
+    mappedRange.size                = size;
+    return vkFlushMappedMemoryRanges(device.device(), 1, &mappedRange);
 }
 
 /**
@@ -118,12 +119,12 @@ VkResult Buffer::flush(VkDeviceSize size, VkDeviceSize offset) {
  * @return VkResult of the invalidate call
  */
 VkResult Buffer::invalidate(VkDeviceSize size, VkDeviceSize offset) {
-  VkMappedMemoryRange mappedRange = {};
-  mappedRange.sType = VK_STRUCTURE_TYPE_MAPPED_MEMORY_RANGE;
-  mappedRange.memory = memory;
-  mappedRange.offset = offset;
-  mappedRange.size = size;
-  return vkInvalidateMappedMemoryRanges(device.device(), 1, &mappedRange);
+    VkMappedMemoryRange mappedRange = {};
+    mappedRange.sType               = VK_STRUCTURE_TYPE_MAPPED_MEMORY_RANGE;
+    mappedRange.memory              = memory;
+    mappedRange.offset              = offset;
+    mappedRange.size                = size;
+    return vkInvalidateMappedMemoryRanges(device.device(), 1, &mappedRange);
 }
 
 /**
@@ -135,11 +136,11 @@ VkResult Buffer::invalidate(VkDeviceSize size, VkDeviceSize offset) {
  * @return VkDescriptorBufferInfo of specified offset and range
  */
 VkDescriptorBufferInfo Buffer::descriptorInfo(VkDeviceSize size, VkDeviceSize offset) {
-  return VkDescriptorBufferInfo{
-      buffer,
-      offset,
-      size,
-  };
+    return VkDescriptorBufferInfo{
+        buffer,
+        offset,
+        size,
+    };
 }
 
 /**
@@ -149,8 +150,8 @@ VkDescriptorBufferInfo Buffer::descriptorInfo(VkDeviceSize size, VkDeviceSize of
  * @param index Used in offset calculation
  *
  */
-void Buffer::writeToIndex(void *data, int index) {
-  writeToBuffer(data, instanceSize, index * alignmentSize);
+void Buffer::writeToIndex(void* data, int index) {
+    writeToBuffer(data, instanceSize, index * alignmentSize);
 }
 
 /**
@@ -159,7 +160,9 @@ void Buffer::writeToIndex(void *data, int index) {
  * @param index Used in offset calculation
  *
  */
-VkResult Buffer::flushIndex(int index) { return flush(alignmentSize, index * alignmentSize); }
+VkResult Buffer::flushIndex(int index) {
+    return flush(alignmentSize, index * alignmentSize);
+}
 
 /**
  * Create a buffer info descriptor
@@ -169,7 +172,7 @@ VkResult Buffer::flushIndex(int index) { return flush(alignmentSize, index * ali
  * @return VkDescriptorBufferInfo for instance at index
  */
 VkDescriptorBufferInfo Buffer::descriptorInfoForIndex(int index) {
-  return descriptorInfo(alignmentSize, index * alignmentSize);
+    return descriptorInfo(alignmentSize, index * alignmentSize);
 }
 
 /**
@@ -182,7 +185,11 @@ VkDescriptorBufferInfo Buffer::descriptorInfoForIndex(int index) {
  * @return VkResult of the invalidate call
  */
 VkResult Buffer::invalidateIndex(int index) {
-  return invalidate(alignmentSize, index * alignmentSize);
+    return invalidate(alignmentSize, index * alignmentSize);
 }
 
-}  // namespace Nova
+void Buffer::readFromBuffer(void* data, VkDeviceSize size, VkDeviceSize offset) {
+    memcpy(data, static_cast<char*>(mapped) + offset, size);
+}
+
+} // namespace Nova

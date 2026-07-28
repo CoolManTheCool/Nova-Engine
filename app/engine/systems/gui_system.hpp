@@ -13,15 +13,15 @@
 #include "systems/system.hpp"
 
 struct VkDescriptorPool_T;
-typedef VkDescriptorPool_T *VkDescriptorPool;
+typedef VkDescriptorPool_T* VkDescriptorPool;
 
 namespace Nova {
 
 class GUI_System : public System {
 public:
     using System::System; // inherit System's constructors
-    GUI_System(const GUI_System&) = delete;
-    GUI_System &operator=(const GUI_System&) = delete;
+    GUI_System(const GUI_System&)            = delete;
+    GUI_System& operator=(const GUI_System&) = delete;
 
     ~GUI_System();
 
@@ -36,7 +36,7 @@ public:
      * @return A pointer to the binding
      * @throws std::runtime_error if the binding does not exist or if is called with empty name
      */
-    template<typename T>
+    template <typename T>
     T* getBindingPointer(const std::string& name) {
         if (name.empty()) {
             throw std::runtime_error("getBindingPointer called with empty name");
@@ -48,21 +48,22 @@ public:
         return std::any_cast<T>(&it->second);
     }
 
-    template<typename T>
+    template <typename T>
     T getBindingValue(const std::string& name) {
         auto it = getBindingPointer<T>(name);
         return *it;
-        //return std::any_cast<T>(*it); 
+        //return std::any_cast<T>(*it);
     }
 
     std::any* setBinding(const std::string& name, std::any value = false);
-    
+
     bool checkBinding(const std::string& name);
     void registerWindow(std::function<void(GUI_System&)> func);
+
 private:
-    VkDescriptorPool imguiPool;
+    VkDescriptorPool                              imguiPool;
     std::vector<std::function<void(GUI_System&)>> windows;
-    std::map<std::string, std::any> bindings;
+    std::map<std::string, std::any>               bindings;
 };
 
-}
+} // namespace Nova

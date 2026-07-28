@@ -32,7 +32,8 @@ glm::mat4 TransformComponent::mat4() {
             scale.z * (c1 * c2),
             0.0f,
         },
-        {translation.x, translation.y, translation.z, 1.0f}};
+        {translation.x, translation.y, translation.z, 1.0f}
+    };
 }
 
 glm::mat3 TransformComponent::normalMatrix() {
@@ -60,12 +61,15 @@ glm::mat3 TransformComponent::normalMatrix() {
             invScale.z * (c2 * s1),
             invScale.z * (-s2),
             invScale.z * (c1 * c2),
-        }};
+        }
+    };
 }
 
-void Object::update(double /*deltaTime*/) {}
+void Object::update(double /*deltaTime*/) {
+}
 
-void Object::render(RenderData& /*renderData*/) {}
+void Object::render(RenderData& /*renderData*/) {
+}
 
 void Object::addChild(const std::shared_ptr<Object>& child) {
     if (!child) return;

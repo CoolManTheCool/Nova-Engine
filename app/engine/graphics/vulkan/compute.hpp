@@ -18,13 +18,20 @@ public:
 
     VkCommandBuffer begin();
 
+    void pipelineBarrier(VkCommandBuffer cmd);
+
     void copyBuffer(
         VkCommandBuffer cmd,
         Buffer&         src,
         Buffer&         dst,
-        VkDeviceSize    size);
+        VkDeviceSize    size
+    );
 
-    void end(VkCommandBuffer commandBuffer);
+    void clearBuffer(
+        VkCommandBuffer cmd,
+        Buffer&         buffer,
+        uint32_t        value = 0
+    );
 
     void submit(VkCommandBuffer commandBuffer);
 
@@ -34,6 +41,7 @@ public:
 
 private:
     void createCommandPool();
+    void insertComputeBarrier(VkCommandBuffer cmd);
 
     Device& device;
 
