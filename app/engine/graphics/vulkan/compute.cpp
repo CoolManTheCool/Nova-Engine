@@ -116,7 +116,7 @@ void ComputeContext::copyBuffer(
     );
 }
 
-void Nova::ComputeContext::clearBuffer(
+void ComputeContext::clearBuffer(
     VkCommandBuffer cmd,
     Buffer&         buffer,
     uint32_t        value
@@ -161,26 +161,37 @@ void ComputeContext::submit(VkCommandBuffer commandBuffer) {
     );
 }
 
-void Nova::ComputeContext::pipelineBarrier(
-    VkCommandBuffer cmd
+void ComputeContext::bufferBarrier(
+    VkCommandBuffer cmd,
+    VkBuffer buffer,
+    VkAccessFlags srcAccess,
+    VkAccessFlags dstAccess,
+    VkPipelineStageFlags srcStage,
+    VkPipelineStageFlags dstStage
 ) {
+    VkBufferMemoryBarrier barrier{};
 
-    VkMemoryBarrier barrier{};
+    barrier.sType = VK_STRUCTURE_TYPE_BUFFER_MEMORY_BARRIER;
 
-    barrier.sType         = VK_STRUCTURE_TYPE_MEMORY_BARRIER;
-    barrier.srcAccessMask = VK_ACCESS_SHADER_WRITE_BIT;
-    barrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT |
-                            VK_ACCESS_SHADER_WRITE_BIT;
+    barrier.srcAccessMask = srcAccess;
+    barrier.dstAccessMask = dstAccess;
+
+    barrier.srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
+    barrier.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
+
+    barrier.buffer = buffer;
+    barrier.offset = 0;
+    barrier.size = VK_WHOLE_SIZE;
 
     vkCmdPipelineBarrier(
         cmd,
-        VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT,
-        VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT,
+        srcStage,
+        dstStage,
         0,
-        1,
-        &barrier,
         0,
         nullptr,
+        1,
+        &barrier,
         0,
         nullptr
     );

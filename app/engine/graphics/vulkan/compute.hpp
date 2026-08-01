@@ -18,7 +18,14 @@ public:
 
     VkCommandBuffer begin();
 
-    void pipelineBarrier(VkCommandBuffer cmd);
+    void bufferBarrier(
+        VkCommandBuffer      cmd,
+        VkBuffer             buffer,
+        VkAccessFlags        srcAccess,
+        VkAccessFlags        dstAccess,
+        VkPipelineStageFlags srcStage,
+        VkPipelineStageFlags dstStage
+    );
 
     void copyBuffer(
         VkCommandBuffer cmd,

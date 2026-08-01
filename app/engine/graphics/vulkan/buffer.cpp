@@ -135,11 +135,17 @@ VkResult Buffer::invalidate(VkDeviceSize size, VkDeviceSize offset) {
  *
  * @return VkDescriptorBufferInfo of specified offset and range
  */
-VkDescriptorBufferInfo Buffer::descriptorInfo(VkDeviceSize size, VkDeviceSize offset) {
-    return VkDescriptorBufferInfo{
+VkDescriptorBufferInfo Buffer::descriptorInfo(
+    VkDeviceSize size,
+    VkDeviceSize offset
+) {
+    if(size == VK_WHOLE_SIZE)
+        size = bufferSize - offset;
+
+    return {
         buffer,
         offset,
-        size,
+        size
     };
 }
 
