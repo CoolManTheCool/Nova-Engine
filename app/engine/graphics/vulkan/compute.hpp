@@ -16,15 +16,18 @@ public:
     ComputeContext(const ComputeContext&)            = delete;
     ComputeContext& operator=(const ComputeContext&) = delete;
 
+    enum class BarrierType {
+        TransferToCompute,
+        ComputeToCompute,
+        ComputeToTransfer
+    };
+
     VkCommandBuffer begin();
 
     void bufferBarrier(
-        VkCommandBuffer      cmd,
-        VkBuffer             buffer,
-        VkAccessFlags        srcAccess,
-        VkAccessFlags        dstAccess,
-        VkPipelineStageFlags srcStage,
-        VkPipelineStageFlags dstStage
+        VkCommandBuffer cmd,
+        Buffer&        buffer,
+        BarrierType     type
     );
 
     void copyBuffer(

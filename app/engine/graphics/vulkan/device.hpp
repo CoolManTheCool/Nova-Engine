@@ -44,15 +44,19 @@ public:
     VkCommandPool getCommandPool() {
         return commandPool;
     }
+
     VkDevice device() {
         return device_;
     }
+
     VkSurfaceKHR surface() {
         return surface_;
     }
+
     VkQueue graphicsQueue() {
         return graphicsQueue_;
     }
+
     VkQueue presentQueue() {
         return presentQueue_;
     }
@@ -60,10 +64,13 @@ public:
     SwapChainSupportDetails getSwapChainSupport() {
         return querySwapChainSupport(physicalDevice);
     }
-    uint32_t           findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
+
+    uint32_t findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
+
     QueueFamilyIndices findPhysicalQueueFamilies() {
         return findQueueFamilies(physicalDevice);
     }
+
     VkFormat findSupportedFormat(
         const std::vector<VkFormat>& candidates, VkImageTiling tiling, VkFormatFeatureFlags features
     );
@@ -77,10 +84,23 @@ public:
         VkDeviceMemory&       bufferMemory
     );
     VkCommandBuffer beginSingleTimeCommands();
-    void            endSingleTimeCommands(VkCommandBuffer commandBuffer);
-    void            copyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size);
-    void            copyBufferToImage(
-        VkBuffer buffer, VkImage image, uint32_t width, uint32_t height, uint32_t layerCount
+
+    void endSingleTimeCommands(VkCommandBuffer commandBuffer);
+
+    void copyBuffer(
+        VkBuffer     srcBuffer,
+        VkBuffer     dstBuffer,
+        VkDeviceSize size,
+        VkDeviceSize srcOffset = 0,
+        VkDeviceSize dstOffset = 0
+    );
+
+    void copyBufferToImage(
+        VkBuffer buffer,
+        VkImage  image,
+        uint32_t width,
+        uint32_t height,
+        uint32_t layerCount
     );
 
     void createImageWithInfo(

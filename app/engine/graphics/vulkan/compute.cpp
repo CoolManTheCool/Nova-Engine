@@ -163,25 +163,44 @@ void ComputeContext::submit(VkCommandBuffer commandBuffer) {
 
 void ComputeContext::bufferBarrier(
     VkCommandBuffer cmd,
-    VkBuffer buffer,
-    VkAccessFlags srcAccess,
-    VkAccessFlags dstAccess,
-    VkPipelineStageFlags srcStage,
-    VkPipelineStageFlags dstStage
+    Buffer&         buffer,
+    BarrierType     type
 ) {
     VkBufferMemoryBarrier barrier{};
+    VkPipelineStageFlags  srcStage = 0;
+    VkPipelineStageFlags  dstStage = 0;
 
-    barrier.sType = VK_STRUCTURE_TYPE_BUFFER_MEMORY_BARRIER;
+    switch (type) {
+        case BarrierType::TransferToCompute:
+            barrier.srcAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
+            barrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
+            srcStage              = VK_PIPELINE_STAGE_TRANSFER_BIT;
+            dstStage              = VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT;
+            break;
 
-    barrier.srcAccessMask = srcAccess;
-    barrier.dstAccessMask = dstAccess;
+        case BarrierType::ComputeToCompute:
+            barrier.srcAccessMask = VK_ACCESS_SHADER_WRITE_BIT;
+            barrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
+            srcStage              = VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT;
+            dstStage              = VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT;
+            break;
+
+        case BarrierType::ComputeToTransfer:
+            barrier.srcAccessMask = VK_ACCESS_SHADER_WRITE_BIT;
+            barrier.dstAccessMask = VK_ACCESS_TRANSFER_READ_BIT;
+            srcStage              = VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT;
+            dstStage              = VK_PIPELINE_STAGE_TRANSFER_BIT;
+            break;
+    }
 
     barrier.srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
     barrier.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
 
-    barrier.buffer = buffer;
+    barrier.sType = VK_STRUCTURE_TYPE_BUFFER_MEMORY_BARRIER;
+
+    barrier.buffer = buffer.getBuffer();
     barrier.offset = 0;
-    barrier.size = VK_WHOLE_SIZE;
+    barrier.size   = VK_WHOLE_SIZE;
 
     vkCmdPipelineBarrier(
         cmd,

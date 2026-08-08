@@ -37,6 +37,13 @@ public:
         VkDeviceSize   minOffsetAlignment = 1
     );
 
+    Buffer(
+        Device&        device,
+        uint64_t       size,
+        Usage          usage,
+        MemoryProperty memoryProperties
+    );
+
     ~Buffer();
 
     Buffer(const Buffer&)            = delete;

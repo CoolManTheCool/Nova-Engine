@@ -18,8 +18,7 @@ VkDeviceSize Buffer::getAlignment(
     return instanceSize;
 }
 
-VkBufferUsageFlags Buffer::toVulkanUsage(Usage usage)
-{
+VkBufferUsageFlags Buffer::toVulkanUsage(Usage usage) {
     VkBufferUsageFlags flags = 0;
 
     if ((usage & Usage::TransferSrc) != Usage::None)
@@ -66,7 +65,6 @@ VkMemoryPropertyFlags Buffer::toVulkanMemoryProperties(
     return flags;
 }
 
-
 Buffer::Buffer(
     Device&        device,
     VkDeviceSize   instanceSize,
@@ -79,8 +77,7 @@ Buffer::Buffer(
       instanceSize{instanceSize},
       instanceCount{instanceCount},
       usage{usage},
-      memoryProperties{memoryProperties}
-{
+      memoryProperties{memoryProperties} {
     alignmentSize = getAlignment(instanceSize, minOffsetAlignment);
     bufferSize    = alignmentSize * instanceCount;
 
@@ -93,9 +90,26 @@ Buffer::Buffer(
     );
 }
 
+Buffer::Buffer(
+    Device&        device,
+    size_t         size,
+    Usage          usage,
+    MemoryProperty memoryProperties
+)
+    : Buffer(
+          device,
+          size, // No need to cast here silly AI...
+                // it's the same uint64_t with a fancy name
+          1,
+          usage,
+          memoryProperties
+      ) {
+    // Genuinely intalizing myself with myself
+    // I genuinely hate this stupid : member(value) syntax
+    // Especailly with intalizing parents and stuff
+}
 
-Buffer::~Buffer()
-{
+Buffer::~Buffer() {
     unmap();
 
     if (buffer != VK_NULL_HANDLE) {
@@ -106,7 +120,6 @@ Buffer::~Buffer()
         vkFreeMemory(device.device(), memory, nullptr);
     }
 }
-
 
 VkResult Buffer::map(
     VkDeviceSize size,
@@ -124,18 +137,15 @@ VkResult Buffer::map(
     );
 }
 
-
-void Buffer::unmap()
-{
+void Buffer::unmap() {
     if (mapped) {
         vkUnmapMemory(device.device(), memory);
         mapped = nullptr;
     }
 }
 
-
 void Buffer::writeToBuffer(
-    const void* data,
+    const void*  data,
     VkDeviceSize size,
     VkDeviceSize offset
 ) {
@@ -151,12 +161,12 @@ void Buffer::writeToBuffer(
     );
 }
 
-
 void Buffer::readFromBuffer(
-    void* data,
+    void*        data,
     VkDeviceSize size,
     VkDeviceSize offset
 ) const {
+    assert(mapped && "Cannot copy from unmapped buffer");
     if (size == VK_WHOLE_SIZE)
         size = bufferSize - offset;
 
@@ -166,7 +176,6 @@ void Buffer::readFromBuffer(
         size
     );
 }
-
 
 VkResult Buffer::flush(
     VkDeviceSize size,
@@ -185,7 +194,6 @@ VkResult Buffer::flush(
     );
 }
 
-
 VkResult Buffer::invalidate(
     VkDeviceSize size,
     VkDeviceSize offset
@@ -203,7 +211,6 @@ VkResult Buffer::invalidate(
     );
 }
 
-
 VkDescriptorBufferInfo Buffer::descriptorInfo(
     VkDeviceSize size,
     VkDeviceSize offset
@@ -218,10 +225,9 @@ VkDescriptorBufferInfo Buffer::descriptorInfo(
     };
 }
 
-
 void Buffer::writeToIndex(
     const void* data,
-    uint32_t index
+    uint32_t    index
 ) {
     writeToBuffer(
         data,
@@ -230,15 +236,12 @@ void Buffer::writeToIndex(
     );
 }
 
-
-VkResult Buffer::flushIndex(uint32_t index)
-{
+VkResult Buffer::flushIndex(uint32_t index) {
     return flush(
         alignmentSize,
         index * alignmentSize
     );
 }
-
 
 VkDescriptorBufferInfo Buffer::descriptorInfoForIndex(
     uint32_t index
@@ -249,9 +252,7 @@ VkDescriptorBufferInfo Buffer::descriptorInfoForIndex(
     );
 }
 
-
-VkResult Buffer::invalidateIndex(uint32_t index)
-{
+VkResult Buffer::invalidateIndex(uint32_t index) {
     return invalidate(
         alignmentSize,
         index * alignmentSize
