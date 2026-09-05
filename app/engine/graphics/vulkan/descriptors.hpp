@@ -143,6 +143,9 @@ public:
     DescriptorSet(const DescriptorSet&)            = delete;
     DescriptorSet& operator=(const DescriptorSet&) = delete;
 
+    DescriptorSet(DescriptorSet&&) noexcept            = default;
+    DescriptorSet& operator=(DescriptorSet&&) noexcept = default;
+
     void bind(VkCommandBuffer cmd, VkPipelineLayout layout, uint32_t set = 0) const;
 
     VkDescriptorSet get() const {
